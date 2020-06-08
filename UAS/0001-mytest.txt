@@ -1,15 +1,15 @@
-Script started, file is 0001-mytest.txt
+Script started on Mon 08 Jun 2020 06:38:08 PM WIB
 marcel.valdhano@badak:~$ PS1="$ "
 $ echo $GitHubUser
 marcelvaldhano
 $ echo $PSTAMP
 TMP1="$(date +%y%m%d-%H%M%S)"; TMP2="$(echo $TMP1-$GitHubUser-${PWD##*/}|sha1sum|cut -c1-4)"; echo "$TMP1-$TMP2-${PWD##*/}/> ";
 $ eval $PSTAMP
-200605-130933-61e4-marcel.valdhano/>
+200608-183824-42e5-marcel.valdhano/>
 $ PS1="\$(eval \$PSTAMP)"
-200605-130940-50c1-marcel.valdhano/> date
-Fri Jun  5 13:09:47 WIB 2020
-200605-130947-f303-marcel.valdhano/> gpg2 --list-keys
+200608-183836-703f-marcel.valdhano/> date
+Mon Jun  8 18:38:39 WIB 2020
+200608-183839-a823-marcel.valdhano/> gpg2 --list-keys
 /home/fasilkom/mahasiswa/m/marcel.valdhano/.gnupg/pubring.gpg
 -------------------------------------------------------------
 pub   4096R/E0151A5F 2020-02-23 [expires: 2021-02-22]
@@ -24,7 +24,7 @@ pub   4096R/67DF6DDE 2020-02-13 [expires: 2021-02-12]
 uid       [ unknown] Operating Systems (OS) <operatingsystems@vlsm.org>
 sub   4096R/44170902 2020-02-13 [expires: 2021-02-12]
 
-200605-131002-d250-marcel.valdhano/> exit
+200608-183846-22dc-marcel.valdhano/> exit
 exit
 
-Script done, file is 0001-mytest.txt
+Script done on Mon 08 Jun 2020 06:38:54 PM WIB
