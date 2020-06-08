@@ -1,15 +1,15 @@
-Script started on Mon 08 Jun 2020 11:37:31 PM WIB
+Script started on Tue 09 Jun 2020 01:44:40 AM WIB
 marcel.valdhano@badak:~$ PS1="$ "
 $ echo $GitHubUser
 marcelvaldhano
 $ echo $PSTAMP
 TMP1="$(date +%y%m%d-%H%M%S)"; TMP2="$(echo $TMP1-$GitHubUser-${PWD##*/}|sha1sum|cut -c1-4)"; echo "$TMP1-$TMP2-${PWD##*/}/> ";
 $ eval $PSTAMP
-200608-233750-8dab-marcel.valdhano/>
+200609-014523-8324-marcel.valdhano/>
 $ PS1="\$(eval \$PSTAMP)"
-200608-233757-771a-marcel.valdhano/> date
-Mon Jun  8 23:39:07 WIB 2020
-200608-233907-21b7-marcel.valdhano/> gpg2 --list-keys
+200609-014527-6eea-marcel.valdhano/> date
+Tue Jun  9 01:45:31 WIB 2020
+200609-014531-a7dd-marcel.valdhano/> gpg2 --list-keys
 /home/fasilkom/mahasiswa/m/marcel.valdhano/.gnupg/pubring.gpg
 -------------------------------------------------------------
 pub   4096R/E0151A5F 2020-02-23 [expires: 2021-02-22]
@@ -24,7 +24,7 @@ pub   4096R/67DF6DDE 2020-02-13 [expires: 2021-02-12]
 uid       [ unknown] Operating Systems (OS) <operatingsystems@vlsm.org>
 sub   4096R/44170902 2020-02-13 [expires: 2021-02-12]
 
-200608-233911-47f4-marcel.valdhano/> echo -e $CEKSAYA
+200609-014541-59d3-marcel.valdhano/> echo -e $CEKSAYA
 marcelvaldhano ZCZCSRIPTSTART 200608-183808 marcelvaldhano
 marcelvaldhano marcelvaldhano 200608-183824-42e5-marcel.valdhano/ 200608-183824 SEQOK SUMOK 42e50866
 marcelvaldhano marcelvaldhano 200608-183836-703f-marcel.valdhano/ 200608-183836 SEQOK SUMOK 703f9a8a
@@ -32,23 +32,23 @@ marcelvaldhano marcelvaldhano 200608-183839-a823-marcel.valdhano/ 200608-183839 
 marcelvaldhano marcelvaldhano 200608-183846-22dc-marcel.valdhano/ 200608-183846 SEQOK SUMOK 22dc9c9b
 marcelvaldhano ZCZCSCRIPTSTOP 200608-183854 SEQOK
 
-200608-233917-1198-marcel.valdhano/> echo -e $CEKSEBELA1
+200609-014546-c509-marcel.valdhano/> echo -e $CEKSEBELA1
 marcelvaldhano ZCZCSRIPTSTART 200601-134908 michaelsusanto81
 marcelvaldhano michaelsusanto81 200601-134932-f1ef-michael.susanto81/ 200601-134932 SEQOK SUMOK f1efba4c
 marcelvaldhano michaelsusanto81 200601-134940-b919-michael.susanto81/ 200601-134940 SEQOK SUMOK b919532e
 marcelvaldhano michaelsusanto81 200601-134944-4ae0-michael.susanto81/ 200601-134944 SEQOK SUMOK 4ae025d5
 marcelvaldhano michaelsusanto81 200601-134951-1fd3-michael.susanto81/ 200601-134951 SEQOK SUMOK 1fd30500
-marcelvaldhano ZCZCSCRIPTSTOP 200608-183854 SEQOK
+marcelvaldhano ZCZCSCRIPTSTOP 200601-134959 SEQOK
 
-200608-233922-03e9-marcel.valdhano/> echo -e $CEKSEBELA2
+200609-014550-7164-marcel.valdhano/> echo -e $CEKSEBELA2
 marcelvaldhano ZCZCSRIPTSTART 200604-094657 mlhmg
-marcelvaldhano mlhmg 200604-094721-9794-muhammad.ilham83/ 200608-183824 SEQOK SUMOK 97949523
-marcelvaldhano mlhmg 200604-094729-6b21-muhammad.ilham83/ 200608-183836 SEQOK SUMOK 6b21b617
-marcelvaldhano mlhmg 200604-094742-b9cd-muhammad.ilham83/ 200608-183839 SEQOK SUMOK b9cd373c
-marcelvaldhano mlhmg 200604-094756-34fb-muhammad.ilham83/ 200608-183846 SEQOK SUMOK 34fbc917
-marcelvaldhano ZCZCSCRIPTSTOP 200608-183854 SEQOK
+marcelvaldhano mlhmg 200604-094721-9794-muhammad.ilham83/ 200604-094721 SEQOK SUMOK 97949523
+marcelvaldhano mlhmg 200604-094729-6b21-muhammad.ilham83/ 200604-094729 SEQOK SUMOK 6b21b617
+marcelvaldhano mlhmg 200604-094742-b9cd-muhammad.ilham83/ 200604-094742 SEQOK SUMOK b9cd373c
+marcelvaldhano mlhmg 200604-094756-34fb-muhammad.ilham83/ 200604-094756 SEQOK SUMOK 34fbc917
+marcelvaldhano ZCZCSCRIPTSTOP 200604-094803 SEQOK
 
-200608-233927-e978-marcel.valdhano/> exit
+200609-014554-88d7-marcel.valdhano/> exit
 exit
 
-Script done on Mon 08 Jun 2020 11:39:47 PM WIB
+Script done on Tue 09 Jun 2020 01:45:57 AM WIB
