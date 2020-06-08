@@ -1,29 +1,30 @@
-Script started, file is 0003-CEK-PAS0.txt
+Script started on Mon 08 Jun 2020 05:29:20 PM WIB
 marcel.valdhano@badak:~$ PS1="$ "
 $ echo $GitHubUser
 marcelvaldhano
 $ echo $PSTAMP
 TMP1="$(date +%y%m%d-%H%M%S)"; TMP2="$(echo $TMP1-$GitHubUser-${PWD##*/}|sha1sum|cut -c1-4)"; echo "$TMP1-$TMP2-${PWD##*/}/> ";
-$ eval $PSTAMP
-200608-171608-04bd-marcel.valdhano/>
 $ PS1="\$(eval \$PSTAMP)"
-200608-171624-9d92-marcel.valdhano/> date
-Mon Jun  8 17:16:32 WIB 2020
-200608-171632-d7a8-marcel.valdhano/> sha1sum 0000-mypub.txt 0001-mytest.txt 0002-mytest.txt.asc > SHA1SUM
-200608-171729-b8a8-marcel.valdhano/> sha1sum -c SHA1SUM
-0000-mypub.txt: OK
-0001-mytest.txt: OK
-0002-mytest.txt.asc: OK
-200608-171749-64f7-marcel.valdhano/> gpg2 -sb -a SHA1SUM
-File `SHA1SUM.asc' exists. Overwrite? (y/N) y
-200608-171816-64fd-marcel.valdhano/> ls -F
+200608-172954-2538-marcel.valdhano/> ls -F
 0000-mypub.txt       0002-mytest.txt.asc.save  afile-enc.txt     coba.txt  extra/    marcelvaldhano.txt  program3*   SHA1SUM       typescript   W04-log.txt
 0001-mytest.txt      0003-CEK-PAS0.txt         afile-signed.txt  date      file.txt  mydemos/            program3.c  SHA1SUM.asc   UAS-1.txt
 0002-mytest.txt.asc  0003-CEK-PAS0.txt.gpg     afile.txt         exit      key.txt   pesan.txt           rms46.txt   timestampuas  W03-log.txt
-200608-171827-a4be-marcel.valdhano/> gpg2 --verify SHA1SUM.asc
+200608-173001-bc44-marcel.valdhano/> sha1sum 0000-mypub.txt 0001-mytest.txt 0002-mytest.txt.asc > SHA1SUM
+200608-173026-765c-marcel.valdhano/> sha1sum -c SHA1SUM
+0000-mypub.txt: OK
+0001-mytest.txt: OK
+0002-mytest.txt.asc: OK
+200608-173031-b83c-marcel.valdhano/> gpg2 -sb -a SHA1SUM
+File `SHA1SUM.asc' exists. Overwrite? (y/N) y
+200608-173051-3802-marcel.valdhano/> cat SHA1SUM
+04ebfd4f628fe3fe087a72acd64faab9b54b93e3  0000-mypub.txt
+da39a3ee5e6b4b0d3255bfef95601890afd80709  0001-mytest.txt
+da39a3ee5e6b4b0d3255bfef95601890afd80709  0002-mytest.txt.asc
+200608-173142-094e-marcel.valdhano/> gpg2 --verify SHA1SUM.asc
 gpg: assuming signed data in 'SHA1SUM'
-gpg: Signature made Mon 08 Jun 2020 05:18:16 PM WIB using RSA key ID E0151A5F
+gpg: Signature made Mon 08 Jun 2020 05:30:51 PM WIB using RSA key ID E0151A5F
 gpg: Good signature from "Marcel Valdhano (Ini public keynya ya pak...) <marcel.valdhano@gmail.com>" [ultimate]
-200608-171845-b752-marcel.valdhano/> exit
+200608-173154-3474-marcel.valdhano/> exit
 exit
-Script done, file is 0003-CEK-PAS0.txt
+
+Script done on Mon 08 Jun 2020 05:32:03 PM WIB
