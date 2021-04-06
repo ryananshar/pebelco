@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="notifikasi")
-public class NotifikasiModel {
+public class NotifikasiModel implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_notifikasi", nullable = false)
