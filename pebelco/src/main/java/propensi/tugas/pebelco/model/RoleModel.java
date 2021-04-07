@@ -35,4 +35,30 @@ public class RoleModel implements Serializable{
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<UserModel> userRole;
+
+
+    public Long getIdRole() {
+        return this.idRole;
+    }
+
+    public void setIdRole(Long idRole) {
+        this.idRole = idRole;
+    }
+
+    public String getNamaRole() {
+        return this.namaRole;
+    }
+
+    public void setNamaRole(String namaRole) {
+        this.namaRole = namaRole;
+    }
+
+    public List<UserModel> getUserRole() {
+        return this.userRole;
+    }
+
+    public void setUserRole(List<UserModel> userRole) {
+        this.userRole = userRole;
+    }
+
 }

@@ -24,12 +24,12 @@ public class NotifikasiModel implements Serializable{
 
     @NotNull
     @Size(max = 250)
-    @Column(name = "desc", nullable = false)
+    @Column(name = "desc_notifikasi", nullable = false)
     private String desc;
 
     @NotNull
     @Size(max = 250)
-    @Column(name = "url", nullable = false)
+    @Column(name = "url_page", nullable = false)
     private String url;
 
     @NotNull
@@ -39,15 +39,8 @@ public class NotifikasiModel implements Serializable{
     @Column(name = "id_penerima", nullable = true)
     private Long idPenerima;
 
-    @Column(name = "id_role", nullable = true)
+    @Column(name = "id_role_penerima", nullable = true)
     private Long idRole;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "user_notifikasi", 
-        joinColumns = @JoinColumn(name = "id_notifikasi"), 
-        inverseJoinColumns = @JoinColumn(name = "id_user"))
-    private List<ProdukModel> listUser;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,6 +48,13 @@ public class NotifikasiModel implements Serializable{
     @Column(name = "waktu_dibuat", nullable = false)
     private Date waktuDibuat; 
     
+    // create table "notifikasi user"
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "notifikasi_user", 
+        joinColumns = @JoinColumn(name = "id_notifikasi"), 
+        inverseJoinColumns = @JoinColumn(name = "id_user"))
+    private List<UserModel> listUser;
 
     public Long getIdNotifikasi() {
         return this.idNotifikasi;
@@ -116,11 +116,11 @@ public class NotifikasiModel implements Serializable{
         this.idRole = idRole;
     }
 
-    public List<ProdukModel> getListUser() {
+    public List<UserModel> getListUser() {
         return this.listUser;
     }
 
-    public void setListUser(List<ProdukModel> listUser) {
+    public void setListUser(List<UserModel> listUser) {
         this.listUser = listUser;
     }
 
@@ -130,5 +130,6 @@ public class NotifikasiModel implements Serializable{
 
     public void setWaktuDibuat(Date waktuDibuat) {
         this.waktuDibuat = waktuDibuat;
-    }    
+    }
+
 }
