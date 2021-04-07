@@ -20,6 +20,7 @@ public class TagProdukModel implements Serializable{
     @Column(name = "nama_tag", nullable = false)
     private String namaTag;
 
+    // create table "produk_tag"
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "produk_tag", 
@@ -52,4 +53,5 @@ public class TagProdukModel implements Serializable{
         this.listProduk = listProduk;
     }
 
+    
 }

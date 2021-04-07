@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,12 +8,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
 @Table(name="produk")
-public class ProdukModel {
+public class ProdukModel implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produk", nullable = false)
@@ -45,8 +50,21 @@ public class ProdukModel {
     @Column(name = "spesifikasi", nullable = true)
     private String spesifikasi;
 
+    //id produk
     @ManyToMany(mappedBy = "listProduk")
     private List<TagProdukModel> listTagProduk;
+
+    // id transaksi pesanan
+    @OneToMany(mappedBy = "produkPesanan", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<TransaksiPesananModel> listTransaksiPesanan;
+
+    // id transaksi komplain
+    @OneToMany(mappedBy = "produkKomplain", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<TransaksiKomplainModel> listTransaksiKomplain;
 
 
     public Long getIdProduk() {
@@ -111,6 +129,22 @@ public class ProdukModel {
 
     public void setListTagProduk(List<TagProdukModel> listTagProduk) {
         this.listTagProduk = listTagProduk;
+    }
+
+    public List<TransaksiPesananModel> getListTransaksiPesanan() {
+        return this.listTransaksiPesanan;
+    }
+
+    public void setListTransaksiPesanan(List<TransaksiPesananModel> listTransaksiPesanan) {
+        this.listTransaksiPesanan = listTransaksiPesanan;
+    }
+
+    public List<TransaksiKomplainModel> getListTransaksiKomplain() {
+        return this.listTransaksiKomplain;
+    }
+
+    public void setListTransaksiKomplain(List<TransaksiKomplainModel> listTransaksiKomplain) {
+        this.listTransaksiKomplain = listTransaksiKomplain;
     }
 
 }

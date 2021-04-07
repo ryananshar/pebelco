@@ -61,11 +61,16 @@ public class KunjunganModel implements Serializable{
     @Column(name = "is_shown", nullable = false)
     private Boolean isShown;
 
+    // id staf sales
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_staf_sales", referencedColumnName = "idUser", nullable = false)
+    @JoinColumn(name = "id_staf_sales", referencedColumnName = "id_user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel stafSales;
+
+    @OneToOne(mappedBy = "kunjungan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private LaporanStafSalesModel laporanStaafSales;
 
 
     public Long getIdKunjungan() {
@@ -150,6 +155,14 @@ public class KunjunganModel implements Serializable{
 
     public void setStafSales(UserModel stafSales) {
         this.stafSales = stafSales;
+    }
+
+    public LaporanStafSalesModel getLaporanStaafSales() {
+        return this.laporanStaafSales;
+    }
+
+    public void setLaporanStaafSales(LaporanStafSalesModel laporanStaafSales) {
+        this.laporanStaafSales = laporanStaafSales;
     }
 
 }

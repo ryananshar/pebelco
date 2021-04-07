@@ -19,8 +19,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="pesanan_penjualan")
 public class PesananPenjualanModel implements Serializable{
     @Id
+    @Column(name = "id_pesanan_penjualan")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pesanan_penjualan", nullable = false)
     private Long idPesananPenjualan;
 
     @NotNull
@@ -68,8 +68,9 @@ public class PesananPenjualanModel implements Serializable{
     @Column(name = "is_shown", nullable = false)
     private Boolean isShown;
 
+    // id user -> staf sales / sales counter
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", referencedColumnName = "idUser", nullable = false)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel user;
@@ -79,7 +80,150 @@ public class PesananPenjualanModel implements Serializable{
     @JsonIgnore
     private List<KomplainModel> listKomplain;
 
-    // pesanan bikin lier
-    // private Map<ProdukModel, Integer> pesanan;
-    
+    @OneToOne(mappedBy = "pesananPenjualan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private PengirimanModel pengirimanPesanan;
+
+    @OneToOne(mappedBy = "pesananPenjualan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private LaporanStafSalesModel laporanStafSales;
+
+    @OneToMany(mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<TransaksiPesananModel> barangPesanan;
+
+
+    public Long getIdPesananPenjualan() {
+        return this.idPesananPenjualan;
+    }
+
+    public void setIdPesananPenjualan(Long idPesananPenjualan) {
+        this.idPesananPenjualan = idPesananPenjualan;
+    }
+
+    public String getKodePesananPenjualan() {
+        return this.kodePesananPenjualan;
+    }
+
+    public void setKodePesananPenjualan(String kodePesananPenjualan) {
+        this.kodePesananPenjualan = kodePesananPenjualan;
+    }
+
+    public Integer getStatusPesanan() {
+        return this.statusPesanan;
+    }
+
+    public void setStatusPesanan(Integer statusPesanan) {
+        this.statusPesanan = statusPesanan;
+    }
+
+    public Date getTanggalPesanan() {
+        return this.tanggalPesanan;
+    }
+
+    public void setTanggalPesanan(Date tanggalPesanan) {
+        this.tanggalPesanan = tanggalPesanan;
+    }
+
+    public Date getTanggalPersetujuan() {
+        return this.tanggalPersetujuan;
+    }
+
+    public void setTanggalPersetujuan(Date tanggalPersetujuan) {
+        this.tanggalPersetujuan = tanggalPersetujuan;
+    }
+
+    public String getNamaToko() {
+        return this.namaToko;
+    }
+
+    public void setNamaToko(String namaToko) {
+        this.namaToko = namaToko;
+    }
+
+    public String getAlamatToko() {
+        return this.alamatToko;
+    }
+
+    public void setAlamatToko(String alamatToko) {
+        this.alamatToko = alamatToko;
+    }
+
+    public Integer getDiskon() {
+        return this.diskon;
+    }
+
+    public void setDiskon(Integer diskon) {
+        this.diskon = diskon;
+    }
+
+    public Long getTotalHarga() {
+        return this.totalHarga;
+    }
+
+    public void setTotalHarga(Long totalHarga) {
+        this.totalHarga = totalHarga;
+    }
+
+    public String getRequestChange() {
+        return this.requestChange;
+    }
+
+    public void setRequestChange(String requestChange) {
+        this.requestChange = requestChange;
+    }
+
+    public Boolean isIsShown() {
+        return this.isShown;
+    }
+
+    public Boolean getIsShown() {
+        return this.isShown;
+    }
+
+    public void setIsShown(Boolean isShown) {
+        this.isShown = isShown;
+    }
+
+    public UserModel getUser() {
+        return this.user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
+    public List<KomplainModel> getListKomplain() {
+        return this.listKomplain;
+    }
+
+    public void setListKomplain(List<KomplainModel> listKomplain) {
+        this.listKomplain = listKomplain;
+    }
+
+    public PengirimanModel getPengirimanPesanan() {
+        return this.pengirimanPesanan;
+    }
+
+    public void setPengirimanPesanan(PengirimanModel pengirimanPesanan) {
+        this.pengirimanPesanan = pengirimanPesanan;
+    }
+
+    public LaporanStafSalesModel getLaporanStafSales() {
+        return this.laporanStafSales;
+    }
+
+    public void setLaporanStafSales(LaporanStafSalesModel laporanStafSales) {
+        this.laporanStafSales = laporanStafSales;
+    }
+
+    public List<TransaksiPesananModel> getBarangPesanan() {
+        return this.barangPesanan;
+    }
+
+    public void setBarangPesanan(List<TransaksiPesananModel> barangPesanan) {
+        this.barangPesanan = barangPesanan;
+    }
+
 }
