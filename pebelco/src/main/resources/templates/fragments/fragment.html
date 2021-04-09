@@ -42,7 +42,7 @@
             <div class="navbar-nav ml-auto" th:if="${namaUser} != null">   
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <li class="profile nav-item">
-                        <span th:text="${namaUser}"></span>
+                        <span class="namaUser" th:text="${namaUser}"></span>
                         <span th:text="${roleUser}"></span>
                     </li>
                     <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown" 
