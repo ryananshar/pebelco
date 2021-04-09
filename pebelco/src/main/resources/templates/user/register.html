@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <object th:replace="fragments/fragment :: navbar"></object>
+    <section class="container-fluid py-5" style="height: calc(100% - 56px)">
+        <div class="row-cols-1 h-100 mx-auto justify-content-center align-items-center">
+            <div th:replace="fragments/div :: headVar(title='Add User', col='6')"></div>
+            <div class="col-md-6 col-12 mx-auto p-4 shadow">
+                <div th:if="${msg} != null" class="text-center mb-2 font-weight-bold">
+                    <span class="text-warning" th:text="${msg}"></span>
+                </div>
+                <form th:action="@{/user/register}" th:object="${user}" method="POST">
+                    <div class="form-group">
+                        <label>Nama Panjang</label>
+                        <input type="text" class="form-control" name="namaPanjang" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select name="idRole" th:field="*{role}" class="form-control" required>
+                            <option value="">-- Pilih Role --</option>
+                            <option th:each="role, iterationStatus: ${listRole}" 
+                                    th:value="${role.idRole}" 
+                                    th:text="${role.namaRole}"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
