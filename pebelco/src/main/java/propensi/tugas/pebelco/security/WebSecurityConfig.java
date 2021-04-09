@@ -33,7 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/login").usernameParameter("email").permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").permitAll();
+                .logoutSuccessUrl("/login").permitAll()
+                .and().cors().and().csrf().disable();
     }
 
     @Bean

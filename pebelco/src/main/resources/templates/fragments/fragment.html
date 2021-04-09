@@ -36,28 +36,30 @@
         <a class="navbar-brand font-weight-bold" th:href="@{/}">PEBELCO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon dark-bg"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
+            <div class="navbar-nav ml-auto" th:if="${namaUser} != null">   
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <li class="profile nav-item">
+                        <span th:text="${namaUser}"></span>
+                        <span th:text="${roleUser}"></span>
+                    </li>
                     <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="false" sec:authorize="isAuthenticated()">
-                        <span sec:authentication="name"></span>
+                        aria-haspopup="true" aria-expanded="false">
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" th:href="@{/#}">Profile</a>
-                        <a class="dropdown-item" th:href="@{/#}" >Logout</a>
+                        <a class="dropdown-item" th:href="@{/logout}" >Logout</a>
                     </div>
                 </li>
                 <div class="text-secondary font-italic" sec:authorize="isAnonymous()">
                     <a th:href="@{/login}" class="nav-item nav-link active">Login</a>
                 </div>
-                <div class="text-secondary font-italic text-info" sec:authorize="isAuthenticated()">
-                    <a class="user-profile" th:href="@{/#}" sec:authentication="name"></a>
-                </div>
-                <div class="text-secondary font-italic" sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}" class="nav-item nav-link active text-black">Logout</a>
+            </div>
+            <div class="navbar-nav ml-auto" th:unless="${namaUser} != null">   
+                <div class="text-secondary font-italic" sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}" class="nav-item nav-link active">Login</a>
                 </div>
             </div>
         </div>

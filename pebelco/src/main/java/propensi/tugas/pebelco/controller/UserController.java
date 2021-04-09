@@ -1,6 +1,11 @@
 package propensi.tugas.pebelco.controller;
 
+import java.security.Principal;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,5 +66,31 @@ public class UserController {
             return "user/register"; 
         }
         
+    }
+
+    @ModelAttribute
+    public void userInformation(Principal principal, Model model) {
+        // if (principal.getName() == null) {
+        //     model.addAttribute("namaUser", "null");
+        //     model.addAttribute("roleUser", "null");
+        // } else {
+        //     String email = principal.getName();
+        //     UserModel user = userService.getUserbyEmail(email);
+        //     model.addAttribute("namaUser", user.getNamaPanjang());
+        //     model.addAttribute("roleUser", user.getRole().getNamaRole());
+        // }
+
+        try {
+            String email = principal.getName();
+            UserModel user = userService.getUserbyEmail(email);
+            model.addAttribute("namaUser", user.getNamaPanjang());
+            model.addAttribute("roleUser", user.getRole().getNamaRole());
+        } catch (Exception e) {
+            model.addAttribute("namaUser", null);
+            model.addAttribute("roleUser", null);
+        }
+        
+        // model.addAttribute("roleUser", user.getRole());
+        // return user;
     }
 }
