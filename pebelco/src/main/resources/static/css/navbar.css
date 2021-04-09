@@ -17,7 +17,12 @@ body {
 
 .profile > span {
     display: block;
-    /* align-items: right; */
+}
+
+.profile .namaUser {
+    font-weight: bold;
+    font-size: 20px;
+    color: #033C59;
 }
 
 #wrapper {
