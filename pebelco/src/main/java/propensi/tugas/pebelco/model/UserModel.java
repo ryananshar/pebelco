@@ -33,7 +33,7 @@ public class UserModel implements Serializable{
 
     @NotNull
     @Lob
-    @Size(max = 50)
+    @Size(max = 250)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -60,6 +60,7 @@ public class UserModel implements Serializable{
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<LaporanStafSalesModel> listLaporanStafSales;
+
 
     public Long getIdUser() {
         return this.idUser;
@@ -93,6 +94,14 @@ public class UserModel implements Serializable{
         this.password = password;
     }
 
+    public List<NotifikasiModel> getListNotifikasi() {
+        return this.listNotifikasi;
+    }
+
+    public void setListNotifikasi(List<NotifikasiModel> listNotifikasi) {
+        this.listNotifikasi = listNotifikasi;
+    }
+
     public RoleModel getRole() {
         return this.role;
     }
@@ -124,13 +133,5 @@ public class UserModel implements Serializable{
     public void setListLaporanStafSales(List<LaporanStafSalesModel> listLaporanStafSales) {
         this.listLaporanStafSales = listLaporanStafSales;
     }
-
-    public List<NotifikasiModel> getListNotifikasi() {
-        return this.listNotifikasi;
-    }
-
-    public void setListNotifikasi(List<NotifikasiModel> listNotifikasi) {
-        this.listNotifikasi = listNotifikasi;
-    }
-
+    
 }

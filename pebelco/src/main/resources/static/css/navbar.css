@@ -4,13 +4,8 @@
 
 #sidebar-wrapper {
     background: #033C59;
-    min-height: 100vh;
+    min-height: 100%;
     min-width: 10rem;
-}
-
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
 }
 
 #sidebar-wrapper .list-group {
@@ -18,25 +13,14 @@
     min-width: 10rem;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
+#sidebar-wrapper .list-group .list-group-item{
+    color: #fff;
+    background: #033C59;
+    padding: 20px 0px 20px 30px;
+    transition: all .2s;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
+#sidebar-wrapper .list-group .list-group-item:hover{
+    color: #FFD35C;
+    transform: scale(1.1)
 }
-
-/* @media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
-
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
-
-  #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
-  }
-} */
