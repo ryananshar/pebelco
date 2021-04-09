@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row">        
+        <div class="col-3">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+        <div class="container-fluid col-9">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container" id="center">
+                    <div class="col">
+                        <h1 class="title">Selamat Datang</h1>
+                        <hr>
+                        <p class="subtitle">Sistem informasi untuk manajemen penjualan PT. Putra Borneo Lestari</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center" id="center">
+                <div class="col">
+                    <h2 class="fitur"> Daftar Fitur</h2>
+                    <br>
+                    <div class="row justify-content-center list-fitur">
+                        <div class="col-md-3 fix">
+                            <p>Kunjungan</p>
+                            <img th:src="@{/img/kunjungan.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Kunjungan
+                            </a>
+                        </div>
+                        <div class="col-md-3 fix">
+                            <p>Pesanan Penjualan</p>
+                            <img th:src="@{/img/pesanan.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Pesanan
+                            </a>
+                        </div>
+                        <div class="col-md-3 fix">
+                            <p>Pengiriman</p>
+                            <img th:src="@{/img/pengiriman.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Pengiriman
+                            </a>
+                        </div>
+                        <div class="col-md-3 fix">
+                            <p>Komplain</p>
+                            <img th:src="@{/img/komplain.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Komplain
+                            </a>
+                        </div>
+                        <div class="col-md-3 fix">
+                            <p>Produk</p>
+                            <img th:src="@{/img/produk.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Produk
+                            </a>
+                        </div>
+                        <div class="col-md-3 fix">
+                            <p>Pameran</p>
+                            <img th:src="@{/img/pameran.svg}">
+                            <a th:href="@{/#}" class="btn">
+                                Daftar Pameran
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>
