@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.error_message {
+    color : red;
+}
+
+.user-profile {
+    color : #12b2e3;
+}
+
+#center {
+    align-items: center;
+    text-align: center;
+}
+
+#text-center {
+    text-align: center;
+}
+
+/* Home */
+.jumbotron {
+    height: auto;
+    margin-bottom: 75px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+
+    background: 
+    linear-gradient(70.85deg,
+    #FFFFFF 50%,    
+    #3fc1c9 100%,
+    #fc5185 100%), 
+    linear-gradient(270deg,
+    rgba(0, 56, 56, 56) 0%,
+    #806c7270 100%);
+}
+
+.jumbotron .title {
+    margin-top: 60px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 31px;
+    line-height: 46px;
+    letter-spacing: 0.085em;
+
+    color: black;
+}
+
+.jumbotron .subtitle {
+    margin-top: 10px;
+    margin-bottom: 60px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 22px;
+    letter-spacing: 0.1em;
+
+    color: #5E5D5D;
+}
+
+.fitur {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 49px;
+    letter-spacing: 0.045em;
+
+    color: black;
+}
+
+.list-fitur p {
+    margin: 20px 10px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 27px;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #000000;
+}
+
+.list-fitur img {
+    padding: 30px;
+    width: 150px;
+    height: 150px;
+    margin: 20px 20px;
+}
+
+.list-fitur a {
+    margin-bottom: 30px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #FFFFFF;
+    
+    background:#033C59;
+    border-radius: 5px;
+}
+
+.fix {
+    align-items: center;
+    margin: 50px;
+
+    max-width: 300px;
+    min-height: height auto;
+    min-width: 300px;
+    height: auto;
+
+    background: #FFFFFF;
+    box-shadow: 0px 17px 10px -5px #0000003b;
+    border-radius: 17px;
+
+    background: #FFFFFF;
+    border: 0.655044px solid #0C1E34;
+    box-sizing: border-box;
+    box-shadow: 0px 17px 10px -5px #0000003b;
+    border-radius: 6.96855px;
+    transition: all .2s;
+}
+
+.fix:hover {    
+    box-shadow: 0px 17px 17px -5px #0000006b;
+    transform: scale(1.1)
+}
+
+.card {
+    box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.25);
+    width: auto;
+}
+
+.card-header {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 31px;
+    color: #FFFFFF;
+    background: #383838;
+    border-radius: 5px;
+}
