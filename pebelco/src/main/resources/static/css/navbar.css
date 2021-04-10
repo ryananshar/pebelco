@@ -11,6 +11,11 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* Navbar */
+.navbar button {
+    background-color: #033C59;
+}
+
 .navbar-brand {
     font-size: 45px
 }
@@ -25,6 +30,66 @@ body {
     color: #033C59;
 }
 
+/* Notifications */
+.notif {
+    padding-right: 40px;
+    padding-top: 10px;
+    position: relative;
+}
+
+.notif span {
+    color: #fff;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -3px;
+    right: 28px;
+    background-color: #DA4F4F;
+    border-radius: 50%;
+    text-align: center;
+    font-size: em(10);
+    font-weight: 600;
+}
+
+.notif img {
+    border-radius: 50%;
+    height: 40px;
+}
+
+.notif .dropdown-toggle::after {
+    display:none;
+}
+
+.list-group .lg {
+    height: 700px;
+    width: 420px;
+    overflow: auto;
+}
+
+.list-group .lg {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.list-group .lg::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.list-group .list-group-item {
+    border-radius: 0;
+    letter-spacing: 0.5px;
+}
+.list-group h5 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 2;
+}
+.list-group p {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 2;
+}
+
+/* Sidebar */
 #wrapper {
     overflow-x: hidden;
  }
