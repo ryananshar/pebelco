@@ -75,6 +75,8 @@ body {
 }
 
 .list-group .list-group-item {
+    border-top: 0.5px solid #ffffff;
+    border-bottom: 0.5px solid #ffffff;
     border-radius: 0;
     letter-spacing: 0.5px;
 }
@@ -115,4 +117,8 @@ body {
 #sidebar-wrapper .list-group .list-group-item:hover{
     color: #FFD35C;
     transform: scale(1.1)
+}
+
+#sidebar-wrapper .list-group .list-group-item.active{
+    color: #FFD35C;
 }
