@@ -92,6 +92,10 @@ body {
 }
 
 /* Sidebar */
+.flex-fixed-width-item {
+    flex: 0 0 100px;
+}
+
 #wrapper {
     overflow-x: hidden;
  }
@@ -100,6 +104,7 @@ body {
     background: #033C59;
     min-height: 100%;
     min-width: 10rem;
+    width: 25rem;
 }
 
 #sidebar-wrapper .list-group {

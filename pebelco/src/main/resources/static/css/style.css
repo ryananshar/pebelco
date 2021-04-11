@@ -28,6 +28,22 @@ body {
     text-align: center;
 }
 
+.flex-fixed-width-item {
+    flex: 0 0 100px;
+}
+
+.flex-item-20 {
+    flex: 1 0 20%;
+}
+
+.flex-item-40 {
+    flex: 1 0 40%;
+}
+
+.flex-item-80 {
+    flex: 1 0 80%;
+}
+
 /* Home */
 .jumbotron {
     height: auto;
