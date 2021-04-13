@@ -54,6 +54,41 @@ public class ProdukController {
         return "delete-produk";
     }
 
+    @GetMapping(value = "/produk/tambah")
+    public String tambahProduk(Model model) {
+        ProdukModel produk=new ProdukModel();
+        model.addAttribute("produk", produk);
+
+        return "tambah-produk";
+    }
+
+    @PostMapping("/produk/tambah")
+    public String tambahProdukSubmit(
+            @ModelAttribute ProdukModel produk, Model model){
+        produkService.addProduk(produk);
+        model.addAttribute("idProduk",produk.getIdProduk());
+        return "ubah-done";
+    }
+
+    @GetMapping(value = "/produk/ubah/{id}")
+    public String ubahproduk(@PathVariable Long id, Model model) {
+        ProdukModel produk=produkService.getProdukById(id);
+        model.addAttribute("produk", produk);
+
+        return "ubah-produk";
+    }
+
+    @PostMapping("/produk/ubah")
+    public String ubahStokProdukSubmit(
+            @ModelAttribute ProdukModel produk, Model model){
+//        System.out.println(produk.getTipe()+"a");
+//        System.out.println(produk.getHarga()+"a");
+//        System.out.println("marcell");
+        ProdukModel produkUpdated=produkService.updateStokProduk(produk);
+        model.addAttribute("idProduk",produkUpdated.getIdProduk());
+        return "ubah-done";
+    }
+
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
         // if (principal.getName() == null) {

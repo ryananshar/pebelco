@@ -14,7 +14,7 @@ import propensi.tugas.pebelco.repository.ProdukDb;
 @Transactional
 public class ProdukServiceImpl implements ProdukService{
     @Autowired
-    private ProdukDb produkDb;
+    ProdukDb produkDb;
 
     @Override
     public List<ProdukModel> findAll() {
@@ -29,6 +29,21 @@ public class ProdukServiceImpl implements ProdukService{
     @Override
     public void deleteProduk(ProdukModel produk) {
         produkDb.delete(produk);
+    }
+
+    @Override
+    public void deleteProdukByIdProduk(Long IdProduk){
+        produkDb.deleteById(IdProduk);
+    }
+
+    @Override
+    public ProdukModel updateStokProduk(ProdukModel produk){
+        return produkDb.save(produk);
+    }
+
+    @Override
+    public void addProduk(ProdukModel produk){
+        produkDb.save(produk);
     }
 
 }
