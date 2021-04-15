@@ -16,10 +16,10 @@
             <nav th:replace="fragments/fragment :: sidebar"></nav>
         </div>
         <div class="container col">
-            <div class="row justify-content-center" id="center">
+            <div class="row justify-content-center">
                 <div class="card">
-                    <div class="card-header" id="text-center">
-                        <h4>Tambah Pesanan Penjualan</h4>
+                    <div class="card-header">
+                        <h3>Tambah Pesanan Penjualan</h3>
                     </div>
                     <div class="card-body">
                         <form th:action="@{/pesanan/add}" th:object="${pesananPenjualan}" method="POST">
@@ -37,49 +37,21 @@
                             </div>
                             <div class="form-group">
                                 <label>Diskon:</label>
-                                <input th:field="*{diskon}" type="text" class="form-control"
+                                <input th:field="*{diskon}" type="number" class="form-control"
                                     name="namaToko" 
                                     placeholder="Masukan besar diskon">
                             </div>
-                            <br><br>
-                            <div class="form-row">
-                                <div class="col-md-1 mb-3">
-                                    <label>No</label>
-                                  </div>
-                                <div class="col-md-6 mb-3">
-                                  <label>Nama Barang</label>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                  <label>Jumlah</label>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                  <label>Harga</label>
-                                </div>
-                            </div>
-                            <!-- <div class="form-row" th:each="barang, barangStat : *{barangPesanan}">
-                                <div>
-                                    <div class="col-md-1 mb-3"></div>
-                                        <span th:text="${barangStat.count}"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <select th:field="*{barangPesanan}" class="form-control">
-                                            <option th:each="produk : ${listProduk}" 
-                                                    th:value="${produk.idProduk}" 
-                                                    th:text="${produk.namaProduk}"></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 mb-3">
-                                        <span th:text="${barang.jumlah}"></span>
-                                        <input type="text" th:field="*{barangPesanan.jumlah}" class="form-control"/>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <span th:text="${barang.harga}"></span>
-                                        <input type="text" th:field="*{barangPesanan.harga}" class="form-control"/>
-                                    </div>
-                                </div>                              
-                                
-                            </div> -->
 
+                            <br><br>
+                            <div class="row justify-content-between">
+                                <div class="float-md-left">
+                                    <h3>Barang Pesanan</h3>
+                                </div>
+                                <div class="float-sm-right">
+                                    <button class="btn but-success" type="submit" name="addRow">Tambah Row</button>
+                                </div>
+                            </div>                            
+                            <br>
 
                             <div class="form-group">
                                 <table>
@@ -88,9 +60,9 @@
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
-                                        <th>Harga</th>
+                                        <!-- <th>Harga</th> -->
                                         <th>
-                                        <button type="submit" name="addRow">Add row</button>
+                                        <!-- <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button> -->
                                         </th>
                                     </tr>
                                     </thead>
@@ -98,35 +70,35 @@
                                     <tr th:each="barang, barangStat : *{barangPesanan}">
                                         <td th:text="${barangStat.count}"></td>
                                         <td>
-                                        <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}" class="form-control">
+                                        <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}" 
+                                                class="form-control">
+                                            <option selected value="">-- PILIH Nama Barang --</option>
                                             <option th:each="produk : ${listProduk}" 
                                                     th:value="${produk.namaProduk}" 
-                                                    th:text="${produk.namaProduk}"></option>
+                                                    th:with="harga=${produk.harga}"
+                                                    th:text="${produk.namaProduk}"
+                                                    ></option>
                                         </select>
                                         </td>
                                         <td>
-                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}" class="form-control"/>
+                                            <input type="number" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}" 
+                                                   placeholder="Masukan jumlah"
+                                                   class="form-control"/>
                                         </td>
+                                        <!-- <td>
+                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}" 
+                                                   class="form-control" 
+                                                   th:text="${harga}"/>
+                                        </td> -->
                                         <td>
-                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}" class="form-control"/>
-                                        </td>
-                                        <td>
-                                        <button type="submit" name="removeRow" 
-                                                th:value="${barangStat.index}">Remove row</button>
+                                        <button class="btn but-danger" type="submit" name="removeRow" 
+                                                th:value="${barangStat.index}"> 
+                                                <i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-
-                            
-                            <!-- <div class="form-group">
-                                <label for="no_akademi">Sekolah:</label>
-                                <select th:field="*{barangPesanan}" class="form-control" name="barangPesanan" required>
-                                    <option th:each="produk, iterationStatus: ${listProduk}"
-                                    th:text="${produk.namaProduk}" th:value="${produk.idProduk}"></option>
-                                </select>
-                            </div> -->
                             <div class="row justify-content-end">                                
                                 <a class="btn but-outline" type="button" th:href="@{/}">Batal</a>
                                 <button class="btn but-success" type="submit" value="Submit">Submit</button>

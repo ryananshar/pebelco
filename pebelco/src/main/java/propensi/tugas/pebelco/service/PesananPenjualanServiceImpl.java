@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 
 @Service
@@ -42,6 +43,18 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception {
         pesananPenjualanDb.deleteById(pesananPenjualan.getIdPesananPenjualan());        
+    }
+
+    @Override
+    public Long calculateTotal(List<TransaksiPesananModel> barangPesanan, Integer diskon) {
+        Long tempTotal = 0L;
+        for (TransaksiPesananModel barang : barangPesanan) {
+            tempTotal += barang.getHarga();
+            System.out.println("---------- total -----:" + tempTotal);
+        }
+        Long total = (Long) tempTotal*(100 - diskon)/100;
+        System.out.println("---------- total akhir -----:" + total);
+        return total;
     }
     
 }

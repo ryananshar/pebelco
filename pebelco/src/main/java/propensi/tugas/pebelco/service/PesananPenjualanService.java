@@ -3,6 +3,7 @@ package propensi.tugas.pebelco.service;
 import java.util.List;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.TransaksiPesananModel;
 
 public interface PesananPenjualanService {
     //  Method untuk menambah objek
@@ -19,4 +20,6 @@ public interface PesananPenjualanService {
 
     // Method untuk delete 
     void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception;
+
+    Long calculateTotal(List<TransaksiPesananModel> barangPesanan, Integer diskon);
 }
