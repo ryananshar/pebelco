@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.repository.RoleDb;
+// import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.RoleService;
 import propensi.tugas.pebelco.service.UserService;
 
 @Controller
 public class UserController {
-    @Autowired
-    private RoleDb roleDb;
+    // @Autowired
+    // private RoleDb roleDb;
 
     @Autowired
     private RoleService roleService;
