@@ -17,6 +17,9 @@ public class TransaksiPesananModel implements Serializable{
     @Column(name = "id_transaksi_pesanan", nullable = false)
     private Long idTransaksiPesanan;
 
+    // @EmbeddedId
+    // PesananProdukKey id;
+
     @NotNull
     @Column(name = "jumlah", nullable = false)
     private Integer jumlah;
@@ -27,13 +30,15 @@ public class TransaksiPesananModel implements Serializable{
     private Long harga;
 
     // id pesanan
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idPesananPenjualan")
     @JoinColumn(name = "id_pesanan", referencedColumnName = "id_pesanan_penjualan")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private PesananPenjualanModel pesananTransaksi;
 
     // id produk
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("idProduk")
     @JoinColumn(name = "id_produk", referencedColumnName = "id_produk")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProdukModel produkPesanan;
@@ -78,5 +83,14 @@ public class TransaksiPesananModel implements Serializable{
     public void setHarga(Long harga) {
         this.harga = harga;
     }
+
+    // public PesananProdukKey getId() {
+    //     return this.id;
+    // }
+
+    // public void setId(PesananProdukKey id) {
+    //     this.id = id;
+    // }
+
 
 }
