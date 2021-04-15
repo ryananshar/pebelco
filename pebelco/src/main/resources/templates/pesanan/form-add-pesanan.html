@@ -81,7 +81,7 @@
                             </div> -->
 
 
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <table>
                                     <thead>
                                     <tr>
@@ -98,17 +98,17 @@
                                     <tr th:each="barang, barangStat : *{barangPesanan}">
                                         <td th:text="${barangStat.count}"></td>
                                         <td>
-                                        <select th:field="*{barangPesanan}" class="form-control">
+                                        <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}" class="form-control">
                                             <option th:each="produk : ${listProduk}" 
-                                                    th:value="${produk.idProduk}" 
+                                                    th:value="${produk.namaProduk}" 
                                                     th:text="${produk.namaProduk}"></option>
                                         </select>
                                         </td>
                                         <td>
-                                        <input type="text" th:field="*{barang.jumlah}" class="form-control"/>
+                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}" class="form-control"/>
                                         </td>
                                         <td>
-                                            <input type="text" th:field="*{barang.harga}" class="form-control"/>
+                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}" class="form-control"/>
                                         </td>
                                         <td>
                                         <button type="submit" name="removeRow" 
@@ -117,7 +117,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div> -->
+                            </div>
 
                             
                             <!-- <div class="form-group">

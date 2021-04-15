@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.repository.TransaksiPesananDb;
 
@@ -16,11 +17,22 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
     @Autowired
     private TransaksiPesananDb transaksiPesananDb;
 
+    @Autowired
+    private PesananPenjualanService pesananPenjualanService;
+
     @Override
-    public void addTransaksiPesanan(TransaksiPesananModel transaksiPesanan) {
-        transaksiPesananDb.save(transaksiPesanan);
-        
+    public void saveAll(List<TransaksiPesananModel> listTransaksiPesanan) {
+        transaksiPesananDb.saveAll(listTransaksiPesanan);        
     }
+
+    @Override
+    public void addAll(List<TransaksiPesananModel> listTransaksiPesanan, Long idPesanan) {
+        for (TransaksiPesananModel transaksiPesanan : listTransaksiPesanan) {
+            transaksiPesanan.setPesananTransaksi(pesananPenjualanService.getPesananByIdPesanan(idPesanan));
+            transaksiPesananDb.save(transaksiPesanan);
+        }
+        
+    }   
 
     @Override
     public List<TransaksiPesananModel> getTransaksiPesananList() {
@@ -40,5 +52,6 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
     @Override
     public void deleteTransaksiPesanan(Long idTransaksiPesanan) {
         transaksiPesananDb.deleteById(idTransaksiPesanan);        
-    }   
+    }
+
 }

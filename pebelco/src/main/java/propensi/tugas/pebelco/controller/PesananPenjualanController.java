@@ -47,9 +47,15 @@ public class PesananPenjualanController {
     }
 
     @RequestMapping(value="/pesanan/add", params={"addRow"})
-    public String addRow(@ModelAttribute PesananPenjualanModel pesananPenjualan, Model model) {
-        pesananPenjualan.getBarangPesanan().add(new TransaksiPesananModel());
+    public String addRow(
+            @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model,
+            final BindingResult bindingResult) {
+        TransaksiPesananModel barangGaib = new TransaksiPesananModel();
         List<ProdukModel> listProduk = produkDb.findAll();
+
+        barangGaib.setPesananTransaksi(pesananPenjualan);
+        pesananPenjualan.getBarangPesanan().add(barangGaib);
+        
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk); 
         return "pesanan/form-add-pesanan";
@@ -58,10 +64,10 @@ public class PesananPenjualanController {
     @RequestMapping(value="/pesanan/add", params={"removeRow"})
     public String removeRow(
             @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model, 
-            final HttpServletRequest req) {
-        final Long barangId = Long.parseLong(req.getParameter("removeRow"));
-        final TransaksiPesananModel barangPesanan = transaksiPesananService.getByIdTransaksiPesanan(barangId);
-        pesananPenjualan.getBarangPesanan().remove(barangPesanan);
+            final HttpServletRequest req, final BindingResult bindingResult) {
+        final Integer barangId = Integer.valueOf(req.getParameter("removeRow"));
+        // final TransaksiPesananModel barangPesanan = transaksiPesananService.getByIdTransaksiPesanan(barangId);
+        pesananPenjualan.getBarangPesanan().remove(barangId.intValue());
 
         List<ProdukModel> listProduk = produkDb.findAll();
         model.addAttribute("pesananPenjualan", pesananPenjualan);
@@ -78,15 +84,15 @@ public class PesananPenjualanController {
         // barangGoib.setHarga(kosong);
         // barangGoib.setJumlah(0);
         // barangTempList.add(barangGoib);
-        // barangTempList.add(new TransaksiPesananModel());
-        // barangTempList.add(new TransaksiPesananModel());
-        // barangTempList.add(new TransaksiPesananModel());
         PesananPenjualanModel pesananPenjualan = new PesananPenjualanModel();
-        pesananPenjualan.setBarangPesanan(barangTempList);
+        TransaksiPesananModel barangGaib = new TransaksiPesananModel();
 
+        barangGaib.setPesananTransaksi(pesananPenjualan);
+        pesananPenjualan.setBarangPesanan(barangTempList);
+        pesananPenjualan.getBarangPesanan().add(barangGaib);
+        // barangTempList.add(new TransaksiPesananModel());      
 
         model.addAttribute("pesananPenjualan", pesananPenjualan);
-        // model.addAttribute("listBarang", barangTempList);
         model.addAttribute("listProduk", listProduk); 
         
         return "pesanan/form-add-pesanan";
@@ -98,19 +104,39 @@ public class PesananPenjualanController {
         Principal principal,
         Model model
     ) {
+        List<ProdukModel> listProduk = produkDb.findAll();
         String email = principal.getName();
         UserModel user = userService.getUserbyEmail(email);
         Date date = new Date();
+        String prefix = "PSP";
         String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
+        List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
 
         pesananPenjualan.setStatusPesanan(0);
         pesananPenjualan.setTanggalPesanan(date);
         pesananPenjualan.setIsShown(true);
         pesananPenjualan.setUser(user);
         pesananPenjualan.setKodePesananPenjualan(kode);
+        pesananPenjualan.setBarangPesanan(null);
 
         pesananPenjualanService.addPesanan(pesananPenjualan);
+        Long pesananId = pesananPenjualan.getIdPesananPenjualan();
+
+        System.out.println("--- ini dia --- :" + pesananId);
+        for (TransaksiPesananModel barang : tempList) {
+            System.out.println("--- ini barang --- : " + barang.getNamaBarang());
+        }
+        transaksiPesananService.addAll(tempList, pesananId); 
+        pesananPenjualan.setBarangPesanan(tempList);
+
+        for (TransaksiPesananModel barang : pesananPenjualan.getBarangPesanan()) {
+            System.out.println("--- ini barang id pesanan--- : " + barang.getNamaBarang());
+        }
+        // pesananPenjualan.getBarangPesanan()
+
+        
         model.addAttribute("pesananPenjualan", pesananPenjualan);
+        model.addAttribute("listProduk", listProduk); 
 
         return "pesanan/form-add-pesanan";
     }

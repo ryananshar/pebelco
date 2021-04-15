@@ -1,6 +1,7 @@
 package propensi.tugas.pebelco.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -88,13 +89,18 @@ public class PesananPenjualanModel implements Serializable{
     @JsonIgnore
     private LaporanStafSalesModel laporanStafSales;
 
-    @OneToMany(
-        targetEntity = TransaksiPesananModel.class,
-        cascade = CascadeType.ALL, orphanRemoval = true,
-        mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    // @OneToMany(
+    //     targetEntity = TransaksiPesananModel.class,
+    //     cascade = CascadeType.ALL, orphanRemoval = true,
+    //     mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pesananTransaksi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<TransaksiPesananModel> barangPesanan;
+
+
+    public PesananPenjualanModel() {
+    }
 
 
     public Long getIdPesananPenjualan() {
