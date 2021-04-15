@@ -9,6 +9,8 @@ import propensi.tugas.pebelco.model.ProdukModel;
 public interface ProdukDb extends JpaRepository<ProdukModel, Long>{
     ProdukModel findByIdProduk(Long idProduk);
 
+    ProdukModel findByNamaProduk(String namaProduk);
+
     List<ProdukModel> findAll();
 
 }

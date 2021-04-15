@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,700;1,300;1,400&display=swap');
 
 html,
 body {
@@ -151,15 +151,93 @@ body {
 }
 
 .card {
-    box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.25);
+    margin: 70px 70px 70px 70px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 19px;
+    box-shadow: 0px 17px 10px -5px #0000003b;
     width: auto;
 }
 
 .card-header {
+    margin: 40px 40px 0 40px;
+    background: #FFFFFF;
+}
+
+.card-header h3{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 54px;
+    letter-spacing: 1px;
+    color: #033C59;
+}
+
+.card-body {
+    margin: 40px 40px 40px 40px;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #005479;
+}
+
+.btn {
+    font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 31px;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.but-add-success {
+    margin-top: 100px;
     color: #FFFFFF;
-    background: #383838;
+    background: #005AB3;
     border-radius: 5px;
+}
+
+.but-add-success:hover {
+    color: #FFFFFF;
+    background: #80C0FF;
+}
+
+.but-success {
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #0373a3e0;
+    border-radius: 5px;
+}
+
+.but-success:hover {
+    color: #FFFFFF;
+    background: #005479;
+}
+
+.but-outline {
+    margin: 5px 10px;
+    color: #5E5D5D;;
+    border: 4px solid #BFDFFF;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-outline:hover {
+    color: #FFFFFF;
+    border: 4px solid #005479;;
+    background: #005479;
+}
+
+.but-danger {    
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #FFA5A5;
+    border-radius: 5px;
+}
+
+.but-danger:hover {
+    color: #FFFFFF;
+    background: #FF5555;
 }

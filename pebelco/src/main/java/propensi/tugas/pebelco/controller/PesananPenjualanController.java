@@ -72,25 +72,19 @@ public class PesananPenjualanController {
         List<ProdukModel> listProduk = produkDb.findAll();
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk);
-        return "redirect:/pesanan/add";
+        return "pesanan/form-add-pesanan";
     }
 
     @GetMapping("/pesanan/add")
     public String addPesananFormPage(Model model) {
         List<ProdukModel> listProduk = produkDb.findAll();
         List<TransaksiPesananModel> barangTempList = new ArrayList<TransaksiPesananModel>();
-        // TransaksiPesananModel barangGoib = new TransaksiPesananModel();
-        // Long kosong = (long) 0;
-        // barangGoib.setHarga(kosong);
-        // barangGoib.setJumlah(0);
-        // barangTempList.add(barangGoib);
         PesananPenjualanModel pesananPenjualan = new PesananPenjualanModel();
         TransaksiPesananModel barangGaib = new TransaksiPesananModel();
 
-        barangGaib.setPesananTransaksi(pesananPenjualan);
+        // add at least one object
         pesananPenjualan.setBarangPesanan(barangTempList);
-        pesananPenjualan.getBarangPesanan().add(barangGaib);
-        // barangTempList.add(new TransaksiPesananModel());      
+        pesananPenjualan.getBarangPesanan().add(barangGaib);    
 
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk); 
@@ -108,33 +102,29 @@ public class PesananPenjualanController {
         String email = principal.getName();
         UserModel user = userService.getUserbyEmail(email);
         Date date = new Date();
-        String prefix = "PSP";
-        String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
         List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
 
         pesananPenjualan.setStatusPesanan(0);
         pesananPenjualan.setTanggalPesanan(date);
         pesananPenjualan.setIsShown(true);
         pesananPenjualan.setUser(user);
-        pesananPenjualan.setKodePesananPenjualan(kode);
+        pesananPenjualan.setKodePesananPenjualan("belum");
         pesananPenjualan.setBarangPesanan(null);
 
         pesananPenjualanService.addPesanan(pesananPenjualan);
         Long pesananId = pesananPenjualan.getIdPesananPenjualan();
-
-        System.out.println("--- ini dia --- :" + pesananId);
-        for (TransaksiPesananModel barang : tempList) {
-            System.out.println("--- ini barang --- : " + barang.getNamaBarang());
-        }
         transaksiPesananService.addAll(tempList, pesananId); 
-        pesananPenjualan.setBarangPesanan(tempList);
-
-        for (TransaksiPesananModel barang : pesananPenjualan.getBarangPesanan()) {
-            System.out.println("--- ini barang id pesanan--- : " + barang.getNamaBarang());
-        }
-        // pesananPenjualan.getBarangPesanan()
-
         
+        String prefix = "PSP";
+        String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
+        Integer diskon = pesananPenjualan.getDiskon();
+        System.out.println("---------- diskon -----:" + diskon);
+        Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
+        pesananPenjualan.setKodePesananPenjualan(prefix+kode);
+        pesananPenjualan.setBarangPesanan(tempList);
+        pesananPenjualan.setTotalHarga(hargaTotal);
+        pesananPenjualanService.updatePesanan(pesananPenjualan);
+                
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk); 
 
