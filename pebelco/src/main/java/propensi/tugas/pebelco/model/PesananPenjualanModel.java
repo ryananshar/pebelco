@@ -56,8 +56,8 @@ public class PesananPenjualanModel implements Serializable{
     @Column(name = "diskon", nullable = true)
     private Integer diskon;
 
-    @NotNull
-    @Column(name = "total_harga", nullable = false)
+    // @NotNull
+    @Column(name = "total_harga", nullable = true)
     private Long totalHarga;
 
     @Size(max = 250)
@@ -88,7 +88,10 @@ public class PesananPenjualanModel implements Serializable{
     @JsonIgnore
     private LaporanStafSalesModel laporanStafSales;
 
-    @OneToMany(mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    @OneToMany(
+        targetEntity = TransaksiPesananModel.class,
+        cascade = CascadeType.ALL, orphanRemoval = true,
+        mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<TransaksiPesananModel> barangPesanan;
