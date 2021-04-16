@@ -15,6 +15,9 @@ public interface PesananPenjualanService {
     //  Method untuk mendapatkan data berdasarkan id
     PesananPenjualanModel getPesananByIdPesanan(Long idPesananPenjualan);
 
+    //  Method untuk mendapatkan data berdasarkan id
+    PesananPenjualanModel getPesananByKodePesanan(String kodePesananPenjualan);
+
     // Method untuk update 
     PesananPenjualanModel updatePesanan(PesananPenjualanModel pesananPenjualan);
 

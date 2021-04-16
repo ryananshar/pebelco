@@ -133,13 +133,13 @@ public class PesananPenjualanController {
         return "pesanan/form-add-pesanan";
     }
 
-    @GetMapping("/pesanan/view/{idPesananPenjualan}")
-    public String viewDetailResep(
-        @PathVariable(value = "idPesananPenjualan") Long idPesananPenjualan,
+    @GetMapping("/pesanan/view/{kodePesananPenjualan}")
+    public String viewDetailPesanan(
+        @PathVariable(value = "kodePesananPenjualan") String kodePesananPenjualan,
         Model model
     ) {
         try {
-            PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByIdPesanan(idPesananPenjualan);
+            PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
             model.addAttribute("pesananPenjualan", pesananPenjualan);
             List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();  
             model.addAttribute("listbarang", listbarang);           
@@ -151,5 +151,26 @@ public class PesananPenjualanController {
             return "pesanan/detail-pesanan";
         }
                 
+    }
+
+    @GetMapping("/pesanan/req/{kodePesananPenjualan}")
+    public String addRequestPesananForm(
+        @PathVariable("kodePesananPenjualan") String kodePesananPenjualan,
+        Model model
+    ) {
+        PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
+        model.addAttribute("pesananPenjualan", pesananPenjualan);
+        return "pesanan/request-change";
+    }
+
+    @PostMapping("/pesanan/req/{kodePesananPenjualan}")
+    public String addRequestPesananSubmit(
+        @ModelAttribute PesananPenjualanModel pesananPenjualan,
+        Model model
+    ) {
+        pesananPenjualanService.updatePesanan(pesananPenjualan);
+        model.addAttribute("kodePesananPenjualan", pesananPenjualan.getKodePesananPenjualan());
+        model.addAttribute("pesananPenjualan", pesananPenjualan);
+        return "pesanan/request-change";     
     }
 }
