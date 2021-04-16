@@ -31,19 +31,19 @@
                                     <div th:text="${message}"></div>
                                 </div>
                             </div>
+                            <br>
+                            <a th:href="@{/}" class="btn btn-success">
+                                Kembali
+                            </a>
                         </div>
                     </div>
-                    <br>
-                    <a th:href="@{/}" class="btn btn-success">
-                        Kembali
-                    </a>
                 </div>
 
                 <div th:unless="${message} != null">
-                    <div class="card" id="pesananPenjualan">
+                    <div class="card" id="pesananPenjualan" style="min-width: 900px;">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-sm">
                                     <h4>Detail Pesanan Penjualan</h4>
                                 </div>
                                 <div class="col">
@@ -70,7 +70,7 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-8">
-                                        <div th:text="${pesananPenjualan.tanggalPesanan}"></div>
+                                        <div th:text="${#dates.format(pesananPenjualan.tanggalPesanan, 'dd/MM/yyyy')}"></div>
                                     </div>
                                 </div>
                                 <br><br>
@@ -118,7 +118,7 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-8">
-                                        <div th:text="${pesananPenjualan.totalHarga}"></div>
+                                        <div th:text="'Rp '+ ${#numbers.formatInteger(pesananPenjualan.totalHarga,3,'POINT')}"></div>
                                     </div>
                                 </div>
                                 <br><br>
@@ -163,20 +163,20 @@
                                         <td th:text="${barangStat.count}"></td>
                                         <td th:text="${barang.namaBarang}"></td>
                                         <td th:text="${barang.jumlah}"></td>
-                                        <td th:text="${barang.harga}"></td>
+                                        <td th:text="'Rp '+ ${#numbers.formatInteger(barang.harga, 3,'POINT')}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <br><br><br>
                             </div>
                             <div class="row justify-content-end">    
-                                <a th:href="@{/pesanan/update-status/} + ${pesananPenjualan.idPesananPenjualan}" 
+                                <a th:href="@{/pesanan/update-status/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-ubah-stat"
                                    sec:authorize="hasAuthority('Sales Counter')">Ubah Status</a>                            
-                                <a th:href="@{/pesanan/update/} + ${pesananPenjualan.idPesananPenjualan}" 
+                                <a th:href="@{/pesanan/update/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-ubah"
                                    sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
-                                <a th:href="@{/pesanan/req/} + ${pesananPenjualan.idPesananPenjualan}" 
+                                <a  th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-outline"
                                    sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
                             </div>

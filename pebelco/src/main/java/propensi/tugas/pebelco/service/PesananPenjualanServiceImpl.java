@@ -56,5 +56,10 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
         System.out.println("---------- total akhir -----:" + total);
         return total;
     }
+
+    @Override
+    public PesananPenjualanModel getPesananByKodePesanan(String kodePesananPenjualan) {
+        return pesananPenjualanDb.findByKodePesananPenjualan(kodePesananPenjualan);
+    }
     
 }
