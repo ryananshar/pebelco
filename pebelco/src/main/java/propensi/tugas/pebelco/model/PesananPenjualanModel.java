@@ -19,6 +19,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="pesanan_penjualan")
 public class PesananPenjualanModel implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id_pesanan_penjualan")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

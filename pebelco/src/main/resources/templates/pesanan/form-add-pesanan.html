@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Tambah Pesanan</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
@@ -13,13 +14,15 @@
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">        
         <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- <div class="position-fixed"> -->
+                <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
         </div>
         <div class="container col">
             <div class="row justify-content-center">
-                <div class="card">
+                <div class="card" id="pesananPenjualan">
                     <div class="card-header">
-                        <h3>Tambah Pesanan Penjualan</h3>
+                        <h4>Tambah Pesanan Penjualan</h4>
                     </div>
                     <div class="card-body">
                         <form th:action="@{/pesanan/add}" th:object="${pesananPenjualan}" method="POST">

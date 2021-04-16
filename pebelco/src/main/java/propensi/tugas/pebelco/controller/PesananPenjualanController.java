@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.ProdukModel;
@@ -40,10 +43,10 @@ public class PesananPenjualanController {
     private ProdukDb produkDb;
 
     @GetMapping("/pesanan")
-    public String listPilot(Model model) {
+    public String listPesanan(Model model) {
         List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList();
         model.addAttribute("listPesanan", listPesanan);
-        return "list-pesanan";
+        return "pesanan/list-pesanan";
     }
 
     @RequestMapping(value="/pesanan/add", params={"addRow"})
@@ -118,7 +121,6 @@ public class PesananPenjualanController {
         String prefix = "PSP";
         String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
         Integer diskon = pesananPenjualan.getDiskon();
-        System.out.println("---------- diskon -----:" + diskon);
         Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
         pesananPenjualan.setKodePesananPenjualan(prefix+kode);
         pesananPenjualan.setBarangPesanan(tempList);
@@ -129,5 +131,25 @@ public class PesananPenjualanController {
         model.addAttribute("listProduk", listProduk); 
 
         return "pesanan/form-add-pesanan";
+    }
+
+    @GetMapping("/pesanan/view/{idPesananPenjualan}")
+    public String viewDetailResep(
+        @PathVariable(value = "idPesananPenjualan") Long idPesananPenjualan,
+        Model model
+    ) {
+        try {
+            PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByIdPesanan(idPesananPenjualan);
+            model.addAttribute("pesananPenjualan", pesananPenjualan);
+            List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();  
+            model.addAttribute("listbarang", listbarang);           
+
+            return "pesanan/detail-pesanan";
+        } catch (NullPointerException e) {
+            String message = "Proses Pencarian Gagal Karena ID Pesanan Tidak Ditemukan";
+            model.addAttribute("message", message);
+            return "pesanan/detail-pesanan";
+        }
+                
     }
 }

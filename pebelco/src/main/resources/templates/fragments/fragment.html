@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 
 <head>
     <meta charset="UTF-8">
@@ -33,14 +35,14 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg" th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg col-12" th:fragment="navbar">
         <a class="navbar-brand font-weight-bold" th:href="@{/}">PEBELCO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon text-primary"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ml-auto" th:if="${namaUser} != null">
+            <div class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
                  
                 <!-- items for user featrue -->
                     <!-- Weird html placement to cope with unique position regarding notification -->
@@ -105,8 +107,8 @@
                 <!-- user feature -->
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <li class="profile nav-item">
-                        <span class="namaUser" th:text="${namaUser}"></span>
-                        <span th:text="${roleUser}"></span>
+                        <span class="namaUser" sec:authentication="principal.namaPanjang"></span>
+                        <span sec:authentication="principal.role"></span>
                     </li>
                     <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">
@@ -114,7 +116,7 @@
                     <!-- The items dropdown should be here in normal circumtances -->
                 </li>
             </div>
-            <div class="navbar-nav ml-auto" th:unless="${namaUser} != null">   
+            <div class="navbar-nav ml-auto" sec:authorize="isAnonymous()">   
                 <div class="text-secondary font-italic" sec:authorize="isAnonymous()">
                     <a th:href="@{/login}" class="nav-item nav-link active">Login</a>
                 </div>
@@ -127,7 +129,7 @@
         <div class="list-group list-group-flush">
           <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="list-group-item list-group-item-action">Beranda</a>
           <a th:href="@{/#}" class="list-group-item list-group-item-action">Kunjungan</a>
-          <a th:href="@{/#}" th:classappend="${#httpServletRequest.getRequestURI() == '/pesanan/*' ? 'active':''}" class="list-group-item list-group-item-action">Pesanan Penjualan</a>
+          <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI() == '/pesanan' ? 'active':''}" class="list-group-item list-group-item-action">Pesanan Penjualan</a>
           <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pengiriman</a>
           <a th:href="@{/#}"  class="list-group-item list-group-item-action">Komplain</a>
           <a th:href="@{/#}"  class="list-group-item list-group-item-action">Produk</a>

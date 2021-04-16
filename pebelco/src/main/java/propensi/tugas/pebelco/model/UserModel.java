@@ -133,5 +133,9 @@ public class UserModel implements Serializable{
     public void setListLaporanStafSales(List<LaporanStafSalesModel> listLaporanStafSales) {
         this.listLaporanStafSales = listLaporanStafSales;
     }
+
+    public boolean isEnabled() {
+        return true;
+    }
     
 }
