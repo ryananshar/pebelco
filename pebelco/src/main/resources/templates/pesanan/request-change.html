@@ -11,6 +11,17 @@
 </head>
 
 <body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div class="col-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p>Request Change Berhasil Ditambahkan</p>
+                <a th:href="@{/pesanan/view/} + ${kodePesananPenjualan}" class="btn">
+                    OK
+                </a>
+            </div>
+        </div>
+    </div>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">        
         <div class="col-md-auto">
@@ -25,7 +36,7 @@
                         <h4>Request Change</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/pesanan/req/} + ${pesananPenjualan.idPesananPenjualan}" th:object="${pesananPenjualan}" method="POST">
+                        <form th:action="@{/pesanan/req/} + ${kodePesananPenjualan}" th:object="${pesananPenjualan}" method="POST">
                             <input th:field="*{idPesananPenjualan}" class="form-control" hidden>
                             <input th:field="*{kodePesananPenjualan}" class="form-control" hidden>                            
                             <input th:field="*{statusPesanan}" class="form-control" hidden>                            
@@ -47,7 +58,7 @@
                                     placeholder="Masukan catatan"  required></textarea>
                             </div>
                             <div class="row justify-content-end">                                
-                                <a class="btn but-outline" type="button" th:href="@{/}">Batal</a>
+                                <a class="btn but-outline" type="button" th:href="@{/pesanan/view/} + ${kodePesananPenjualan}">Batal</a>
                                 <button class="btn but-success" type="submit" value="Submit">Submit</button>
                             </div>
                         </form>
