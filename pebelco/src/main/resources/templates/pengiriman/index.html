@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengiriman</title>
+</head>
+<body>
+    <h1>Daftar Perlu Dikirim</h1>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Kode Pesanan/Komplain</th>
+            <th>Nama Toko</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.kode}">Kode v</td>
+            <td th:text="${item.namaToko}">Nama Toko</td>
+            <td th:text="${item.tanggalPersetujuan}">Tanggal</td>
+            <td th:text="${item.status}">Status</td>
+            <td>
+                <a href="#">Detail</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/pengiriman/add/' + ${item.type} + '/' + ${item.id}}">Tambah</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

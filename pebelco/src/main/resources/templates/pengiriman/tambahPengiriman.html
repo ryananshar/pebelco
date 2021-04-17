@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Pengiriman</title>
+</head>
+<body>
+    <h1>Tambah Pengiriman</h1>
+    <h3>Kode Pesanan/Komplain</h3>
+    <p th:text="${item.kode}">Kode Pesanan/Komplain</p>
+    <br>
+
+    <h3>Nama Toko</h3>
+    <p th:text="${item.namaToko}">Nama Toko</p>
+    <br>
+
+    <h3>Alamat Toko</h3>
+    <p th:text="${item.alamatToko}">Alamat Toko</p>
+    <br>
+
+    <h3>Metode Pengiriman</h3>
+    <select name="metode-pengiriman">
+        <th:block th:each="metode : ${metodePengiriman}">
+            <option th:value="${metode.idMetode}" th:text="${metode.namaMetodePengiriman}"></option>
+        </th:block>
+    </select>
+    <br>
+
+    <h3>Daftar Barang</h3>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Nama Barang</th>
+            <th>Jumlah</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="barang : ${barangList}">
+            <td th:text="${barang.namaBarang}">Nama Barang</td>
+            <td th:text="${barang.jumlah}">Jumlah</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+
+
+</body>
+</html>
