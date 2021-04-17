@@ -128,7 +128,8 @@ public class PesananPenjualanController {
         pesananPenjualanService.updatePesanan(pesananPenjualan);
                 
         model.addAttribute("pesananPenjualan", pesananPenjualan);
-        model.addAttribute("listProduk", listProduk); 
+        model.addAttribute("listProduk", listProduk);
+        model.addAttribute("pop", "green"); 
 
         return "pesanan/form-add-pesanan";
     }
@@ -171,6 +172,7 @@ public class PesananPenjualanController {
         pesananPenjualanService.updatePesanan(pesananPenjualan);
         model.addAttribute("kodePesananPenjualan", pesananPenjualan.getKodePesananPenjualan());
         model.addAttribute("pesananPenjualan", pesananPenjualan);
+        model.addAttribute("pop", "green"); 
         return "pesanan/request-change";     
     }
 }

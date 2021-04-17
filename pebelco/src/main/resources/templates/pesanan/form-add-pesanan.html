@@ -11,6 +11,17 @@
 </head>
 
 <body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div class="col-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p>Pesanan Penjualan Berhasil Ditambahkan</p>
+                <a th:href="@{/pesanan}" class="btn">
+                    OK
+                </a>
+            </div>
+        </div>
+    </div>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">        
         <div class="col-md-auto">
