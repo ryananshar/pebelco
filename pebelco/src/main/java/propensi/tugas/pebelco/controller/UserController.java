@@ -92,5 +92,6 @@ public class UserController {
         
         // model.addAttribute("roleUser", user.getRole());
         // return user;
+        // testing
     }
 }
