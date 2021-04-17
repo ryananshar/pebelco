@@ -67,6 +67,22 @@ public class ProdukController {
             @ModelAttribute ProdukModel produk, Model model){
         produkService.addProduk(produk);
         model.addAttribute("idProduk",produk.getIdProduk());
+        return "tambah-done";
+    }
+
+    @GetMapping(value = "/produk/ubah/stok/{id}")
+    public String ubahstokproduk(@PathVariable Long id, Model model) {
+        ProdukModel produk=produkService.getProdukById(id);
+        model.addAttribute("produk", produk);
+
+        return "ubah-produk";
+    }
+
+    @PostMapping("/produk/ubah/stok")
+    public String ubahStokProdukSubmit(
+            @ModelAttribute ProdukModel produk, Model model){
+        ProdukModel produkUpdated=produkService.updateStokProduk(produk);
+        model.addAttribute("idProduk",produkUpdated.getIdProduk());
         return "ubah-done";
     }
 
@@ -75,15 +91,12 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         model.addAttribute("produk", produk);
 
-        return "ubah-produk";
+        return "ubahproduk";
     }
 
     @PostMapping("/produk/ubah")
-    public String ubahStokProdukSubmit(
+    public String ubahProdukSubmit(
             @ModelAttribute ProdukModel produk, Model model){
-//        System.out.println(produk.getTipe()+"a");
-//        System.out.println(produk.getHarga()+"a");
-//        System.out.println("marcell");
         ProdukModel produkUpdated=produkService.updateStokProduk(produk);
         model.addAttribute("idProduk",produkUpdated.getIdProduk());
         return "ubah-done";

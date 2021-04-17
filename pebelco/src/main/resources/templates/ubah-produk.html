@@ -20,7 +20,7 @@
                 <div class="pull-left" style="height: 60px; width: 600px; border-radius: 10px; font-size: 40px; margin:auto">
                     <a style="color: #033C59; margin:auto">Ubah Produk</a>
                 </div>
-                <form th:action="@{/produk/ubah}"th:object="${produk}" method="POST">
+                <form th:action="@{/produk/ubah/stok}"th:object="${produk}" method="POST">
                     <table class="table table-borderless" style="width: 600px; margin: auto">
                         <thead>
                         <th>
@@ -28,10 +28,12 @@
                                 <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                 <th class="form-group" style="color: #005479">
                                     Nama Produk
+                                    <input type="hidden" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" />
                                     <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" style="border-radius: 10px ;width: 500px" class="form-control" disabled>
                                 </th>
                                 <th class="form-group" style="color: #005479">
                                     Spesifikasi
+                                    <input type="hidden" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" />
                                     <input type="text" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" style="border-radius: 10px ;width: 500px" class="form-control" disabled>
                                 </th>
                             </tr>
@@ -46,13 +48,28 @@
                             <tr>
                                 <th class="form-group" style="color: #005479">
                                     Tipe
-                                    <input type="text"  name="tipe" th:field="*{tipe}" th:value="*{tipe}" style="border-radius: 10px ;width: 500px" class="form-control" disabled>
+                                    <input type="hidden" name="tipe" th:field="*{tipe}" th:value="*{tipe}" />
+                                    <select class="form-control form-control-lg" style="width: 500px" name="status" th:field="*{tipe}" th:value="*{tipe}" disabled>
+                                        <option value="1">Coffee Table</option>
+                                        <option value="2">Display Rack</option>
+                                        <option value="3">Kursi Cafe</option>
+                                        <option value="4">Kursi Lipat</option>
+                                        <option value="5">Kursi Makan</option>
+                                        <option value="6">Kursi Stool</option>
+                                        <option value="7">Laci Meja Tulis</option>
+                                        <option value="8">Lemari Pakaian Besi</option>
+                                        <option value="9">Meja Cafe</option>
+                                        <option value="10">Meja Makan</option>
+                                        <option value="11">Meja Lipat</option>
+                                        <option value="12">Meja Tulis</option>
+                                    </select>
                                 </th>
                             </tr>
 
                             <tr>
                                 <th class="form-group" style="color: #005479">
                                     Harga
+                                    <input type="hidden" name="harga" th:field="*{harga}" th:value="*{harga}" />
                                     <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" style="border-radius: 10px ;width: 500px" class="form-control" disabled>
                                 </th>
                             </tr>
@@ -60,6 +77,7 @@
                             <tr>
                                 <th class="form-group" style="color: #005479">
                                     Tanggal Dibuat
+                                    <input type="hidden" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" />
                                     <input type="text" class="form-control" name="tanggal_dibuat" style="width: 500px" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
                                 </th>
                             </tr>
