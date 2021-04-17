@@ -55,10 +55,10 @@ public class ProdukModel implements Serializable{
     private List<TagProdukModel> listTagProduk;
 
     // id transaksi pesanan
-    @OneToMany(mappedBy = "produkPesanan", fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private List<TransaksiPesananModel> listTransaksiPesanan;
+    // @OneToMany(mappedBy = "produkPesanan", fetch = FetchType.LAZY)
+    // @OnDelete(action = OnDeleteAction.CASCADE)
+    // @JsonIgnore
+    // private List<TransaksiPesananModel> listTransaksiPesanan;
 
     // id transaksi komplain
     @OneToMany(mappedBy = "produkKomplain", fetch = FetchType.LAZY)
@@ -131,13 +131,13 @@ public class ProdukModel implements Serializable{
         this.listTagProduk = listTagProduk;
     }
 
-    public List<TransaksiPesananModel> getListTransaksiPesanan() {
-        return this.listTransaksiPesanan;
-    }
+    // public List<TransaksiPesananModel> getListTransaksiPesanan() {
+    //     return this.listTransaksiPesanan;
+    // }
 
-    public void setListTransaksiPesanan(List<TransaksiPesananModel> listTransaksiPesanan) {
-        this.listTransaksiPesanan = listTransaksiPesanan;
-    }
+    // public void setListTransaksiPesanan(List<TransaksiPesananModel> listTransaksiPesanan) {
+    //     this.listTransaksiPesanan = listTransaksiPesanan;
+    // }
 
     public List<TransaksiKomplainModel> getListTransaksiKomplain() {
         return this.listTransaksiKomplain;
