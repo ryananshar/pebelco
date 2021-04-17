@@ -43,10 +43,18 @@ public class PesananPenjualanController {
     private ProdukDb produkDb;
 
     @GetMapping("/pesanan")
-    public String listPesanan(Model model) {
-        List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList();
-        model.addAttribute("listPesanan", listPesanan);
-        return "pesanan/list-pesanan";
+    public String listPesanan(Principal principal, Model model) {
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
+            List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUser(user, true);
+            model.addAttribute("listPesanan", listPesanan);
+            return "pesanan/list-pesanan";
+        } else {
+            List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList(true);
+            model.addAttribute("listPesanan", listPesanan);
+            return "pesanan/list-pesanan";
+        }
     }
 
     @RequestMapping(value="/pesanan/add", params={"addRow"})
@@ -102,36 +110,48 @@ public class PesananPenjualanController {
         Model model
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
-        String email = principal.getName();
-        UserModel user = userService.getUserbyEmail(email);
-        Date date = new Date();
-        List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
-
-        pesananPenjualan.setStatusPesanan(0);
-        pesananPenjualan.setTanggalPesanan(date);
-        pesananPenjualan.setIsShown(true);
-        pesananPenjualan.setUser(user);
-        pesananPenjualan.setKodePesananPenjualan("belum");
-        pesananPenjualan.setBarangPesanan(null);
-
-        pesananPenjualanService.addPesanan(pesananPenjualan);
-        Long pesananId = pesananPenjualan.getIdPesananPenjualan();
-        transaksiPesananService.addAll(tempList, pesananId); 
-        
-        String prefix = "PSP";
-        String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
         Integer diskon = pesananPenjualan.getDiskon();
-        Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
-        pesananPenjualan.setKodePesananPenjualan(prefix+kode);
-        pesananPenjualan.setBarangPesanan(tempList);
-        pesananPenjualan.setTotalHarga(hargaTotal);
-        pesananPenjualanService.updatePesanan(pesananPenjualan);
-                
-        model.addAttribute("pesananPenjualan", pesananPenjualan);
-        model.addAttribute("listProduk", listProduk);
-        model.addAttribute("pop", "green"); 
 
-        return "pesanan/form-add-pesanan";
+        if (diskon >= 0 && diskon <= 100) {            
+            String email = principal.getName();
+            UserModel user = userService.getUserbyEmail(email);
+            Date date = new Date();
+            List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
+
+            pesananPenjualan.setStatusPesanan(0);
+            pesananPenjualan.setTanggalPesanan(date);
+            pesananPenjualan.setIsShown(true);
+            pesananPenjualan.setUser(user);
+            pesananPenjualan.setKodePesananPenjualan("belum");
+            pesananPenjualan.setBarangPesanan(null);
+
+            pesananPenjualanService.addPesanan(pesananPenjualan);
+            Long pesananId = pesananPenjualan.getIdPesananPenjualan();
+            transaksiPesananService.addAll(tempList, pesananId); 
+            
+            String prefix = "PSP";
+            String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
+            Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
+            pesananPenjualan.setKodePesananPenjualan(prefix+kode);
+            pesananPenjualan.setBarangPesanan(tempList);
+            pesananPenjualan.setTotalHarga(hargaTotal);
+            pesananPenjualanService.updatePesanan(pesananPenjualan);
+                    
+            model.addAttribute("pesananPenjualan", pesananPenjualan);
+            model.addAttribute("listProduk", listProduk);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan"); 
+
+            return "pesanan/form-add-pesanan";
+        } else {
+            model.addAttribute("pesananPenjualan", pesananPenjualan);
+            model.addAttribute("listProduk", listProduk);
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+            model.addAttribute("subMsg", "Diskon tidak valid"); 
+
+            return "pesanan/form-add-pesanan";
+        }        
     }
 
     @GetMapping("/pesanan/view/{kodePesananPenjualan}")
