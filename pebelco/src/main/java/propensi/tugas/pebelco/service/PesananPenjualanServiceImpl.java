@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
+import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 
 @Service
@@ -24,8 +25,8 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     }
 
     @Override
-    public List<PesananPenjualanModel> getPesananList() {
-        return pesananPenjualanDb.findAll();
+    public List<PesananPenjualanModel> getPesananList(Boolean bolean) {
+        return pesananPenjualanDb.findByIsShown(bolean);
         // to do
         // pesanan list pagination
     }
@@ -60,6 +61,11 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public PesananPenjualanModel getPesananByKodePesanan(String kodePesananPenjualan) {
         return pesananPenjualanDb.findByKodePesananPenjualan(kodePesananPenjualan);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListByUser(UserModel user, Boolean bolean) {
+        return pesananPenjualanDb.findByUserAndIsShown(user, bolean);
     }
     
 }
