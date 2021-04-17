@@ -1,6 +1,7 @@
 package propensi.tugas.pebelco.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="pesanan_penjualan")
 public class PesananPenjualanModel implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id_pesanan_penjualan")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,8 +59,8 @@ public class PesananPenjualanModel implements Serializable{
     @Column(name = "diskon", nullable = true)
     private Integer diskon;
 
-    @NotNull
-    @Column(name = "total_harga", nullable = false)
+    // @NotNull
+    @Column(name = "total_harga", nullable = true)
     private Long totalHarga;
 
     @Size(max = 250)
@@ -88,10 +91,18 @@ public class PesananPenjualanModel implements Serializable{
     @JsonIgnore
     private LaporanStafSalesModel laporanStafSales;
 
-    @OneToMany(mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    // @OneToMany(
+    //     targetEntity = TransaksiPesananModel.class,
+    //     cascade = CascadeType.ALL, orphanRemoval = true,
+    //     mappedBy = "pesananTransaksi", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pesananTransaksi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<TransaksiPesananModel> barangPesanan;
+
+
+    public PesananPenjualanModel() {
+    }
 
 
     public Long getIdPesananPenjualan() {

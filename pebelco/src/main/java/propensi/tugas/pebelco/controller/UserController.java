@@ -1,11 +1,8 @@
 package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
-import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +10,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import propensi.tugas.pebelco.model.RoleModel;
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.repository.RoleDb;
+// import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.RoleService;
 import propensi.tugas.pebelco.service.UserService;
 
 @Controller
 public class UserController {
-    @Autowired
-    private RoleDb roleDb;
+    // @Autowired
+    // private RoleDb roleDb;
 
     @Autowired
     private RoleService roleService;
@@ -85,9 +81,11 @@ public class UserController {
             UserModel user = userService.getUserbyEmail(email);
             model.addAttribute("namaUser", user.getNamaPanjang());
             model.addAttribute("roleUser", user.getRole().getNamaRole());
+            model.addAttribute("userId", user.getIdUser());
         } catch (Exception e) {
             model.addAttribute("namaUser", null);
             model.addAttribute("roleUser", null);
+            model.addAttribute("userId", null);
         }
         
         // model.addAttribute("roleUser", user.getRole());

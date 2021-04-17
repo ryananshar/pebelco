@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Pesanan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">        
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+                <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+        <div class="container col">
+            <div class="row justify-content-center">
+                <div th:if="${message} != null">           
+                    <div class="card">
+                        <div class="card-header" id>
+                            Error
+                        </div>
+                        <div class="card-body">                
+                            <div class="form-row">
+                                <div class="col-11">
+                                    <div th:text="${message}"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <a th:href="@{/}" class="btn btn-success">
+                                Kembali
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:unless="${message} != null">
+                    <div class="card" id="pesananPenjualan" style="min-width: 900px;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4>Detail Pesanan Penjualan</h4>
+                                </div>
+                                <div class="col">
+                                    <span th:if="${pesananPenjualan.statusPesanan} == 0"
+                                          class="pending">Menunggu Persetujuan</span>
+                                    <span th:if="${pesananPenjualan.statusPesanan} == 1"
+                                          class="disetujui">Disetujui</span>
+                                    <span th:if="${pesananPenjualan.statusPesanan} == 2"
+                                          class="ditolak">Ditolak</span>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="card-body">
+                            <div class="col-12">
+                                <div class="row kode">
+                                    <div th:text="${pesananPenjualan.kodePesananPenjualan}"></div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Tanggal</div>                                     
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${#dates.format(pesananPenjualan.tanggalPesanan, 'dd/MM/yyyy')}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Nama Toko</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pesananPenjualan.namaToko}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Alamat Toko</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pesananPenjualan.alamatToko}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Diskon</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pesananPenjualan.diskon}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Total Harga</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="'Rp '+ ${#numbers.formatInteger(pesananPenjualan.totalHarga,3,'POINT')}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Request Change</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:if="${pesananPenjualan.requestChange} != null" th:text="${pesananPenjualan.requestChange}"></div>
+                                        <div th:unless="${pesananPenjualan.requestChange} != null" th:text="'-'"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Daftar Barang</div>                                        
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
+                            <div class="form-group">
+                                <table class="table table-hover daftar-table">
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="barang, barangStat : *{pesananPenjualan.barangPesanan}">
+                                        <td th:text="${barangStat.count}"></td>
+                                        <td th:text="${barang.namaBarang}"></td>
+                                        <td th:text="${barang.jumlah}"></td>
+                                        <td th:text="'Rp '+ ${#numbers.formatInteger(barang.harga, 3,'POINT')}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br><br><br>
+                            </div>
+                            <div class="row justify-content-end">    
+                                <a th:href="@{/pesanan/update-status/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   class="btn but-ubah-stat"
+                                   sec:authorize="hasAuthority('Sales Counter')">Ubah Status</a>                            
+                                <a th:href="@{/pesanan/update/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   class="btn but-ubah"
+                                   sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                                <a  th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   class="btn but-outline"
+                                   sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>
