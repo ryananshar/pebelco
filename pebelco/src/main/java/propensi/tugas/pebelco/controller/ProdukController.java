@@ -1,17 +1,13 @@
 package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
-import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.ProdukModel;
-import propensi.tugas.pebelco.model.RoleModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.ProdukService;
@@ -35,7 +31,7 @@ public class ProdukController {
     @GetMapping(value = "/daftar-produk")
     public String daftarproduk(Model model) {
         model.addAttribute("listProduk", produkService.findAll());
-        return "daftar-produk";
+        return "produk/daftar-produk";
     }
 
     @GetMapping(value = "/produk/detail/{id}")
@@ -43,7 +39,7 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
 
         model.addAttribute("detailProduk", produk);
-        return "detail-produk";
+        return "produk/detail-produk";
     }
 
     @GetMapping(value = "/produk/hapus/{id}")
@@ -51,7 +47,7 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         produkService.deleteProduk(produk);
 
-        return "delete-produk";
+        return "produk/delete-produk";
     }
 
     @GetMapping(value = "/produk/tambah")
@@ -59,15 +55,19 @@ public class ProdukController {
         ProdukModel produk=new ProdukModel();
         model.addAttribute("produk", produk);
 
-        return "tambah-produk";
+        return "produk/tambah-produk";
     }
 
     @PostMapping("/produk/tambah")
     public String tambahProdukSubmit(
             @ModelAttribute ProdukModel produk, Model model){
+
         produkService.addProduk(produk);
         model.addAttribute("idProduk",produk.getIdProduk());
-        return "tambah-done";
+        model.addAttribute("listProduk", produk);
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Produk Berhasil Ditambahkan");
+        return "produk/tambah-produk";
     }
 
     @GetMapping(value = "/produk/ubah/stok/{id}")
@@ -75,7 +75,7 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         model.addAttribute("produk", produk);
 
-        return "ubah-produk";
+        return "produk/ubah-produk";
     }
 
     @PostMapping("/produk/ubah/stok")
@@ -83,7 +83,7 @@ public class ProdukController {
             @ModelAttribute ProdukModel produk, Model model){
         ProdukModel produkUpdated=produkService.updateStokProduk(produk);
         model.addAttribute("idProduk",produkUpdated.getIdProduk());
-        return "ubah-done";
+        return "produk/ubah-done";
     }
 
     @GetMapping(value = "/produk/ubah/{id}")
@@ -91,7 +91,7 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         model.addAttribute("produk", produk);
 
-        return "ubahproduk";
+        return "produk/ubahproduk";
     }
 
     @PostMapping("/produk/ubah")
@@ -99,7 +99,7 @@ public class ProdukController {
             @ModelAttribute ProdukModel produk, Model model){
         ProdukModel produkUpdated=produkService.updateStokProduk(produk);
         model.addAttribute("idProduk",produkUpdated.getIdProduk());
-        return "ubah-done";
+        return "produk/ubah-done";
     }
 
     @ModelAttribute

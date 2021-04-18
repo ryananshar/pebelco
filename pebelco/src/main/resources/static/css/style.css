@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,700;1,300;1,400&display=swap');
 
 html,
 body {
@@ -44,6 +44,85 @@ body {
     flex: 1 0 80%;
 }
 
+/* Overlay */
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.pop-up {
+    position: absolute;
+    top: 25%;
+    align-items: center;
+    margin: 50px;
+
+    /* max-width: 1000px; */
+    min-height: height auto;
+    min-width: 300px;
+    width: 100%;
+    height: auto;
+
+    background: #FFFFFF;
+    border: 0.655044px solid #0C1E34;
+    box-sizing: border-box;
+    box-shadow: 0px 17px 10px -5px #0000003b;
+    border-radius: 6.96855px;
+    transition: all .2s;
+}
+
+.pop-up:hover {    
+    box-shadow: 0px 17px 17px -5px #0000006b;
+    transform: scale(1.1)
+}
+
+.pop-up p {
+    margin: 10px 20px 30px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #000000;
+}
+
+.pop-up img {
+    width: 150px;
+    height: 150px;
+    margin: 20px 20px 10px 20px;
+}
+
+.pop-up a {
+    margin-bottom: 30px;
+    width: 150px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13.8192px;
+    line-height: 16px;
+    letter-spacing: 0.134312px;
+    color: #FFFFFF;    
+    background:#0a6999;
+    border-radius: 5px;
+}
+
+.pop-up .btn:hover {
+    color:#ffffff;
+    background:#033C59;
+}
+
+
+
 /* Home */
 .jumbotron {
     height: auto;
@@ -83,6 +162,7 @@ body {
     color: #5E5D5D;
 }
 
+/* Home Features */
 .fitur {
     font-style: normal;
     font-weight: 600;
@@ -150,16 +230,205 @@ body {
     transform: scale(1.1)
 }
 
+/* Card Container */
+
 .card {
-    box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.25);
+    margin: 70px 70px 70px 70px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 19px;
+    box-shadow: 0px 17px 10px -5px #0000003b;
     width: auto;
 }
 
 .card-header {
+    margin: 40px 40px 0 40px;
+    background: #FFFFFF;
+}
+
+/* Table Status Candle */
+.card-header .row span{
+    margin-top: 15px;
+    padding: 0 10px 0 10px;
+    min-height: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 300;
+
+    border: 0.3px solid #CACCCF;
+    box-sizing: border-box;
+    border-radius: 30px;
+}
+
+.pending{
+    color: #FFFFFF;
+    background: #d5d6d8;
+}
+
+.disetujui{
+    color: #FFFFFF;
+    background: #9ce2b3;
+}
+
+.ditolak{
+    color: #D14747;
+    background: #f0c8c8;
+}
+
+.card-header h4{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 54px;
+    letter-spacing: 1px;
+    color: #033C59;
+}
+
+.card-body {
+    margin: 0 40px 40px 40px;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    color: #005479;
+}
+
+.card-body .kode{
+    min-width: 100px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 27px;
+    line-height: 54px;
+    letter-spacing: 1px;
+    color: #6497B1;
+}
+
+/* Button Styles */
+.btn {
+    font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 31px;
+    font-size: 15px;
+    line-height: 27px;
+}
+
+.but-add-success {
+    margin-top: 100px;
     color: #FFFFFF;
-    background: #383838;
+    background: #005AB3;
     border-radius: 5px;
 }
+
+.but-add-success:hover {
+    color: #FFFFFF;
+    background: #80C0FF;
+}
+
+.but-success {
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #0373a3e0;
+    border-radius: 5px;
+}
+
+.but-success:hover {
+    color: #FFFFFF;
+    background: #005479;
+}
+
+/* Detail but */
+.but-detail {
+    /* margin: 5px 10px; */
+    background: #6497B1;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-detail:hover {
+    color: #FFFFFF;
+    background: #4c7285;
+}
+
+/* Ubah Status but */
+.but-ubah-stat {
+    margin: 5px 10px;
+    color: #5E5D5D;;
+    border: 1px solid #F2C94C;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-ubah-stat:hover {
+    color: #FFFFFF;
+    border: 1px solid #F2C94C;;
+    background: #F2C94C;
+}
+
+/* Ubah but */
+.but-ubah {
+    margin: 5px 10px;
+    color: #5E5D5D;;
+    border: 1px solid #F5A302;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-ubah:hover {
+    color: #FFFFFF;
+    border: 1px solid #F5A302;;
+    background: #F5A302;
+}
+
+.but-outline {
+    margin: 5px 10px;
+    color: #5E5D5D;;
+    border: 1px solid #005479;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-outline:hover {
+    color: #FFFFFF;
+    border: 1px solid #005479;;
+    background: #005479;
+}
+
+.but-danger {    
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #FFA5A5;
+    border-radius: 5px;
+}
+
+.but-danger:hover {
+    color: #FFFFFF;
+    background: #FF5555;
+}
+
+/* Table Styles */
+.inline-buts {
+    width: 100%;
+    /* min-width: 550px; */
+    text-align: center;
+}
+
+.inline-buts a{
+    display: inline-block;
+}
+
+table {
+    white-space: nowrap;
+}
+
+td, th {
+    vertical-align: middle;
+}
+
+.daftar-table th {
+    background-color: #033C59;
+    color: white;
+  }

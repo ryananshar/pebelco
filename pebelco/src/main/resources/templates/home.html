@@ -13,9 +13,11 @@
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">        
         <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- <div class="position-fixed"> -->
+                <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
         </div>
-        <div class="container col">
+        <div class="container-fluid col">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container" id="center">
                     <div class="col">
@@ -40,7 +42,7 @@
                         <div class="col-md-3 fix">
                             <p>Pesanan Penjualan</p>
                             <img th:src="@{/img/pesanan.svg}">
-                            <a th:href="@{/#}" class="btn">
+                            <a th:href="@{/pesanan}" class="btn">
                                 Daftar Pesanan
                             </a>
                         </div>
