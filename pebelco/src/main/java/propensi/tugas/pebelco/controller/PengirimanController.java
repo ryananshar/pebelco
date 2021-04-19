@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.service.PengirimanService;
 import propensi.tugas.pebelco.service.PerluDikirimService;
 import propensi.tugas.pebelco.service.UserService;
 
@@ -22,10 +23,19 @@ public class PengirimanController {
     @Autowired
     private PerluDikirimService perluDikirimService;
 
-    @RequestMapping("")
-    public String home(Model model) {
+    @Autowired
+    private PengirimanService pengirimanService;
+
+    @RequestMapping
+    public String tabelPengiriman(Model model) {
+        model.addAttribute("items", pengirimanService.findAll());
+        return "pengiriman/tabelPengiriman";
+    }
+
+    @RequestMapping("/perlu-dikirim")
+    public String tabelPerluDikirim(Model model) {
         model.addAttribute("items", perluDikirimService.findAll());
-        return "pengiriman/index";
+        return "pengiriman/tabelPerluDikirim";
     }
 
     @RequestMapping("/add/komplain/{id}")
