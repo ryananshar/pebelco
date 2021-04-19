@@ -47,10 +47,9 @@
                         <td th:text="${produk.harga}"></td>
                         <td th:text="${produk.tanggal_dibuat}"></td>
                         <td>
-<!--                            <div><a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a></div>-->
-                            <div sec:authorize="hasAuthority('Sales Counter')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn btn" style="margin: auto; background-color: #6497B1">Detail</a></div>
-                            <div sec:authorize="hasAuthority('Vice Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a></div>
-                              <div sec:authorize="hasAuthority('Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a>
+                            <div sec:authorize="hasAuthority('Sales Counter')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin: auto; background-color: #6497B1">Detail</a></div>
+                            <div sec:authorize="hasAuthority('Vice Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin:auto ; background-color: #6497B1" >Detail</a></div>
+                              <div sec:authorize="hasAuthority('Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail " style="margin:auto ; background-color: #6497B1" >Detail</a>
                                   <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
                         </td>
 

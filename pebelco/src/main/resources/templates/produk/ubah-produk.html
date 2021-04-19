@@ -9,17 +9,39 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/daftar-produk}" class="btn">
+                OK
+            </a>
         </div>
+        <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <p th:text="${subMsg}"></p>
+            <a th:href="@{/daftar-produk}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
 
-        <div style="margin: auto; border: outset; border-radius: 10px; width: 1200px; " class="shadow-lg p-3 mb-5 bg-white rounded">
-            <div style=" width: 600px" >
-                <div class="pull-left" style="height: 60px; width: 600px; border-radius: 10px; font-size: 40px; margin:auto">
-                    <a style="color: #033C59; margin:auto">Ubah Produk</a>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div class="card" id="pesananPenjualan">
+                <div class="card-header">
+                    <h4>Ubah Produk</h4>
                 </div>
+
+            <div class="card-body pull-left">
                 <form th:action="@{/produk/ubah/stok}"th:object="${produk}" method="POST">
                     <table class="table table-borderless" style="width: 600px; margin: auto">
                         <thead>
@@ -95,7 +117,7 @@
 
                                 </th>
                                 <th>
-                                    <button type="submit" class="btn btn-primary" style="float:right;margin-right: 20px;color: white">Ubah</button>
+                                    <button type="submit" class="btn btn-primary" style="float:right;margin-right: 20px;color: white">Simpan</button>
                                     <a href="/daftar-produk" class="btn btn-primary" style="float:right;margin-right: 20px; background-color:#FFFFFF; color: #033C59">Batal</a>
 
                                 </th>
@@ -104,11 +126,13 @@
                         </thead>
                     </table>
                 </form>
+            </div>
 
         </div>
         </div>
     </div>
-    </div>
+
+</div>
 
 </body>
 </html>

@@ -83,7 +83,9 @@ public class ProdukController {
             @ModelAttribute ProdukModel produk, Model model){
         ProdukModel produkUpdated=produkService.updateStokProduk(produk);
         model.addAttribute("idProduk",produkUpdated.getIdProduk());
-        return "produk/ubah-done";
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Produk Berhasil Diubah");
+        return "produk/ubah-produk";
     }
 
     @GetMapping(value = "/produk/ubah/{id}")
@@ -99,7 +101,9 @@ public class ProdukController {
             @ModelAttribute ProdukModel produk, Model model){
         ProdukModel produkUpdated=produkService.updateStokProduk(produk);
         model.addAttribute("idProduk",produkUpdated.getIdProduk());
-        return "produk/ubah-done";
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Produk Berhasil Diubah");
+        return "produk/ubahproduk";
     }
 
     @ModelAttribute

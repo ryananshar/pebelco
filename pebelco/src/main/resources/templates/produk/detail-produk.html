@@ -107,10 +107,10 @@
                     </div>
                     <div class="row justify-content-end">
                         <a th:href="@{/produk/ubah/stok/} + ${id}"
-                           class="btn but-ubah-stat"
+                           class="btn but-ubah-stat" style="background-color: #F5A302; color: #FFFFFF"
                            sec:authorize="hasAuthority('Sales Counter')">Ubah Stok</a>
                         <a th:href="@{/produk/ubah/} + ${id}"
-                           class="btn but-ubah"
+                           class="btn but-ubah" style="background-color: #F5A302;  color: #FFFFFF"
                            sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
                     </div>
                 </div>
