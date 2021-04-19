@@ -15,4 +15,5 @@ public interface PengirimanService {
     void terimaPengiriman(Long id, Date tanggalDiterima, String namaPenerima);
     boolean showUbahStatusButton(int status);
     boolean showUbahPengirimanButton(int status);
+    void setIsShownFalse(Long id);
 }

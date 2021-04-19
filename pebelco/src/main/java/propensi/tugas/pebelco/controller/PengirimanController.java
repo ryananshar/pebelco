@@ -103,6 +103,13 @@ public class PengirimanController {
         return "redirect:/pengiriman/" + id.toString();
     }
 
+    @PostMapping("/hapus/")
+    public String hapusPengiriman(
+            @RequestParam Long id) {
+        pengirimanService.setIsShownFalse(id);
+        return "redirect:/pengiriman";
+    }
+
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
         try {

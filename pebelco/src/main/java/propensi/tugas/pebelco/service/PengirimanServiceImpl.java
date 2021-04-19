@@ -30,7 +30,7 @@ public class PengirimanServiceImpl implements PengirimanService {
 
     @Override
     public List<Pengiriman> findAll() {
-        List<PengirimanModel> pengirimanList = pengirimanDb.findAll();
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrue();
         return getPengirimanFromModel(pengirimanList);
     }
 
@@ -93,6 +93,14 @@ public class PengirimanServiceImpl implements PengirimanService {
     @Override
     public boolean showUbahPengirimanButton(int status) {
         return status < 2;
+    }
+
+    @Override
+    public void setIsShownFalse(Long id) {
+        PengirimanModel pengirimanModel = pengirimanDb.getOne(id);
+
+        pengirimanModel.setIsShown(false);
+        pengirimanDb.save(pengirimanModel);
     }
 
     private List<Pengiriman> getPengirimanFromModel(List<PengirimanModel> pengirimanModelList) {

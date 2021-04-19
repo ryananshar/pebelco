@@ -108,4 +108,8 @@ public class Pengiriman {
     public String getNamaPenerima() {
         return namaPenerima;
     }
+
+    public boolean getDisableHapus() {
+        return this.statusId != 3;
+    }
 }
