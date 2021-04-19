@@ -1,8 +1,11 @@
 package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import propensi.tugas.pebelco.model.LaporanStafSalesModel;
+import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.service.NotifikasiService;
 // import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.RoleService;
 import propensi.tugas.pebelco.service.UserService;
@@ -26,8 +32,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private NotifikasiService notifikasiService;
+
     @RequestMapping("/")
     public String home(Model model) {
+        // UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        // List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+        // System.out.println("----------------- out: " + listNotifUser.size());
+        // model.addAttribute("listNotifUser", listNotifUser.size());
         return "home";
     }
 
@@ -48,6 +61,8 @@ public class UserController {
         try {
             if (userService.getUserbyEmail(user.getEmail()) == null) {
                 userService.addUser(user);
+                // user.setListNotifikasi(new ArrayList<NotifikasiModel>());
+                // user.setListLaporanStafSales(new ArrayList<LaporanStafSalesModel>());
                 return "redirect:/login";
             } else {
                 model.addAttribute("msg", "Email Invalid");
@@ -67,17 +82,13 @@ public class UserController {
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
         try {
-            String email = principal.getName();
-            
-            // List<NotifikasiModel> listNotif = notifikasi
-            UserModel user = userService.getUserbyEmail(email);
-            model.addAttribute("namaUser", user.getNamaPanjang());
-            model.addAttribute("roleUser", user.getRole().getNamaRole());
-            model.addAttribute("userId", user.getIdUser());
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
         } catch (Exception e) {
-            model.addAttribute("namaUser", null);
-            model.addAttribute("roleUser", null);
-            model.addAttribute("userId", null);
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
         }
     }
 }
