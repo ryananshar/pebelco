@@ -5,35 +5,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.service.PengirimanService;
 import propensi.tugas.pebelco.service.PerluDikirimService;
 import propensi.tugas.pebelco.service.UserService;
 
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/pengiriman")
-public class PengirimanController {
-
+@RequestMapping("/perlu-dikirim")
+public class PerluDikirimController {
     @Autowired
     private UserService userService;
 
     @Autowired
     private PerluDikirimService perluDikirimService;
 
-    @Autowired
-    private PengirimanService pengirimanService;
-
     @RequestMapping
-    public String tabelPengiriman(Model model) {
-        model.addAttribute("items", pengirimanService.findAll());
-        return "pengiriman/tabelPengiriman";
-    }
-
-    @RequestMapping("/perlu-dikirim")
     public String tabelPerluDikirim(Model model) {
         model.addAttribute("items", perluDikirimService.findAll());
-        return "pengiriman/tabelPerluDikirim";
+        return "perluDikirim/tabelPerluDikirim";
     }
 
     @RequestMapping("/add/komplain/{id}")
@@ -41,7 +30,7 @@ public class PengirimanController {
         model.addAttribute("item", perluDikirimService.findKomplainById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
-        return "pengiriman/tambahPengiriman";
+        return "perluDikirim/tambahPengiriman";
     }
 
     @RequestMapping("/add/pesanan/{id}")
@@ -49,7 +38,7 @@ public class PengirimanController {
         model.addAttribute("item", perluDikirimService.findPesananById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
-        return "pengiriman/tambahPengiriman";
+        return "perluDikirim/tambahPengiriman";
     }
 
     @PostMapping("/add/komplain/")

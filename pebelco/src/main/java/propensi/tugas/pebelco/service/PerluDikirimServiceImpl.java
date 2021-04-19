@@ -135,9 +135,8 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
         List<Barang> barangList = new ArrayList<>();
 
         for (TransaksiPesananModel transaksi: transaksiList) {
-            ProdukModel produk = transaksi.getProdukPesanan();
             Barang barang = new Barang(
-                    produk.getNamaProduk(),
+                    transaksi.getNamaBarang(),
                     transaksi.getJumlah()
             );
             barangList.add(barang);
