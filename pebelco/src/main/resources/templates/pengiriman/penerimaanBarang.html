@@ -21,10 +21,10 @@
 
     <form th:action="@{/pengiriman/terima/}" method="POST">
         <h3>Tanggal Diterima</h3>
-        <input th:type="date" th:name="tanggalDiterima">
+        <input th:type="date" th:name="tanggalDiterima" th:attr="min=${item.tanggalDikirim}" required>
 
         <h3>Nama Penerima</h3>
-        <input th:type="text" th:name="namaPenerima">
+        <input th:type="text" th:name="namaPenerima" required aria-required="true">
 
         <div class="form-group">
             <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">

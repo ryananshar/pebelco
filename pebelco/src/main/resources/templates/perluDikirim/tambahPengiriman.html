@@ -18,9 +18,10 @@
     <p th:text="${item.alamatToko}">Alamat Toko</p>
     <br>
 
-    <form th:action="@{'/perlu-dikirim/add/' + ${item.type}} + '/'" method="POST">
+    <form th:action="@{'/perlu-dikirim/add/' + ${item.type} + '/'}" method="POST">
         <h3>Metode Pengiriman</h3>
-        <select name="metodePengiriman">
+        <select name="metodePengiriman" required>
+            <option disabled selected value> -- Pilih metode pengiriman -- </option>
             <th:block th:each="metode : ${metodePengiriman}">
                 <option th:value="${metode.idMetode}" th:text="${metode.namaMetodePengiriman}"></option>
             </th:block>
