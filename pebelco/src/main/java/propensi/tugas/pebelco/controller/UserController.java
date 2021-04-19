@@ -66,18 +66,10 @@ public class UserController {
 
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
-        // if (principal.getName() == null) {
-        //     model.addAttribute("namaUser", "null");
-        //     model.addAttribute("roleUser", "null");
-        // } else {
-        //     String email = principal.getName();
-        //     UserModel user = userService.getUserbyEmail(email);
-        //     model.addAttribute("namaUser", user.getNamaPanjang());
-        //     model.addAttribute("roleUser", user.getRole().getNamaRole());
-        // }
-
         try {
             String email = principal.getName();
+            
+            // List<NotifikasiModel> listNotif = notifikasi
             UserModel user = userService.getUserbyEmail(email);
             model.addAttribute("namaUser", user.getNamaPanjang());
             model.addAttribute("roleUser", user.getRole().getNamaRole());
@@ -87,8 +79,5 @@ public class UserController {
             model.addAttribute("roleUser", null);
             model.addAttribute("userId", null);
         }
-        
-        // model.addAttribute("roleUser", user.getRole());
-        // return user;
     }
 }
