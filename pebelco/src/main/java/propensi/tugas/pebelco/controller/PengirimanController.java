@@ -3,9 +3,7 @@ package propensi.tugas.pebelco.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.PerluDikirimService;
@@ -31,7 +29,7 @@ public class PengirimanController {
     }
 
     @RequestMapping("/add/komplain/{id}")
-    public String tambahPengirimanKomplain(@PathVariable Long id, Model model) {
+    public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
         model.addAttribute("item", perluDikirimService.findKomplainById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
@@ -39,11 +37,29 @@ public class PengirimanController {
     }
 
     @RequestMapping("/add/pesanan/{id}")
-    public String tambahPengirimanPesanan(@PathVariable Long id, Model model) {
+    public String formTambahPengirimanPesanan(@PathVariable Long id, Model model) {
         model.addAttribute("item", perluDikirimService.findPesananById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
         return "pengiriman/tambahPengiriman";
+    }
+
+    @PostMapping("/add/komplain/")
+    public String tambahPengirimanKomplainItem(
+            @RequestParam Long id,
+            @RequestParam Long metodePengiriman) {
+
+        perluDikirimService.addPengirimanKomplain(id, metodePengiriman);
+        return "redirect:/pengiriman";
+    }
+
+    @PostMapping("/add/pesanan/")
+    public String tambahPengirimanPesananItem(
+            @RequestParam Long id,
+            @RequestParam Long metodePengiriman) {
+
+        perluDikirimService.addPengirimanPesanan(id, metodePengiriman);
+        return "redirect:/pengiriman";
     }
 
     @ModelAttribute

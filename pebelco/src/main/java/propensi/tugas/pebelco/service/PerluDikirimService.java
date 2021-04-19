@@ -13,4 +13,6 @@ public interface PerluDikirimService {
     List<MetodePengirimanModel> findAllMetodePengiriman();
     List<Barang> findAllBarangByIdKomplain(Long id);
     List<Barang> findAllBarangByIdPesanan(Long id);
+    void addPengirimanKomplain(Long idKomplain, Long idMetodePengiriman);
+    void addPengirimanPesanan(Long idPesanan, Long idMetodePengiriman);
 }
