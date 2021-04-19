@@ -104,7 +104,9 @@
                                     <th class="form-group" style="color: #005479">
                                         Tag Produk
                                         <select class="form-control form-control-lg" style="width: 500px" name="produkModel">
-                                            <option value="1"  th:each="produk:${produk}" th:text="${produk.listTagProduk}" th:value="${produk.listTagProduk}"></option>
+                                            <option value="2"  th:each="produk:${produk}" th:text="${produk.listTagProduk}" th:value="${produk.listTagProduk}"></option>
+                                            <option value="1" th:each="produk:${produk}" th:text="1" th:value="1">#Meja</option>
+
                                         </select>
                                     </th>
                                 </tr>

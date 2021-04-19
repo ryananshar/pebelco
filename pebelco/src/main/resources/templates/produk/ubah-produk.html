@@ -107,6 +107,7 @@
                             <tr>
                                 <th class="form-group" style="color: #005479">
                                     Tag Produk
+                                    <input type="hidden" name="listTagProduk" th:field="*{listTagProduk}" th:value="*{listTagProduk}" />
                                     <select class="form-control form-control-lg" disabled style="width: 500px" name="produkModel">
                                         <option value="1"  th:each="produk:${produk}" th:text="${produk.listTagProduk}" th:value="${produk.listTagProduk}"></option>
                                     </select>
