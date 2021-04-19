@@ -30,6 +30,7 @@ public class PengirimanController {
     @RequestMapping("/{id}")
     public String detailPengiriman(@PathVariable Long id, Model model) {
         model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        model.addAttribute("isPengiriman", true);
         model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
         return "pengiriman/detailPengiriman";
     }

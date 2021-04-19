@@ -25,6 +25,22 @@ public class PerluDikirimController {
         return "perluDikirim/tabelPerluDikirim";
     }
 
+    @RequestMapping("/komplain/{id}")
+    public String detailPengirimanKomplain(@PathVariable Long id, Model model) {
+        model.addAttribute("item", perluDikirimService.findKomplainById(id));
+        model.addAttribute("isPengiriman", false);
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
+        return "pengiriman/detailPengiriman";
+    }
+
+    @RequestMapping("/pesanan/{id}")
+    public String detailPengirimanPesanan(@PathVariable Long id, Model model) {
+        model.addAttribute("item", perluDikirimService.findPesananById(id));
+        model.addAttribute("isPengiriman", false);
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
+        return "pengiriman/detailPengiriman";
+    }
+
     @RequestMapping("/add/komplain/{id}")
     public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
         model.addAttribute("item", perluDikirimService.findKomplainById(id));

@@ -16,38 +16,40 @@
     <h3>Nama Toko</h3>
     <p th:text="${item.namaToko}">Nama Toko</p>
 
-    <th:block th:each="metodePengiriman : ${item.metodePengiriman}">
-        <div th:if="${metodePengiriman}">
-            <h3>Metode Pengiriman</h3>
-            <p th:text="${metodePengiriman}">Metode Pengiriman</p>
-        </div>
-    </th:block>
-
     <h3>Alamat Toko</h3>
     <p th:text="${item.alamatToko}">Alamat Toko</p>
 
-    <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
-    <!--  buat th:block lain juga sama  -->
-    <th:block th:each="tanggalDikirim : ${item.tanggalDikirim}">
-        <div th:if="${tanggalDikirim}">
-            <h3>Tanggal Dikirim</h3>
-            <p th:text="${tanggalDikirim}">Tanggal Dikirim</p>
-        </div>
-    </th:block>
+    <div th:if="${isPengiriman}">
+        <th:block th:each="metodePengiriman : ${item.metodePengiriman}">
+            <div th:if="${metodePengiriman}">
+                <h3>Metode Pengiriman</h3>
+                <p th:text="${metodePengiriman}">Metode Pengiriman</p>
+            </div>
+        </th:block>
 
-    <th:block th:each="tanggalDiterima : ${item.tanggalDiterima}">
-        <div th:if="${tanggalDiterima}">
-            <h3>Tanggal Diterima</h3>
-            <p th:text="${tanggalDiterima}">Tanggal Diterima</p>
-        </div>
-    </th:block>
+        <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
+        <!--  buat th:block lain juga sama  -->
+        <th:block th:each="tanggalDikirim : ${item.tanggalDikirim}">
+            <div th:if="${tanggalDikirim}">
+                <h3>Tanggal Dikirim</h3>
+                <p th:text="${tanggalDikirim}">Tanggal Dikirim</p>
+            </div>
+        </th:block>
 
-    <th:block th:each="namaPenerima : ${item.namaPenerima}">
-        <div th:if="${namaPenerima}">
-            <h3>Nama Penerima</h3>
-            <p th:text="${namaPenerima}">Nama Penerima</p>
-        </div>
-    </th:block>
+        <th:block th:each="tanggalDiterima : ${item.tanggalDiterima}">
+            <div th:if="${tanggalDiterima}">
+                <h3>Tanggal Diterima</h3>
+                <p th:text="${tanggalDiterima}">Tanggal Diterima</p>
+            </div>
+        </th:block>
+
+        <th:block th:each="namaPenerima : ${item.namaPenerima}">
+            <div th:if="${namaPenerima}">
+                <h3>Nama Penerima</h3>
+                <p th:text="${namaPenerima}">Nama Penerima</p>
+            </div>
+        </th:block>
+    </div>
 
     <h3>Daftar Barang</h3>
     <table border="1" cellpadding="10">

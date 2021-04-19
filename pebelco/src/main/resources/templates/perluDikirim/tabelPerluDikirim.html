@@ -23,7 +23,7 @@
             <td th:text="${item.tanggalPersetujuan}">Tanggal</td>
             <td th:text="${item.status}">Status</td>
             <td>
-                <a href="#">Detail</a>
+                <a th:href="@{'/perlu-dikirim/' + ${item.type} + '/' + ${item.id}}">Detail</a>
                 &nbsp;&nbsp;&nbsp;
                 <a th:href="@{'/perlu-dikirim/add/' + ${item.type} + '/' + ${item.id}}">Tambah</a>
             </td>
