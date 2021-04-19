@@ -10,6 +10,12 @@ public class Pengiriman {
     private String namaToko;
     private Date tanggalDibuat;
     private String status;
+    private String metodePengiriman;
+    private String alamatToko;
+    private Date tanggalDikirim;
+    private Date tanggalDiterima;
+    private String namaPenerima;
+
 
     public Pengiriman(PengirimanModel pengiriman) {
         this.id = pengiriman.getIdPengiriman();
@@ -17,6 +23,11 @@ public class Pengiriman {
         this.namaToko = pengiriman.getNamaToko();
         this.tanggalDibuat = pengiriman.getTanggalDibuat();
         this.status = getStatus(pengiriman);
+        this.metodePengiriman = pengiriman.getMetodePengiriman().getNamaMetodePengiriman();
+        this.alamatToko = pengiriman.getAlamatToko();
+        this.tanggalDikirim = pengiriman.getTanggalDikirim();
+        this.tanggalDiterima = pengiriman.getTanggalDiterima();
+        this.namaPenerima = pengiriman.getNamaPenerima();
     }
 
     private String getStatus(PengirimanModel pengiriman) {
@@ -50,5 +61,25 @@ public class Pengiriman {
 
     public Date getTanggalDibuat() {
         return tanggalDibuat;
+    }
+
+    public String getAlamatToko() {
+        return alamatToko;
+    }
+
+    public String getMetodePengiriman() {
+        return metodePengiriman;
+    }
+
+    public Date getTanggalDikirim() {
+        return tanggalDikirim;
+    }
+
+    public Date getTanggalDiterima() {
+        return tanggalDiterima;
+    }
+
+    public String getNamaPenerima() {
+        return namaPenerima;
     }
 }

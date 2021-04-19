@@ -19,9 +19,6 @@ public class PengirimanController {
     private UserService userService;
 
     @Autowired
-    private PerluDikirimService perluDikirimService;
-
-    @Autowired
     private PengirimanService pengirimanService;
 
     @RequestMapping
@@ -30,44 +27,11 @@ public class PengirimanController {
         return "pengiriman/tabelPengiriman";
     }
 
-    @RequestMapping("/perlu-dikirim")
-    public String tabelPerluDikirim(Model model) {
-        model.addAttribute("items", perluDikirimService.findAll());
-        return "pengiriman/tabelPerluDikirim";
-    }
-
-    @RequestMapping("/add/komplain/{id}")
-    public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findKomplainById(id));
-        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
-        return "pengiriman/tambahPengiriman";
-    }
-
-    @RequestMapping("/add/pesanan/{id}")
-    public String formTambahPengirimanPesanan(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findPesananById(id));
-        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
-        return "pengiriman/tambahPengiriman";
-    }
-
-    @PostMapping("/add/komplain/")
-    public String tambahPengirimanKomplainItem(
-            @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
-
-        perluDikirimService.addPengirimanKomplain(id, metodePengiriman);
-        return "redirect:/pengiriman";
-    }
-
-    @PostMapping("/add/pesanan/")
-    public String tambahPengirimanPesananItem(
-            @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
-
-        perluDikirimService.addPengirimanPesanan(id, metodePengiriman);
-        return "redirect:/pengiriman";
+    @RequestMapping("/{id}")
+    public String detailPengiriman(@PathVariable Long id, Model model) {
+        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
+        return "pengiriman/detailPengiriman";
     }
 
     @ModelAttribute
