@@ -67,5 +67,14 @@
         </tbody>
     </table>
     <br>
+
+    <div th:if="${isPengiriman}">
+        <div th:if="${showUbahStatus}">
+            <a th:href="@{'/pengiriman/update-status/' + ${item.id}}">Ubah Status</a>
+        </div>
+        <div th:if="${showUbahPengiriman}">
+            <a th:href="@{'/pengiriman/update/' + ${item.id}}">Ubah</a>
+        </div>
+    </div>
 </body>
 </html>

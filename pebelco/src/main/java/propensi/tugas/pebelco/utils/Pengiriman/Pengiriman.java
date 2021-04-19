@@ -6,9 +6,11 @@ import java.util.Date;
 
 public class Pengiriman {
     private Long id;
+    private String kodePengiriman;
     private String kode;
     private String namaToko;
     private Date tanggalDibuat;
+    private int statusId;
     private String status;
     private String metodePengiriman;
     private String alamatToko;
@@ -16,13 +18,14 @@ public class Pengiriman {
     private Date tanggalDiterima;
     private String namaPenerima;
 
-
     public Pengiriman(PengirimanModel pengiriman) {
         this.id = pengiriman.getIdPengiriman();
-        this.kode = pengiriman.getKodePengiriman();
+        this.kodePengiriman = pengiriman.getKodePengiriman();
+        this.kode = getKode(pengiriman);
         this.namaToko = pengiriman.getNamaToko();
         this.tanggalDibuat = pengiriman.getTanggalDibuat();
-        this.status = getStatus(pengiriman);
+        this.statusId = pengiriman.getStatusPengiriman();
+        this.status = getStatusString(statusId);
         this.metodePengiriman = pengiriman.getMetodePengiriman().getNamaMetodePengiriman();
         this.alamatToko = pengiriman.getAlamatToko();
         this.tanggalDikirim = pengiriman.getTanggalDikirim();
@@ -30,8 +33,15 @@ public class Pengiriman {
         this.namaPenerima = pengiriman.getNamaPenerima();
     }
 
-    private String getStatus(PengirimanModel pengiriman) {
-        Integer status = pengiriman.getStatusPengiriman();
+    private String getKode(PengirimanModel pengiriman) {
+        try {
+            return pengiriman.getKomplain().getKodeKomplain();
+        } catch (NullPointerException e) {
+            return pengiriman.getPesananPenjualan().getKodePesananPenjualan();
+        }
+    }
+
+    private String getStatusString(int status) {
         if (status == 1) {
             return "Belum Dikirim";
         } else if (status == 2) {
@@ -43,12 +53,28 @@ public class Pengiriman {
         }
     }
 
+    public int getNextStatusId() {
+        return this.statusId + 1;
+    }
+
+    public String getNextStatus() {
+        return getStatusString(statusId + 1);
+    }
+
     public Long getId() {
         return id;
     }
 
+    public String getKodePengiriman() {
+        return kodePengiriman;
+    }
+
     public String getStatus() {
         return status;
+    }
+
+    public int getStatusId() {
+        return statusId;
     }
 
     public String getNamaToko() {

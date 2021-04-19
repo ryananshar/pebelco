@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Penerimaan Barang</title>
+</head>
+<body>
+    <h1>Form Penerimaan Barang</h1>
+
+    <h3>Kode Pengiriman</h3>
+    <p th:text="${item.kodePengiriman}">Kode Pengiriman</p>
+
+    <h3>Nama Toko</h3>
+    <p th:text="${item.namaToko}">Nama Toko</p>
+
+    <h3>Alamat Toko</h3>
+    <p th:text="${item.alamatToko}">Alamat Toko</p>
+
+    <h3>Metode Pengiriman</h3>
+    <p th:text="${item.metodePengiriman}">Metode Pengiriman</p>
+
+    <form th:action="@{/pengiriman/terima/}" method="POST">
+        <h3>Tanggal Diterima</h3>
+        <input th:type="date" th:name="tanggalDiterima">
+
+        <h3>Nama Penerima</h3>
+        <input th:type="text" th:name="namaPenerima">
+
+        <div class="form-group">
+            <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

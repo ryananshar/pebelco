@@ -8,8 +8,12 @@ import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.PengirimanService;
 import propensi.tugas.pebelco.service.PerluDikirimService;
 import propensi.tugas.pebelco.service.UserService;
+import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/pengiriman")
@@ -17,6 +21,9 @@ public class PengirimanController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PerluDikirimService perluDikirimService;
 
     @Autowired
     private PengirimanService pengirimanService;
@@ -29,10 +36,71 @@ public class PengirimanController {
 
     @RequestMapping("/{id}")
     public String detailPengiriman(@PathVariable Long id, Model model) {
-        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
+        int status = pengiriman.getStatusId();
+
+        model.addAttribute("item", pengiriman);
         model.addAttribute("isPengiriman", true);
         model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
+        model.addAttribute("showUbahStatus", pengirimanService.showUbahStatusButton(status));
+        model.addAttribute("showUbahPengiriman", pengirimanService.showUbahPengirimanButton(status));
         return "pengiriman/detailPengiriman";
+    }
+
+    @RequestMapping("/update/{id}")
+    public String formUbahPengiriman(@PathVariable Long id, Model model) {
+        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
+        return "pengiriman/ubahPengiriman";
+    }
+
+    @PostMapping("/update/")
+    public String ubahPengiriman(
+            @RequestParam Long id,
+            @RequestParam Long metodePengiriman) {
+        pengirimanService.updateMetodePengiriman(id, metodePengiriman);
+        return "redirect:/pengiriman/" + id.toString();
+    }
+
+    @RequestMapping("/update-status/{id}")
+    public String formUbahStatus(@PathVariable Long id, Model model) {
+        Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
+        model.addAttribute("item", pengiriman);
+        model.addAttribute("status", pengiriman.getNextStatus());
+        model.addAttribute("statusId", pengiriman.getNextStatusId());
+        return "pengiriman/ubahStatus";
+    }
+
+    @PostMapping("/update-status/")
+    public String ubahStatus(
+            @RequestParam Long id,
+            @RequestParam int statusPengiriman) {
+        pengirimanService.updateStatusPengiriman(id, statusPengiriman);
+
+        // Jika sudah diterima...
+        if (statusPengiriman == 3) {
+            // Ke form penerimaaan barang
+            return "redirect:/pengiriman/terima/" + id.toString();
+        }
+        return "redirect:/pengiriman/" + id.toString();
+    }
+
+    @RequestMapping("/terima/{id}")
+    public String formPenerimaanBarang(@PathVariable Long id, Model model) {
+        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        return "pengiriman/penerimaanBarang";
+    }
+
+    @PostMapping("/terima/")
+    public String penerimaanBarang(
+            @RequestParam Long id,
+            @RequestParam String tanggalDiterima,
+            @RequestParam String namaPenerima) throws ParseException {
+        Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-mm-dd").parse(tanggalDiterima);
+        pengirimanService.terimaPengiriman(id, tanggalDiterimaDate, namaPenerima);
+
+        return "redirect:/pengiriman/" + id.toString();
     }
 
     @ModelAttribute
