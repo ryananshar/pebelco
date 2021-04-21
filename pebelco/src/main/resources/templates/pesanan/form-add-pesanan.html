@@ -84,7 +84,7 @@
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
-                                        <!-- <th>Harga</th> -->
+                                         <th>Harga</th>
                                         <th>
                                         <!-- <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button> -->
                                         </th>
@@ -109,11 +109,11 @@
                                                    placeholder="Masukan jumlah"
                                                    class="form-control"/ required>
                                         </td>
-                                        <!-- <td>
-                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}" 
-                                                   class="form-control" 
+                                        <td>
+                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}"
+                                                   class="form-control"
                                                    th:text="${harga}"/>
-                                        </td> -->
+                                        </td>
                                         <td>
                                         <button class="btn but-danger" type="submit" name="removeRow" 
                                                 th:value="${barangStat.index}"> 

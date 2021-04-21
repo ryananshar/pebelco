@@ -104,7 +104,6 @@
           <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="list-group-item list-group-item-action">Beranda</a>
           <a th:href="@{/#}" class="list-group-item list-group-item-action">Kunjungan</a>
           <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pesanan')? 'active':''}" class="list-group-item list-group-item-action">Pesanan Penjualan</a>
-          <a th:href="@{/daftar-pesanan}"  class="list-group-item list-group-item-action">Pesanan Penjualan</a>
           <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pengiriman</a>
           <a th:href="@{/#}"  class="list-group-item list-group-item-action">Komplain</a>
           <a th:href="@{/daftar-produk}"  class="list-group-item list-group-item-action">Produk</a>

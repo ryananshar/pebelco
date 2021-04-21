@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Produk</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+
+        <div th:unless="${message} != null">
+            <div class="card" id="produk" style="min-width: 900px;">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4>Detail Produk</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-3">
+                                <div>ID Produk</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div class="col-8">
+                                <div th:text="${id}"></div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Nama Produk</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div class="col-8">
+                                <div th:text="${detailProduk.namaProduk}"></div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Stok</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div class="col-8">
+                                <div th:text="${detailProduk.stok}"></div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Harga</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div class="col-8">
+                                <div th:text="${detailProduk.harga}"></div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Tipe</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div th:text="${detailProduk.tipe}"></div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Tanggal</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div th:text="${#dates.format(detailProduk.tanggal_dibuat, 'dd/MM/yyyy')}"></div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Spesifikasi</div>
+                            </div>
+                            <div class="col-1">
+                                <div th:text="':'"></div>
+                            </div>
+                            <div th:text="${detailProduk.spesifikasi}"></div>
+                        </div>
+                        <br><br>
+                    </div>
+                    <div class="row justify-content-end">
+                        <a th:href="@{/produk/ubah/stok/} + ${id}"
+                           class="btn but-ubah-stat" style="background-color: #F5A302; color: #FFFFFF"
+                           sec:authorize="hasAuthority('Sales Counter')">Ubah Stok</a>
+                        <a th:href="@{/produk/ubah/} + ${id}"
+                           class="btn but-ubah" style="background-color: #F5A302;  color: #FFFFFF"
+                           sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--        <div class="container col">-->
+<!--            <table class="table">-->
+<!--                <thead>-->
+<!--                <div class="bg-dark text-center"><a style="font-size: 30px; color: white"><b>Detail Produk</b></a></div>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">ID Produk</td>-->
+<!--                    <td th:text="${id}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Nama Produk</td>-->
+<!--                    <td th:text="${detailProduk.namaProduk}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Stok</td>-->
+<!--                    <td th:text="${detailProduk.stok}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Harga</td>-->
+<!--                    <td th:text="${detailProduk.harga}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Tipe</td>-->
+<!--                    <td th:text="${detailProduk.tipe}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Tanggal</td>-->
+<!--                    <td th:text="${detailProduk.tanggal_dibuat}" scope="col"></td>-->
+<!--                </tr>-->
+
+<!--                <tr class="text-center">-->
+<!--                    <td scope="col">Spesifikasi</td>-->
+<!--                    <td th:text="${detailProduk.spesifikasi}" scope="col"></td>-->
+<!--                </tr>-->
+
+
+<!--                </tbody></table>-->
+<!--            <a th:href="@{/produk/ubah/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah</a>-->
+<!--            <a th:href="@{/produk/ubah/stok/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah Stok</a></div>-->
+
+    </div>
+
+</body>
+</html>

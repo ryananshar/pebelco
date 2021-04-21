@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -15,10 +15,20 @@
             <nav th:replace="fragments/fragment :: sidebar"></nav>
         </div>
 
-        <div class="container col">
-            <h1 style="margin: 50px 0px 20px 100px;color: #033C59">Daftar Produk</h1>
-            <a th:href="@{/produk/tambah/}" style="margin: 50px 0px 20px 100px" class="text-center btn btn-success">+ Tambah Produk</a>
-            <div style="margin: 20px 100px 20px 100px; border: outset; border-radius:10px" class="shadow-lg">
+        <div class="container-fluid col">
+            <div class="row justify-content-center">
+                <div class="card col-sm" id="list-pesanan">
+                    <div class="card-header">
+                        <h4>Daftar Produk</h4>
+                    </div>
+                    <div class="card-body">
+                        <div sec:authorize="hasAuthority('Factory Manager')">
+                            <a
+                                    th:href="@{/produk/tambah}"
+                                    class="btn but-outline"
+                            >+ Tambah Produk </a>
+                            <br><br>
+                        </div>
                 <table class="table">
                     <tr class="bg-dark text-center">
                         <th style="background-color: #033C59; color: #FFFFFF">No</th>
@@ -37,8 +47,10 @@
                         <td th:text="${produk.harga}"></td>
                         <td th:text="${produk.tanggal_dibuat}"></td>
                         <td>
-                            <div><a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a>
-                                <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
+                            <div sec:authorize="hasAuthority('Sales Counter')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin: auto; background-color: #6497B1">Detail</a></div>
+                            <div sec:authorize="hasAuthority('Vice Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin:auto ; background-color: #6497B1" >Detail</a></div>
+                              <div sec:authorize="hasAuthority('Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail " style="margin:auto ; background-color: #6497B1" >Detail</a>
+                                  <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
                         </td>
 
                     </tr>
