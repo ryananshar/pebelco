@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Produk</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+
+        <div class="container col">
+            <h1 style="margin: 50px 0px 20px 100px;color: #033C59">Daftar Produk</h1>
+            <a th:href="@{/produk/tambah/}" style="margin: 50px 0px 20px 100px" class="text-center btn btn-success">+ Tambah Produk</a>
+            <div style="margin: 20px 100px 20px 100px; border: outset; border-radius:10px" class="shadow-lg">
+                <table class="table">
+                    <tr class="bg-dark text-center">
+                        <th style="background-color: #033C59; color: #FFFFFF">No</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Nama Produk</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Stok</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Harga</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Tanggal Dibuat</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="produk, iterationStatus: ${listProduk}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${produk.namaProduk}"></td>
+                        <td th:text="${produk.stok}"></td>
+                        <td th:text="${produk.harga}"></td>
+                        <td th:text="${produk.tanggal_dibuat}"></td>
+                        <td>
+                            <div><a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a>
+                                <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</body>
+</html>
