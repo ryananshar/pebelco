@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabel Pengiriman</title>
+</head>
+<body>
+    <h1>Tabel Pengiriman</h1>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Kode Pengiriman</th>
+            <th>Nama Toko</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.kodePengiriman}">Kode</td>
+            <td th:text="${item.namaToko}">Nama Toko</td>
+            <td th:text="${item.tanggalDibuat}">Tanggal</td>
+            <td th:text="${item.status}">Status</td>
+            <td>
+                <a th:href="@{'/pengiriman/' + ${item.id}}">Detail</a>
+                <form th:action="@{/pengiriman/hapus/}" method="POST">
+                    <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
+                    <button type="submit" class="btn btn-primary" th:disabled="${item.disableHapus}">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

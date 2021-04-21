@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Status</title>
+</head>
+<body>
+    <h3>Ubah Status</h3>
+    <form th:action="@{/pengiriman/update-status/}" method="POST">
+        <select name="statusPengiriman" required>
+            <option disabled selected value> -- Pilih status -- </option>
+            <option th:value="${statusId}" th:text="${status}"></option>
+        </select>
+
+        <div class="form-group">
+            <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</body>
+</html>
