@@ -11,4 +11,10 @@ import java.util.List;
 @Repository
 public interface TransaksiPesananDb extends JpaRepository<TransaksiPesananModel, Long> {
     List<TransaksiPesananModel> findAllByPesananTransaksi(PesananPenjualanModel pesananPenjualanModel);
+
+    TransaksiPesananModel findByIdTransaksiPesanan(Long idTransaksiPesanan);
+
+    TransaksiPesananModel findByPesananTransaksi(PesananPenjualanModel pesananTransaksi);
+
+    // TransaksiPesananModel findByProdukPesanan(ProdukModel produkPesanan)
 }
