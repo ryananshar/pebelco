@@ -4,13 +4,17 @@ import java.util.List;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
+import propensi.tugas.pebelco.model.UserModel;
 
 public interface PesananPenjualanService {
     //  Method untuk menambah objek
     void addPesanan(PesananPenjualanModel pesananPenjualan);
 
     //  Method untuk mendapatkan list data yang telah tersimpan
-    List<PesananPenjualanModel> getPesananList();
+    List<PesananPenjualanModel> getPesananList(Boolean bolean);
+
+    //  Method untuk mendapatkan list data yang telah tersimpan
+    List<PesananPenjualanModel> getPesananListByUser(UserModel user, Boolean bolean);
 
     //  Method untuk mendapatkan data berdasarkan id
     PesananPenjualanModel getPesananByIdPesanan(Long idPesananPenjualan);

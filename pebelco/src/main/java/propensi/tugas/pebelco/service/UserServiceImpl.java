@@ -1,11 +1,14 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import propensi.tugas.pebelco.model.RoleModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.UserDb;
 
@@ -55,6 +58,16 @@ public class UserServiceImpl implements UserService{
         user.setPassword(pass);
         userDb.save(user);
         
+    }
+
+    @Override
+    public List<UserModel> getUserListbyRole(RoleModel role) {
+        return userDb.findByRole(role);
+    }
+
+    @Override
+    public UserModel getUserbyIdUser(Long idUser) {
+        return userDb.findById(idUser).get();
     }
    
 }

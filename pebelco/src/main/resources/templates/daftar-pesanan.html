@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Pesanan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
+
+    <div class="container col">
+        <h1 style="margin: 50px 0px 20px 100px ;color: #033C59">Daftar Pesanan Penjualan</h1>
+        <a th:href="@{/produk/tambah/}" style="margin: 50px 0px 20px 100px" class="text-center btn btn-success">+ Tambah Pesanan Penjualan</a>
+        <div style="margin: 20px 100px 20px 100px; border: outset; border-radius:10px" class="shadow-lg">
+            <table class="table">
+                <tr class="bg-dark text-center">
+                    <th style="background-color: #033C59; color: #FFFFFF">No</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Kode Pesanan</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Nama Staf</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Nama Toko</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Tanggal</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Status</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Harga</th>
+                    <th style="background-color: #033C59; color: #FFFFFF">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pesanan, iterationStatus: ${listPesanan}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${pesanan.kodePesananPenjualan}"></td>
+                    <td th:text="${pesanan.namaStaf}"></td>
+                    <td th:text="${pesanan.namaToko}"></td>
+                    <td th:text="${pesanan.tanggalPesanan}"></td>
+                    <td th:text="${pesanan.statusPesanan}"></td>
+                    <td th:text="${pesanan.totalHarga}"></td>
+                    <td>
+                        <div><a th:href="@{/pesanan/detail/}+${pesanan.idPesananPenjualan}" class="text-center btn " style="margin:auto ; background-color: #6497B1" >Detail</a>
+                            <a th:href="@{/pesanan/hapus/}+${pesanan.idPesananPenjualan }" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,16 +1,20 @@
 package propensi.tugas.pebelco.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import propensi.tugas.pebelco.model.ProdukModel;
 
-public interface ProdukDb extends JpaRepository<ProdukModel, Long>{
+
+@Repository
+public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
+
     ProdukModel findByIdProduk(Long idProduk);
 
     ProdukModel findByNamaProduk(String namaProduk);
 
     List<ProdukModel> findAll();
+
 
 }
