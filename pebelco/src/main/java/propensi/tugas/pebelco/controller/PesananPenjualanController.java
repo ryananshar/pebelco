@@ -127,7 +127,13 @@ public class PesananPenjualanController {
             for (TransaksiPesananModel barang : tempList) {
                 Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
                 if (tempList.stream().anyMatch(TransaksiPesananModel -> TransaksiPesananModel.getNamaBarang().equals(barang.getNamaBarang()))) {
-                    // 
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);
+                    model.addAttribute("listProduk", listProduk);
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                    model.addAttribute("subMsg", "Nama barang tidak dapat berulang"); 
+
+                    return "pesanan/form-add-pesanan";
                 } else if (barang.getJumlah() <= 0) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listProduk", listProduk);
