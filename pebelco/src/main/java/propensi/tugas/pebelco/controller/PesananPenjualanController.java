@@ -126,7 +126,9 @@ public class PesananPenjualanController {
 
             for (TransaksiPesananModel barang : tempList) {
                 Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
-                if (barang.getJumlah() <= 0) {
+                if (tempList.stream().anyMatch(TransaksiPesananModel -> TransaksiPesananModel.getNamaBarang().equals(barang.getNamaBarang()))) {
+                    // 
+                } else if (barang.getJumlah() <= 0) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listProduk", listProduk);
                     model.addAttribute("pop", "red");
