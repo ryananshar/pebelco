@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Produk</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+
+        <div class="container-fluid col">
+            <div class="row justify-content-center">
+                <div class="card col-sm" id="list-pesanan">
+                    <div class="card-header">
+                        <h4>Daftar Produk</h4>
+                    </div>
+                    <div class="card-body">
+                        <div sec:authorize="hasAuthority('Factory Manager')">
+                            <a
+                                    th:href="@{/produk/tambah}"
+                                    class="btn but-outline"
+                            >+ Tambah Produk </a>
+                            <br><br>
+                        </div>
+                <table class="table">
+                    <tr class="bg-dark text-center">
+                        <th style="background-color: #033C59; color: #FFFFFF">No</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Nama Produk</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Stok</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Harga</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Tanggal Dibuat</th>
+                        <th style="background-color: #033C59; color: #FFFFFF">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="produk, iterationStatus: ${listProduk}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${produk.namaProduk}"></td>
+                        <td th:text="${produk.stok}"></td>
+                        <td th:text="${produk.harga}"></td>
+                        <td th:text="${produk.tanggal_dibuat}"></td>
+                        <td>
+                            <div sec:authorize="hasAuthority('Sales Counter')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin: auto; background-color: #6497B1">Detail</a></div>
+                            <div sec:authorize="hasAuthority('Vice Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin:auto ; background-color: #6497B1" >Detail</a></div>
+                              <div sec:authorize="hasAuthority('Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail " style="margin:auto ; background-color: #6497B1" >Detail</a>
+                                  <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</body>
+</html>

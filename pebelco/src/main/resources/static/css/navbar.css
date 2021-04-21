@@ -17,7 +17,7 @@ body {
 }
 
 .navbar-brand {
-    font-size: 45px
+    font-size: 30px
 }
 
 .profile > span {
@@ -53,7 +53,7 @@ body {
 
 .notif img {
     border-radius: 50%;
-    height: 40px;
+    height: 30px;
 }
 
 .notif .dropdown-toggle::after {
@@ -61,7 +61,8 @@ body {
 }
 
 .list-group .lg {
-    height: 700px;
+    min-height: 0px;
+    max-height: 700px;
     width: 420px;
     overflow: auto;
 }
@@ -105,7 +106,7 @@ body {
     height: 100%;
     min-height: 80rem;
     min-width: 10rem;
-    width: 15rem;
+    width: 13rem;
 }
 
 #sidebar-wrapper .list-group {
@@ -114,6 +115,7 @@ body {
 }
 
 #sidebar-wrapper .list-group .list-group-item{
+    font-size: 13px;
     color: #fff;
     background: #033C59;
     padding: 20px 0px 20px 30px;

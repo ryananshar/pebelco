@@ -67,7 +67,7 @@ body {
     /* max-width: 1000px; */
     min-height: height auto;
     min-width: 300px;
-    width: 100%;
+    width: 600px;
     height: auto;
 
     background: #FFFFFF;
@@ -84,11 +84,24 @@ body {
 }
 
 .pop-up p {
-    margin: 10px 20px 30px 20px;
+    margin: 10px 20px 10px 20px;
     font-family: Poppins;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #033C59;
+}
+
+.sub-msg {
+    margin: 10px 20px 30px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
     line-height: 100%;
     text-align: center;
     letter-spacing: 0.045em;
@@ -426,6 +439,7 @@ table {
 
 td, th {
     vertical-align: middle;
+    font-size: 15px;
 }
 
 .daftar-table th {

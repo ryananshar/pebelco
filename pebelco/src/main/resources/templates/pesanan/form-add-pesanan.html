@@ -13,18 +13,20 @@
 <body>
     <div th:if="${pop} != null" class="overlay" id="center">
         <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
                 <img th:src="@{/img/green-check.svg}">
                 <p th:text="${msg}"></p>
                 <a th:href="@{/pesanan}" class="btn">
                     OK
                 </a>
             </div>
-            <div th:if="${pop} == 'red'" class="col-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+                <img th:src="@{/img/red-check.svg}">
                 <p th:text="${msg}"></p>
-                <p th:text="${subMsg}"></p>
-                <a th:href="@{/pesanan}" class="btn">
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
+                <a th:href="@{/pesanan/add}" class="btn">
                     OK
                 </a>
             </div>
@@ -70,7 +72,7 @@
                                     <h3>Barang Pesanan</h3>
                                 </div>
                                 <div class="float-sm-right">
-                                    <button class="btn but-success" type="submit" name="addRow">Tambah Row</button>
+                                    <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button>
                                 </div>
                             </div>                            
                             <br>
@@ -82,7 +84,7 @@
                                         <th>No</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
-                                        <!-- <th>Harga</th> -->
+                                         <th>Harga</th>
                                         <th>
                                         <!-- <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button> -->
                                         </th>
@@ -93,23 +95,23 @@
                                         <td th:text="${barangStat.count}"></td>
                                         <td>
                                         <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}" 
-                                                class="form-control">
-                                            <option selected value="">-- PILIH Nama Barang --</option>
+                                                class="form-control" required>
+                                            <option selected value="">-- PILIH Nama Barang (Stok)--</option>
                                             <option th:each="produk : ${listProduk}" 
                                                     th:value="${produk.namaProduk}" 
                                                     th:with="harga=${produk.harga}"
-                                                    th:text="${produk.namaProduk}"
+                                                    th:text="${produk.namaProduk} + ' - (' + ${produk.stok} + ')'"
                                                     ></option>
                                         </select>
                                         </td>
                                         <td>
                                             <input type="number" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}" 
                                                    placeholder="Masukan jumlah"
-                                                   class="form-control"/>
+                                                   class="form-control"/ required>
                                         </td>
                                         <!-- <td>
-                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}" 
-                                                   class="form-control" 
+                                            <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}"
+                                                   class="form-control"
                                                    th:text="${harga}"/>
                                         </td> -->
                                         <td>
@@ -123,7 +125,7 @@
                             </div>
                             <div class="row justify-content-end">                                
                                 <a class="btn but-outline" type="button" th:href="@{/}">Batal</a>
-                                <button class="btn but-success" type="submit" value="Submit">Submit</button>
+                                <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                             </div>
                         </form>
                     </div>

@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
+import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PesananPenjualanService;
 import propensi.tugas.pebelco.service.TransaksiPesananService;
 import propensi.tugas.pebelco.service.UserService;
@@ -38,6 +41,9 @@ public class PesananPenjualanController {
 
     @Autowired
     private TransaksiPesananService transaksiPesananService;
+
+    @Autowired
+    private NotifikasiService notifikasiService;
 
     @Autowired 
     private ProdukDb produkDb;
@@ -106,7 +112,7 @@ public class PesananPenjualanController {
     @PostMapping("/pesanan/add")
     public String addPesananSubmit(
         @ModelAttribute PesananPenjualanModel pesananPenjualan,
-        Principal principal,
+        Principal principal, final BindingResult bindingResult,
         Model model
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
@@ -117,7 +123,41 @@ public class PesananPenjualanController {
             UserModel user = userService.getUserbyEmail(email);
             Date date = new Date();
             List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
+            List<TransaksiPesananModel> checkList = pesananPenjualan.getBarangPesanan();
 
+            for (TransaksiPesananModel barang : tempList) {
+                Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
+                // checkList.remove(barang);
+                // if (checkList.stream().anyMatch(TransaksiPesananModel -> TransaksiPesananModel.getNamaBarang().equals(barang.getNamaBarang()))) {
+                //     model.addAttribute("pesananPenjualan", pesananPenjualan);
+                //     model.addAttribute("listProduk", listProduk);
+                //     model.addAttribute("pop", "red");
+                //     model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                //     model.addAttribute("subMsg", "Nama barang tidak dapat berulang"); 
+
+                //     return "pesanan/form-add-pesanan";
+                // } else 
+                if (barang.getJumlah() <= 0) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);
+                    model.addAttribute("listProduk", listProduk);
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                    model.addAttribute("subMsg", "Jumlah Barang tidak valid"); 
+
+                    return "pesanan/form-add-pesanan";
+                } else if (barang.getJumlah() > stokProduk) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);
+                    model.addAttribute("listProduk", listProduk);
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                    model.addAttribute("subMsg", "Jumlah Barang melebihi stok"); 
+
+                    return "pesanan/form-add-pesanan";
+                }
+                // checkList.add(barang);
+            }
+
+            // initiate pesanan penjualan early value
             pesananPenjualan.setStatusPesanan(0);
             pesananPenjualan.setTanggalPesanan(date);
             pesananPenjualan.setIsShown(true);
@@ -125,10 +165,12 @@ public class PesananPenjualanController {
             pesananPenjualan.setKodePesananPenjualan("belum");
             pesananPenjualan.setBarangPesanan(null);
 
+            // save pesanan penjualan and all transaksi pesanan to repository
             pesananPenjualanService.addPesanan(pesananPenjualan);
             Long pesananId = pesananPenjualan.getIdPesananPenjualan();
             transaksiPesananService.addAll(tempList, pesananId); 
             
+            // setting remaining values for pesanan penjualan
             String prefix = "PSP";
             String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
             Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
@@ -136,6 +178,14 @@ public class PesananPenjualanController {
             pesananPenjualan.setBarangPesanan(tempList);
             pesananPenjualan.setTotalHarga(hargaTotal);
             pesananPenjualanService.updatePesanan(pesananPenjualan);
+
+            // setting pre-save values for notifikasi
+            Boolean isNotif = true;
+            String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
+            String url ="/pesanan/view/" + pesananPenjualan.getKodePesananPenjualan();
+            Long idPengirim = user.getIdUser();
+            Long idRole = (long) 2;                 // id Sales Counter 
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole)); 
                     
             model.addAttribute("pesananPenjualan", pesananPenjualan);
             model.addAttribute("listProduk", listProduk);
@@ -194,5 +244,18 @@ public class PesananPenjualanController {
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("pop", "green"); 
         return "pesanan/request-change";     
+    }
+
+    @ModelAttribute
+    public void userInformation(Principal principal, Model model) {
+        try {
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
+        } catch (Exception e) {
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
+        }
     }
 }

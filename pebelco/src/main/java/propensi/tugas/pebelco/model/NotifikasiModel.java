@@ -56,6 +56,20 @@ public class NotifikasiModel implements Serializable{
         inverseJoinColumns = @JoinColumn(name = "id_user"))
     private List<UserModel> listUser;
 
+
+    public NotifikasiModel() {
+    }
+
+
+    public NotifikasiModel(Boolean isNotif, String desc, String url, Long idPengirim, Long idPenerima, Long idRole) {
+        this.isNotif = isNotif;
+        this.desc = desc;
+        this.url = url;
+        this.idPengirim = idPengirim;
+        this.idPenerima = idPenerima;
+        this.idRole = idRole;
+    }    
+
     public Long getIdNotifikasi() {
         return this.idNotifikasi;
     }
