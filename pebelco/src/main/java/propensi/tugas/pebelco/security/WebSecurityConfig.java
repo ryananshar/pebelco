@@ -22,8 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/user/register").permitAll()
                 // .antMatchers("/resep/**").hasAnyAuthority("APOTEKER")
-                // Otorisasi Add User 
-                // .antMatchers("/user/addUser/**").hasAnyAuthority("ADMIN")
+                // Otorisasi Add User
+                .antMatchers("/kunjungan").hasAnyAuthority("Staf Sales","Admin")
+                .antMatchers("/kunjungan/**").hasAnyAuthority("Staf Sales","Admin")
+                .antMatchers("/kunjungan/tambah").hasAnyAuthority("Staf Sales","Admin")
+                .antMatchers("/kunjungan/ubah/**").hasAnyAuthority("Staf Sales","Admin")
+                .antMatchers("/kunjungan/hapus/**").hasAnyAuthority("Staf Sales","Admin")
                 // Otorisasi Add Obat 
                 // .antMatchers("/obat/add/**").hasAnyAuthority("APOTEKER")
                 // .antMatchers("/user/updatePassword/**").hasAnyAuthority("USER")

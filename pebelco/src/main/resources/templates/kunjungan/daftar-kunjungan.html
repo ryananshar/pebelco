@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Jadwal Kunjungan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+        <div class="container-fluid col">
+            <div class="row justify-content-center">
+                <div class="card" id="daftar-kunjungan">
+                    <div class="card-header">
+                        <h4>Daftar Jadwal Kunjungan</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <a th:href="@{/kunjungan/tambah}" class="btn but-outline">+ Tambah Jadwal Kunjungan</a>
+                        <br><br>
+
+                        <div th:if="${msg == 'tidak ada kunjungan'}">
+                            <p th:text="${message}"></p>
+                        </div>
+
+                        <div th:if="${msg == 'ada kunjungan'}">
+                        <table class="table daftar-table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode Kunjungan</th>
+                                    <th>Nama Toko</th>
+                                    <th>Tanggal</th>
+                                    <th>Waktu</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="kunjungan, iterationStatus : ${listKunjungan}">
+                                    <td th:text="${iterationStatus.count}"></td>
+                                    <td th:text="${kunjungan.kodeKunjungan}"></td>
+                                    <td th:text="${kunjungan.namaToko}"></td>
+                                    <td th:text="${#dates.format(kunjungan.tanggalKunjungan, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${kunjungan.waktuMulai}+' - '+${kunjungan.waktuSelesai}"></td>
+                                    <td>
+                                        <div class="inline-buts">
+                                            <a th:href="@{/kunjungan/}+${kunjungan.kodeKunjungan}" class="btn but-detail">Detail</a>
+                                            <a th:href="@{/kunjungan/hapus/}+${kunjungan.kodeKunjungan}" class="btn but-danger">Hapus</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
