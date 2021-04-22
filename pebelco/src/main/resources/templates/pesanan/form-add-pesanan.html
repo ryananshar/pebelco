@@ -48,19 +48,19 @@
                     <div class="card-body">
                         <form th:action="@{/pesanan/add}" th:object="${pesananPenjualan}" method="POST">
                             <div class="form-group">
-                                <label>Nama Toko:</label>
+                                <label>Nama Toko</label>
                                 <input th:field="*{namaToko}" type="text" class="form-control"
                                     name="namaToko" 
                                     placeholder="Masukan nama toko" required>
                             </div>
                             <div class="form-group">
-                                <label>Alamat Toko:</label>
+                                <label>Alamat Toko</label>
                                 <input th:field="*{alamatToko}" type="text" class="form-control"
                                     name="alamatToko" 
                                     placeholder="Masukan alamat toko" required>
                             </div>
                             <div class="form-group">
-                                <label>Diskon:</label>
+                                <label>Diskon</label>
                                 <input th:field="*{diskon}" type="number" class="form-control"
                                     name="diskon" 
                                     placeholder="Masukan besar diskon">
@@ -124,7 +124,7 @@
                                 </table>
                             </div>
                             <div class="row justify-content-end">                                
-                                <a class="btn but-outline" type="button" th:href="@{/}">Batal</a>
+                                <a class="btn but-outline" type="button" th:href="@{/pesanan}">Batal</a>
                                 <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                             </div>
                         </form>
