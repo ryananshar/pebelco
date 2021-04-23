@@ -16,7 +16,7 @@
             <div class="col-5 pop-up">
                 <img th:src="@{/img/green-check.svg}">
                 <p>Request Change Berhasil Ditambahkan</p>
-                <a th:href="@{/pesanan/view/} + ${kodePesananPenjualan}" class="btn">
+                <a th:href="@{/pesanan/} + ${kodePesananPenjualan}" class="btn">
                     OK
                 </a>
             </div>
@@ -58,8 +58,8 @@
                                     placeholder="Masukan catatan"  required></textarea>
                             </div>
                             <div class="row justify-content-end">                                
-                                <a class="btn but-outline" type="button" th:href="@{/pesanan/view/} + ${kodePesananPenjualan}">Batal</a>
-                                <button class="btn but-success" type="submit" value="Submit">Submit</button>
+                                <a class="btn but-outline" type="button" th:href="@{/pesanan/} + ${kodePesananPenjualan}">Batal</a>
+                                <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                             </div>
                         </form>
                     </div>

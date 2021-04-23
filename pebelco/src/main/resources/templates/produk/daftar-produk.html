@@ -9,6 +9,17 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/produk}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">
         <div class="col-md-auto">
@@ -29,14 +40,14 @@
                             >+ Tambah Produk </a>
                             <br><br>
                         </div>
-                <table class="table">
+                <table class="table daftar-table table-hover table-bordered">
                     <tr class="bg-dark text-center">
-                        <th style="background-color: #033C59; color: #FFFFFF">No</th>
-                        <th style="background-color: #033C59; color: #FFFFFF">Nama Produk</th>
-                        <th style="background-color: #033C59; color: #FFFFFF">Stok</th>
-                        <th style="background-color: #033C59; color: #FFFFFF">Harga</th>
-                        <th style="background-color: #033C59; color: #FFFFFF">Tanggal Dibuat</th>
-                        <th style="background-color: #033C59; color: #FFFFFF">Action</th>
+                        <th>No</th>
+                        <th>Nama Produk</th>
+                        <th>Stok</th>
+                        <th>Harga</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,13 +55,13 @@
                         <td th:text="${iterationStatus.count}"></td>
                         <td th:text="${produk.namaProduk}"></td>
                         <td th:text="${produk.stok}"></td>
-                        <td th:text="${produk.harga}"></td>
-                        <td th:text="${produk.tanggal_dibuat}"></td>
+                        <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                        <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
                         <td>
-                            <div sec:authorize="hasAuthority('Sales Counter')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin: auto; background-color: #6497B1">Detail</a></div>
-                            <div sec:authorize="hasAuthority('Vice Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail" style="margin:auto ; background-color: #6497B1" >Detail</a></div>
-                              <div sec:authorize="hasAuthority('Factory Manager')">  <a th:href="@{/produk/detail/}+${produk.idProduk}" class="text-center btn but-detail " style="margin:auto ; background-color: #6497B1" >Detail</a>
-                                  <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn btn-danger" style="margin: auto">Hapus</a></div>
+                            <div class="inline-buts">
+                                <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAuthority('Factory Manager')">Hapus</a>
+                            </div>
                         </td>
 
                     </tr>
