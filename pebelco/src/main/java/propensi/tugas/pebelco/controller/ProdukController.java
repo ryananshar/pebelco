@@ -47,7 +47,10 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         produkService.deleteProduk(produk);
 
-        return "produk/delete-produk";
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Produk Berhasil Dihapus");
+
+        return "produk/daftar-produk";
     }
 
     @GetMapping(value = "/produk/tambah")
@@ -108,15 +111,6 @@ public class ProdukController {
 
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
-        // if (principal.getName() == null) {
-        //     model.addAttribute("namaUser", "null");
-        //     model.addAttribute("roleUser", "null");
-        // } else {
-        //     String email = principal.getName();
-        //     UserModel user = userService.getUserbyEmail(email);
-        //     model.addAttribute("namaUser", user.getNamaPanjang());
-        //     model.addAttribute("roleUser", user.getRole().getNamaRole());
-        // }
 
         try {
             String email = principal.getName();
@@ -127,8 +121,6 @@ public class ProdukController {
             model.addAttribute("namaUser", null);
             model.addAttribute("roleUser", null);
         }
-
-        // model.addAttribute("roleUser", user.getRole());
-        // return user;
+        
     }
 }
