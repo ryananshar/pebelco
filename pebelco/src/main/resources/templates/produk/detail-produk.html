@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -15,6 +15,13 @@
             <nav th:replace="fragments/fragment :: sidebar"></nav>
         </div>
 
+        <div class="container col">
+            <a
+                    th:href="@{/produk}"
+                    class="btn but-arrow"
+            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        <div class="row justify-content-center">
         <div th:unless="${message} != null">
             <div class="card" id="produk" style="min-width: 900px;">
                 <div class="card-header">
@@ -70,7 +77,7 @@
                                 <div th:text="':'"></div>
                             </div>
                             <div class="col-8">
-                                <div th:text="${detailProduk.harga}"></div>
+                                <div th:text="'Rp '+ ${#numbers.formatInteger(detailProduk.harga,3,'POINT')}"></div>
                             </div>
                         </div>
                         <br><br>
@@ -81,7 +88,7 @@
                             <div class="col-1">
                                 <div th:text="':'"></div>
                             </div>
-                            <div th:text="${detailProduk.tipe}"></div>
+                            <div th:text="${detailProduk.tipe}" class="col-8"></div>
                         </div>
                         <br><br>
                         <div class="row">
@@ -91,7 +98,7 @@
                             <div class="col-1">
                                 <div th:text="':'"></div>
                             </div>
-                            <div th:text="${#dates.format(detailProduk.tanggal_dibuat, 'dd/MM/yyyy')}"></div>
+                            <div th:text="${#dates.format(detailProduk.tanggal_dibuat, 'dd/MM/yyyy')}" class="col-8"></div>
                         </div>
                         <br><br>
                         <div class="row">
@@ -101,21 +108,23 @@
                             <div class="col-1">
                                 <div th:text="':'"></div>
                             </div>
-                            <div th:text="${detailProduk.spesifikasi}"></div>
+                            <div th:text="${detailProduk.spesifikasi}" class="col-8"></div>
                         </div>
                         <br><br>
                     </div>
                     <div class="row justify-content-end">
+<!--                        hapus style sesuai dengan template ryan-->
                         <a th:href="@{/produk/ubah/stok/} + ${id}"
-                           class="btn but-ubah-stat" style="background-color: #F5A302; color: #FFFFFF"
-                           sec:authorize="hasAuthority('Sales Counter')">Ubah Stok</a>
+                           class="btn but-ubah-stat"
+                           sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
                         <a th:href="@{/produk/ubah/} + ${id}"
-                           class="btn but-ubah" style="background-color: #F5A302;  color: #FFFFFF"
+                           class="btn but-ubah"
                            sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
                     </div>
                 </div>
             </div>
 
+        </div>
         </div>
 
 
@@ -165,6 +174,7 @@
 <!--            <a th:href="@{/produk/ubah/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah</a>-->
 <!--            <a th:href="@{/produk/ubah/stok/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah Stok</a></div>-->
 
+    </div>
     </div>
 
 </body>

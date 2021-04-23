@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ubah Produk</title>
+    <title>Tambah Produk</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
@@ -14,15 +14,17 @@
         <div th:if="${pop} == 'green'" class="col-5 pop-up">
             <img th:src="@{/img/green-check.svg}">
             <p th:text="${msg}"></p>
-            <a th:href="@{/daftar-produk}" class="btn">
+            <a th:href="@{/produk}" class="btn">
                 OK
             </a>
         </div>
         <div th:if="${pop} == 'red'" class="col-5 pop-up">
-            <img th:src="@{/img/green-check.svg}">
+            <img th:src="@{/img/red-check.svg}">
             <p th:text="${msg}"></p>
-            <p th:text="${subMsg}"></p>
-            <a th:href="@{/daftar-produk}" class="btn">
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/produk/tambah}" class="btn">
                 OK
             </a>
         </div>
@@ -36,9 +38,9 @@
 
     <div class="container col">
         <div class="row justify-content-center">
-            <div class="card" id="pesananPenjualan">
+            <div class="card" id="tambah-produk">
                 <div class="card-header">
-                    <h4>Ubah Produk</h4>
+                    <h4>Tambah Produk</h4>
                 </div>
 
                 <div class="card-body pull-left">
@@ -47,28 +49,29 @@
                             <thead>
                             <th>
                                 <tr>
-                                    <input type="hidden" th:field="*{idProduk}"/>
+<!--                                    <input type="hidden" th:field="*{idProduk}"/>-->
                                     <th class="form-group" style="color: #005479">
                                         Nama Produk
-                                        <input type="text" name="namaProduk" style="border-radius: 10px ;width: 500px" class="form-control">
+                                        <input th:field="*{namaProduk}" type="text" name="namaProduk" style="border-radius: 10px ;width: 500px" class="form-control" required>
                                     </th>
                                     <th class="form-group" style="color: #005479">
                                         Spesifikasi
-                                        <input type="text" name="spesifikasi" style="border-radius: 10px ;width: 500px" class="form-control">
+                                        <input th:field="*{spesifikasi}" type="text" name="spesifikasi" style="border-radius: 10px ;width: 500px" class="form-control" required>
                                     </th>
                                 </tr>
 
                                 <tr>
                                     <th class="form-group" style="color: #005479">
                                         Stok Produk
-                                        <input type="text"  name="stok" style="border-radius: 10px ;width: 500px" class="form-control">
+                                        <input th:field="*{stok}"  type="text"  name="stok" style="border-radius: 10px ;width: 500px" class="form-control" required>
                                     </th>
                                 </tr>
 
                                 <tr>
                                     <th class="form-group" style="color: #005479">
                                         Tipe
-                                        <select class="form-control form-control-lg" style="width: 500px" name="status" th:field="*{tipe}" th:value="*{tipe}">
+                                        <select class="form-control form-control-lg" style="width: 500px" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
+                                            <option selected value="">-- PILIH Tipe--</option>
                                             <option value="1">Coffee Table</option>
                                             <option value="2">Display Rack</option>
                                             <option value="3">Kursi Cafe</option>
@@ -88,38 +91,98 @@
                                 <tr>
                                     <th class="form-group" style="color: #005479">
                                         Harga
-                                        <input type="text" name="harga" style="border-radius: 10px ;width: 500px" class="form-control">
+                                        <input th:field="*{harga}"  type="text" name="harga" style="border-radius: 10px ;width: 500px" class="form-control" required>
                                     </th>
                                 </tr>
 
                                 <tr>
                                     <th class="form-group" style="color: #005479">
                                         Tanggal Dibuat
-                                        <input type="date" class="form-control" name="tanggal_dibuat" style="width: 500px">
+                                        <input th:field="*{tanggal_dibuat}"  type="date" class="form-control" name="tanggal_dibuat" style="width: 500px"  required>
                                     </th>
                                 </tr>
 
-                                <tr>
-                                    <th class="form-group" style="color: #005479">
-                                        Tag Produk
-                                        <select class="form-control form-control-lg" style="width: 500px" name="produkModel">
-                                            <option value="1"  th:each="produk:${produk.listTagProduk}" th:text="${produk.listTagProduk}" th:value="${produk.listTagProduk}"></option>
-                                        </select>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>
+<!--                                <tr>-->
+<!--                                    <th class="form-group" style="color: #005479">-->
+<!--                                        Tag Produk-->
+<!--                                    </th>-->
+<!--                                </tr>-->
 
-                                    </th>
-                                    <th>
-                                        <button type="submit" class="btn btn-primary" style="float:right;margin-right: 20px;color: white">Simpan</button>
-                                        <a href="/daftar-produk" class="btn btn-primary" style="float:right;margin-right: 20px; background-color:#FFFFFF; color: #033C59">Batal</a>
+<!--                                <tr>-->
+<!--                                    <th colspan="2">-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="1" id="1" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="1">-->
+<!--                                                #Meja-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="2" id="2" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="2">-->
+<!--                                                #Kursi-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="3" id="3" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="3">-->
+<!--                                                #Jendela-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="4" id="4" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="4">-->
+<!--                                                #Kulkas-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="5" id="5" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="5">-->
+<!--                                                #Lemari-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="6" id="6" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="6">-->
+<!--                                                #Rak Buku-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="7" id="7" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="7">-->
+<!--                                                #Spring Bed-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="8" id="8" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="8">-->
+<!--                                                #Lampu Belajar-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="9" id="9" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="9">-->
+<!--                                                #Kompor-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check">-->
+<!--                                            <input class="form-check-input" type="checkbox" value="10" id="10" th:field="${tag}" th:value="${tag}"/>-->
+<!--                                            <label class="form-check-label" for="10">-->
+<!--                                                #Gayung-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                    </th>-->
+<!--                                </tr>-->
 
-                                    </th>
-                                </tr>
+
+
+
                             </th>
                             </thead>
                         </table>
+                        <div class="row justify-content-end">
+                            <a class="btn but-outline" type="button" th:href="@{/produk}">Batal</a>
+                            <button type="submit" class="btn but-success">Simpan</button>
+                        </div>
                     </form>
                 </div>
 
