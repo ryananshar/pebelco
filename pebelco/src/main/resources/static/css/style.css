@@ -496,6 +496,18 @@ td, th {
     margin-top: 50px;
 }
 
+.list-body h3{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 54px;
+    text-align: center;
+
+    letter-spacing: 2px;
+    color: #000000;
+}
+
 .list-body table{
     margin-top:10px;
 }
