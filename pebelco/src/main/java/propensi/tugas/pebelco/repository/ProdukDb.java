@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import propensi.tugas.pebelco.model.ProdukModel;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 @Repository
 public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
 =======
+=======
+>>>>>>> 0822076377c2afd32810cf84b931d69929a04532
 
 @Repository
 public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
@@ -22,5 +25,8 @@ public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
     List<ProdukModel> findAll();
 
 
+<<<<<<< HEAD
 >>>>>>> 2aec39eee8e83fa17e0d9506a1505913c2c3800b
+=======
+>>>>>>> 0822076377c2afd32810cf84b931d69929a04532
 }
