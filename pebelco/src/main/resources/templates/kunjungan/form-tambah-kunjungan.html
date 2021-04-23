@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Jadwal Kunjungan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p th:text="${msg}"></p>
+                <a th:href="@{/kunjungan}" class="btn">
+                    OK
+                </a>
+            </div>
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+                <img th:src="@{/img/red-check.svg}">
+                <p th:text="${msg}"></p>
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
+                <a th:href="@{/kunjungan/tambah}" class="btn">
+                    OK
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+
+        <div class="container col">
+            <div class="row justify-content-center">
+                <div class="card" id="tambah-kunjungan" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                    <div class="card-header">
+                        <h4>Tambah Jadwal Kunjungan</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/kunjungan/tambah}" th:object="${newKunjungan}" method="POST">
+                            <input type="hidden" th:field="*{kodeKunjungan}"/>
+                            <input type="hidden" th:field="*{stafSales}"/>
+                            <input type="hidden" th:field="*{isShown}"/>
+
+                            <div class="row justify-content-center">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Nama Toko</label>
+                                        <input th:field="*{namaToko}" type="text" class="form-control"
+                                               name="namaToko"
+                                               placeholder="Masukan nama toko" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Alamat Toko</label>
+                                        <input th:field="*{alamatToko}" type="text" class="form-control"
+                                               name="alamatToko"
+                                               placeholder="Masukan alamat toko" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tanggal</label>
+                                        <input th:field="*{tanggalKunjungan}" type="date" class="form-control"
+                                               name="tanggalKunjungan" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Waktu Mulai</label>
+                                        <input th:field="*{waktuMulai}" type="time" class="form-control"
+                                               name="waktuMulai" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Waktu Selesai</label>
+                                        <input th:field="*{waktuSelesai}" type="time" class="form-control"
+                                               name="waktuSelesai" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                         <label>Catatan</label>
+                                         <textarea th:field="*{catatanKunjungan}" class="form-control"
+                                               style="width: 100%; height: 382px"
+                                               name="catatanKunjungan"
+                                               placeholder="Masukan catatan kunjungan"></textarea>
+                                    </div>
+
+                                    <br><br>
+
+                                    <div class="row justify-content-end">
+                                        <a class="btn but-outline" type="button" th:href="@{/kunjungan}">Batal</a>
+                                        <button class="btn but-success" type="submit" value="Submit">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

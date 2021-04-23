@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Jadwal Kunjungan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+
+        <div class="container col">
+            <a
+                th:href="@{/kunjungan}"
+                class="btn but-arrow"
+            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <div class="row justify-content-center">
+                <div th:if="${message} != null">
+                    <div class="card">
+                        <div class="card-header" id>
+                            Error
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-11">
+                                    <div th:text="${message}"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <a th:href="@{/kunjungan}" class="btn btn-success">
+                                Kembali
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:unless="${message} != null">
+                    <div class="card" id="detail-kunjungan" style="min-width: 900px;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4>Detail Jadwal Kunjungan</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-12">
+                                <div class="row kode">
+                                    <div th:text="${kunjungan.kodeKunjungan}"></div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Nama Staf Sales</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${kunjungan.stafSales.namaPanjang}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Nama Toko</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${kunjungan.namaToko}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Alamat Toko</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${kunjungan.alamatToko}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Tanggal</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${#dates.format(kunjungan.tanggalKunjungan, 'dd/MM/yyyy')}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Waktu</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${kunjungan.waktuMulai} + ' - ' + ${kunjungan.waktuSelesai}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Catatan</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:if="${kunjungan.catatanKunjungan} != null" th:text="${kunjungan.catatanKunjungan}"></div>
+                                        <div th:unless="${kunjungan.catatanKunjungan} != null" th:text="'-'"></div>
+                                    </div>
+                                </div>
+                                <br><br><br>
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <a th:href="@{/kunjungan/ubah/}+${kunjungan.kodeKunjungan}" class="btn but-ubah">Ubah</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

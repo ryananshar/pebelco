@@ -243,10 +243,32 @@ body {
     transform: scale(1.1)
 }
 
+
+/* fa left-arrow */
+.but-arrow i {
+    font-size: 30px;
+}
+
+.but-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px 10px;
+    color: #5E5D5D;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-arrow:hover {
+    color: #FFFFFF;
+    border: 1px solid #005479;;
+    background: #005479;
+}
+
 /* Card Container */
 
 .card {
-    margin: 70px 70px 70px 70px;
+    margin: 70px 10px 70px 10px;
     background: #FFFFFF;
     border: 1px solid #000000;
     box-sizing: border-box;
