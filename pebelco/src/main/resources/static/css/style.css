@@ -289,7 +289,7 @@ body {
     min-height: 10px;
     display: inline-flex;
     align-items: center;
-    font-weight: 300;
+    font-weight: 500;
 
     border: 0.3px solid #CACCCF;
     box-sizing: border-box;
@@ -314,8 +314,8 @@ body {
 .card-header h4{
     font-family: Poppins;
     font-style: normal;
-    font-weight: 500;
-    font-size: 26px;
+    font-weight: 600;
+    font-size: 27px;
     line-height: 54px;
     letter-spacing: 1px;
     color: #033C59;
@@ -391,22 +391,23 @@ body {
 /* Ubah Status but */
 .but-ubah-stat {
     margin: 5px 10px;
-    color: #5E5D5D;;
-    border: 1px solid #F2C94C;
+    color: #FFFFFF;
+    background: rgba(242, 200, 76);
     box-sizing: border-box;
     border-radius: 5px;
 }
 
 .but-ubah-stat:hover {
     color: #FFFFFF;
-    border: 1px solid #F2C94C;;
-    background: #F2C94C;
+    background: rgb(228, 185, 58);
+    /* box-shadow: 0 5px 15px rgba(242, 200, 76, 1); */
 }
 
 /* Ubah but */
 .but-ubah {
     margin: 5px 10px;
-    color: #5E5D5D;;
+    color: #FFFFFF;
+    background: rgb(245, 163, 2);
     border: 1px solid #F5A302;
     box-sizing: border-box;
     border-radius: 5px;
@@ -414,13 +415,14 @@ body {
 
 .but-ubah:hover {
     color: #FFFFFF;
-    border: 1px solid #F5A302;;
-    background: #F5A302;
+    border: 1px solid rgb(245, 163, 2);;
+    background: rgb(207, 139, 1);
+    /* box-shadow: 0 5px 15px rgb(242, 162, 2); */
 }
 
 .but-outline {
     margin: 5px 10px;
-    color: #5E5D5D;;
+    color: #5E5D5D;
     border: 1px solid #005479;
     box-sizing: border-box;
     border-radius: 5px;
@@ -467,4 +469,45 @@ td, th {
 .daftar-table th {
     background-color: #033C59;
     color: white;
+    text-align: center;
   }
+
+/* Daftar List Utama */
+#table-utama {
+    margin: 50px 60px 50px 80px; 
+}
+
+.list-header h2{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 54px;
+
+    letter-spacing: 2px;
+    color: #033C59;
+}
+
+.list-header hr{
+    border: 1px solid #0C1E34;
+}
+
+.list-body {
+    margin-top: 50px;
+}
+
+.list-body h3{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 54px;
+    text-align: center;
+
+    letter-spacing: 2px;
+    color: #000000;
+}
+
+.list-body table{
+    margin-top:10px;
+}

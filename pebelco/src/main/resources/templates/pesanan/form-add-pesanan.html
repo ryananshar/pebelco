@@ -11,24 +11,25 @@
 </head>
 
 <body>
-<div th:if="${pop} != null" class="overlay" id="center">
-    <div class="row justify-content-center">
-        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
-            <img th:src="@{/img/green-check.svg}">
-            <p th:text="${msg}"></p>
-            <a th:href="@{/pesanan}" class="btn">
-                OK
-            </a>
-        </div>
-        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
-            <img th:src="@{/img/red-check.svg}">
-            <p th:text="${msg}"></p>
-            <div class="sub-msg">
-                <span th:text="${subMsg}"></span>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p th:text="${msg}"></p>
+                <a th:href="@{/pesanan}" class="btn">
+                    OK
+                </a>
             </div>
-            <a th:href="@{/pesanan/add}" class="btn">
-                OK
-            </a>
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+                <img th:src="@{/img/red-check.svg}">
+                <p th:text="${msg}"></p>
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
+                <a th:href="@{/pesanan/tambah}" class="btn">
+                    OK
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -46,7 +47,7 @@
                     <h4>Tambah Pesanan Penjualan</h4>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/pesanan/add}" th:object="${pesananPenjualan}" method="POST">
+                    <form th:action="@{/pesanan/tambah}" th:object="${pesananPenjualan}" method="POST">
                         <div class="form-group">
                             <label>Nama Toko</label>
                             <input th:field="*{namaToko}" type="text" class="form-control"
@@ -109,11 +110,6 @@
                                                placeholder="Masukan jumlah"
                                                class="form-control"/ required>
                                     </td>
-                                    <!-- <td>
-                                        <input type="text" th:field="*{barangPesanan[__${barangStat.index}__].harga}"
-                                               class="form-control"
-                                               th:text="${harga}"/>
-                                    </td> -->
                                     <td>
                                         <button class="btn but-danger" type="submit" name="removeRow"
                                                 th:value="${barangStat.index}">

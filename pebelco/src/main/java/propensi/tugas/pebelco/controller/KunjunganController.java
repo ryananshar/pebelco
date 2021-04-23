@@ -23,10 +23,10 @@ public class KunjunganController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/")
-    private String home(){
-        return "home";
-    }
+    // @GetMapping("/")
+    // private String home(){
+    //     return "home";
+    // }
 
     @GetMapping("/kunjungan")
     public String daftarKunjungan(Model model) {

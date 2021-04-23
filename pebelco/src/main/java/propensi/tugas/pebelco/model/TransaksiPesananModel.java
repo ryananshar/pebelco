@@ -35,36 +35,29 @@ public class TransaksiPesananModel implements Serializable{
     private Long harga;
 
     // id pesanan
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_pesanan", referencedColumnName = "id_pesanan_penjualan")
-    // @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_pesanan", referencedColumnName = "id_pesanan_penjualan", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private PesananPenjualanModel pesananTransaksi;
 
-    // id produk
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @MapsId("idProduk")
-    // @JoinColumn(name = "id_produk", referencedColumnName = "id_produk")
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // private ProdukModel produkPesanan;
-
 
     public TransaksiPesananModel() {
-        // super();
-        // this.setJumlah(0);
-        // this.setHarga(Long.valueOf(0));
     }
 
-
-    // public TransaksiPesananModel(Long idTransaksiPesanan, String namaBarang, Integer jumlah, Long harga, PesananPenjualanModel pesananTransaksi) {
-    //     this.namaBarang = namaBarang;
-    //     this.jumlah = jumlah;
-    //     this.harga = harga;
-    //     this.pesananTransaksi = pesananTransaksi;
-    // }
+    @Override
+    public boolean equals (Object object) {
+        boolean result = false;
+        if (object == null || object.getClass() != getClass()) {
+            result = false;
+        } else {
+            TransaksiPesananModel barangPesanan = (TransaksiPesananModel) object;
+            if (this.namaBarang.equals(barangPesanan.getNamaBarang())) {
+                result = true;
+            }
+        }
+        return result;
+    }
     
 
     public Long getIdTransaksiPesanan() {
