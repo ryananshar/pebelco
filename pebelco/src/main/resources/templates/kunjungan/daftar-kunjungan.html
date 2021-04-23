@@ -10,6 +10,31 @@
 </head>
 
 <body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p th:text="${msg2}"></p>
+                <a th:href="@{/kunjungan}" class="btn">
+                    OK
+                </a>
+            </div>
+
+            <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5 pop-up" id="konfirmasi-hapus">
+                <p th:text="${msg2}"></p>
+                <span th:text="${subMsg}"></span>
+                <div class="row justify-content-center">
+                    <a th:href="@{/kunjungan}" class="btn but-outline">
+                        Tidak
+                    </a>
+                    <a th:href="@{/kunjungan/hapus/}+${kodeKunjungan}" class="btn but-success" style="margin-left: 10px;">
+                        Ya
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">
         <div class="col-md-auto">
@@ -17,23 +42,46 @@
             <nav th:replace="fragments/fragment :: sidebar"></nav>
             <!-- </div> -->
         </div>
-        <div class="container-fluid col">
+
+        <div th:if="${message} != null" class="container-fluid col">
             <div class="row justify-content-center">
-                <div class="card" id="daftar-kunjungan">
-                    <div class="card-header">
-                        <h4>Daftar Jadwal Kunjungan</h4>
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
                     </div>
                     <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/kunjungan}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${message} != null" class="container-fluid col">
+            <div class="row justify-content-center">
+                <div class="col" id="table-utama">
+                    <div class="list-header">
+                        <h2>Daftar Jadwal Kunjungan</h2>
+                        <hr>
+                    </div>
+                    <div class="list-body">
 
                         <a th:href="@{/kunjungan/tambah}" class="btn but-outline">+ Tambah Jadwal Kunjungan</a>
                         <br><br>
 
                         <div th:if="${msg == 'tidak ada kunjungan'}">
-                            <p th:text="${message}"></p>
+                            <h3 th:text="${pesan}"></h3>
                         </div>
 
                         <div th:if="${msg == 'ada kunjungan'}">
-                        <table class="table daftar-table table-hover">
+                        <table class="table daftar-table table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -55,7 +103,7 @@
                                     <td>
                                         <div class="inline-buts">
                                             <a th:href="@{/kunjungan/}+${kunjungan.kodeKunjungan}" class="btn but-detail">Detail</a>
-                                            <a th:href="@{/kunjungan/hapus/}+${kunjungan.kodeKunjungan}" class="btn but-danger">Hapus</a>
+                                            <a th:href="@{/kunjungan/konfirmasi-hapus/}+${kunjungan.kodeKunjungan}" class="btn but-danger">Hapus</a>
                                         </div>
                                     </td>
                                 </tr>

@@ -221,6 +221,10 @@ body {
     border-radius: 5px;
 }
 
+.list-fitur a:hover {
+    color: #FFD35C;
+}
+
 .fix {
     align-items: center;
     margin: 50px;
