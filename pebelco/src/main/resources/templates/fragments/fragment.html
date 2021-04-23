@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org"
-                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 
 <head>
@@ -12,7 +12,7 @@
 
     <head th:fragment="css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
     </head>
@@ -21,14 +21,14 @@
 
     <head th:fragment="js">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
     </head>
 
 </head>
@@ -38,14 +38,14 @@
     <nav class="navbar navbar-expand-lg col-12" th:fragment="navbar">
         <a class="navbar-brand font-weight-bold" th:href="@{/}">PEBELCO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon text-primary"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
-                 
+
                 <!-- items for user featrue -->
-                    <!-- Weird html placement to cope with unique position regarding notification -->
+                <!-- Weird html placement to cope with unique position regarding notification -->
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" th:href="@{/#}">Profile</a>
                     <a class="dropdown-item" th:href="@{/logout}" >Logout</a>
@@ -53,70 +53,44 @@
 
                 <!-- Notifications -->
                 <div class="d-inline dropdown notif ml-auto">
-                    <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"
-                    ><span>99</span><img th:src="@{/img/notif.svg}">
+                    <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <!-- <span>99</span> -->
+                        <span th:text ="${jumlahNotif}"></span>
+                        <img th:src="@{/img/notif.svg}">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notifications">
                         <div class="list-group">
-                            <div class="lg">
+                            <div th:if="${jumlahNotif == 0}" class="lg">
                                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">Real Estate Marketing Automation: 6 Simple Systems</h5>
-                                    <p class="mb-0">17 October 2016 | 9:32 pm</p>
+                                    <h5 class="mb-1">Tidak ada notifikasi</h5>
+                                    <p class="mb-0"></p>
                                 </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">How to Generate Seller Leads For $0.88 Using...</h5>
-                                    <p class="mb-0">3 October 2016 | 9:58 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">AgentFire Re-Opens For Business. New Services,...</h5>
-                                    <p class="mb-0">20 September 2016 | 6:28 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">Real Estate Blogging 101: How To Get Better...</h5>
-                                    <p class="mb-0">7 September 2016 | 3:03 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">How To Get More Listings With Strategic...</h5>
-                                    <p class="mb-0">16 August 2016 | 8:26 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">How To Find Strategic Real Estate Partners as...</h5>
-                                    <p class="mb-0">9 August 2016 | 6:44 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">Top 10 Real Estate Marketing Tools</h5>
-                                    <p class="mb-0">2 August 2016 | 10:25 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">The Beginner Guide To Google Adwords For Real...</h5>
-                                    <p class="mb-0">27 July 2016 | 1:15 am</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">The Complete Guide To Hyper-Local SEO For Realtors</h5>
-                                    <p class="mb-0">19 July 2016 | 5:51 pm</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <h5 class="mb-1">How We Took Ed Eakin’s Real Estate Website...</h5>
-                                    <p class="mb-0">11 July 2016 | 6:19 pm</p>
-                                </a>
+                            </div> <!-- /.lg -->
+                            <div th:if="${jumlahNotif != 0}"class="lg">
+                                <div th:each="notif, iterationStatus : ${listNotif}">
+                                    <a th:href="${notif.url}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <h5 class="mb-1" th:text="${notif.desc}"></h5>
+                                        <p class="mb-0" th:text="${#dates.format(notif.waktuDibuat, 'EEE, d MMM yyyy | HH:mm:ss')}">17 October 2016 | 9:32 pm</p>
+                                    </a>
+                                </div>
                             </div> <!-- /.lg -->
                         </div> <!-- /.list group -->
                     </div> <!-- /.dropdown-menu -->
                 </div> <!-- /.dropdown -->
-                
+
                 <!-- user feature -->
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                    <li class="profile nav-item">
-                        <span class="namaUser" sec:authentication="principal.namaPanjang"></span>
-                        <span sec:authentication="principal.role"></span>
-                    </li>
-                    <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="false">
-                    </a>
-                    <!-- The items dropdown should be here in normal circumtances -->
+                <li class="profile nav-item">
+                    <span class="namaUser" sec:authentication="principal.namaPanjang"></span>
+                    <span sec:authentication="principal.role"></span>
+                </li>
+                <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                </a>
+                <!-- The items dropdown should be here in normal circumtances -->
                 </li>
             </div>
-            <div class="navbar-nav ml-auto" sec:authorize="isAnonymous()">   
+            <div class="navbar-nav ml-auto" sec:authorize="isAnonymous()">
                 <div class="text-secondary font-italic" sec:authorize="isAnonymous()">
                     <a th:href="@{/login}" class="nav-item nav-link active">Login</a>
                 </div>
@@ -126,15 +100,31 @@
 
     <!-- sidebar -->
     <div class="sidebar flex-fixed-width-item" id="sidebar-wrapper" th:fragment="sidebar">
-        <div class="list-group list-group-flush" style="">
-          <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="list-group-item list-group-item-action">Beranda</a>
-          <a th:href="@{/#}" class="list-group-item list-group-item-action">Kunjungan</a>
-          <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pesanan')? 'active':''}" class="list-group-item list-group-item-action">Pesanan Penjualan</a>
-          <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pengiriman</a>
-          <a th:href="@{/#}"  class="list-group-item list-group-item-action">Komplain</a>
-          <a th:href="@{/daftar-produk}"  class="list-group-item list-group-item-action">Produk</a>
-          <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pameran</a>
-          <a th:href="@{/#}" class="list-group-item list-group-item-action">Laporan</a>
+        <div class="list-group list-group-flush">
+            <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
+               class="list-group-item list-group-item-action">Beranda
+            </a>
+            <a th:href="@{/kunjungan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/kunjungan') ? 'active':''}"
+               class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Kunjungan
+            </a>
+            <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pesanan')? 'active':''}"
+               class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pengiriman
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Komplain
+            </a>
+            <a th:href="@{/daftar-produk}"  class="list-group-item list-group-item-action">Produk
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pameran
+            </a>
+            <a th:href="@{/#}" class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Laporan
+            </a>
         </div>
     </div>
 </body>

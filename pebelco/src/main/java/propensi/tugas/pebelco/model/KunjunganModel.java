@@ -70,7 +70,7 @@ public class KunjunganModel implements Serializable{
 
     @OneToOne(mappedBy = "kunjungan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    private LaporanStafSalesModel laporanStaafSales;
+    private LaporanStafSalesModel laporanStafSales;
 
 
     public Long getIdKunjungan() {
@@ -157,12 +157,11 @@ public class KunjunganModel implements Serializable{
         this.stafSales = stafSales;
     }
 
-    public LaporanStafSalesModel getLaporanStaafSales() {
-        return this.laporanStaafSales;
+    public LaporanStafSalesModel getLaporanStafSales() {
+        return laporanStafSales;
     }
 
-    public void setLaporanStaafSales(LaporanStafSalesModel laporanStaafSales) {
-        this.laporanStaafSales = laporanStaafSales;
+    public void setLaporanStafSales(LaporanStafSalesModel laporanStafSales) {
+        this.laporanStafSales = laporanStafSales;
     }
-
 }

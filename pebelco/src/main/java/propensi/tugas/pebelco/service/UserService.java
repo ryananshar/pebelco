@@ -1,5 +1,8 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.List;
+
+import propensi.tugas.pebelco.model.RoleModel;
 import propensi.tugas.pebelco.model.UserModel;
 
 public interface UserService {
@@ -7,7 +10,11 @@ public interface UserService {
     UserModel addUser(UserModel user);
 
     //  Method untuk mendapatkan list data yang telah tersimpan
+    List<UserModel> getUserListbyRole(RoleModel role);
+
     UserModel getUserbyNamaPanjang(String namaPanjang);
+
+    UserModel getUserbyIdUser(Long idUser);
 
     //  Method untuk mendapatkan data berdasarkan id
     UserModel getUserbyEmail(String email);
