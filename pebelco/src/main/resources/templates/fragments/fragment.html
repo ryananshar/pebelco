@@ -112,7 +112,7 @@
                class="list-group-item list-group-item-action"
                sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
             </a>
-            <a th:href="@{/#}"  class="list-group-item list-group-item-action"
+            <a th:href="@{/pengiriman}"  class="list-group-item list-group-item-action"
                sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pengiriman
             </a>
             <a th:href="@{/#}"  class="list-group-item list-group-item-action"

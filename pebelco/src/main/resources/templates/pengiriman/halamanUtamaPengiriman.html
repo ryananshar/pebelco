@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container-fluid col">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container" id="center">
+                <div class="col">
+                    <h1 class="title">Pengiriman</h1>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="center">
+            <div class="col">
+                <div class="row justify-content-center list-fitur">
+                    <div class="col-md-3 fix">
+                        <p>Daftar Perlu Dikirim</p>
+                        <img th:src="@{/img/daftarperludikirim.png}">
+                        <a th:href="@{/perlu-dikirim}" class="btn">
+                            Lihat Daftar
+                        </a>
+                    </div>
+                    <div class="col-md-3 fix">
+                        <p>Daftar Pengiriman</p>
+                        <img th:src="@{/img/daftarpengiriman.png}">
+                        <a th:href="@{/daftarpengiriman}" class="btn">
+                            Lihat Daftar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

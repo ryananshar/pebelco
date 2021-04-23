@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/pengiriman")
+//@RequestMapping("/pengiriman")
 public class PengirimanController {
 
     @Autowired
@@ -28,13 +28,17 @@ public class PengirimanController {
     @Autowired
     private PengirimanService pengirimanService;
 
-    @RequestMapping
+    @GetMapping(value = "/pengiriman")
+    public String halamanUtamaPengiriman(Model model) {
+        return "pengiriman/halamanUtamaPengiriman";
+    }
+    @RequestMapping(value = "/daftarpengiriman")
     public String tabelPengiriman(Model model) {
         model.addAttribute("items", pengirimanService.findAll());
         return "pengiriman/tabelPengiriman";
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping("pengiriman/{id}")
     public String detailPengiriman(@PathVariable Long id, Model model) {
         Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
         int status = pengiriman.getStatusId();
@@ -47,7 +51,7 @@ public class PengirimanController {
         return "pengiriman/detailPengiriman";
     }
 
-    @RequestMapping("/update/{id}")
+    @RequestMapping("pengiriman/update/{id}")
     public String formUbahPengiriman(@PathVariable Long id, Model model) {
         model.addAttribute("item", pengirimanService.findPengirimanById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
@@ -55,7 +59,7 @@ public class PengirimanController {
         return "pengiriman/ubahPengiriman";
     }
 
-    @PostMapping("/update/")
+    @PostMapping("pengiriman/update/")
     public String ubahPengiriman(
             @RequestParam Long id,
             @RequestParam Long metodePengiriman) {
@@ -63,7 +67,7 @@ public class PengirimanController {
         return "redirect:/pengiriman/" + id.toString();
     }
 
-    @RequestMapping("/update-status/{id}")
+    @RequestMapping("pengiriman/update-status/{id}")
     public String formUbahStatus(@PathVariable Long id, Model model) {
         Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
         model.addAttribute("item", pengiriman);
@@ -72,7 +76,7 @@ public class PengirimanController {
         return "pengiriman/ubahStatus";
     }
 
-    @PostMapping("/update-status/")
+    @PostMapping("pengiriman/update-status/")
     public String ubahStatus(
             @RequestParam Long id,
             @RequestParam int statusPengiriman) {
@@ -86,13 +90,13 @@ public class PengirimanController {
         return "redirect:/pengiriman/" + id.toString();
     }
 
-    @RequestMapping("/terima/{id}")
+    @RequestMapping("pengiriman/terima/{id}")
     public String formPenerimaanBarang(@PathVariable Long id, Model model) {
         model.addAttribute("item", pengirimanService.findPengirimanById(id));
         return "pengiriman/penerimaanBarang";
     }
 
-    @PostMapping("/terima/")
+    @PostMapping("pengiriman/terima/")
     public String penerimaanBarang(
             @RequestParam Long id,
             @RequestParam String tanggalDiterima,
@@ -103,7 +107,7 @@ public class PengirimanController {
         return "redirect:/pengiriman/" + id.toString();
     }
 
-    @PostMapping("/hapus/")
+    @PostMapping("pengiriman/hapus/")
     public String hapusPengiriman(
             @RequestParam Long id) {
         pengirimanService.setIsShownFalse(id);
