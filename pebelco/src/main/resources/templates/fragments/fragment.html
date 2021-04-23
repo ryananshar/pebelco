@@ -100,7 +100,7 @@
 
     <!-- sidebar -->
     <div class="sidebar flex-fixed-width-item" id="sidebar-wrapper" th:fragment="sidebar">
-        <div class="list-group list-group-flush">
+        <div th:if="${pop} == null" class="list-group list-group-flush">
             <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
                class="list-group-item list-group-item-action">Beranda
             </a>
@@ -110,6 +110,28 @@
             </a>
             <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pesanan')? 'active':''}"
                class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pengiriman
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Komplain
+            </a>
+            <a th:href="@{/daftar-produk}"  class="list-group-item list-group-item-action">Produk
+            </a>
+            <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pameran
+            </a>
+            <a th:href="@{/#}" class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Laporan
+            </a>
+        </div>
+        <div th:unless="${pop} == null" class="list-group list-group-flush">
+            <a th:href="@{/}" class="list-group-item list-group-item-action">Beranda</a>
+            <a th:href="@{/kunjungan}" class="list-group-item list-group-item-action"
+               sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Kunjungan
+            </a>
+            <a th:href="@{/pesanan}" class="list-group-item list-group-item-action"
                sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
             </a>
             <a th:href="@{/#}"  class="list-group-item list-group-item-action"

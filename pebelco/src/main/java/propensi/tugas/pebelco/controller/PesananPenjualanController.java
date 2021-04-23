@@ -54,13 +54,25 @@ public class PesananPenjualanController {
         UserModel user = userService.getUserbyEmail(email);
         if (user.getRole().getNamaRole().equals("Staf Sales") ) {
             List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUser(user, true);
-            model.addAttribute("listPesanan", listPesanan);
-            return "pesanan/list-pesanan";
+            if (listPesanan.isEmpty()){
+                model.addAttribute("msg", "error");
+                model.addAttribute("message", "Anda Belum Memiliki Pesanan Penjualan");
+            }
+            else{
+                model.addAttribute("listPesanan", listPesanan);
+            }
         } else {
             List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList(true);
-            model.addAttribute("listPesanan", listPesanan);
-            return "pesanan/list-pesanan";
+            if (listPesanan.isEmpty()){
+                model.addAttribute("msg", "error");
+                model.addAttribute("message", "Belum Terdapat Pesanan Penjualan");
+            }
+            else{
+                model.addAttribute("listPesanan", listPesanan);
+            }           
         }
+
+        return "pesanan/list-pesanan";
     }
 
     @RequestMapping(value="/pesanan/add", params={"addRow"})
@@ -69,9 +81,10 @@ public class PesananPenjualanController {
             final BindingResult bindingResult) {
         TransaksiPesananModel barangGaib = new TransaksiPesananModel();
         List<ProdukModel> listProduk = produkDb.findAll();
+        List<TransaksiPesananModel> barangExist = pesananPenjualan.getBarangPesanan();
 
         barangGaib.setPesananTransaksi(pesananPenjualan);
-        pesananPenjualan.getBarangPesanan().add(barangGaib);
+        barangExist.add(barangGaib);
         
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk); 
@@ -127,16 +140,15 @@ public class PesananPenjualanController {
 
             for (TransaksiPesananModel barang : tempList) {
                 Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
-                // checkList.remove(barang);
-                // if (checkList.stream().anyMatch(TransaksiPesananModel -> TransaksiPesananModel.getNamaBarang().equals(barang.getNamaBarang()))) {
-                //     model.addAttribute("pesananPenjualan", pesananPenjualan);
-                //     model.addAttribute("listProduk", listProduk);
-                //     model.addAttribute("pop", "red");
-                //     model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                //     model.addAttribute("subMsg", "Nama barang tidak dapat berulang"); 
+                if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);
+                    model.addAttribute("listProduk", listProduk);
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                    model.addAttribute("subMsg", "Nama barang tidak dapat berulang"); 
 
-                //     return "pesanan/form-add-pesanan";
-                // } else 
+                    return "pesanan/form-add-pesanan";
+                } else 
                 if (barang.getJumlah() <= 0) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listProduk", listProduk);
@@ -154,7 +166,6 @@ public class PesananPenjualanController {
 
                     return "pesanan/form-add-pesanan";
                 }
-                // checkList.add(barang);
             }
 
             // initiate pesanan penjualan early value
@@ -191,17 +202,15 @@ public class PesananPenjualanController {
             model.addAttribute("listProduk", listProduk);
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan"); 
-
-            return "pesanan/form-add-pesanan";
         } else {
             model.addAttribute("pesananPenjualan", pesananPenjualan);
             model.addAttribute("listProduk", listProduk);
             model.addAttribute("pop", "red");
             model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-            model.addAttribute("subMsg", "Diskon tidak valid"); 
-
-            return "pesanan/form-add-pesanan";
-        }        
+            model.addAttribute("subMsg", "Diskon tidak valid");             
+        }   
+        
+        return "pesanan/form-add-pesanan";
     }
 
     @GetMapping("/pesanan/view/{kodePesananPenjualan}")
