@@ -26,7 +26,7 @@
                 <div class="sub-msg">
                     <span th:text="${subMsg}"></span>
                 </div>
-                <a th:href="@{/pesanan/add}" class="btn">
+                <a th:href="@{/pesanan/tambah}" class="btn">
                     OK
                 </a>
             </div>
@@ -46,7 +46,7 @@
                         <h4>Tambah Pesanan Penjualan</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/pesanan/add}" th:object="${pesananPenjualan}" method="POST">
+                        <form th:action="@{/pesanan/tambah}" th:object="${pesananPenjualan}" method="POST">
                             <div class="form-group">
                                 <label>Nama Toko</label>
                                 <input th:field="*{namaToko}" type="text" class="form-control"

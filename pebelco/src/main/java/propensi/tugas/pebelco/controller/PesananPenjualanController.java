@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
@@ -75,7 +73,7 @@ public class PesananPenjualanController {
         return "pesanan/list-pesanan";
     }
 
-    @RequestMapping(value="/pesanan/add", params={"addRow"})
+    @RequestMapping(value="/pesanan/tambah", params={"addRow"})
     public String addRow(
             @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model,
             final BindingResult bindingResult) {
@@ -91,7 +89,7 @@ public class PesananPenjualanController {
         return "pesanan/form-add-pesanan";
     }
 
-    @RequestMapping(value="/pesanan/add", params={"removeRow"})
+    @RequestMapping(value="/pesanan/tambah", params={"removeRow"})
     public String removeRow(
             @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model, 
             final HttpServletRequest req, final BindingResult bindingResult) {
@@ -105,7 +103,7 @@ public class PesananPenjualanController {
         return "pesanan/form-add-pesanan";
     }
 
-    @GetMapping("/pesanan/add")
+    @GetMapping("/pesanan/tambah")
     public String addPesananFormPage(Model model) {
         List<ProdukModel> listProduk = produkDb.findAll();
         List<TransaksiPesananModel> barangTempList = new ArrayList<TransaksiPesananModel>();
@@ -122,7 +120,7 @@ public class PesananPenjualanController {
         return "pesanan/form-add-pesanan";
     }
 
-    @PostMapping("/pesanan/add")
+    @PostMapping("/pesanan/tambah")
     public String addPesananSubmit(
         @ModelAttribute PesananPenjualanModel pesananPenjualan,
         Principal principal, final BindingResult bindingResult,
@@ -197,23 +195,21 @@ public class PesananPenjualanController {
             Long idPengirim = user.getIdUser();
             Long idRole = (long) 2;                 // id Sales Counter 
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole)); 
-                    
-            model.addAttribute("pesananPenjualan", pesananPenjualan);
-            model.addAttribute("listProduk", listProduk);
+            
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan"); 
         } else {
-            model.addAttribute("pesananPenjualan", pesananPenjualan);
-            model.addAttribute("listProduk", listProduk);
             model.addAttribute("pop", "red");
             model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
             model.addAttribute("subMsg", "Diskon tidak valid");             
         }   
-        
+        model.addAttribute("pesananPenjualan", pesananPenjualan);
+        model.addAttribute("listProduk", listProduk);
+
         return "pesanan/form-add-pesanan";
     }
 
-    @GetMapping("/pesanan/view/{kodePesananPenjualan}")
+    @GetMapping("/pesanan/{kodePesananPenjualan}")
     public String viewDetailPesanan(
         @PathVariable(value = "kodePesananPenjualan") String kodePesananPenjualan,
         Model model
@@ -245,10 +241,21 @@ public class PesananPenjualanController {
 
     @PostMapping("/pesanan/req/{kodePesananPenjualan}")
     public String addRequestPesananSubmit(
-        @ModelAttribute PesananPenjualanModel pesananPenjualan,
+        @ModelAttribute PesananPenjualanModel pesananPenjualan, Principal principal,
         Model model
     ) {
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
         pesananPenjualanService.updatePesanan(pesananPenjualan);
+
+        // setting pre-save values for notifikasi
+        Boolean isNotif = true;
+        String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " mendapat Request Change";
+        String url ="/pesanan/view/" + pesananPenjualan.getKodePesananPenjualan();
+        Long idPengirim = user.getIdUser();
+        Long idRole = (long) 2;                 // id Sales Counter 
+        notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole)); 
+        
         model.addAttribute("kodePesananPenjualan", pesananPenjualan.getKodePesananPenjualan());
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("pop", "green"); 

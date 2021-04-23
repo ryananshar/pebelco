@@ -469,6 +469,7 @@ td, th {
 .daftar-table th {
     background-color: #033C59;
     color: white;
+    text-align: center;
   }
 
 /* Daftar List Utama */
@@ -480,7 +481,7 @@ td, th {
     font-family: Poppins;
     font-style: normal;
     font-weight: 600;
-    font-size: 44px;
+    font-size: 36px;
     line-height: 54px;
 
     letter-spacing: 2px;
