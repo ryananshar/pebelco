@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Produk</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/produk}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+
+        <div class="container-fluid col">
+            <div class="row justify-content-center">
+                <div class="card col-sm" id="list-pesanan">
+                    <div class="card-header">
+                        <h4>Daftar Produk</h4>
+                    </div>
+                    <div class="card-body">
+                        <div sec:authorize="hasAuthority('Factory Manager')">
+                            <a
+                                    th:href="@{/produk/tambah}"
+                                    class="btn but-outline"
+                            >+ Tambah Produk </a>
+                            <br><br>
+                        </div>
+                <table class="table daftar-table table-hover table-bordered">
+                    <tr class="bg-dark text-center">
+                        <th>No</th>
+                        <th>Nama Produk</th>
+                        <th>Stok</th>
+                        <th>Harga</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="produk, iterationStatus: ${listProduk}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${produk.namaProduk}"></td>
+                        <td th:text="${produk.stok}"></td>
+                        <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                        <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <div class="inline-buts">
+                                <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAuthority('Factory Manager')">Hapus</a>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+</body>
+</html>

@@ -19,6 +19,11 @@
             <!-- </div> -->
         </div>
         <div class="container col">
+            <a 
+                th:href="@{/pesanan/}"
+                class="btn but-arrow"
+                ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
             <div class="row justify-content-center">
                 <div th:if="${message} != null">           
                     <div class="card">
@@ -32,7 +37,7 @@
                                 </div>
                             </div>
                             <br>
-                            <a th:href="@{/}" class="btn btn-success">
+                            <a th:href="@{/pesanan}" class="btn btn-success">
                                 Kembali
                             </a>
                         </div>
@@ -43,10 +48,10 @@
                     <div class="card" id="pesananPenjualan" style="min-width: 900px;">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-sm">
+                                <div class="col-7">
                                     <h4>Detail Pesanan Penjualan</h4>
                                 </div>
-                                <div class="col">
+                                <div class="col-4">
                                     <span th:if="${pesananPenjualan.statusPesanan} == 0"
                                           class="pending">Menunggu Persetujuan</span>
                                     <span th:if="${pesananPenjualan.statusPesanan} == 1"
@@ -74,6 +79,21 @@
                                     </div>
                                 </div>
                                 <br><br>
+                                <div th:if="${pesananPenjualan.tanggalPersetujuan} != null">
+                                    <br><br>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div>Tanggal Disetujui</div>                                     
+                                        </div>
+                                        <div class="col-1">
+                                            <div th:text="':'"></div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div th:text="${#dates.format(pesananPenjualan.tanggalPersetujuan, 'dd/MM/yyyy')}"></div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </div>
                                 <div class="row">
                                     <div class="col-3">
                                         <div>Nama Toko</div>                                        
@@ -149,7 +169,7 @@
                                 <br><br>
                             </div>
                             <div class="form-group">
-                                <table class="table table-hover daftar-table">
+                                <table class="table table-hover table-bordered daftar-table ">
                                     <thead>
                                     <tr>
                                         <th>No</th>
@@ -163,22 +183,22 @@
                                         <td th:text="${barangStat.count}"></td>
                                         <td th:text="${barang.namaBarang}"></td>
                                         <td th:text="${barang.jumlah}"></td>
-                                        <td th:text="'Rp '+ ${#numbers.formatInteger(barang.harga, 3,'POINT')}"></td>
+                                        <td th:text="'Rp '+ ${#numbers.formatInteger(barang.harga, 3,'POINT')}" style="text-align: right;"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <br><br><br>
                             </div>
                             <div class="row justify-content-end">    
-                                <a th:href="@{/pesanan/update-status/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                <a th:href="@{/pesanan/ubah-status/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-ubah-stat"
-                                   sec:authorize="hasAuthority('Sales Counter')">Ubah Status</a>                            
-                                <a th:href="@{/pesanan/update/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah Status</a>                            
+                                <a th:href="@{/pesanan/ubah/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-ubah"
-                                   sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                                   sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah</a>
                                 <a  th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
                                    class="btn but-outline"
-                                   sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
+                                   sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
                             </div>
                         </div>
                     </div>

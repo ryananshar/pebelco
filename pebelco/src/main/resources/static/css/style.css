@@ -58,6 +58,8 @@ body {
     transition: 0.5s;
 }
 
+/* Pop Up */
+
 .pop-up {
     position: absolute;
     top: 25%;
@@ -67,7 +69,7 @@ body {
     /* max-width: 1000px; */
     min-height: height auto;
     min-width: 300px;
-    width: 100%;
+    width: 600px;
     height: auto;
 
     background: #FFFFFF;
@@ -84,11 +86,24 @@ body {
 }
 
 .pop-up p {
-    margin: 10px 20px 30px 20px;
+    margin: 10px 20px 10px 20px;
     font-family: Poppins;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #033C59;
+}
+
+.sub-msg {
+    margin: 10px 20px 30px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
     line-height: 100%;
     text-align: center;
     letter-spacing: 0.045em;
@@ -121,7 +136,62 @@ body {
     background:#033C59;
 }
 
+/* Konfirmasi Hapus */
+#konfirmasi-hapus {
+    position: absolute;
+    top: 25%;
+    align-items: center;
+    margin: 50px;
 
+    /* max-width: 1000px; */
+    min-height: height auto;
+    min-width: 300px;
+    width: 600px;
+    height: auto;
+
+    background: #FFFFFF;
+    border: 0.655044px solid #0C1E34;
+    box-sizing: border-box;
+    box-shadow: 0px 17px 10px -5px #0000003b;
+    border-radius: 6.96855px;
+    transition: all .2s;
+}
+
+#konfirmasi-hapus:hover {    
+    box-shadow: 0px 17px 17px -5px #0000006b;
+    transform: scale(1.1)
+}
+
+#konfirmasi-hapus p {
+    margin: 40px 20px 20px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #033C59;
+}
+
+#konfirmasi-hapus .sub-msg {
+    margin: 20px 20px 50px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #000000;
+}
+
+#konfirmasi-hapus a{
+    margin: 30px 20px;
+    width: 130px;
+}
 
 /* Home */
 .jumbotron {
@@ -208,6 +278,10 @@ body {
     border-radius: 5px;
 }
 
+.list-fitur a:hover {
+    color: #FFD35C;
+}
+
 .fix {
     align-items: center;
     margin: 50px;
@@ -230,10 +304,32 @@ body {
     transform: scale(1.1)
 }
 
+
+/* fa left-arrow */
+.but-arrow i {
+    font-size: 30px;
+}
+
+.but-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px 10px;
+    color: #5E5D5D;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.but-arrow:hover {
+    color: #FFFFFF;
+    border: 1px solid #005479;;
+    background: #005479;
+}
+
 /* Card Container */
 
 .card {
-    margin: 70px 70px 70px 70px;
+    margin: 70px 10px 70px 10px;
     background: #FFFFFF;
     border: 1px solid #000000;
     box-sizing: border-box;
@@ -254,7 +350,7 @@ body {
     min-height: 10px;
     display: inline-flex;
     align-items: center;
-    font-weight: 300;
+    font-weight: 500;
 
     border: 0.3px solid #CACCCF;
     box-sizing: border-box;
@@ -279,8 +375,8 @@ body {
 .card-header h4{
     font-family: Poppins;
     font-style: normal;
-    font-weight: 500;
-    font-size: 26px;
+    font-weight: 600;
+    font-size: 27px;
     line-height: 54px;
     letter-spacing: 1px;
     color: #033C59;
@@ -356,22 +452,23 @@ body {
 /* Ubah Status but */
 .but-ubah-stat {
     margin: 5px 10px;
-    color: #5E5D5D;;
-    border: 1px solid #F2C94C;
+    color: #FFFFFF;
+    background: rgba(242, 200, 76);
     box-sizing: border-box;
     border-radius: 5px;
 }
 
 .but-ubah-stat:hover {
     color: #FFFFFF;
-    border: 1px solid #F2C94C;;
-    background: #F2C94C;
+    background: rgb(228, 185, 58);
+    /* box-shadow: 0 5px 15px rgba(242, 200, 76, 1); */
 }
 
 /* Ubah but */
 .but-ubah {
     margin: 5px 10px;
-    color: #5E5D5D;;
+    color: #FFFFFF;
+    background: rgb(245, 163, 2);
     border: 1px solid #F5A302;
     box-sizing: border-box;
     border-radius: 5px;
@@ -379,13 +476,14 @@ body {
 
 .but-ubah:hover {
     color: #FFFFFF;
-    border: 1px solid #F5A302;;
-    background: #F5A302;
+    border: 1px solid rgb(245, 163, 2);;
+    background: rgb(207, 139, 1);
+    /* box-shadow: 0 5px 15px rgb(242, 162, 2); */
 }
 
 .but-outline {
     margin: 5px 10px;
-    color: #5E5D5D;;
+    color: #5E5D5D;
     border: 1px solid #005479;
     box-sizing: border-box;
     border-radius: 5px;
@@ -426,9 +524,51 @@ table {
 
 td, th {
     vertical-align: middle;
+    font-size: 15px;
 }
 
 .daftar-table th {
     background-color: #033C59;
     color: white;
+    text-align: center;
   }
+
+/* Daftar List Utama */
+#table-utama {
+    margin: 50px 20px 50px 20px; 
+}
+
+.list-header h2{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 54px;
+
+    letter-spacing: 2px;
+    color: #033C59;
+}
+
+.list-header hr{
+    border: 1px solid #0C1E34;
+}
+
+.list-body {
+    margin-top: 50px;
+}
+
+.list-body h3{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 54px;
+    text-align: center;
+
+    letter-spacing: 2px;
+    color: #000000;
+}
+
+.list-body table{
+    margin-top:10px;
+}

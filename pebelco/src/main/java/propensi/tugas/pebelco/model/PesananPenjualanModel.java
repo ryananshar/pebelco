@@ -59,7 +59,7 @@ public class PesananPenjualanModel implements Serializable{
     @Column(name = "diskon", nullable = true)
     private Integer diskon;
 
-    // @NotNull
+//    @NotNull
     @Column(name = "total_harga", nullable = true)
     private Long totalHarga;
 

@@ -46,8 +46,9 @@ public class ProdukModel implements Serializable{
     @Column(name = "tipe", nullable = false)
     private Integer tipe;
 
+    @NotNull
     @Size(max = 250)
-    @Column(name = "spesifikasi", nullable = true)
+    @Column(name = "spesifikasi", nullable = false)
     private String spesifikasi;
 
     //id produk
