@@ -97,21 +97,23 @@
                                     <td>
                                         <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}"
                                                 class="form-control" required>
-                                            <option selected value="">-- PILIH Nama Barang (Stok)--</option>
+                                            <option selected value="">-- PILIH Nama Barang (Harga) -[Stok] --</option> 
                                             <option th:each="produk : ${listProduk}"
                                                     th:value="${produk.namaProduk}"
                                                     th:with="harga=${produk.harga}"
-                                                    th:text="${produk.namaProduk} + ' - (' + ${produk.stok} + ')'"
+                                                    th:text="${produk.namaProduk} + 
+                                                            '(Rp ' + ${#numbers.formatInteger(harga,3,'POINT')} + ')'
+                                                            + ' -[' + ${produk.stok} + ']'"
                                             ></option>
                                         </select>
                                     </td>
                                     <td>
                                         <input type="number" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}"
                                                placeholder="Masukan jumlah"
-                                               class="form-control"/ required>
+                                               class="form-control" required/>
                                     </td>
                                     <td>
-                                        <button class="btn but-danger" type="submit" name="removeRow"
+                                        <button th:if="${barangStat.size} > 1" class="btn but-danger" type="submit" name="removeRow"
                                                 th:value="${barangStat.index}">
                                             <i class="fa fa-trash"></i></button>
                                     </td>

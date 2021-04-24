@@ -20,9 +20,9 @@
                 </a>
             </div>
 
-            <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5 pop-up" id="konfirmasi-hapus">
+            <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
                 <p th:text="${msg2}"></p>
-                <span th:text="${subMsg}"></span>
+                <span class="sub-msg" th:text="${subMsg}"></span>
                 <div class="row justify-content-center">
                     <a th:href="@{/kunjungan}" class="btn but-outline">
                         Tidak
