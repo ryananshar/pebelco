@@ -69,5 +69,5 @@ public class UserServiceImpl implements UserService{
     public UserModel getUserbyIdUser(Long idUser) {
         return userDb.findById(idUser).get();
     }
-   
+
 }

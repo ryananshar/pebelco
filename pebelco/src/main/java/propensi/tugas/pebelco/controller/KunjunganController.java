@@ -9,24 +9,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import propensi.tugas.pebelco.model.KunjunganModel;
+import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.KunjunganService;
+import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 public class KunjunganController {
     @Autowired
-    KunjunganService kunjunganService;
+    private KunjunganService kunjunganService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @GetMapping("/")
-    private String home(){
-        return "home";
-    }
+    @Autowired
+    private NotifikasiService notifikasiService;
 
     @GetMapping("/kunjungan")
     public String daftarKunjungan(Model model) {
@@ -37,7 +38,7 @@ public class KunjunganController {
 
             if (listKunjunganStafSales.isEmpty()){
                 model.addAttribute("msg", "tidak ada kunjungan");
-                model.addAttribute("message", "Anda Belum Memiliki Jadwal Kunjungan");
+                model.addAttribute("pesan", "Anda Belum Memiliki Jadwal Kunjungan");
             }
             else{
                 model.addAttribute("msg", "ada kunjungan");
@@ -50,7 +51,7 @@ public class KunjunganController {
 
             if (listKunjungan.isEmpty()){
                 model.addAttribute("msg", "tidak ada kunjungan");
-                model.addAttribute("message", "Belum Terdapat Daftar Jadwal Kunjungan");
+                model.addAttribute("pesan", "Belum Terdapat Jadwal Kunjungan");
             }
             else{
                 model.addAttribute("msg", "ada kunjungan");
@@ -118,7 +119,7 @@ public class KunjunganController {
             model.addAttribute("subMsg", "Waktu tidak valid");
         }
 
-        model.addAttribute("newKunjungan", new KunjunganModel());
+        model.addAttribute("newKunjungan", kunjungan);
         return "kunjungan/form-tambah-kunjungan";
     }
 
@@ -175,15 +176,135 @@ public class KunjunganController {
         return "kunjungan/form-ubah-kunjungan";
     }
 
-    // hapus kunjungan belum kelar, blm sesuai sama ucs
-    @GetMapping("/kunjungan/hapus/{kodeKunjungan}")
-    public String hapusKunjungan(
+    @GetMapping("/kunjungan/konfirmasi-hapus/{kodeKunjungan}")
+    public String konfirmasiHapusKunjungan(
             @PathVariable String kodeKunjungan,
-            Model model
-    ) {
+            Model model) {
         KunjunganModel kunjungan = kunjunganService.getKunjunganByKodeKunjungan(kodeKunjungan);
-        model.addAttribute("kunjungan", kunjungan);
-        kunjunganService.deleteKunjungan(kunjungan);
-        return "kunjungan/hapus-kunjungan";
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            List<KunjunganModel> listKunjunganStafSales = kunjunganService.getKunjunganListByStafSalesByIsShown(user, true);
+
+            if (listKunjunganStafSales.isEmpty()){
+                model.addAttribute("msg", "tidak ada kunjungan");
+                model.addAttribute("pesan", "Anda Belum Memiliki Jadwal Kunjungan");
+            }
+            else{
+                model.addAttribute("msg", "ada kunjungan");
+                model.addAttribute("listKunjungan", listKunjunganStafSales);
+            }
+
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+                model.addAttribute("listKunjungan", listKunjunganStafSales);
+                model.addAttribute("pop", "konfirmasi hapus");
+                model.addAttribute("msg2", "Konfirmasi Penghapusan");
+                model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus jadwal kunjungan ini?");
+                model.addAttribute("kodeKunjungan", kodeKunjungan);
+            }
+            // Jika Staf Sales menghapus kunjungan yang bukan miliknya atau kunjungan dengan isShown false
+            else {
+                model.addAttribute("message", "Data Jadwal Kunjungan Tidak Ditemukan");
+            }
+        }
+
+        else {
+            List<KunjunganModel> listKunjungan = kunjunganService.getKunjunganListByIsShown(true);
+
+            if (listKunjungan.isEmpty()){
+                model.addAttribute("msg", "tidak ada kunjungan");
+                model.addAttribute("pesan", "Belum Terdapat Jadwal Kunjungan");
+            }
+            else{
+                model.addAttribute("msg", "ada kunjungan");
+                model.addAttribute("listKunjungan", listKunjungan);
+            }
+
+            if (kunjungan.getIsShown() == true) {
+                model.addAttribute("listKunjungan", listKunjungan);
+                model.addAttribute("pop", "konfirmasi hapus");
+                model.addAttribute("msg2", "Konfirmasi Penghapusan");
+                model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus jadwal kunjungan ini?");
+                model.addAttribute("kodeKunjungan", kodeKunjungan);
+            }
+            // Jika Admin menghapus kunjungan dengan isShown false
+            else {
+                model.addAttribute("message", "Data Jadwal Kunjungan Tidak Ditemukan");
+            }
+        }
+
+        return "kunjungan/daftar-kunjungan";
     }
+
+    @GetMapping("/kunjungan/hapus/{kodeKunjungan}")
+    public String HapusKunjungan(
+            @PathVariable String kodeKunjungan,
+            Model model) {
+        KunjunganModel kunjungan = kunjunganService.getKunjunganByKodeKunjungan(kodeKunjungan);
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            List<KunjunganModel> listKunjunganStafSales = kunjunganService.getKunjunganListByStafSalesByIsShown(user, true);
+
+            if (listKunjunganStafSales.isEmpty()){
+                model.addAttribute("msg", "tidak ada kunjungan");
+                model.addAttribute("pesan", "Anda Belum Memiliki Jadwal Kunjungan");
+            }
+            else{
+                model.addAttribute("msg", "ada kunjungan");
+                model.addAttribute("listKunjungan", listKunjunganStafSales);
+            }
+
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+                kunjunganService.deleteKunjungan(kunjungan);
+                model.addAttribute("listKunjungan", listKunjunganStafSales);
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg2", "Jadwal Kunjungan Berhasil Dihapus");
+            }
+            // Jika Staf Sales menghapus kunjungan yang bukan miliknya atau kunjungan dengan isShown false
+            else {
+                model.addAttribute("message", "Data Jadwal Kunjungan Tidak Ditemukan");
+            }
+        }
+
+        else {
+            List<KunjunganModel> listKunjungan = kunjunganService.getKunjunganListByIsShown(true);
+
+            if (listKunjungan.isEmpty()){
+                model.addAttribute("msg", "tidak ada kunjungan");
+                model.addAttribute("pesan", "Belum Terdapat Jadwal Kunjungan");
+            }
+            else{
+                model.addAttribute("msg", "ada kunjungan");
+                model.addAttribute("listKunjungan", listKunjungan);
+            }
+
+            if (kunjungan.getIsShown() == true) {
+                kunjunganService.deleteKunjungan(kunjungan);
+                model.addAttribute("listKunjungan", listKunjungan);
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg2", "Jadwal Kunjungan Berhasil Dihapus");
+            }
+            // Jika Admin menghapus kunjungan dengan isShown false
+            else {
+                model.addAttribute("message", "Data Jadwal Kunjungan Tidak Ditemukan");
+            }
+        }
+
+        return "kunjungan/daftar-kunjungan";
+    }
+
+    @ModelAttribute
+    public void userInformation(Principal principal, Model model) {
+        try {
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
+        } catch (Exception e) {
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
+        }
+    }
+
 }
