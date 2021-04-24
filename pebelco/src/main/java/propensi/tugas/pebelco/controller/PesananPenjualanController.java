@@ -93,6 +93,7 @@ public class PesananPenjualanController {
     public String removeRow(
             @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model, 
             final HttpServletRequest req, final BindingResult bindingResult) {
+        System.out.println(req.getParameter("removeRow"));
         final Integer barangId = Integer.valueOf(req.getParameter("removeRow"));
         // final TransaksiPesananModel barangPesanan = transaksiPesananService.getByIdTransaksiPesanan(barangId);
         pesananPenjualan.getBarangPesanan().remove(barangId.intValue());
@@ -129,6 +130,10 @@ public class PesananPenjualanController {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
 
+        if (diskon == null) {
+            diskon = 0;
+        }
+
         if (diskon >= 0 && diskon <= 100) {            
             String email = principal.getName();
             UserModel user = userService.getUserbyEmail(email);
@@ -138,6 +143,7 @@ public class PesananPenjualanController {
 
             for (TransaksiPesananModel barang : tempList) {
                 Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
+                // Handle duplicate
                 if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listProduk", listProduk);
@@ -145,9 +151,8 @@ public class PesananPenjualanController {
                     model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
                     model.addAttribute("subMsg", "Nama barang tidak dapat berulang"); 
 
-                    return "pesanan/form-add-pesanan";
-                } else 
-                if (barang.getJumlah() <= 0) {
+                    return "pesanan/form-add-pesanan";                
+                } else if (barang.getJumlah() <= 0) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listProduk", listProduk);
                     model.addAttribute("pop", "red");
@@ -214,11 +219,25 @@ public class PesananPenjualanController {
         @PathVariable(value = "kodePesananPenjualan") String kodePesananPenjualan,
         Model model
     ) {
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
             PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-            model.addAttribute("pesananPenjualan", pesananPenjualan);
-            List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();  
-            model.addAttribute("listbarang", listbarang);           
+            List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
+            if (user.getRole().getNamaRole().equals("Staf Sales")) {
+                if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);  
+                    model.addAttribute("listbarang", listbarang); 
+                } else {
+                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+                }
+            } else {
+                if (pesananPenjualan.getIsShown()) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);  
+                    model.addAttribute("listbarang", listbarang); 
+                } else {
+                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+                }
+            }          
 
             return "pesanan/detail-pesanan";
         } catch (NullPointerException e) {

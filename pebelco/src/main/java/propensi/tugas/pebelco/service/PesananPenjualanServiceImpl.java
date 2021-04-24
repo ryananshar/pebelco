@@ -51,10 +51,8 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
         Long tempTotal = 0L;
         for (TransaksiPesananModel barang : barangPesanan) {
             tempTotal += barang.getHarga();
-            System.out.println("---------- total -----:" + tempTotal);
         }
         Long total = (Long) tempTotal*(100 - diskon)/100;
-        System.out.println("---------- total akhir -----:" + total);
         return total;
     }
 
