@@ -79,6 +79,21 @@
                                     </div>
                                 </div>
                                 <br><br>
+                                <div th:if="${pesananPenjualan.tanggalPersetujuan} != null">
+                                    <br><br>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div>Tanggal Disetujui</div>                                     
+                                        </div>
+                                        <div class="col-1">
+                                            <div th:text="':'"></div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div th:text="${#dates.format(pesananPenjualan.tanggalPersetujuan, 'dd/MM/yyyy')}"></div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </div>
                                 <div class="row">
                                     <div class="col-3">
                                         <div>Nama Toko</div>                                        

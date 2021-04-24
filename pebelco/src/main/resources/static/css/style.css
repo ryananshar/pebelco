@@ -58,6 +58,8 @@ body {
     transition: 0.5s;
 }
 
+/* Pop Up */
+
 .pop-up {
     position: absolute;
     top: 25%;
@@ -134,7 +136,62 @@ body {
     background:#033C59;
 }
 
+/* Konfirmasi Hapus */
+#konfirmasi-hapus {
+    position: absolute;
+    top: 25%;
+    align-items: center;
+    margin: 50px;
 
+    /* max-width: 1000px; */
+    min-height: height auto;
+    min-width: 300px;
+    width: 600px;
+    height: auto;
+
+    background: #FFFFFF;
+    border: 0.655044px solid #0C1E34;
+    box-sizing: border-box;
+    box-shadow: 0px 17px 10px -5px #0000003b;
+    border-radius: 6.96855px;
+    transition: all .2s;
+}
+
+#konfirmasi-hapus:hover {    
+    box-shadow: 0px 17px 17px -5px #0000006b;
+    transform: scale(1.1)
+}
+
+#konfirmasi-hapus p {
+    margin: 40px 20px 20px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #033C59;
+}
+
+#konfirmasi-hapus .sub-msg {
+    margin: 20px 20px 50px 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 100%;
+    text-align: center;
+    letter-spacing: 0.045em;
+
+    color: #000000;
+}
+
+#konfirmasi-hapus a{
+    margin: 30px 20px;
+    width: 130px;
+}
 
 /* Home */
 .jumbotron {
@@ -478,7 +535,7 @@ td, th {
 
 /* Daftar List Utama */
 #table-utama {
-    margin: 50px 60px 50px 80px; 
+    margin: 50px 20px 50px 20px; 
 }
 
 .list-header h2{
