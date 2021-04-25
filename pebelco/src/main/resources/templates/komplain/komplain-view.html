@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Pesanan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <a
+                th:href="@{/komplain/}"
+                class="btn but-arrow"
+        ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <div class="row justify-content-center">
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-11">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/komplain}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div th:unless="${message} != null">
+                <div class="card" id="pesananPenjualan" style="min-width: 900px;">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h4>Detail Komplain </h4>
+                            </div>
+                            <div class="col">
+                                    <span th:if="${komplain.statusKomplain} == 0"
+                                          class="pending">Menunggu Persetujuan</span>
+                                <span th:if="${komplain.statusKomplain} == 1"
+                                      class="disetujui">Disetujui</span>
+                                <span th:if="${komplain.statusKomplain} == 2"
+                                      class="ditolak">Ditolak</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row kode">
+                                <div th:text="${komplain.kodeKomplain}"></div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Tanggal</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${#dates.format(komplain.tanggalKomplain, 'dd/MM/yyyy')}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Nama Toko</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${komplain.namaToko}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Alamat Toko</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${komplain.alamatToko}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Request Change</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:if="${komplain.requestChange} != null" th:text="${komplain.requestChange}"></div>
+                                    <div th:unless="${komplain.requestChange} != null" th:text="'-'"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Daftar Barang</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-hover daftar-table">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Jumlah</th>
+                                    <th>Deskripsi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="barangKomp, iterationStatus : *{komplain.barangKomplain}">
+                                    <td th:text="${iterationStatus.count}"></td>
+                                    <td th:text="${barangKomp.namaBarang}"></td>
+                                    <td th:text="${barangKomp.jumlah}"></td>
+                                    <td th:text="${barangKomp.deskripsiKomplain}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br><br><br>
+                        </div>
+                        <div class="row justify-content-end">
+                            <a th:href="@{/komplain/ubah-status/} + ${komplain.kodeKomplain}"
+                               class="btn but-ubah-stat"
+                               sec:authorize="hasAnyAuthority('Admin Komplain', 'Admin')">
+                            Ubah Status</a>
+                            <a th:href="@{/komplain/ubah/} + ${komplain.kodeKomplain}"
+                               class="btn but-ubah"
+                               sec:authorize="hasAnyAuthority('Admin Komplain', 'Admin')">
+                            Ubah</a>
+                            <a  th:href="@{/komplain/request/} + ${komplain.kodeKomplain}"
+                                class="btn but-outline"
+                                sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+</body>
+<style>
+    .containDetail{
+        border:2px solid #033C59;
+        border-radius: 20px;
+        min-width: 900px;
+    }
+</style>
+</html>

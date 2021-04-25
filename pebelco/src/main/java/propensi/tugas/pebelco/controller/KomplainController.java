@@ -1,0 +1,485 @@
+package propensi.tugas.pebelco.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import propensi.tugas.pebelco.model.*;
+import propensi.tugas.pebelco.service.*;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Controller
+public class KomplainController {
+    @Qualifier("komplainServiceImpl")
+    @Autowired
+    KomplainService komplainService;
+
+    @Qualifier("transaksiKomplainServiceImpl")
+    @Autowired
+    TransaksiKomplainService transaksiKomplainService;
+
+    @Qualifier("pesananPenjualanServiceImpl")
+    @Autowired
+    PesananPenjualanService pesananPenjualanService;
+
+    @Qualifier("transaksiPesananServiceImpl")
+    @Autowired
+    TransaksiPesananService transaksiPesananService;
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/komplain")
+    private String komplainViewAll(Principal principal, Model model) {
+
+        List<KomplainModel> komplainList;
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
+            komplainList = komplainService.getListKomplainByUser(user);
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum Terdapat Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        } else {
+            komplainList = komplainService.getListKomplain();
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum Terdapat Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        }
+
+        return "komplain/komplain-viewall";
+    }
+
+    @GetMapping("/komplain/konfirmasi-hapus/{kodeKomplain}")
+    private String komplainViewAllDeletePopup(
+            @PathVariable String kodeKomplain, Principal principal,
+            Model model) {
+
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        List<KomplainModel> komplainList;
+
+        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
+            komplainList = komplainService.getListKomplainByUser(user);
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum ada Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        } else {
+            komplainList = komplainService.getListKomplain();
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum ada Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        }
+
+        model.addAttribute("komplainList", komplainList);
+        model.addAttribute("pop", "notification");
+        model.addAttribute("msg", "Konfirmasi Penghapusan");
+        model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus komplain ini?");
+        model.addAttribute("kodeKomplain", kodeKomplain);
+        return "komplain/komplain-viewall";
+    }
+
+    @GetMapping("/komplain/hapus/{kodeKomplain}")
+    private String komplainViewAllDelete(
+            @PathVariable String kodeKomplain, Principal principal,
+            Model model) {
+
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        List<KomplainModel> komplainList;
+
+        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
+            komplainList = komplainService.getListKomplainByUser(user);
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum ada Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        } else {
+            komplainList = komplainService.getListKomplain();
+            if (komplainList.size() == 0){
+                model.addAttribute("pesan", "Belum ada Komplain");
+            } else{
+                model.addAttribute("komplainList", komplainList);
+            }
+        }
+
+        KomplainModel kompDelete = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+
+        komplainService.deleteKomplain(kompDelete);
+
+        model.addAttribute("komplainList", komplainList);
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Komplain Berhasil Dihapus");
+        return "komplain/komplain-viewall";
+    }
+
+    @GetMapping("/komplain/tambah")
+    public String addKomplainPage(Model model) {
+        List<PesananPenjualanModel> pesananPenjualanList;
+        List<TransaksiPesananModel> transaksiPesananList;
+        List<List<TransaksiPesananModel>> listList = new ArrayList<>();
+        pesananPenjualanList = pesananPenjualanService.getPesananList(true);
+        List<String> listDesc = new ArrayList<>();
+        List<String> listBarang = new ArrayList<>();
+        List<Integer> listJumlah = new ArrayList<>();
+
+        for (int i = 0; i < pesananPenjualanList.size(); i++) {
+            transaksiPesananList = transaksiPesananService.getListByIdPesanan(pesananPenjualanList.get(i));
+            listList.add(transaksiPesananList);
+        }
+
+        model.addAttribute("pesananList", pesananPenjualanList);
+        model.addAttribute("transaksiList", listList);
+        model.addAttribute("listBarang", listBarang);
+        model.addAttribute("listDesc", listDesc);
+        model.addAttribute("listJumlah", listJumlah);
+        model.addAttribute("komplain", new KomplainModel());
+//        model.addAttribute("transaksiKomplain", new TransaksiKomplainModel());
+        return "komplain/komplain-form-add";
+    }
+
+    @PostMapping("/komplain/tambah")
+    public String addKomplainSubmit(
+            @ModelAttribute KomplainModel komplain,
+//            Principal principal,
+            String userEmail,
+            Model model
+    ) {
+        List<PesananPenjualanModel> pesananPenjualanList;
+        pesananPenjualanList = pesananPenjualanService.getPesananList(true);
+        List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
+        TransaksiKomplainModel transaksiKomplain;
+        String[] tempTransaksi = komplain.getTemp().split("---");
+        String condition = tempTransaksi[tempTransaksi.length - 1];
+
+        if (condition.equals("aman")) {
+            String indexLength = tempTransaksi[0];
+            String tempBarang = tempTransaksi[1];
+            String[] listTempBarang = tempBarang.split(",,,");
+            String tempDesc = tempTransaksi[2];
+            String[] listTempDesc = tempDesc.split(",,,");
+            String tempJumlah = tempTransaksi[3];
+            String[] listTempJumlah = tempJumlah.split(",,,");
+
+            UserModel userBaru = userService.getUserbyEmail(userEmail);
+            Date date = new Date();
+
+            komplain.setIsShown(true);
+            komplain.setTanggalKomplain(date);
+            komplain.setUser(userBaru);
+            komplain.setKodeKomplain("tes");
+            komplain.setBarangKomplain(null);
+            komplain.setStatusKomplain(0);
+
+
+            komplainService.addKomplain(komplain);
+
+            for (int i = 0; i < Integer.parseInt(indexLength); i++) {
+                transaksiKomplain = new TransaksiKomplainModel();
+
+                transaksiKomplain.setJumlah(Integer.parseInt(listTempJumlah[i]));
+                transaksiKomplain.setNamaBarang(listTempBarang[i]);
+                transaksiKomplain.setKomplainTransaksi(komplain);
+                transaksiKomplain.setDeskripsiKomplain(listTempDesc[i]);
+
+                transaksiKomplainService.addTransaksiKomplain(transaksiKomplain);
+                transaksiKomplainList.add(transaksiKomplain);
+            }
+
+            komplain.setBarangKomplain(transaksiKomplainList);
+            String kodeKomplain = "KOM" + komplain.getIdKomplain().toString();
+            komplain.setKodeKomplain(kodeKomplain);
+            komplain.setTemp(null);
+            komplainService.updateKomplain(komplain);
+
+
+            model.addAttribute("pesananList", pesananPenjualanList);
+            model.addAttribute("komplain", new KomplainModel());
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Komplain Berhasil Ditambahkan");
+            model.addAttribute("subMsg", "");
+        } else if (condition.equals("jumlahInvalid")) {
+
+            model.addAttribute("pesananList", pesananPenjualanList);
+            model.addAttribute("komplain", new KomplainModel());
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("subMsg", "Jumlah tidak valid");
+        } else {
+
+            model.addAttribute("pesananList", pesananPenjualanList);
+            model.addAttribute("komplain", new KomplainModel());
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("subMsg", "Deskripsi tidak valid");
+        }
+
+
+        return "komplain/komplain-form-add";
+    }
+
+
+    @GetMapping("/komplain/{kodeKomplain}")
+    public String viewDetailKomplain(
+            @PathVariable(value = "kodeKomplain") String kodeKomplain,
+            Model model
+    ) {
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        try {
+            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+            List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
+            if (user.getRole().getNamaRole().equals("Staf Sales")) {
+                if (komplain.getUser() == user && komplain.getIsShown()) {
+                    model.addAttribute("komplain", komplain);
+                    model.addAttribute("listBarang", listBarangTransaksi);
+                } else {
+                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+                }
+            } else {
+                if (komplain.getIsShown()) {
+                    model.addAttribute("komplain", komplain);
+                    model.addAttribute("listBarang", listBarangTransaksi);
+                } else {
+                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+                }
+            }
+
+            return "komplain/komplain-view";
+        } catch (NullPointerException e) {
+            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
+            model.addAttribute("message", message);
+            return "komplain/komplain-view";
+        }
+
+    }
+
+    @GetMapping("/komplain/ubah-status/{kodeKomplain}")
+    public String viewUbahStatus(
+            @PathVariable String kodeKomplain,
+            Model model
+    ){
+
+        try {
+            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+            if (komplain.getIsShown()) {
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("kodeKomplain", kodeKomplain);
+            } else {
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            }
+
+            return "komplain/komplain-ubah-status";
+        } catch (NullPointerException e) {
+            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
+            model.addAttribute("message", message);
+            return "komplain/komplain-ubah-status";
+        }
+
+    }
+
+    @GetMapping("/komplain/konfirmasi-ubah-status/{statKomplain}/{kodeKomplain}")
+    public String ubahStatusKomplainPopup(
+            @PathVariable String kodeKomplain,
+            @PathVariable String statKomplain,
+            Model model
+    ){
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+
+        if (komplain != null){
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
+            if (statKomplain.equals("1")){
+                model.addAttribute("pop", "statusPop");
+                model.addAttribute("msg", "Konfirmasi Persetujuan");
+                model.addAttribute("subMsg", "Apakah anda yakin ingin menyetujui komplain ini?");
+                model.addAttribute("kodeKomplain", kodeKomplain);
+            }else if (statKomplain.equals("2")){
+                model.addAttribute("pop", "statusPop");
+                model.addAttribute("msg", "Konfirmasi Persetujuan");
+                model.addAttribute("subMsg", "Apakah anda yakin ingin menolak komplain ini?");
+                model.addAttribute("kodeKomplain", kodeKomplain);
+            }else{
+                model.addAttribute("pesan", "Status Komplain Tidak Dapat Diubah");
+            }
+        } else if(komplain == null){
+            model.addAttribute("pesan", "Komplain Tidak Tersedia");
+        }
+
+
+        return "komplain/komplain-ubah-status";
+
+    }
+
+    @GetMapping("/komplain/ubah-status/{statKomplain}/{kodeKomplain}")
+    public String ubahStatusKomplain(
+            @PathVariable String kodeKomplain,
+            @PathVariable String statKomplain,
+            Model model
+    ){
+
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+
+
+        if (komplain != null){
+            Integer status = Integer.parseInt(statKomplain);
+
+            if (status == 1){
+                Date date = new Date();
+
+                komplain.setTanggalPersetujuan(date);
+                komplainService.changeStatusDisetujui(komplain);
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg", "Status Komplain Berhasil Diubah");
+                model.addAttribute("subMsg", "");
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("kodeKomplain", kodeKomplain);
+
+            } else if (status == 2){
+                komplainService.changeStatusDitolak(komplain);
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg", "Status Komplain Berhasil Diubah");
+                model.addAttribute("subMsg", "");
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("kodeKomplain", kodeKomplain);
+
+            } else{
+                model.addAttribute("pop", "red");
+                model.addAttribute("msg", "Status Gagal Diubah");
+                model.addAttribute("subMsg", "Status tidak valid");
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("kodeKomplain", kodeKomplain);
+
+            }
+        } else if(komplain == null){
+            model.addAttribute("pesan", "Komplain Tidak Tersedia");
+        }
+
+        return "komplain/komplain-ubah-status";
+    }
+
+    @GetMapping("/komplain/ubah/{kodeKomplain}")
+    public String ubahKomplain(
+            @PathVariable String kodeKomplain,
+            Model model
+    ){
+
+        try {
+            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+            if (komplain.getIsShown()) {
+                List<String> listDesc = new ArrayList<>();
+                List<String> listBarang = new ArrayList<>();
+                List<Integer> listJumlah = new ArrayList<>();
+                List<Integer> listId = new ArrayList<>();
+                List<Integer> listMaxJumlah = new ArrayList<>();
+
+                for (int i =0; i < komplain.getBarangKomplain().size(); i++){
+                    Long temp =  komplain.getBarangKomplain().get(i).getIdTransaksiKomplain();
+                    listId.add(temp.intValue());
+                }
+
+                List<TransaksiPesananModel> transaksiPesanan = komplain.getPesananKomplain().getBarangPesanan();
+
+                for (int i=0; i < transaksiPesanan.size(); i++){
+                    listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
+                }
+
+
+                model.addAttribute("listBarang", listBarang);
+                model.addAttribute("listDesc", listDesc);
+                model.addAttribute("listJumlah", listJumlah);
+                model.addAttribute("listId", listId);
+                model.addAttribute("listMaxJumlah", listMaxJumlah);
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("kodeKomplain", kodeKomplain);
+            } else {
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            }
+
+            return "komplain/komplain-form-ubah";
+        } catch (NullPointerException e) {
+            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
+            model.addAttribute("message", message);
+            return "komplain/komplain-form-ubah";
+        }
+
+    }
+
+    @PostMapping("/komplain/ubah")
+    public String ubahKomplainSuccess(
+            @ModelAttribute KomplainModel komplain,
+            Model model
+    ){
+        List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
+        TransaksiKomplainModel transaksiKomplain;
+
+        String[] tempTransaksi = komplain.getTemp().split("---");
+        String condition = tempTransaksi[tempTransaksi.length - 1];
+
+        if (condition.equals("aman")){
+            String indexLength = tempTransaksi[0];
+            String tempBarang = tempTransaksi[1];
+            String[] listTempBarang = tempBarang.split(",,,");
+            String tempDesc = tempTransaksi[2];
+            String[] listTempDesc = tempDesc.split(",,,");
+            String tempJumlah = tempTransaksi[3];
+            String[] listTempJumlah = tempJumlah.split(",,,");
+            String tempId = tempTransaksi[4];
+            String[] listTempId = tempId.split(",,,");
+
+            for (int i = 0; i < Integer.parseInt(indexLength); i++) {
+                transaksiKomplain = transaksiKomplainService.getTransaksiByIdTransaksi(Long.parseLong(listTempId[i]));
+
+                transaksiKomplain.setJumlah(Integer.parseInt(listTempJumlah[i]));
+                transaksiKomplain.setNamaBarang(listTempBarang[i]);
+                transaksiKomplain.setKomplainTransaksi(komplain);
+                transaksiKomplain.setDeskripsiKomplain(listTempDesc[i]);
+
+                transaksiKomplainService.updateTransaksiKomplain(transaksiKomplain);
+                transaksiKomplainList.add(transaksiKomplain);
+            }
+
+            komplain.setBarangKomplain(transaksiKomplainList);
+            komplain.setTemp(null);
+            komplainService.updateKomplain(komplain);
+
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Komplain Berhasil Diubah");
+            model.addAttribute("subMsg", "");
+
+        }else if (condition.equals("jumlahInvalid")) {
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("subMsg", "Jumlah tidak valid");
+
+
+        }else {
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("subMsg", "Deskripsi tidak valid");
+        }
+
+        return "komplain/komplain-form-ubah";
+    }
+
+}

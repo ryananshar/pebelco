@@ -14,7 +14,7 @@ public interface TransaksiPesananDb extends JpaRepository<TransaksiPesananModel,
 
     TransaksiPesananModel findByIdTransaksiPesanan(Long idTransaksiPesanan);
 
-    TransaksiPesananModel findByPesananTransaksi(PesananPenjualanModel pesananTransaksi);
+    List<TransaksiPesananModel> findByPesananTransaksi(PesananPenjualanModel pesananTransaksi);
 
     // TransaksiPesananModel findByProdukPesanan(ProdukModel produkPesanan)
 }

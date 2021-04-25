@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Komplain</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div th:if="${pop} == 'green'" class="col-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p th:text="${msg}"></p>
+                <a th:href="@{/komplain}" class="btn">
+                    OK
+                </a>
+            </div>
+            <div th:if="${pop} == 'notification'" class="col-5 pop-up">
+                <div class="row justify-content-left" style=" text-align: left">
+                    <h4 th:text="${msg}" style="margin: 10px 10px 0 10px; color: #033C59"></h4>
+                    <p th:text="${subMsg}" style="text-align: left; font-weight: normal; font-size: 16px"></p>
+                </div>
+                <div class="row justify-content-center">
+                    <a th:href="@{/komplain}" class="btn btn-tidak" style="background-color: #FFFFFF;
+                    border-color: #005479; border-width: medium; color: #005479;">
+                        Tidak
+                    </a>
+                    <a th:href="@{/komplain/hapus/} + ${kodeKomplain}" class="btn" style="margin-left: 10px;">
+                        Ya
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        </div>
+        <div class="container col">
+            <div class="container">
+                <div class="list-header">
+                    <h2 >Daftar Komplain</h2>
+                    <hr class="solid">
+                </div>
+                <div class="list-body">
+                    <div class="butt-tambah-komplain">
+                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin',)">
+                            <a class="btn btn-outline-dark" th:href="@{/komplain/tambah}">
+                                +Tambah Komplain
+                            </a>
+                        </div>
+                    </div>
+                    <div style="height: 20px;" class="container">
+
+                    </div>
+                    <div th:if="${pesan != null}">
+                        <h3 th:text="${pesan}"></h3>
+                    </div>
+                    <div th:if="${pesan == null}">
+                        <table class="table daftar-table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Komplain</th>
+                                <th>Nama Toko</th>
+                                <th sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain')" >Nama Staf</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <div sec:authorize="hasAnyAuthority('Staf Sales','Admin', 'Admin Komplain')">
+                                    <th>Aksi</th>
+                                </div>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr
+                                    th:each="komplain, iterationStatus : ${komplainList}"
+                            >
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${komplain.kodeKomplain}"></td>
+                                <td th:text="${komplain.namaToko}"></td>
+                                <td th:text="${komplain.user.namaPanjang}" sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain')"></td>
+                                <td th:text="${#dates.format(komplain.tanggalKomplain, 'dd/MM/yyyy')}"></td>
+                                <div th:switch="${komplain.statusKomplain}">
+                                    <td th:case="0">Menunggu Persetujuan</td>
+                                    <td th:case="1">Disetujui</td>
+                                    <td th:case="2">Ditolak</td>
+                                </div>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
+                                           class="btn but-detail"
+                                           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin', 'Admin Komplain')">Detail</a>
+                                        <a th:href="@{/komplain/konfirmasi-hapus/} + ${komplain.kodeKomplain}"
+                                           th:classappend="${komplain.statusKomplain != 1 ? '':'disabled'}"
+                                           class="btn but-danger"
+                                           sec:authorize="hasAnyAuthority('Sales Counter', 'Admin', 'Admin Komplain')">Hapus</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<style>
+    .btn-outline-dark{
+        background-color: #FFFFFF;
+        border-color: #005479;
+        color: #005479;
+    }
+    .btn-outline-dark:hover {
+        background-color: #005479;
+        color: #FFFFFF;
+        transition: all 0.3s;
+    }
+    .btn-primary{
+        background-color: #6497B1;
+        color: #FFFFFF;
+    }
+    th {
+        background-color: #033C59;
+        color: white;
+        text-align: center;
+    }
+    .btn-danger{
+        margin-left: 5px;
+        background-color: #DA4F4F;
+        color: white;
+    }
+    .btn-danger-disabled{
+        margin-left: 5px;
+        pointer-events: none;
+        color: #ccc;
+    }
+    .btn-tidak:hover{
+        background-color: #005479;
+        color: #FFFFFF;
+        transition: all 0.3s;
+    }
+</style>
