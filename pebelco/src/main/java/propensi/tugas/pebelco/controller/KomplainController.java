@@ -36,6 +36,9 @@ public class KomplainController {
     TransaksiPesananService transaksiPesananService;
 
     @Autowired
+    private NotifikasiService notifikasiService;
+
+    @Autowired
     private UserService userService;
 
     @GetMapping("/komplain")
@@ -163,6 +166,7 @@ public class KomplainController {
             String userEmail,
             Model model
     ) {
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<PesananPenjualanModel> pesananPenjualanList;
         pesananPenjualanList = pesananPenjualanService.getPesananList(true);
         List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
@@ -210,6 +214,13 @@ public class KomplainController {
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
 
+            // setting pre-save values for notifikasi
+            Boolean isNotif = true;
+            String desc = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu diproses";
+            String url ="/komplain/" + komplain.getKodeKomplain();
+            Long idPengirim = user.getIdUser();
+            Long idRole = (long) 4;                 // id Sales Counter
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
 
             model.addAttribute("pesananList", pesananPenjualanList);
             model.addAttribute("komplain", new KomplainModel());
@@ -334,7 +345,7 @@ public class KomplainController {
             @PathVariable String statKomplain,
             Model model
     ){
-
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
 
@@ -346,6 +357,20 @@ public class KomplainController {
 
                 komplain.setTanggalPersetujuan(date);
                 komplainService.changeStatusDisetujui(komplain);
+
+                Boolean isNotif = true;
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+
+                String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
+                String urlPengiriman ="/perlu-dikirim/add/komplain/" + komplain.getKodeKomplain();
+                Long idAdminPengiriman = (long) 3;
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
+
+
                 model.addAttribute("pop", "green");
                 model.addAttribute("msg", "Status Komplain Berhasil Diubah");
                 model.addAttribute("subMsg", "");
@@ -354,6 +379,14 @@ public class KomplainController {
 
             } else if (status == 2){
                 komplainService.changeStatusDitolak(komplain);
+
+                Boolean isNotif = true;
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+
                 model.addAttribute("pop", "green");
                 model.addAttribute("msg", "Status Komplain Berhasil Diubah");
                 model.addAttribute("subMsg", "");
@@ -527,6 +560,19 @@ public class KomplainController {
         model.addAttribute("komplain", komplain);
         model.addAttribute("pop", "green");
         return "komplain/komplain-request-change";
+    }
+
+    @ModelAttribute
+    public void userInformation(Principal principal, Model model) {
+        try {
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
+        } catch (Exception e) {
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
+        }
     }
 }
 
