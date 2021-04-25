@@ -46,6 +46,7 @@ public class NotifikasiServiceImpl implements NotifikasiService{
             notifikasi.setWaktuDibuat(new Date());
             notifikasi.setListUser(listUser);
             notifikasiDb.save(notifikasi);
+            userPenerima.getListNotifikasi().add(notifikasi);
         }        
     }
 
