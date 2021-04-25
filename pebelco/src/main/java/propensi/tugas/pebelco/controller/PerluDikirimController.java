@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.PerluDikirimService;
 import propensi.tugas.pebelco.service.UserService;
+import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
+import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/perlu-dikirim")
@@ -21,7 +24,16 @@ public class PerluDikirimController {
 
     @RequestMapping
     public String tabelPerluDikirim(Model model) {
-        model.addAttribute("pengirimans", perluDikirimService.findAll());
+//        model.addAttribute("pengirimans", perluDikirimService.findAll());
+        List<PerluDikirim> pengirimans = perluDikirimService.findAll();
+        if (pengirimans.isEmpty()){
+            model.addAttribute("msg", "tidak ada pengiriman");
+            model.addAttribute("pesan", "Tidak Terdapat Pesanan/Komplain yang Perlu Dilakukan Pengiriman");
+        }
+        else{
+            model.addAttribute("msg", "ada pengiriman");
+            model.addAttribute("pengirimans", pengirimans);
+        }
         return "perluDikirim/tabelPerluDikirim";
     }
 

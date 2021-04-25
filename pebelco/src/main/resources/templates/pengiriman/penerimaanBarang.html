@@ -53,27 +53,31 @@
                         </div>
                         <div class="col-6">
                             <form th:action="@{/pengiriman/terima/}" method="POST">
-                                <div class="row">
+
                                 <div class="form-group">
-                                    <div class="form-group">
-                                    <label>Tanggal Diterima</label>
-                                    <input th:type="date" th:name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group">
                                     <label>Nama Penerima</label>
-                                    <input th:type="text" th:name="namaPenerima" required aria-required="true">
-                                    </div>
+                                    <input th:field="*{pengiriman.namaPenerima}" type="text" class="form-control"
+                                                   name="namaPenerima"
+                                                   placeholder="Masukan nama penerima" required>
                                 </div>
-                                    <div>
+
+                                <div class="form-group">
+                                    <label>Tanggal Diterima</label>
+                                    <input th:field="*{pengiriman.tanggalDiterima}" type="date" class="form-control"
+                                                   name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}"required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row justify-content-end">
                                         <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
                                         <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.id}">Batal</a>
                                         <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                                     </div>
                                 </div>
-                        </form>
+
+                           </form>
+
                         </div>
+
                     </div>
                 </div>
 
@@ -83,107 +87,3 @@
 </div>
 </body>
 </html>
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://thymeleaf.org"-->
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
-
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Form Penerimaan Barang</title>-->
-<!--    <object th:include="fragments/fragment :: css" th:remove="tag"></object>-->
-<!--    <object th:include="fragments/fragment :: js" th:remove="tag"></object>-->
-<!--    <link rel="stylesheet" th:href="@{/css/style.css}" />-->
-<!--</head>-->
-
-<!--<body>-->
-<!--<nav th:replace="fragments/fragment :: navbar"></nav>-->
-<!--<div class="row d-flex">-->
-<!--    <div class="col-md-auto">-->
-<!--        &lt;!&ndash; <div class="position-fixed"> &ndash;&gt;-->
-<!--        <nav th:replace="fragments/fragment :: sidebar"></nav>-->
-<!--        &lt;!&ndash; </div> &ndash;&gt;-->
-<!--    </div>-->
-<!--    <div class="container col">-->
-<!--        <div class="row justify-content-center">-->
-<!--            <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">-->
-<!--                <div class="card-header">-->
-<!--                    <h4>Form Penerimaan Barang</h4>-->
-<!--                </div>-->
-<!--                <div class="card-body">-->
-<!--                    <div class="row justify-content-center">-->
-<!--                        <div class="col-6">-->
-<!--                            <div class="form-group">-->
-<!--                                <div class="form-group">-->
-<!--                                    <label>Kode Pengiriman</label>-->
-<!--                                    <input type="text"  name="kode" th:field="*{pengiriman.kode}" th:value="*{pengiriman.kode}" class="form-control" disabled>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <div class="form-group">-->
-<!--                                    <label>Nama Toko</label>-->
-<!--                                    <input type="text"  name="namaToko" th:field="*{pengiriman.namaToko}" th:value="*{pengiriman.namaToko}" class="form-control" disabled>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <label>Alamat Toko</label>-->
-<!--                                <textarea th:field="${pengiriman.alamatToko}" class="form-control"-->
-<!--                                          style="width: 100%; height: 350px" readonly></textarea>-->
-<!--                            </div>-->
-
-
-
-<!--                        </div>-->
-<!--                        <div class="col-6">-->
-
-<!--                        </div>-->
-
-
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
-<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
-<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
-<!--&lt;!&ndash;<head>&ndash;&gt;-->
-<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
-<!--&lt;!&ndash;    <title>Penerimaan Barang</title>&ndash;&gt;-->
-<!--&lt;!&ndash;</head>&ndash;&gt;-->
-<!--&lt;!&ndash;<body>&ndash;&gt;-->
-<!--&lt;!&ndash;    <h1>Form Penerimaan Barang</h1>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <h3>Kode Pengiriman</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;    <p th:text="${pengiriman.kodePengiriman}">Kode Pengiriman</p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <h3>Nama Toko</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;    <p th:text="${pengiriman.namaToko}">Nama Toko</p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <h3>Alamat Toko</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;    <p th:text="${pengiriman.alamatToko}">Alamat Toko</p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <h3>Metode Pengiriman</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;    <p th:text="${pengiriman.metodePengiriman}">Metode Pengiriman</p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <form th:action="@{/pengiriman/terima/}" method="POST">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h3>Tanggal Diterima</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input th:type="date" th:name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}" required>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <h3>Nama Penerima</h3>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input th:type="text" th:name="namaPenerima" required aria-required="true">&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
-<!--&lt;!&ndash;            <button type="submit" class="btn btn-primary">Submit</button>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </form>&ndash;&gt;-->
-<!--&lt;!&ndash;</body>&ndash;&gt;-->
-<!--&lt;!&ndash;</html>&ndash;&gt;-->
