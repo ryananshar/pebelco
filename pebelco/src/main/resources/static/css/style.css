@@ -372,6 +372,21 @@ body {
     background: #f0c8c8;
 }
 
+.belumDikirim{
+    color: #FFFFFF;
+    background: #9ce2b3;
+}
+
+.dikirim{
+    color: #D14747;
+    background: #f0c8c8;
+}
+
+.diterima{
+    color: #D14747;
+    background: #f0c8c8;
+}
+
 .card-header h4{
     font-family: Poppins;
     font-style: normal;

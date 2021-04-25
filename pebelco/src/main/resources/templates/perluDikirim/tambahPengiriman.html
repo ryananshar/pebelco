@@ -7,18 +7,18 @@
 <body>
     <h1>Tambah Pengiriman</h1>
     <h3>Kode Pesanan/Komplain</h3>
-    <p th:text="${item.kode}">Kode Pesanan/Komplain</p>
+    <p th:text="${pengiriman.kode}">Kode Pesanan/Komplain</p>
     <br>
 
     <h3>Nama Toko</h3>
-    <p th:text="${item.namaToko}">Nama Toko</p>
+    <p th:text="${pengiriman.namaToko}">Nama Toko</p>
     <br>
 
     <h3>Alamat Toko</h3>
-    <p th:text="${item.alamatToko}">Alamat Toko</p>
+    <p th:text="${pengiriman.alamatToko}">Alamat Toko</p>
     <br>
 
-    <form th:action="@{'/perlu-dikirim/add/' + ${item.type} + '/'}" method="POST">
+    <form th:action="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/'}" method="POST">
         <h3>Metode Pengiriman</h3>
         <select name="metodePengiriman" required>
             <option disabled selected value> -- Pilih metode pengiriman -- </option>
@@ -28,7 +28,7 @@
         </select>
 
         <div class="form-group">
-            <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
+            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
         </div>
 
         <h3>Daftar Barang</h3>

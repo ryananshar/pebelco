@@ -32,9 +32,10 @@ public class PengirimanController {
     public String halamanUtamaPengiriman(Model model) {
         return "pengiriman/halamanUtamaPengiriman";
     }
+
     @RequestMapping(value = "/daftarpengiriman")
     public String tabelPengiriman(Model model) {
-        model.addAttribute("items", pengirimanService.findAll());
+        model.addAttribute("pengirimans", pengirimanService.findAll());
         return "pengiriman/tabelPengiriman";
     }
 
@@ -43,7 +44,7 @@ public class PengirimanController {
         Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
         int status = pengiriman.getStatusId();
 
-        model.addAttribute("item", pengiriman);
+        model.addAttribute("pengiriman", pengiriman);
         model.addAttribute("isPengiriman", true);
         model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
         model.addAttribute("showUbahStatus", pengirimanService.showUbahStatusButton(status));
@@ -53,7 +54,7 @@ public class PengirimanController {
 
     @RequestMapping("pengiriman/update/{id}")
     public String formUbahPengiriman(@PathVariable Long id, Model model) {
-        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        model.addAttribute("pengiriman", pengirimanService.findPengirimanById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
         return "pengiriman/ubahPengiriman";
@@ -70,7 +71,7 @@ public class PengirimanController {
     @RequestMapping("pengiriman/update-status/{id}")
     public String formUbahStatus(@PathVariable Long id, Model model) {
         Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
-        model.addAttribute("item", pengiriman);
+        model.addAttribute("pengiriman", pengiriman);
         model.addAttribute("status", pengiriman.getNextStatus());
         model.addAttribute("statusId", pengiriman.getNextStatusId());
         return "pengiriman/ubahStatus";
@@ -92,7 +93,7 @@ public class PengirimanController {
 
     @RequestMapping("pengiriman/terima/{id}")
     public String formPenerimaanBarang(@PathVariable Long id, Model model) {
-        model.addAttribute("item", pengirimanService.findPengirimanById(id));
+        model.addAttribute("pengiriman", pengirimanService.findPengirimanById(id));
         return "pengiriman/penerimaanBarang";
     }
 

@@ -17,16 +17,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${items}">
-            <td th:text="${item.kodePengiriman}">Kode</td>
-            <td th:text="${item.namaToko}">Nama Toko</td>
-            <td th:text="${item.tanggalDibuat}">Tanggal</td>
-            <td th:text="${item.status}">Status</td>
+        <tr th:each="pengiriman : ${pengirimans}">
+            <td th:text="${pengiriman.kodePengiriman}">Kode</td>
+            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+            <td th:text="${pengiriman.tanggalDibuat}">Tanggal</td>
+            <td th:text="${pengiriman.status}">Status</td>
             <td>
-                <a th:href="@{'/pengiriman/' + ${item.id}}">Detail</a>
+                <a th:href="@{'/pengiriman/' + ${pengiriman.id}}">Detail</a>
                 <form th:action="@{/pengiriman/hapus/}" method="POST">
-                    <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
-                    <button type="submit" class="btn btn-primary" th:disabled="${item.disableHapus}">Hapus</button>
+                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                    <button type="submit" class="btn btn-primary" th:disabled="${pengiriman.disableHapus}">Hapus</button>
                 </form>
             </td>
         </tr>

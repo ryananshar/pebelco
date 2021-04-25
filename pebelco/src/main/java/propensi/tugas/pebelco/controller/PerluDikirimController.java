@@ -21,13 +21,13 @@ public class PerluDikirimController {
 
     @RequestMapping
     public String tabelPerluDikirim(Model model) {
-        model.addAttribute("items", perluDikirimService.findAll());
+        model.addAttribute("pengirimans", perluDikirimService.findAll());
         return "perluDikirim/tabelPerluDikirim";
     }
 
     @RequestMapping("/komplain/{id}")
     public String detailPengirimanKomplain(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findKomplainById(id));
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainById(id));
         model.addAttribute("isPengiriman", false);
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
         return "pengiriman/detailPengiriman";
@@ -35,7 +35,7 @@ public class PerluDikirimController {
 
     @RequestMapping("/pesanan/{id}")
     public String detailPengirimanPesanan(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findPesananById(id));
+        model.addAttribute("pengiriman", perluDikirimService.findPesananById(id));
         model.addAttribute("isPengiriman", false);
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
         return "pengiriman/detailPengiriman";
@@ -43,7 +43,7 @@ public class PerluDikirimController {
 
     @RequestMapping("/add/komplain/{id}")
     public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findKomplainById(id));
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
         return "perluDikirim/tambahPengiriman";
@@ -51,7 +51,7 @@ public class PerluDikirimController {
 
     @RequestMapping("/add/pesanan/{id}")
     public String formTambahPengirimanPesanan(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findPesananById(id));
+        model.addAttribute("pengiriman", perluDikirimService.findPesananById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
         return "perluDikirim/tambahPengiriman";
