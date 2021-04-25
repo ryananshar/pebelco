@@ -251,7 +251,7 @@ public class KomplainController {
                     model.addAttribute("komplain", komplain);
                     model.addAttribute("listBarang", listBarangTransaksi);
                 } else {
-                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
                 }
             } else {
                 if (komplain.getIsShown()) {
@@ -482,4 +482,51 @@ public class KomplainController {
         return "komplain/komplain-form-ubah";
     }
 
+    @GetMapping("/komplain/req/{kodeKomplain}")
+    public String addRequestKomplainForm(
+            @PathVariable("kodeKomplain") String kodeKomplain,
+            Model model
+    ) {
+
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        try {
+            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+            if (user.getRole().getNamaRole().equals("Staf Sales")) {
+                if (komplain.getUser() == user && komplain.getIsShown()) {
+                    model.addAttribute("komplain", komplain);
+                } else {
+                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+                }
+            } else {
+                if (komplain.getIsShown()) {
+                    model.addAttribute("komplain", komplain);
+                } else {
+                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+                }
+            }
+
+            return "komplain/komplain-request-change";
+        } catch (NullPointerException e) {
+            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
+            model.addAttribute("message", message);
+            return "komplain/komplain-request-change";
+        }
+
+    }
+
+    @PostMapping("/komplain/req/{kodePesananPenjualan}")
+    public String addRequestPesananSubmit(
+            @ModelAttribute KomplainModel komplain, Principal principal,
+            Model model
+    ) {
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        komplainService.updateKomplain(komplain);
+
+        model.addAttribute("kodeKomplain", komplain.getKodeKomplain());
+        model.addAttribute("komplain", komplain);
+        model.addAttribute("pop", "green");
+        return "komplain/komplain-request-change";
+    }
 }
+

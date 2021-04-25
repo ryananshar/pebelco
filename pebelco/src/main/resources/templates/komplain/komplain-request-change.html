@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Request Change</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p>Request Change Berhasil Ditambahkan</p>
+            <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <a
+                th:href="@{/komplain/}"
+                class="btn but-arrow"
+        ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <div class="row justify-content-center">
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-11">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/komplain}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${message} == null" class="card" id="pesananPenjualan">
+                <div class="card-header" style="width: 700px;">
+                    <h4>Request Change</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/komplain/req/} + ${kodeKomplain}" th:object="${komplain}" method="POST">
+                        <input th:field="*{idKomplain}" class="form-control" hidden>
+                        <input th:field="*{kodeKomplain}" class="form-control" hidden>
+                        <input th:field="*{statusKomplain}" class="form-control" hidden>
+                        <input th:field="*{tanggalKomplain}" class="form-control" hidden>
+                        <input th:field="*{tanggalPersetujuan}" class="form-control" hidden>
+                        <input th:field="*{pesananKomplain}" class="form-control" hidden>
+                        <input th:field="*{temp}" class="form-control" hidden>
+                        <input th:field="*{alamatToko}" class="form-control" hidden>
+                        <input th:field="*{namaToko}" class="form-control" hidden>
+                        <input th:field="*{isShown}" class="form-control" hidden>
+                        <input th:field="*{user}" class="form-control" hidden>
+                        <input th:field="*{barangKomplain}" class="form-control" hidden>
+                        <div class="form-group">
+                            <label>Catatan:</label>
+                            <textarea th:field="*{requestChange}" class="form-control"
+                                      style="width: 100%;"
+                                      name="requestChange" rows="5" cols="6"
+                                      placeholder="Masukan catatan"  required></textarea>
+                        </div>
+                        <div class="row justify-content-end">
+                            <a class="btn but-outline" type="button" th:href="@{/komplain/} + ${kodeKomplain}">Batal</a>
+                            <button class="btn but-success" type="submit" value="Submit">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

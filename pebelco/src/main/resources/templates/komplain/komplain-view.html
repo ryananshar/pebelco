@@ -159,7 +159,7 @@
                                class="btn but-ubah"
                                sec:authorize="hasAnyAuthority('Admin Komplain', 'Admin')">
                             Ubah</a>
-                            <a  th:href="@{/komplain/request/} + ${komplain.kodeKomplain}"
+                            <a  th:href="@{/komplain/req/} + ${komplain.kodeKomplain}"
                                 class="btn but-outline"
                                 sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
                         </div>
