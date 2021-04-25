@@ -20,9 +20,10 @@
     </div>
     <div class="container col">
         <a
-                th:href="@{/pengiriman/}"
-                class="btn but-arrow"
-        ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+                th:if="${pengiriman.statusId == 1 || pengiriman.statusId == 2 || pengiriman.statusId == 3}"
+                th:href="@{/daftarpengiriman/}"
+                class="btn but-arrow">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </a>
                 <div class="card" id="pengiriman" style="min-width: 900px;">
                     <div class="card-header">
@@ -31,14 +32,13 @@
                                 <h4>Detail Pengiriman</h4>
                             </div>
                             <div class="col-4">
-                                <span th:text="${pengiriman.status}"></span>
-<!--&lt;!&ndash;                                      class="disetujui">Disetujui</span>&ndash;&gt;-->
-<!--                                <span th:if="${pengiriman.status == 1}"-->
-<!--                                      class="belumDikirim">Belum Dikirim</span>-->
-<!--                                <span th:if="${pengiriman.statusPengiriman == 2"-->
-<!--                                      class="dikirim">Dikirim</span>-->
-<!--                                <span th:if="${pengiriman.statusPengiriman == 3"-->
-<!--                                      class="diterima">Diterima</span>-->
+<!--                                <span th:text="${pengiriman.status}"></span>-->
+                                <span th:if="${pengiriman.statusId == 1}"
+                                      class="belumDikirim">Belum Dikirim</span>
+                                <span th:if="${pengiriman.statusId == 2}"
+                                      class="dikirim">Dikirim</span>
+                                <span th:if="${pengiriman.statusId == 3}"
+                                      class="diterima">Diterima</span>
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="barang : ${barangList}">
+                                <tr th:each="barang, iterationStatus : ${barangList}">
+                                    <td th:text="${iterationStatus.count}"></td>
                                     <td th:text="${barang.namaBarang}"></td>
                                     <td th:text="${barang.jumlah}"></td>
                                 </tr>
@@ -186,11 +187,11 @@
                         </div>
                         <div class="row justify-content-end">
                             <div th:if="${isPengiriman}">
-                                <div th:if="${showUbahStatus}">
+                                <div class="btn" th:if="${showUbahStatus}">
                                     <a th:href="@{'/pengiriman/update-status/' + ${pengiriman.id}}" class="btn but-ubah-stat"
                                     sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
                                 </div>
-                                <div th:if="${showUbahPengiriman}">
+                                <div class="btn" th:if="${showUbahPengiriman}">
                                     <a th:href="@{'/pengiriman/update/' + ${pengiriman.id}}" class="btn but-ubah"
                                     sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
                                 </div>

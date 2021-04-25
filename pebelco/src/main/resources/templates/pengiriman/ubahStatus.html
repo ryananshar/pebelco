@@ -1,24 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
-    <title>Ubah Status</title>
+    <title>Ubah Status Pengiriman</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h3>Ubah Status</h3>
-    <form th:action="@{/pengiriman/update-status/}" method="POST">
-        <select name="statusPengiriman" required>
-            <option disabled selected value> -- Pilih status -- </option>
-            <option th:value="${statusId}" th:text="${status}"></option>
-        </select>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div class="card" id="tambah-kunjungan" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                <div class="card-header">
+                    <h4>Ubah Status Pengiriman</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-6">
 
-        <div class="form-group">
-            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
-        </div>
+                        <form th:action="@{/pengiriman/update-status/}" method="POST">
+                            <div class="form-group">
+                                <label>Status Pengiriman</label>
+                                <select name="statusPengiriman" class="form-control" required>
+                                    <option disabled selected value> -- Pilih Status Pengiriman -- </option>
+                                    <option th:value="${statusId}" th:text="${status}"></option>
+                                </select>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="form-group">
+                                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                                </div>
+
+                                <div class="row justify-content-end">
+                                    <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.id}">Batal</a>
+                                    <button class="btn but-success" type="submit" value="Submit">Ubah</button>
+                                </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Ubah Status</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h3>Ubah Status</h3>-->
+<!--    <form th:action="@{/pengiriman/update-status/}" method="POST">-->
+<!--        <select name="statusPengiriman" required>-->
+<!--            <option disabled selected value> &#45;&#45; Pilih status &#45;&#45; </option>-->
+<!--            <option th:value="${statusId}" th:text="${status}"></option>-->
+<!--        </select>-->
+
+<!--        <div class="form-group">-->
+<!--            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</body>-->
+<!--</html>-->

@@ -30,7 +30,7 @@ public class PerluDikirimController {
         model.addAttribute("pengiriman", perluDikirimService.findKomplainById(id));
         model.addAttribute("isPengiriman", false);
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
-        return "pengiriman/detailPengiriman";
+        return "pengiriman/detailPerluDikirim";
     }
 
     @RequestMapping("/pesanan/{id}")
@@ -38,7 +38,7 @@ public class PerluDikirimController {
         model.addAttribute("pengiriman", perluDikirimService.findPesananById(id));
         model.addAttribute("isPengiriman", false);
         model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
-        return "pengiriman/detailPengiriman";
+        return "pengiriman/detailPerluDikirim";
     }
 
     @RequestMapping("/add/komplain/{id}")

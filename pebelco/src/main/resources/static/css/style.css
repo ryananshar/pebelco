@@ -373,18 +373,18 @@ body {
 }
 
 .belumDikirim{
-    color: #FFFFFF;
-    background: #9ce2b3;
+    color: #958B32;
+    background: #FDFCA1;
 }
 
 .dikirim{
-    color: #D14747;
-    background: #f0c8c8;
+    color: #CFA315;
+    background: #FBEFCA;
 }
 
 .diterima{
-    color: #D14747;
-    background: #f0c8c8;
+    color: #155724;
+    background: #E6FAFD;
 }
 
 .card-header h4{
@@ -448,6 +448,18 @@ body {
 .but-success:hover {
     color: #FFFFFF;
     background: #005479;
+}
+
+.but-tambah {
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #298134;
+    border-radius: 5px;
+}
+
+.but-tambah:hover {
+    color: #FFFFFF;
+    background: #88CB90;
 }
 
 /* Detail but */
@@ -520,6 +532,10 @@ body {
 .but-danger:hover {
     color: #FFFFFF;
     background: #FF5555;
+}
+
+.btn-set{
+    margin-top: 100px;
 }
 
 /* Table Styles */

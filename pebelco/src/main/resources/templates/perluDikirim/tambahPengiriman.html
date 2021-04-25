@@ -1,56 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
     <title>Tambah Pengiriman</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h1>Tambah Pengiriman</h1>
-    <h3>Kode Pesanan/Komplain</h3>
-    <p th:text="${pengiriman.kode}">Kode Pesanan/Komplain</p>
-    <br>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+    <div class="row justify-content-center">
+        <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+            <div class="card-header">
+                <h4>Tambah Pengiriman</h4>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Kode Pesanan/Komplain</label>
+                                <input type="text"  name="kode" th:field="*{pengiriman.kode}" th:value="*{pengiriman.kode}" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Nama Toko</label>
+                                <input type="text"  name="namaToko" th:field="*{pengiriman.namaToko}" th:value="*{pengiriman.namaToko}" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat Toko</label>
+                            <textarea th:field="${pengiriman.alamatToko}" class="form-control"
+                                      style="width: 100%; height: 350px" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="col-6">
 
-    <h3>Nama Toko</h3>
-    <p th:text="${pengiriman.namaToko}">Nama Toko</p>
-    <br>
 
-    <h3>Alamat Toko</h3>
-    <p th:text="${pengiriman.alamatToko}">Alamat Toko</p>
-    <br>
+                        <label>Daftar Barang</label>
+                        <table class="table table-hover table-bordered daftar-table" border="1" cellpadding="10">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Barang</th>
+                                <th>Jumlah</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="barang, iterationStatus : ${barangList}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${barang.namaBarang}"></td>
+                                <td th:text="${barang.jumlah}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br><br>
+                    </div>
+                    <form th:action="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/'}" method="POST">
+                        <div class="form-group">
+                            <label>Metode Pengiriman</label>
+                            <select name="metodePengiriman"  class="form-control" required>
+                                <option disabled selected value> -- Pilih metode pengiriman -- </option>
+                                <th:block th:each="metode : ${metodePengiriman}">
+                                    <option th:value="${metode.idMetode}" th:text="${metode.namaMetodePengiriman}"></option>
+                                </th:block>
+                            </select>
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+                            <div class="form-group">
+                                <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                            </div>
 
-    <form th:action="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/'}" method="POST">
-        <h3>Metode Pengiriman</h3>
-        <select name="metodePengiriman" required>
-            <option disabled selected value> -- Pilih metode pengiriman -- </option>
-            <th:block th:each="metode : ${metodePengiriman}">
-                <option th:value="${metode.idMetode}" th:text="${metode.namaMetodePengiriman}"></option>
-            </th:block>
-        </select>
+                            <a class="btn but-outline" type="button" th:href="@{/perlu-dikirim}">Batal</a>
+                            <button class="btn but-success" type="submit" value="Submit">Simpan</button>
+<!--                        </div>-->
 
-        <div class="form-group">
-            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                    </form>
+                </div>
+
+            </div>
         </div>
-
-        <h3>Daftar Barang</h3>
-        <table border="1" cellpadding="10">
-            <thead>
-            <tr>
-                <th>Nama Barang</th>
-                <th>Jumlah</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="barang : ${barangList}">
-                <td th:text="${barang.namaBarang}">Nama Barang</td>
-                <td th:text="${barang.jumlah}">Jumlah</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
-    <br>
+    </div>
+</div>
 </body>
 </html>

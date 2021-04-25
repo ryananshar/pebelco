@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Pengiriman</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+  <div class="col-md-auto">
+    <!-- <div class="position-fixed"> -->
+    <nav th:replace="fragments/fragment :: sidebar"></nav>
+    <!-- </div> -->
+  </div>
+  <div class="container col">
+    <a
+            th:href="@{/perlu-dikirim/}"
+            class="btn but-arrow">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <div class="card" id="pengiriman" style="min-width: 900px;">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-7">
+            <h4>Detail Pengiriman</h4>
+          </div>
+          <div class="col-4">
+            <span th:text="${pengiriman.status}" class="disetujui">Disetujui></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-12">
+          <div class="row kode">
+            <div th:text="${pengiriman.kode}"></div>
+          </div>
+          <br><br>
+          <div class="row">
+            <div class="col-3">
+              <div>Kode Pesanan/Komplain</div>
+            </div>
+            <div class="col-1">
+              <div th:text="':'"></div>
+            </div>
+            <div class="col-8">
+              <div th:text="${pengiriman.kode}"></div>
+            </div>
+          </div>
+          <br><br>
+          <div class="row">
+            <div class="col-3">
+              <div>Nama Toko</div>
+            </div>
+            <div class="col-1">
+              <div th:text="':'"></div>
+            </div>
+            <div class="col-8">
+              <div th:text="${pengiriman.namaToko}"></div>
+            </div>
+          </div>
+          <br><br>
+          <div class="row">
+            <div class="col-3">
+              <div>Alamat Toko</div>
+            </div>
+            <div class="col-1">
+              <div th:text="':'"></div>
+            </div>
+            <div class="col-8">
+              <div th:text="${pengiriman.alamatToko}"></div>
+            </div>
+          </div>
+         <br><br>
+          <div class="row">
+            <div class="col-3">
+              <div>Daftar Barang</div>
+            </div>
+            <div class="col-1">
+              <div th:text="':'"></div>
+            </div>
+            <div class="col-8">
+            </div>
+          </div>
+          <br><br>
+        </div>
+        <div class="form-group">
+          <table class="table table-hover table-bordered daftar-table ">
+            <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Barang</th>
+              <th>Jumlah</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="barang, iterationStatus : ${barangList}">
+              <td th:text="${iterationStatus.count}"></td>
+              <td th:text="${barang.namaBarang}"></td>
+              <td th:text="${barang.jumlah}"></td>
+            </tr>
+            </tbody>
+          </table>
+          <br><br><br>
+        </div>
+        <div class="row justify-content-end">
+          <div th:if="${isPengiriman}">
+            <div class="btn" th:if="${showUbahStatus}">
+              <a th:href="@{'/pengiriman/update-status/' + ${pengiriman.id}}" class="btn but-ubah-stat"
+                 sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
+            </div>
+            <div class="btn" th:if="${showUbahPengiriman}">
+              <a th:href="@{'/pengiriman/update/' + ${pengiriman.id}}" class="btn but-ubah"
+                 sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+</body>
+
+</html>
+
+

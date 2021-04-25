@@ -1,34 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Pengiriman</title>
+    <title>Daftar Perlu Dikirim</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h1>Daftar Perlu Dikirim</h1>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th>Kode Pesanan/Komplain</th>
-            <th>Nama Toko</th>
-            <th>Tanggal</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="pengiriman : ${pengirimans}">
-            <td th:text="${pengiriman.kode}">Kode v</td>
-            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
-            <td th:text="${pengiriman.tanggalPersetujuan}">Tanggal</td>
-            <td th:text="${pengiriman.status}">Status</td>
-            <td>
-                <a th:href="@{'/perlu-dikirim/' + ${pengiriman.type} + '/' + ${pengiriman.id}}">Detail</a>
-                &nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/' + ${pengiriman.id}}">Tambah</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!--<div th:if="${pop} != null" class="overlay" id="center">-->
+<!--    <div class="row justify-content-center">-->
+<!--        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">-->
+<!--            <img th:src="@{/img/green-check.svg}">-->
+<!--            <p th:text="${msg2}"></p>-->
+<!--            <a th:href="@{/kunjungan}" class="btn">-->
+<!--                OK-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">-->
+<!--            <p th:text="${msg2}"></p>-->
+<!--            <span class="sub-msg" th:text="${subMsg}"></span>-->
+<!--            <div class="row justify-content-center">-->
+<!--                <a th:href="@{/kunjungan}" class="btn but-outline">-->
+<!--                    Tidak-->
+<!--                </a>-->
+<!--                <a th:href="@{/kunjungan/hapus/}+${kodeKunjungan}" class="btn but-success" style="margin-left: 10px;">-->
+<!--                    Ya-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+
+<!--    <div th:if="${message} != null" class="container-fluid col">-->
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="card">-->
+<!--                <div class="card-header" id>-->
+<!--                    Error-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <div class="form-row">-->
+<!--                        <div class="col-12">-->
+<!--                            <div th:text="${message}"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <br>-->
+<!--                    <a th:href="@{/kunjungan}" class="btn btn-success">-->
+<!--                        Kembali-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div th:unless="${message} != null" class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Daftar Perlu Dikirim</h2>
+                    <hr>
+                </div>
+                <div class="list-body">
+
+<!--                    <a th:href="@{/kunjungan/tambah}" class="btn but-outline">+ Tambah Jadwal Kunjungan</a>-->
+<!--                    <br><br>-->
+
+<!--                    <div th:if="${msg == 'tidak ada kunjungan'}">-->
+<!--                        <h3 th:text="${pesan}"></h3>-->
+<!--                    </div>-->
+
+<!--                    <div th:if="${msg == 'ada kunjungan'}">-->
+                        <table class="table daftar-table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Pesanan/Komplain</th>
+                                <th>Nama Toko</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${pengiriman.kode}">Kode</td>
+                                <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+                                <td th:text="${pengiriman.tanggalPersetujuan}">Tanggal</td>
+                                <td th:text="${pengiriman.status}">Status</td>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{'/perlu-dikirim/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
+                                        &nbsp;
+                                        <a th:href="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-tambah">Tambah</a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
 </html>
