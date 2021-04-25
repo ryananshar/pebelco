@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
@@ -64,6 +65,11 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
         Long hargaProduk = produk.getHarga();
         Long jumlahBarang = Long.valueOf(jumlah);
         return jumlahBarang * hargaProduk;
+    }
+
+    @Override
+    public List<TransaksiPesananModel> getListByIdPesanan(PesananPenjualanModel pesananTransaksi){
+        return transaksiPesananDb.findByPesananTransaksi(pesananTransaksi);
     }
 
 }

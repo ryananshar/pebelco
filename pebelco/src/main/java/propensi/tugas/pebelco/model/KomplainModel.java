@@ -53,8 +53,8 @@ public class KomplainModel implements Serializable{
     private String alamatToko;
 
     @Size(max = 250)
-    @Column(name = "desc_kerusakan", nullable = true)
-    private String descKerusakan;
+    @Column(name = "temp", nullable = true)
+    private String temp;
 
     @Size(max = 250)
     @Column(name = "request_change", nullable = true)
@@ -64,28 +64,26 @@ public class KomplainModel implements Serializable{
     @Column(name = "is_shown", nullable = false)
     private Boolean isShown;
 
-    // id pesanan penjualan
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel user;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pesanan", referencedColumnName = "id_pesanan_penjualan", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private PesananPenjualanModel pesananKomplain;
+//
+//    @OneToOne(mappedBy = "komplain", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private PengirimanModel pengirimanKomplain;
 
-    @OneToOne(mappedBy = "komplain", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
-    private PengirimanModel pengirimanKomplain;
-
-    // list barang komplain
     @OneToMany(mappedBy = "komplainTransaksi", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<TransaksiKomplainModel> barangKomplain;
-    
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "id_komplain", referencedColumnName = "idKomplain", nullable = false)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
-    // private PengirimanModel pengirimanKomplain;
 
     public Long getIdKomplain() {
         return this.idKomplain;
@@ -143,12 +141,12 @@ public class KomplainModel implements Serializable{
         this.alamatToko = alamatToko;
     }
 
-    public String getDescKerusakan() {
-        return this.descKerusakan;
+    public String getTemp() {
+        return temp;
     }
 
-    public void setDescKerusakan(String descKerusakan) {
-        this.descKerusakan = descKerusakan;
+    public void setTemp(String temp) {
+        this.temp = temp;
     }
 
     public String getRequestChange() {
@@ -167,6 +165,14 @@ public class KomplainModel implements Serializable{
         return this.isShown;
     }
 
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
     public void setIsShown(Boolean isShown) {
         this.isShown = isShown;
     }
@@ -178,14 +184,14 @@ public class KomplainModel implements Serializable{
     public void setPesananKomplain(PesananPenjualanModel pesananKomplain) {
         this.pesananKomplain = pesananKomplain;
     }
-
-    public PengirimanModel getPengirimanKomplain() {
-        return this.pengirimanKomplain;
-    }
-
-    public void setPengirimanKomplain(PengirimanModel pengirimanKomplain) {
-        this.pengirimanKomplain = pengirimanKomplain;
-    }
+//
+//    public PengirimanModel getPengirimanKomplain() {
+//        return this.pengirimanKomplain;
+//    }
+//
+//    public void setPengirimanKomplain(PengirimanModel pengirimanKomplain) {
+//        this.pengirimanKomplain = pengirimanKomplain;
+//    }
 
     public List<TransaksiKomplainModel> getBarangKomplain() {
         return this.barangKomplain;
