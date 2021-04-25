@@ -11,17 +11,19 @@
 <body>
     <div th:if="${pop} != null" class="overlay" id="center">
         <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
                 <img th:src="@{/img/green-check.svg}">
                 <p th:text="${msg}"></p>
                 <a th:href="@{/komplain}" class="btn">
                     OK
                 </a>
             </div>
-            <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
                 <img th:src="@{/img/red-check.svg}">
                 <p th:text="${msg}"></p>
-                <p th:text="${subMsg}"></p>
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
                 <a th:href="@{/komplain/tambah}" class="btn">
                     OK
                 </a>
@@ -55,28 +57,35 @@
                             <br />
                             Alamat Toko<br />
                             <input class="form-control" id="altok" type="text" name="alamatToko" th:value="${komplain.alamatToko}" th:readonly="readonly" th:required="required"/>
-                            <br />
-                            <h3>Barang Komplain</h3>
+                            <br /><br/>
+                            <div class="row justify-content-between">
+                                <div class="float-md-left">
+                                    <h3>Barang Komplain</h3>
+                                </div>
+                                <div class="float-sm-right">
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
-                                <div class="col" id="col-nama-barang">
+                                <div class="col-4" id="col-nama-barang">
                                     Nama Barang<br />
                                     <!--                            <input class="form-control" type="text" id="namaToko-1" th:required="required"/>-->
                                     <!--<input class="form-control" type="text" name="namaToko" th:each="barang :${pesananList}" th:value="${}" th:required="required"/>-->
                                     <br />
                                 </div>
-                                <div class="col" id="col-jumlah">
+                                <div class="col-2" id="col-jumlah">
                                     Jumlah<br />
                                     <!--                            <input class="form-control" type="number" id="jumlah-1" th:required="required"/>-->
                                     <br />
                                 </div>
-                                <div class="col" id="col-deskripsi">
+                                <div class="col-4" id="col-deskripsi">
                                     Deskripsi<br />
                                     <!--                            <input class="form-control" type="text" id="description-1" />-->
                                     <br />
 
                                 </div>
                                 <div class="col" id="col-btn">
-                                    <div style="margin-top:48px;"></div>
+                                    <div style="margin-top:43px;"></div>
                                     <!--                            <button id="btn-barang-1" type="button" onclick="hapusBaris()" class="btn-danger">-</button>-->
                                     <!--                            <div style="margin-top:27px;"></div>-->
                                 </div>

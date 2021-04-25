@@ -31,11 +31,23 @@
                     <p th:text="${subMsg}" style="text-align: left; font-weight: normal; font-size: 16px"></p>
                 </div>
                 <div class="row justify-content-center">
-                    <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn btn-tidak" style="background-color: #FFFFFF;
+                    <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn btn-tidak" style="background-color: #FFFFFF;
                         border-color: #005479; border-width: medium; color: #005479;">
                         Tidak
                     </a>
                     <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn" style="margin-left: 10px;">
+                        Ya
+                    </a>
+                </div>
+            </div>
+            <div th:if="${pop} == 'statusPop'" class="col-md-5" id="konfirmasi-hapus">
+                <p th:text="${msg}"></p>
+                <span class="sub-msg" th:text="${subMsg}"></span>
+                <div class="row justify-content-center">
+                    <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn but-outline">
+                        Tidak
+                    </a>
+                    <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn but-success" style="margin-left: 10px;">
                         Ya
                     </a>
                 </div>
@@ -48,11 +60,6 @@
             <nav th:replace="fragments/fragment :: sidebar"></nav>
         </div>
         <div class="container col">
-            <a
-                    th:href="@{/komplain/} + ${kodeKomplain}"
-                    class="btn but-arrow"
-            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
-            </a>
             <div class="row justify-content-center">
                 <div th:if="${message} != null">
                     <div class="card">
@@ -61,7 +68,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row">
-                                <div class="col-11">
+                                <div class="col-12">
                                     <div th:text="${message}"></div>
                                 </div>
                             </div>
@@ -78,7 +85,7 @@
                     </div>
                     <div class="container containIsi">
                         Status Komplain<br/>
-                        <select name="statusKomplain" class="form-control" th:onchange="selectOnChange(this)">
+                        <select name="statusKomplain" class="form-control" th:onchange="selectOnChange(this)" required id="dropdown">
                             <option selected value="">-- Pilih Status Komplain --</option>
                             <option value="1">Disetujui</option>
                             <option value="2">Ditolak</option>
@@ -91,7 +98,7 @@
                             <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
                                class="btn btn-batal">Batal</a>
                             <a id="goNext" th:href="@{/#/}"
-                               class="btn btn-ubah">Ubah</a>
+                               class="btn btn-ubah" onclick="makeAlert()">Ubah</a>
                         </div>
                     </div>
 
@@ -104,6 +111,7 @@
 <script type="text/javascript" th:inline="javascript">
     var kode=[[${kodeKomplain}]];
     var link = document.getElementById("goNext");
+    var dropdown = document.getElementById("dropdown");
     function selectOnChange(selectObjectStatus){
         console.log(link);
         var stat = selectObjectStatus.value;
@@ -112,6 +120,13 @@
         // link = newUrl;
         link.setAttribute("href", newerUrl);
         console.log(link);
+    }
+
+    function makeAlert(){
+        if (dropdown.value == ""){
+            alert("Pilih salah satu status");
+            link.setAttribute("href", "/komplain/ubah-status/%s".replace('%s',kode));
+        }
     }
 </script>
 <style>

@@ -69,12 +69,12 @@ function appendTransaksi(){
     if (reqTemplate.value[0] == 0){
         alert("Silahkan pilih salah satu pesanan untuk di komplain");
     }else{
-        // console.log(listBarang);
-        // console.log(listJumlah);
-        // console.log(listDesc);
-        // console.log(listId);
-        // console.log(listMaxJumlah);
-        // console.log(reqTemplate.value);
+        console.log(listBarang);
+        console.log(listJumlah);
+        console.log(listDesc);
+        console.log(listId);
+        console.log(listMaxJumlah);
+        console.log(reqTemplate.value);
         document.getElementById("submitForm").submit();
     }
 }

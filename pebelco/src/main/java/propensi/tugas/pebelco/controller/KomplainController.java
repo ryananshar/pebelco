@@ -50,7 +50,7 @@ public class KomplainController {
         if (user.getRole().getNamaRole().equals("Staf Sales") ) {
             komplainList = komplainService.getListKomplainByUser(user);
             if (komplainList.size() == 0){
-                model.addAttribute("pesan", "Belum Terdapat Komplain");
+                model.addAttribute("pesan", "Anda Belum Memiliki Komplain");
             } else{
                 model.addAttribute("komplainList", komplainList);
             }
@@ -68,78 +68,78 @@ public class KomplainController {
 
     @GetMapping("/komplain/konfirmasi-hapus/{kodeKomplain}")
     private String komplainViewAllDeletePopup(
-            @PathVariable String kodeKomplain, Principal principal,
+            @PathVariable String kodeKomplain,
             Model model) {
 
-        String email = principal.getName();
-        UserModel user = userService.getUserbyEmail(email);
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         List<KomplainModel> komplainList;
 
-        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
-            komplainList = komplainService.getListKomplainByUser(user);
-            if (komplainList.size() == 0){
-                model.addAttribute("pesan", "Belum ada Komplain");
-            } else{
-                model.addAttribute("komplainList", komplainList);
-            }
-        } else {
-            komplainList = komplainService.getListKomplain();
-            if (komplainList.size() == 0){
-                model.addAttribute("pesan", "Belum ada Komplain");
-            } else{
-                model.addAttribute("komplainList", komplainList);
-            }
+        komplainList = komplainService.getListKomplain();
+        if (komplainList.size() == 0){
+            model.addAttribute("pesan", "Belum Terdapat Komplain");
+        } else{
+            model.addAttribute("komplainList", komplainList);
         }
 
-        model.addAttribute("komplainList", komplainList);
-        model.addAttribute("pop", "notification");
-        model.addAttribute("msg", "Konfirmasi Penghapusan");
-        model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus komplain ini?");
-        model.addAttribute("kodeKomplain", kodeKomplain);
+        if (komplain.getIsShown()) {
+            model.addAttribute("komplainList", komplainList);
+            model.addAttribute("pop", "notification");
+            model.addAttribute("msg", "Konfirmasi Penghapusan");
+            model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus komplain ini?");
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        }
+        // Jika Admin Komplain atau Admin menghapus komplain dengan isShown false
+        else {
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+        }
         return "komplain/komplain-viewall";
     }
 
     @GetMapping("/komplain/hapus/{kodeKomplain}")
     private String komplainViewAllDelete(
-            @PathVariable String kodeKomplain, Principal principal,
+            @PathVariable String kodeKomplain,
             Model model) {
 
-        String email = principal.getName();
-        UserModel user = userService.getUserbyEmail(email);
         List<KomplainModel> komplainList;
-
-        if (user.getRole().getNamaRole().equals("Staf Sales") ) {
-            komplainList = komplainService.getListKomplainByUser(user);
-            if (komplainList.size() == 0){
-                model.addAttribute("pesan", "Belum ada Komplain");
-            } else{
-                model.addAttribute("komplainList", komplainList);
-            }
-        } else {
-            komplainList = komplainService.getListKomplain();
-            if (komplainList.size() == 0){
-                model.addAttribute("pesan", "Belum ada Komplain");
-            } else{
-                model.addAttribute("komplainList", komplainList);
-            }
-        }
-
         KomplainModel kompDelete = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
-        komplainService.deleteKomplain(kompDelete);
+        komplainList = komplainService.getListKomplain();
+        if (komplainList.size() == 0){
+            model.addAttribute("pesan", "Belum Terdapat Komplain");
+        } else{
+            model.addAttribute("komplainList", komplainList);
+        }
 
-        model.addAttribute("komplainList", komplainList);
-        model.addAttribute("pop", "green");
-        model.addAttribute("msg", "Komplain Berhasil Dihapus");
+        if (kompDelete.getIsShown()) {
+            komplainService.deleteKomplain(kompDelete);
+
+            model.addAttribute("komplainList", komplainList);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Komplain Berhasil Dihapus");
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        }
+        // Jika Admin Komplain atau Admin menghapus komplain dengan isShown false
+        else {
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+        }
+
         return "komplain/komplain-viewall";
     }
 
     @GetMapping("/komplain/tambah")
     public String addKomplainPage(Model model) {
+
         List<PesananPenjualanModel> pesananPenjualanList;
         List<TransaksiPesananModel> transaksiPesananList;
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (user.getRole().getNamaRole().equals("Staf Sales") ){
+            pesananPenjualanList = pesananPenjualanService.getPesananListByUser(user, true);
+        } else{
+            pesananPenjualanList = pesananPenjualanService.getPesananList(true);
+
+        }
         List<List<TransaksiPesananModel>> listList = new ArrayList<>();
-        pesananPenjualanList = pesananPenjualanService.getPesananList(true);
         List<String> listDesc = new ArrayList<>();
         List<String> listBarang = new ArrayList<>();
         List<Integer> listJumlah = new ArrayList<>();
@@ -254,31 +254,25 @@ public class KomplainController {
             Model model
     ) {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        try {
-            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-            List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
-            if (user.getRole().getNamaRole().equals("Staf Sales")) {
-                if (komplain.getUser() == user && komplain.getIsShown()) {
-                    model.addAttribute("komplain", komplain);
-                    model.addAttribute("listBarang", listBarangTransaksi);
-                } else {
-                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
-                }
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+        List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            if (komplain.getUser() == user && komplain.getIsShown()) {
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("listBarang", listBarangTransaksi);
             } else {
-                if (komplain.getIsShown()) {
-                    model.addAttribute("komplain", komplain);
-                    model.addAttribute("listBarang", listBarangTransaksi);
-                } else {
-                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
-                }
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             }
-
-            return "komplain/komplain-view";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "komplain/komplain-view";
+        } else {
+            if (komplain.getIsShown()) {
+                model.addAttribute("komplain", komplain);
+                model.addAttribute("listBarang", listBarangTransaksi);
+            } else {
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            }
         }
+
+        return "komplain/komplain-view";
 
     }
 
@@ -288,21 +282,15 @@ public class KomplainController {
             Model model
     ){
 
-        try {
-            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-            if (komplain.getIsShown()) {
-                model.addAttribute("komplain", komplain);
-                model.addAttribute("kodeKomplain", kodeKomplain);
-            } else {
-                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
-            }
-
-            return "komplain/komplain-ubah-status";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "komplain/komplain-ubah-status";
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+        if (komplain.getIsShown()) {
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        } else {
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
         }
+
+        return "komplain/komplain-ubah-status";
 
     }
 
@@ -314,25 +302,27 @@ public class KomplainController {
     ){
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
-        if (komplain != null){
-            model.addAttribute("komplain", komplain);
-            model.addAttribute("kodeKomplain", kodeKomplain);
-            if (statKomplain.equals("1")){
-                model.addAttribute("pop", "statusPop");
-                model.addAttribute("msg", "Konfirmasi Persetujuan");
-                model.addAttribute("subMsg", "Apakah anda yakin ingin menyetujui komplain ini?");
-                model.addAttribute("kodeKomplain", kodeKomplain);
-            }else if (statKomplain.equals("2")){
-                model.addAttribute("pop", "statusPop");
-                model.addAttribute("msg", "Konfirmasi Persetujuan");
-                model.addAttribute("subMsg", "Apakah anda yakin ingin menolak komplain ini?");
-                model.addAttribute("kodeKomplain", kodeKomplain);
-            }else{
-                model.addAttribute("pesan", "Status Komplain Tidak Dapat Diubah");
-            }
-        } else if(komplain == null){
-            model.addAttribute("pesan", "Komplain Tidak Tersedia");
+        if (komplain.getIsShown() == false){
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            return "komplain/komplain-ubah-status";
         }
+
+        model.addAttribute("komplain", komplain);
+        model.addAttribute("kodeKomplain", kodeKomplain);
+        if (statKomplain.equals("1")){
+            model.addAttribute("pop", "statusPop");
+            model.addAttribute("msg", "Konfirmasi Persetujuan");
+            model.addAttribute("subMsg", "Apakah anda yakin ingin menyetujui komplain ini?");
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        }else if (statKomplain.equals("2")){
+            model.addAttribute("pop", "statusPop");
+            model.addAttribute("msg", "Konfirmasi Persetujuan");
+            model.addAttribute("subMsg", "Apakah anda yakin ingin menolak komplain ini?");
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        }else{
+            model.addAttribute("pesan", "Status Komplain Tidak Dapat Diubah");
+        }
+
 
 
         return "komplain/komplain-ubah-status";
@@ -348,61 +338,61 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
+        if (komplain.getIsShown() == false){
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            return "komplain/komplain-ubah-status";
+        }
 
-        if (komplain != null){
-            Integer status = Integer.parseInt(statKomplain);
+        Integer status = Integer.parseInt(statKomplain);
 
-            if (status == 1){
-                Date date = new Date();
+        if (status == 1){
+            Date date = new Date();
 
-                komplain.setTanggalPersetujuan(date);
-                komplainService.changeStatusDisetujui(komplain);
+            komplain.setTanggalPersetujuan(date);
+            komplainService.changeStatusDisetujui(komplain);
 
-                Boolean isNotif = true;
-                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
-                String url ="/komplain/" + komplain.getKodeKomplain();
-                Long idPengirim = user.getIdUser();
-                Long idStafSales = komplain.getUser().getIdUser();
-                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            Boolean isNotif = true;
+            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
+            String url ="/komplain/" + komplain.getKodeKomplain();
+            Long idPengirim = user.getIdUser();
+            Long idStafSales = komplain.getUser().getIdUser();
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
 
-                String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
-                String urlPengiriman ="/perlu-dikirim/add/komplain/" + komplain.getKodeKomplain();
-                Long idAdminPengiriman = (long) 3;
-                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
+            String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
+            String urlPengiriman ="/perlu-dikirim/add/komplain/" + komplain.getKodeKomplain();
+            Long idAdminPengiriman = (long) 3;
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
 
 
-                model.addAttribute("pop", "green");
-                model.addAttribute("msg", "Status Komplain Berhasil Diubah");
-                model.addAttribute("subMsg", "");
-                model.addAttribute("komplain", komplain);
-                model.addAttribute("kodeKomplain", kodeKomplain);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Status Komplain Berhasil Diubah");
+            model.addAttribute("subMsg", "");
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
 
-            } else if (status == 2){
-                komplainService.changeStatusDitolak(komplain);
+        } else if (status == 2){
+            komplainService.changeStatusDitolak(komplain);
 
-                Boolean isNotif = true;
-                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
-                String url ="/komplain/" + komplain.getKodeKomplain();
-                Long idPengirim = user.getIdUser();
-                Long idStafSales = komplain.getUser().getIdUser();
-                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            Boolean isNotif = true;
+            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
+            String url ="/komplain/" + komplain.getKodeKomplain();
+            Long idPengirim = user.getIdUser();
+            Long idStafSales = komplain.getUser().getIdUser();
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
 
-                model.addAttribute("pop", "green");
-                model.addAttribute("msg", "Status Komplain Berhasil Diubah");
-                model.addAttribute("subMsg", "");
-                model.addAttribute("komplain", komplain);
-                model.addAttribute("kodeKomplain", kodeKomplain);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Status Komplain Berhasil Diubah");
+            model.addAttribute("subMsg", "");
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
 
-            } else{
-                model.addAttribute("pop", "red");
-                model.addAttribute("msg", "Status Gagal Diubah");
-                model.addAttribute("subMsg", "Status tidak valid");
-                model.addAttribute("komplain", komplain);
-                model.addAttribute("kodeKomplain", kodeKomplain);
+        } else{
+            model.addAttribute("pop", "red");
+            model.addAttribute("msg", "Status Gagal Diubah");
+            model.addAttribute("subMsg", "Status tidak valid");
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
 
-            }
-        } else if(komplain == null){
-            model.addAttribute("pesan", "Komplain Tidak Tersedia");
         }
 
         return "komplain/komplain-ubah-status";
@@ -414,44 +404,38 @@ public class KomplainController {
             Model model
     ){
 
-        try {
-            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-            if (komplain.getIsShown()) {
-                List<String> listDesc = new ArrayList<>();
-                List<String> listBarang = new ArrayList<>();
-                List<Integer> listJumlah = new ArrayList<>();
-                List<Integer> listId = new ArrayList<>();
-                List<Integer> listMaxJumlah = new ArrayList<>();
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+        if (komplain.getIsShown()) {
+            List<String> listDesc = new ArrayList<>();
+            List<String> listBarang = new ArrayList<>();
+            List<Integer> listJumlah = new ArrayList<>();
+            List<Integer> listId = new ArrayList<>();
+            List<Integer> listMaxJumlah = new ArrayList<>();
 
-                for (int i =0; i < komplain.getBarangKomplain().size(); i++){
-                    Long temp =  komplain.getBarangKomplain().get(i).getIdTransaksiKomplain();
-                    listId.add(temp.intValue());
-                }
-
-                List<TransaksiPesananModel> transaksiPesanan = komplain.getPesananKomplain().getBarangPesanan();
-
-                for (int i=0; i < transaksiPesanan.size(); i++){
-                    listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
-                }
-
-
-                model.addAttribute("listBarang", listBarang);
-                model.addAttribute("listDesc", listDesc);
-                model.addAttribute("listJumlah", listJumlah);
-                model.addAttribute("listId", listId);
-                model.addAttribute("listMaxJumlah", listMaxJumlah);
-                model.addAttribute("komplain", komplain);
-                model.addAttribute("kodeKomplain", kodeKomplain);
-            } else {
-                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            for (int i =0; i < komplain.getBarangKomplain().size(); i++){
+                Long temp =  komplain.getBarangKomplain().get(i).getIdTransaksiKomplain();
+                listId.add(temp.intValue());
             }
 
-            return "komplain/komplain-form-ubah";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "komplain/komplain-form-ubah";
+            List<TransaksiPesananModel> transaksiPesanan = komplain.getPesananKomplain().getBarangPesanan();
+
+            for (int i=0; i < transaksiPesanan.size(); i++){
+                listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
+            }
+
+
+            model.addAttribute("listBarang", listBarang);
+            model.addAttribute("listDesc", listDesc);
+            model.addAttribute("listJumlah", listJumlah);
+            model.addAttribute("listId", listId);
+            model.addAttribute("listMaxJumlah", listMaxJumlah);
+            model.addAttribute("komplain", komplain);
+            model.addAttribute("kodeKomplain", kodeKomplain);
+        } else {
+            model.addAttribute("message", "Data Komplain Tidak Ditemukan");
         }
+
+        return "komplain/komplain-form-ubah";
 
     }
 
@@ -462,6 +446,8 @@ public class KomplainController {
     ){
         List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
         TransaksiKomplainModel transaksiKomplain;
+
+        System.out.println(komplain.getTemp());
 
         String[] tempTransaksi = komplain.getTemp().split("---");
         String condition = tempTransaksi[tempTransaksi.length - 1];
@@ -489,9 +475,16 @@ public class KomplainController {
                 transaksiKomplainList.add(transaksiKomplain);
             }
 
+            komplain.setBarangKomplain(null);
             komplain.setBarangKomplain(transaksiKomplainList);
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
+
+            for(int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                System.out.println(transaksiKomplainList.get(i).getNamaBarang());
+                System.out.println(transaksiKomplainList.get(i).getJumlah());
+                System.out.println(transaksiKomplainList.get(i).getDeskripsiKomplain()  );
+            }
 
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "green");
@@ -522,28 +515,23 @@ public class KomplainController {
     ) {
 
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        try {
-            KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-            if (user.getRole().getNamaRole().equals("Staf Sales")) {
-                if (komplain.getUser() == user && komplain.getIsShown()) {
-                    model.addAttribute("komplain", komplain);
-                } else {
-                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
-                }
-            } else {
-                if (komplain.getIsShown()) {
-                    model.addAttribute("komplain", komplain);
-                } else {
-                    model.addAttribute("message", "Data Komplain Tidak Ditemukan");
-                }
-            }
 
-            return "komplain/komplain-request-change";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Komplain Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "komplain/komplain-request-change";
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            if (komplain.getUser() == user && komplain.getIsShown()) {
+                model.addAttribute("komplain", komplain);
+            } else {
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            }
+        } else {
+            if (komplain.getIsShown()) {
+                model.addAttribute("komplain", komplain);
+            } else {
+                model.addAttribute("message", "Data Komplain Tidak Ditemukan");
+            }
         }
+
+        return "komplain/komplain-request-change";
 
     }
 

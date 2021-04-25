@@ -18,10 +18,12 @@
                     OK
                 </a>
             </div>
-            <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
                 <img th:src="@{/img/red-check.svg}">
                 <p th:text="${msg}"></p>
-                <p th:text="${subMsg}"></p>
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
                 <a th:href="@{/komplain/ubah/} + ${komplain.kodeKomplain}" class="btn">
                     OK
                 </a>
@@ -47,7 +49,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-row">
-                                <div class="col-11">
+                                <div class="col-12">
                                     <div th:text="${message}"></div>
                                 </div>
                             </div>
@@ -58,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${message} == null" class="card" id="pesananPenjualan">
+                <div th:if="${message} == null" class="card" id="pesananPenjualan" style="min-width: 958px">
                     <div class="card-header">
                         <h4>Ubah Komplain</h4>
                     </div>
@@ -67,8 +69,8 @@
                             <input type="hidden" th:field="*{idKomplain}" />
                             <input type="hidden" th:field="*{kodeKomplain}" />
                             <input type="hidden" th:field="*{tanggalKomplain}" />
-                            <input th:if="*{tanggalPersetujuan}!= null" type="hidden" th:field="*{tanggalPersetujuan}" />
-                            <input th:if="*{requestChange}!= null" type="hidden" th:field="*{requestChange}" />
+                            <input th:if="*{tanggalPersetujuan} != null" type="hidden" th:field="*{tanggalPersetujuan}" />
+                            <input th:if="*{requestChange} != null" type="hidden" th:field="*{requestChange}" />
                             <input type="hidden" th:field="*{isShown}" />
                             <input type="hidden" th:field="*{statusKomplain}" />
                             <input type="hidden" th:field="*{user}" />
@@ -83,45 +85,51 @@
                             </select>
                             <br />
                             Nama Toko<br />
-                            <input class="form-control" id="namtok" type="text" name="namaToko" th:value="*{namaToko}" th:required="required"/>
+                            <input class="form-control" id="namtok" type="text" name="namaToko" th:value="*{namaToko}" th:readonly="readonly" th:required="required"/>
                             <br />
                             Alamat Toko<br />
-                            <input class="form-control" id="altok" type="text" name="alamatToko" th:value="*{alamatToko}"  th:required="required"/>
-                            <br />
-                            <h3>Barang Komplain</h3>
+                            <input class="form-control" id="altok" type="text" name="alamatToko" th:value="*{alamatToko}"  th:readonly="readonly" th:required="required"/>
+                            <br /><br/>
+                            <div class="row justify-content-between">
+                                <div class="float-md-left">
+                                    <h3>Barang Komplain</h3>
+                                </div>
+                                <div class="float-sm-right">
+                                </div>
+                            </div>
+                            <br>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-4">
                                     Nama Barang<br />
                                 </div>
-                                <div class="col">
+                                <div class="col-2">
                                     Jumlah<br />
                                 </div>
-                                <div class="col">
+                                <div class="col-4">
                                     Deskripsi<br />
 
                                 </div>
-                                <div class="col" >
-                                    <br/>
-                                    <br/>
+                                <div class="col" style="height: 1px">
                                 </div>
 
                             </div>
                             <div class="row" th:each="barang, iterationStatus : *{barangKomplain}">
-                                <div class="col" id="col-nama-barang">
-                                    <input class="form-control" style="margin-bottom: 24px" th:id="namaBarang- + ${barang.idTransaksiKomplain}" type="text" name="namaBarang" th:value="${barang.namaBarang}" th:readonly="readonly"/>
+                                <div class="col-4" id="col-nama-barang">
+                                    <input class="form-control" style="margin-bottom: 24px; margin-top: 5px;" th:id="namaBarang- + ${barang.idTransaksiKomplain}" type="text" name="namaBarang" th:value="${barang.namaBarang}" th:readonly="readonly"/>
                                     <!--                            <br />-->
                                 </div>
-                                <div class="col" id="col-jumlah">
-                                    <input class="form-control" style="margin-bottom: 24px" th:id="jumlah- + ${barang.idTransaksiKomplain}" type="number" name="jumlah" th:value="${barang.jumlah}" th:required="required"/>
+                                <div class="col-2" id="col-jumlah">
+                                    <input class="form-control" style="margin-bottom: 24px; margin-top: 5px;" th:id="jumlah- + ${barang.idTransaksiKomplain}" type="number" name="jumlah" th:value="${barang.jumlah}" th:required="required"/>
                                     <!--                            <br />-->
                                 </div>
-                                <div class="col" id="col-deskripsi">
-                                    <input class="form-control" style="margin-bottom: 24px" th:id="description- + ${barang.idTransaksiKomplain}" type="text" name="deskripsiKomplain" th:value="${barang.deskripsiKomplain}" th:required="required"/>
+                                <div class="col-4" id="col-deskripsi">
+                                    <input class="form-control" style="margin-bottom: 24px; margin-top: 5px;" th:id="description- + ${barang.idTransaksiKomplain}" type="text" name="deskripsiKomplain" th:value="${barang.deskripsiKomplain}" th:required="required"/>
                                     <!--                            <br />-->
 
                                 </div>
                                 <div class="col" id="col-btn">
-                                    <button type="button"  style="margin-bottom: 32px" th:id="btn-barang- + ${barang.idTransaksiKomplain}" onclick="hapusBaris(this)" class="btn-danger">-</button>
+                                    <button type="button" th:id="btn-barang- + ${barang.idTransaksiKomplain}" onclick="hapusBaris(this)" class="btn but-danger">
+                                        <i class="fa fa-trash"></i></button>
                                 </div>
 
 

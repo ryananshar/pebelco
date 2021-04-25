@@ -82,7 +82,7 @@ function addBaris(pesananIndex){
         divNamaBarang.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" id="namaBarang-'+jumlahBaris+'" readonly="readonly" required="required" value="'+transaksiList[pesananIndex][i]["namaBarang"]+'"/>';
         divJumlah.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="number" id="jumlah-'+jumlahBaris+'"  required="required" value="'+transaksiList[pesananIndex][i]["jumlah"]+'"/>';
         divDeskripsi.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" required="required" id="description-'+jumlahBaris+'"/>';
-        divBtn.innerHTML+='<div style="margin-top: 32px" ></div><button id="btn-barang-'+jumlahBaris+'" type="button" onclick="hapusBaris(this)" class="btn-danger" >-</button>';
+        divBtn.innerHTML+='<div style="margin-bottom: 11px" ></div><button id="btn-barang-'+jumlahBaris+'" type="button" onclick="hapusBaris(this)" class="btn but-danger"> <i class="fa fa-trash"></i></button>';
     }
     checker = transaksiList[pesananIndex];
 }

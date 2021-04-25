@@ -30,12 +30,6 @@
         <!-- </div> -->
     </div>
     <div class="container col">
-        <a
-                th:href="@{/komplain/}"
-                class="btn but-arrow"
-        ><i class="fa fa-arrow-left" aria-hidden="true"></i>
-        </a>
-
         <div class="row justify-content-center">
             <div th:if="${message} != null">
                 <div class="card">
@@ -44,7 +38,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-row">
-                            <div class="col-11">
+                            <div class="col-12">
                                 <div th:text="${message}"></div>
                             </div>
                         </div>
@@ -74,7 +68,7 @@
                         <input th:field="*{user}" class="form-control" hidden>
                         <input th:field="*{barangKomplain}" class="form-control" hidden>
                         <div class="form-group">
-                            <label>Catatan:</label>
+                            <label>Catatan</label>
                             <textarea th:field="*{requestChange}" class="form-control"
                                       style="width: 100%;"
                                       name="requestChange" rows="5" cols="6"

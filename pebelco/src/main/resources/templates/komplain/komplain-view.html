@@ -32,7 +32,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-row">
-                            <div class="col-11">
+                            <div class="col-12">
                                 <div th:text="${message}"></div>
                             </div>
                         </div>
@@ -79,6 +79,18 @@
                                 </div>
                             </div>
                             <br><br>
+                            <div class="row" th:if="${komplain.user.role.namaRole} != 'Staf Sales'">
+                                <div class="col-3">
+                                    <div>Nama Staf</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${komplain.user.namaPanjang}"></div>
+                                </div>
+                                <br><br><br>
+                            </div>
                             <div class="row">
                                 <div class="col-3">
                                     <div>Nama Toko</div>
@@ -130,7 +142,7 @@
                             <br><br>
                         </div>
                         <div class="form-group">
-                            <table class="table table-hover daftar-table">
+                            <table class="table table-hover daftar-table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>No</th>
@@ -156,12 +168,12 @@
                                sec:authorize="hasAnyAuthority('Admin Komplain', 'Admin')">
                             Ubah Status</a>
                             <a th:href="@{/komplain/ubah/} + ${komplain.kodeKomplain}"
-                               class="btn but-ubah"
+                               th:if="${komplain.statusKomplain} == 0" class="btn but-ubah"
                                sec:authorize="hasAnyAuthority('Admin Komplain', 'Admin')">
                             Ubah</a>
                             <a  th:href="@{/komplain/req/} + ${komplain.kodeKomplain}"
                                 class="btn but-outline"
-                                sec:authorize="hasAuthority('Staf Sales')">Request Change</a>
+                                sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
                         </div>
                     </div>
                 </div>
