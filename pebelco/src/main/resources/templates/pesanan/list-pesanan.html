@@ -42,12 +42,12 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Pesanan</th>
-                                        <th sec:authorize="hasAuthority('Sales Counter')">Nama Staf</th>
+                                        <th sec:authorize="hasAnyAuthority('Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')">Nama Staf</th>
                                         <th>Nama Toko</th>
                                         <th>Tanggal</th>
                                         <th>Status</th>
                                         <th>Total Harga</th>
-                                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Admin')">
+                                        <div>
                                             <th>Aksi</th>
                                         </div>
                                     </tr>
@@ -56,7 +56,7 @@
                                     <tr th:each="pesanan, iterationStatus : ${listPesanan}">
                                         <td th:text="${iterationStatus.count}"></td>
                                         <td th:text="${pesanan.kodePesananPenjualan}"></td>
-                                        <td th:text="${pesanan.user.namaPanjang}" sec:authorize="hasAuthority('Sales Counter')"></td>
+                                        <td th:text="${pesanan.user.namaPanjang}" sec:authorize="hasAnyAuthority('Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')"></td>
                                         <td th:text="${pesanan.namaToko}"></td>
                                         <td th:text="${#dates.format(pesanan.tanggalPesanan, 'dd/MM/yyyy')}"></td>
                                         <div>
@@ -65,11 +65,11 @@
                                             <td th:if="${pesanan.statusPesanan == 2}">Ditolak</td>
                                         </div>
                                         <td th:text="'Rp '+ ${#numbers.formatInteger(pesanan.totalHarga,3,'POINT')}" style="text-align: right;"></td>
-                                        <td>
+                                        <td sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')">
                                             <div class="inline-buts">
                                                     <a th:href="@{/pesanan/} + ${pesanan.kodePesananPenjualan}" 
                                                     class="btn but-detail"
-                                                    sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Admin')">Detail</a>
+                                                    >Detail</a>
                                                     <a th:href="@{/pesanan/hapus/} + ${pesanan.kodePesananPenjualan}" 
                                                     th:classappend="${pesanan.statusPesanan != 1 ? '':'disabled'}"
                                                     class="btn but-danger"
