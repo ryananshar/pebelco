@@ -28,7 +28,11 @@
                     <hr>
                 </div>
                 <div class="list-body">
+                    <div th:if="${msg == 'tidak ada pengiriman'}">
+                        <h3 th:text="${pesan}"></h3>
+                    </div>
 
+                    <div th:if="${msg == 'ada pengiriman'}">
                     <table class="table daftar-table table-hover table-bordered">
                         <thead>
                         <tr>
@@ -49,19 +53,14 @@
                             <td th:text="${pengiriman.tanggalDibuat}">Tanggal</td>
                             <td th:text="${pengiriman.status}">Status</td>
                             <td>
-<!--                                <div class="inline-buts">-->
-<!--                                    <a th:href="@{'/pengiriman/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>-->
-<!--                                    <form th:action="@{/pengiriman/hapus/}" method="POST">-->
-<!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
-<!--                                        <button type="submit" class="btn but-danger" th:disabled="${pengiriman.disableHapus}">Hapus</button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
                                 <div class="inline-buts">
                                     <a th:href="@{'/pengiriman/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
-                                    <a th:href="@{/pengiriman/hapus/}"
-                                       th:classappend="${pengiriman.statusId != 3 ? 'disabled':''}"
-                                       class="btn but-danger">Hapus</a>
+                                    <form th:action="@{/pengiriman/hapus/}" method="POST">
+                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                                        <button type="submit" class="btn but-danger" th:disabled="${pengiriman.disableHapus}">Hapus</button>
+                                    </form>
                                 </div>
+
                             </td>
                         </tr>
                         </tbody>
@@ -76,40 +75,3 @@
 </body>
 
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Tabel Pengiriman</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>Tabel Pengiriman</h1>-->
-<!--    <table border="1" cellpadding="10">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Kode Pengiriman</th>-->
-<!--            <th>Nama Toko</th>-->
-<!--            <th>Tanggal</th>-->
-<!--            <th>Status</th>-->
-<!--            <th>Aksi</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="pengiriman : ${pengirimans}">-->
-<!--            <td th:text="${pengiriman.kodePengiriman}">Kode</td>-->
-<!--            <td th:text="${pengiriman.namaToko}">Nama Toko</td>-->
-<!--            <td th:text="${pengiriman.tanggalDibuat}">Tanggal</td>-->
-<!--            <td th:text="${pengiriman.status}">Status</td>-->
-<!--            <td>-->
-<!--                <a th:href="@{'/pengiriman/' + ${pengiriman.id}}">Detail</a>-->
-<!--                <form th:action="@{/pengiriman/hapus/}" method="POST">-->
-<!--                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
-<!--                    <button type="submit" class="btn btn-primary" th:disabled="${pengiriman.disableHapus}">Hapus</button>-->
-<!--                </form>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--</body>-->
-<!--</html>-->
