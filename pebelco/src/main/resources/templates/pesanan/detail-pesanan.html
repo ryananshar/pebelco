@@ -93,7 +93,7 @@
                                     </div>
                                     <br><br>
                                 </div>
-                                <div th:if="${pesananPenjualan.user.role.namaRole} != 'Staf Sales'">
+                                <div sec:authorize="!hasAuthority('Staf Sales')">
                                     <div class="row">
                                         <div class="col-3">
                                             <div>Nama Staf</div>                                     

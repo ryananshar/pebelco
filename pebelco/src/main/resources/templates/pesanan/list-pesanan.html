@@ -47,7 +47,7 @@
                                         <th>Tanggal</th>
                                         <th>Status</th>
                                         <th>Total Harga</th>
-                                        <div>
+                                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')">
                                             <th>Aksi</th>
                                         </div>
                                     </tr>
