@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
         String pass = encrypt(newPassword);
         user.setPassword(pass);
         userDb.save(user);
-        
+
     }
 
     @Override
