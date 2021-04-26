@@ -82,7 +82,7 @@
                             <div class="form-group col-6">
                                 <label>Metode Pengiriman</label>
                                 <select name="metodePengiriman"  class="form-control" required>
-                                    <option disabled selected value> -- Pilih Metode Pengiriman -- </option>
+                                    <option disabled selected value> -- PILIH Metode Pengiriman -- </option>
                                     <th:block th:each="metode : ${metodePengiriman}">
                                         <option th:value="${metode.idMetode}" th:text="${metode.namaMetodePengiriman}"></option>
                                     </th:block>
@@ -90,7 +90,12 @@
                             </div>
                         </div>
                         <div>
-                            <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
+                            <div>
+                                <input th:if="${pengiriman.type} == 'komplain'" th:type="text" class="form-control" th:name="kodeKomplain" th:value="${pengiriman.kode}" hidden aria-hidden="true">
+                            </div>
+                            <div>
+                                <input th:if="${pengiriman.type} == 'pesanan'" th:type="text" class="form-control" th:name="kodePesanan" th:value="${pengiriman.kode}" hidden aria-hidden="true">
+                            </div>
                             <div class="row justify-content-end">
                                 <a class="btn but-outline" type="button" th:href="@{/perludikirim}">Batal</a>
                                 <button class="btn but-success" type="submit" value="Submit">Simpan</button>

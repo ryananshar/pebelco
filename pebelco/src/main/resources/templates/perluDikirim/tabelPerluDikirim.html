@@ -51,13 +51,13 @@
                                 <td th:text="${iterationStatus.count}"></td>
                                 <td th:text="${pengiriman.kode}">Kode</td>
                                 <td th:text="${pengiriman.namaToko}">Nama Toko</td>
-                                <td th:text="${pengiriman.tanggalPersetujuan}">Tanggal</td>
+                                <td th:text="${#dates.format(pengiriman.tanggalPersetujuan, 'dd/MM/yyyy')}">Tanggal</td>
                                 <td th:text="${pengiriman.status}">Status</td>
                                 <td>
                                     <div class="inline-buts">
-                                        <a th:href="@{'/perludikirim/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
+                                        <a th:href="@{'/perludikirim/' + ${pengiriman.type} + '/' + ${pengiriman.kode}}" class="btn but-detail">Detail</a>
                                         &nbsp;
-                                        <a th:href="@{'/perludikirim/tambah/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-tambah"
+                                        <a th:href="@{'/perludikirim/tambah/' + ${pengiriman.type} + '/' + ${pengiriman.kode}}" class="btn but-tambah"
                                            sec:authorize="hasAnyAuthority('Staf Pengiriman')">Tambah</a>
 
                                     </div>

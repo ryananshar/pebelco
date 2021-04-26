@@ -38,9 +38,9 @@
                         </div>
                     </div>
                     <br>
-<!--                    <a th:href="@{/pengiriman}" class="btn btn-success">-->
-<!--                        Kembali-->
-<!--                    </a>-->
+                    <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                        Kembali
+                    </a>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                     <div class="card-body">
                         <div class="col-12">
                             <div class="row kode">
-                                <div th:text="${pengiriman.kode}"></div>
+                                <div th:text="${pengiriman.kodePengiriman}"></div>
                             </div>
                             <br><br>
                             <div class="row">
@@ -119,8 +119,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </th:block>
-                                <br><br>
+
                                 <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
                                 <!--  buat th:block lain juga sama  -->
                                 <th:block th:each="tanggalDikirim : ${pengiriman.tanggalDikirim}">
@@ -133,12 +134,13 @@
                                                 <div th:text="':'"></div>
                                             </div>
                                             <div class="col-8">
-                                                <div th:text="${tanggalDikirim}"></div>
+                                                <div th:text="${#dates.format(tanggalDikirim, 'dd/MM/yyyy')}"></div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </th:block>
-                                <br><br>
+
 
                                 <th:block th:each="tanggalDiterima : ${pengiriman.tanggalDiterima}">
                                     <div th:if="${tanggalDiterima}">
@@ -150,12 +152,13 @@
                                                 <div th:text="':'"></div>
                                             </div>
                                             <div class="col-8">
-                                                <div th:text="${tanggalDiterima}"></div>
+                                                <div th:text="${#dates.format(tanggalDiterima, 'dd/MM/yyyy')}"></div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </th:block>
-                                <br><br>
+
 
                                 <th:block th:each="namaPenerima : ${pengiriman.namaPenerima}">
                                     <div th:if="${namaPenerima}">
@@ -171,9 +174,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br><br>
                                 </th:block>
                             </div>
-                            <br><br>
                             <div class="row">
                                 <div class="col-3">
                                     <div>Daftar Barang</div>
@@ -207,14 +210,14 @@
                         </div>
                         <div class="row justify-content-end">
                             <div th:if="${isPengiriman}">
-                                <div class="btn" th:if="${showUbahStatus}">
-                                    <a th:href="@{'/pengiriman/update-status/' + ${pengiriman.id}}" class="btn but-ubah-stat"
+<!--                                <div >-->
+                                    <a th:if="${showUbahStatus}" th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah-stat"
                                     sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
-                                </div>
-                                <div class="btn" th:if="${showUbahPengiriman}">
-                                    <a th:href="@{'/pengiriman/update/' + ${pengiriman.id}}" class="btn but-ubah"
+<!--                                </div>-->
+<!--                                <div th:if="${showUbahPengiriman}">-->
+                                    <a th:if="${showUbahPengiriman}" th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
                                     sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
-                                </div>
+<!--                                </div>-->
                             </div>
                         </div>
                     </div>

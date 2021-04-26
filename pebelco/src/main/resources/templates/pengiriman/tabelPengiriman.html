@@ -10,6 +10,33 @@
 </head>
 
 <body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg2}"></p>
+            <a th:href="@{/daftarpengiriman}" class="btn">
+                OK
+            </a>
+        </div>
+
+        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg2}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/daftarpengiriman}" class="btn but-outline">
+                    Tidak
+                </a>
+                <form th:action="@{'/pengiriman/hapus/' + ${kodePengiriman}}" method="POST">
+                    <!--                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+                    <button value="Submit" class="btn but-success" style="margin-left: 10px; margin-top: 30px; width: 130px;">
+                        Ya
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
@@ -17,7 +44,6 @@
         <nav th:replace="fragments/fragment :: sidebar"></nav>
         <!-- </div> -->
     </div>
-
 
     <div th:unless="${message} != null" class="container-fluid col">
         <div class="row justify-content-center">
@@ -49,12 +75,12 @@
                             <td th:text="${iterationStatus.count}"></td>
                             <td th:text="${pengiriman.kodePengiriman}">Kode</td>
                             <td th:text="${pengiriman.namaToko}">Nama Toko</td>
-                            <td th:text="${pengiriman.tanggalDibuat}">Tanggal</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
                             <td th:text="${pengiriman.status}">Status</td>
                             <td>
                                 <div class="inline-buts">
-                                    <a th:href="@{'/pengiriman/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
-                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.id}" method="GET">
+                                    <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
+                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">
 <!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
                                         <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>
                                     </form>
@@ -69,33 +95,6 @@
         </div>
     </div>
 </div>
-</div>
-<div th:if="${pop} != null" class="overlay" id="center">
-    <div class="row justify-content-center">
-        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
-            <img th:src="@{/img/green-check.svg}">
-            <p th:text="${msg}"></p>
-            <a th:href="@{/daftarpengiriman}" class="btn">
-                OK
-            </a>
-        </div>
-
-        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
-            <p th:text="${msg2}"></p>
-            <span class="sub-msg" th:text="${subMsg}"></span>
-            <div class="row justify-content-center">
-                <a th:href="@{/daftarpengiriman}" class="btn but-outline">
-                    Tidak
-                </a>
-                <form th:action="@{'/pengiriman/hapus/' + ${id}}" method="POST">
-<!--                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
-                    <button value="Submit" class="btn but-success" style="margin-left: 10px;">
-                        Ya
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 </body>

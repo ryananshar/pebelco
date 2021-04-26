@@ -16,7 +16,7 @@
         <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
             <img th:src="@{/img/green-check.svg}">
             <p th:text="${msg}"></p>
-            <a th:href="@{/pengiriman/}+${pengiriman.id}" class="btn">
+            <a th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}" class="btn">
                 OK
             </a>
         </div>
@@ -62,9 +62,9 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-6">
                             <form th:action="@{/pengiriman/terima/}" method="POST">
-
                                 <div class="form-group">
                                     <label>Nama Penerima</label>
                                     <input th:field="*{pengiriman.namaPenerima}" type="text" class="form-control"
@@ -77,15 +77,20 @@
                                     <input th:field="*{pengiriman.tanggalDiterima}" type="date" class="form-control"
                                                    name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}" required>
                                 </div>
+
                                 <div class="col-12">
-                                    <div class="row justify-content-end">
-                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
-                                        <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.id}">Batal</a>
+                                    <div class="row justify-content-end" style="margin-top: 525px;">
+                                        <div>
+                                            <input th:type="text" class="form-control" th:name="kodePengiriman" th:value="${pengiriman.kodePengiriman}" hidden aria-hidden="true">
+                                        </div>
+<!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+                                        <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}">Batal</a>
                                         <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                                     </div>
                                 </div>
 
                            </form>
+                        </div>
 
                         </div>
 

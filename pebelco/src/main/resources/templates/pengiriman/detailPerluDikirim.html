@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Detail Pengiriman</title>
+  <title>Detail Perlu Dikirim</title>
   <object th:include="fragments/fragment :: css" th:remove="tag"></object>
   <object th:include="fragments/fragment :: js" th:remove="tag"></object>
   <link rel="stylesheet" th:href="@{/css/style.css}" />
@@ -28,7 +28,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-7">
-            <h4>Detail Pengiriman</h4>
+            <h4>Detail Perlu Dikirim</h4>
           </div>
           <div class="col-4">
             <span th:text="${pengiriman.status}" class="disetujui">Disetujui></span>
@@ -108,18 +108,18 @@
           </table>
           <br><br><br>
         </div>
-        <div class="row justify-content-end">
-          <div th:if="${isPengiriman}">
-            <div class="btn" th:if="${showUbahStatus}">
-              <a th:href="@{'/pengiriman/update-status/' + ${pengiriman.id}}" class="btn but-ubah-stat"
-                 sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
-            </div>
-            <div class="btn" th:if="${showUbahPengiriman}">
-              <a th:href="@{'/pengiriman/update/' + ${pengiriman.id}}" class="btn but-ubah"
-                 sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
-            </div>
-          </div>
-        </div>
+<!--        <div class="row justify-content-end">-->
+<!--          <div th:if="${isPengiriman}">-->
+<!--            <div class="btn" th:if="${showUbahStatus}">-->
+<!--              <a th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kode}}" class="btn but-ubah-stat"-->
+<!--                 sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>-->
+<!--            </div>-->
+<!--            <div class="btn" th:if="${showUbahPengiriman}">-->
+<!--              <a th:href="@{'/pengiriman/ubah/' + ${pengiriman.kode}}" class="btn but-ubah"-->
+<!--                 sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </div>
