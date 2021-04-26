@@ -43,108 +43,108 @@
                     <h4>Ubah Produk</h4>
                 </div>
 
-                <div class="card-body">
-                    <form th:action="@{/produk/ubah/stok/}+${produk.idProduk}"th:object="${produk}" method="POST">
-                        <table class="card-body table table-borderless" style="margin: 0px;">
-                            <thead>
-                            <th>
-                                <tr>
-                                    <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
-                                    <th class="form-group">
-                                        Nama Produk
-                                        <input type="hidden" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" />
-                                        <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}"  class="form-control" disabled>
-                                    </th>
-                                    <th class="form-group" >
-                                        Spesifikasi
-                                        <input type="hidden" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" />
-                                        <input type="text" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}"  class="form-control" disabled>
-                                    </th>
-                                </tr>
+            <div class="card-body">
+                <form th:action="@{/produk/ubah/stok/}+${produk.idProduk}"th:object="${produk}" method="POST">
+                    <table class="card-body table table-borderless" style="margin: 0px;">
+                        <thead>
+                        <th>
+                            <tr>
+                                <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
+                                <th class="form-group">
+                                    Nama Produk
+                                    <input type="hidden" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" />
+                                    <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}"  class="form-control" disabled>
+                                </th>
+                                <th class="form-group" >
+                                    Spesifikasi
+                                    <input type="hidden" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" />
+                                    <input type="text" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}"  class="form-control" disabled>
+                                </th>
+                            </tr>
 
-                                <tr>
-                                    <th class="form-group">
-                                        Stok Produk
-                                        <input type="text" name="stok" th:field="*{stok}" th:value="*{stok}"  class="form-control" required>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th class="form-group">
+                                    Stok Produk
+                                    <input type="text" name="stok" th:field="*{stok}" th:value="*{stok}"  class="form-control" required>
+                                </th>
+                            </tr>
 
-                                <tr>
-                                    <th class="form-group">
-                                        Tipe
-                                        <input type="hidden" name="tipe" th:field="*{tipe}" th:value="*{tipe}" />
-                                        <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" disabled>
-                                            <option value="1">Coffee Table</option>
-                                            <option value="2">Display Rack</option>
-                                            <option value="3">Kursi Cafe</option>
-                                            <option value="4">Kursi Lipat</option>
-                                            <option value="5">Kursi Makan</option>
-                                            <option value="6">Kursi Stool</option>
-                                            <option value="7">Laci Meja Tulis</option>
-                                            <option value="8">Lemari Pakaian Besi</option>
-                                            <option value="9">Meja Cafe</option>
-                                            <option value="10">Meja Makan</option>
-                                            <option value="11">Meja Lipat</option>
-                                            <option value="12">Meja Tulis</option>
-                                        </select>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th class="form-group">
+                                    Tipe
+                                    <input type="hidden" name="tipe" th:field="*{tipe}" th:value="*{tipe}" />
+                                    <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" disabled>
+                                        <option value="1">Coffee Table</option>
+                                        <option value="2">Display Rack</option>
+                                        <option value="3">Kursi Cafe</option>
+                                        <option value="4">Kursi Lipat</option>
+                                        <option value="5">Kursi Makan</option>
+                                        <option value="6">Kursi Stool</option>
+                                        <option value="7">Laci Meja Tulis</option>
+                                        <option value="8">Lemari Pakaian Besi</option>
+                                        <option value="9">Meja Cafe</option>
+                                        <option value="10">Meja Makan</option>
+                                        <option value="11">Meja Lipat</option>
+                                        <option value="12">Meja Tulis</option>
+                                    </select>
+                                </th>
+                            </tr>
 
-                                <tr>
-                                    <th class="form-group" >
-                                        Harga
-                                        <input type="hidden" name="harga" th:field="*{harga}" th:value="*{harga}" />
-                                        <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" disabled>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th class="form-group" >
+                                    Harga
+                                    <input type="hidden" name="harga" th:field="*{harga}" th:value="*{harga}" />
+                                    <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" disabled>
+                                </th>
+                            </tr>
 
-                                <tr>
-                                    <th class="form-group" >
-                                        Tanggal Dibuat
-                                        <input type="hidden" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" />
-                                        <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
-                                    </th>
-                                </tr>
+                            <tr>
+                                <th class="form-group" >
+                                    Tanggal Dibuat
+                                    <input type="hidden" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" />
+                                    <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
+                                </th>
+                            </tr>
 
-                                <tr>
-                                    <th colspan="1">
-                                        <div class="float-md-left">
-                                            <h3 class="float-md-left">Tag Produk</h3>
-                                        </div>
-                                    </th>
+                            <tr>
+                                <th colspan="1">
+                                    <div class="float-md-left">
+                                        <h3 class="float-md-left">Tag Produk</h3>
+                                    </div>
+                                </th>
 
-                                </tr>
+                            </tr>
 
 
-                                <tr class="form-group">
-                                    <th>No</th>
-                                    <th>Tag Produk</th>
-                                </tr>
+                            <tr class="form-group">
+                                <th>No</th>
+                                <th>Tag Produk</th>
+                            </tr>
 
-                                <tr th:each="tag, tagStat : *{listTagProduk}">
-                                    <td th:text="${tagStat.count}"></td>
-                                    <td>
-                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                                class="form-control" required>
-                                            <option selected value="">-- PILIH Nama Tag --</option>
-                                            <option th:each="isi : ${listTag}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}" >
-                                            </option>
-                                        </select>
-                                    </td>
+                            <tr th:each="tag, tagStat : *{listTagProduk}">
+                                <td th:text="${tagStat.count}"></td>
+                                <td>
+                                    <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
+                                            class="form-control" disabled>
+                                        <option th:each="isi : ${listTag}"
+                                                th:if="${tag.idTagProduk == isi.idTagProduk}"
+                                                th:value="${isi.idTagProduk}"
+                                                th:text="${isi.namaTag}" selected>
+                                        </option>
+                                    </select>
+                                </td>
 
-                                </tr>
+                            </tr>
 
-                            </th>
-                            </thead>
-                        </table>
-                        <div class="row justify-content-end">
-                            <a class="btn but-outline" type="button" th:href="@{/produk/}+${id}">Batal</a>
-                            <button type="submit" class="btn but-success">Ubah</button>
-                        </div>
-                    </form>
-                </div>
+                        </th>
+                        </thead>
+                    </table>
+                    <div class="row justify-content-end">
+                        <a class="btn but-outline" type="button" th:href="@{/produk/}+${id}">Batal</a>
+                        <button type="submit" class="btn but-success">Ubah</button>
+                    </div>
+                </form>
+            </div>
 
             </div>
         </div>

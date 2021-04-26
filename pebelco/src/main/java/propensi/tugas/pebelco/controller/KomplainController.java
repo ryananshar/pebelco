@@ -544,6 +544,11 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(email);
         komplainService.updateKomplain(komplain);
 
+        String descReq = "Komplain dengan id " + komplain.getKodeKomplain() + " mendapat Request Change";
+        String urlPengiriman ="/komplain/" + komplain.getKodeKomplain();
+        Long idAdminPengiriman = (long) 3;
+        notifikasiService.addNotifikasi(new NotifikasiModel(true, descReq, urlPengiriman, user.getIdUser(), null, idAdminPengiriman));
+
         model.addAttribute("kodeKomplain", komplain.getKodeKomplain());
         model.addAttribute("komplain", komplain);
         model.addAttribute("pop", "green");
