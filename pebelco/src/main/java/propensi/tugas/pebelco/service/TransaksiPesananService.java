@@ -2,6 +2,7 @@ package propensi.tugas.pebelco.service;
 
 import java.util.List;
 
+import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 
@@ -19,4 +20,6 @@ public interface TransaksiPesananService {
     void deleteTransaksiPesanan(Long idTransaksiPesanan);
 
     Long calculatePrice(Integer jumlah, ProdukModel produk);
+
+    List<TransaksiPesananModel> getListByIdPesanan(PesananPenjualanModel pesananTransaksi);
 }
