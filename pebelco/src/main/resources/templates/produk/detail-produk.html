@@ -123,10 +123,11 @@
                             </div>
                             <br><br>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" th:if="${listTag.size()} > 0">
                             <table class="table table-hover table-bordered daftar-table ">
                                 <thead>
                                 <tr>
+                                    <th colspan="1">No</th>
                                     <th colspan="2">Tag Produk</th>
                                 </tr>
                                 </thead>
