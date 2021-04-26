@@ -18,66 +18,75 @@
                 OK
             </a>
         </div>
-    </div>
-</div>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
-        </div>
-
-        <div class="container-fluid col">
+        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg2}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
             <div class="row justify-content-center">
-                <div class="card col-sm" id="list-pesanan">
-                    <div class="card-header">
-                        <h4>Daftar Produk</h4>
-                    </div>
-                    <div class="card-body">
-                        <div sec:authorize="hasAuthority('Factory Manager')">
-                            <a
-                                    th:href="@{/produk/tambah}"
-                                    class="btn but-outline"
-                            >+ Tambah Produk </a>
-                            <br><br>
-                        </div>
-                <table class="table daftar-table table-hover table-bordered">
-                    <tr class="bg-dark text-center">
-                        <th>No</th>
-                        <th>Nama Produk</th>
-                        <th>Stok</th>
-                        <th>Harga</th>
-                        <th>Tanggal Dibuat</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="produk, iterationStatus: ${listProduk}">
-                        <td th:text="${iterationStatus.count}"></td>
-                        <td th:text="${produk.namaProduk}"></td>
-                        <td th:text="${produk.stok}"></td>
-                        <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
-                        <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
-                        <td>
-                            <div class="inline-buts">
-                                <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
-                                <a th:href="@{/produk/hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAuthority('Factory Manager')">Hapus</a>
-                            </div>
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
+                <a th:href="@{/produk}" class="btn but-outline">
+                    Tidak
+                </a>
+                <a th:href="@{/produk/hapus/}+${id}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
+                </a>
             </div>
         </div>
-
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
 
+    <div class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Daftar Produk</h2>
+                    <hr>
+                </div>
+                <div class="list-body">
+                    <div sec:authorize="hasAuthority('Factory Manager')">
+                        <a
+                                th:href="@{/produk/tambah}"
+                                class="btn but-outline"
+                        >+ Tambah Produk </a>
+                        <br><br>
+                    </div>
+                    <table class="table daftar-table table-hover table-bordered">
+                        <tr class="bg-dark text-center">
+                            <th>No</th>
+                            <th>Nama Produk</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                            <th>Tanggal Dibuat</th>
+                            <th>Aksi</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="produk, iterationStatus: ${produk}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${produk.namaProduk}"></td>
+                            <td th:text="${produk.stok}"></td>
+                            <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                            <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <div class="inline-buts">
+                                    <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                    <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAuthority('Factory Manager')">Hapus</a>
+                                </div>
+                            </td>
 
+                        </tr>
 
+                        </tbody>
+                    </table>
 
+                </div>
+            </div>
 
-
+        </div>
+    </div>
+</div>
 </body>
 </html>

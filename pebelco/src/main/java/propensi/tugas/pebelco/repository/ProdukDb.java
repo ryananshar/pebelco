@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import propensi.tugas.pebelco.model.ProdukModel;
 
 
-
 @Repository
 public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
 

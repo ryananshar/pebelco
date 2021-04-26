@@ -37,6 +37,10 @@ public class UserController {
 
     @RequestMapping("/")
     public String home(Model model) {
+        // UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        // List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+        // System.out.println("----------------- out: " + listNotifUser.size());
+        // model.addAttribute("listNotifUser", listNotifUser.size());
         return "home";
     }
 

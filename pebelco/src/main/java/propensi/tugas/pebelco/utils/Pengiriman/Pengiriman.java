@@ -17,6 +17,7 @@ public class Pengiriman {
     private Date tanggalDikirim;
     private Date tanggalDiterima;
     private String namaPenerima;
+    private boolean isShown;
 
     public Pengiriman(PengirimanModel pengiriman) {
         this.id = pengiriman.getIdPengiriman();
@@ -31,6 +32,15 @@ public class Pengiriman {
         this.tanggalDikirim = pengiriman.getTanggalDikirim();
         this.tanggalDiterima = pengiriman.getTanggalDiterima();
         this.namaPenerima = pengiriman.getNamaPenerima();
+        this.isShown = pengiriman.getIsShown();
+    }
+
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean shown) {
+        isShown = shown;
     }
 
     private String getKode(PengirimanModel pengiriman) {

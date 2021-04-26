@@ -11,6 +11,17 @@
 </head>
 
 <body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pengiriman/}+${pengiriman.id}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
@@ -64,7 +75,7 @@
                                 <div class="form-group">
                                     <label>Tanggal Diterima</label>
                                     <input th:field="*{pengiriman.tanggalDiterima}" type="date" class="form-control"
-                                                   name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}"required>
+                                                   name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}" required>
                                 </div>
                                 <div class="col-12">
                                     <div class="row justify-content-end">

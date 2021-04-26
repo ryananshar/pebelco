@@ -14,7 +14,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/perlu-dikirim")
+@RequestMapping("/perludikirim")
 public class PerluDikirimController {
     @Autowired
     private UserService userService;
@@ -53,7 +53,7 @@ public class PerluDikirimController {
         return "pengiriman/detailPerluDikirim";
     }
 
-    @RequestMapping("/add/komplain/{id}")
+    @RequestMapping("/tambah/komplain/{id}")
     public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
         model.addAttribute("pengiriman", perluDikirimService.findKomplainById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
@@ -61,7 +61,7 @@ public class PerluDikirimController {
         return "perluDikirim/tambahPengiriman";
     }
 
-    @RequestMapping("/add/pesanan/{id}")
+    @RequestMapping("/tambah/pesanan/{id}")
     public String formTambahPengirimanPesanan(@PathVariable Long id, Model model) {
         model.addAttribute("pengiriman", perluDikirimService.findPesananById(id));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
@@ -69,22 +69,34 @@ public class PerluDikirimController {
         return "perluDikirim/tambahPengiriman";
     }
 
-    @PostMapping("/add/komplain/")
+    @PostMapping("/tambah/komplain/")
     public String tambahPengirimanKomplainItem(
             @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
+            @RequestParam Long metodePengiriman,
+            Model model) {
 
         perluDikirimService.addPengirimanKomplain(id, metodePengiriman);
-        return "redirect:/pengiriman";
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman Berhasil Ditambahkan");
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainById(id));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
+        return "perluDikirim/tambahPengiriman";
     }
 
-    @PostMapping("/add/pesanan/")
+    @PostMapping("/tambah/pesanan/")
     public String tambahPengirimanPesananItem(
             @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
+            @RequestParam Long metodePengiriman,
+            Model model) {
 
         perluDikirimService.addPengirimanPesanan(id, metodePengiriman);
-        return "redirect:/pengiriman";
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman Berhasil Ditambahkan");
+        model.addAttribute("pengiriman", perluDikirimService.findPesananById(id));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
+        return "perluDikirim/tambahPengiriman";
     }
 
     @ModelAttribute

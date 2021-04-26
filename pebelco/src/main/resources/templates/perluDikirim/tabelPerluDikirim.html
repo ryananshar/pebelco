@@ -55,9 +55,10 @@
                                 <td th:text="${pengiriman.status}">Status</td>
                                 <td>
                                     <div class="inline-buts">
-                                        <a th:href="@{'/perlu-dikirim/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
+                                        <a th:href="@{'/perludikirim/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-detail">Detail</a>
                                         &nbsp;
-                                        <a th:href="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-tambah">Tambah</a>
+                                        <a th:href="@{'/perludikirim/tambah/' + ${pengiriman.type} + '/' + ${pengiriman.id}}" class="btn but-tambah"
+                                           sec:authorize="hasAnyAuthority('Staf Pengiriman')">Tambah</a>
 
                                     </div>
                                 </td>

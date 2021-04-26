@@ -16,7 +16,7 @@
         <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
             <img th:src="@{/img/green-check.svg}">
             <p th:text="${msg}"></p>
-            <a th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}" class="btn">
+            <a th:href="@{/pengiriman/}+${pengiriman.id}" class="btn">
                 OK
             </a>
         </div>

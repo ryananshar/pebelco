@@ -62,10 +62,10 @@ public class ProdukModel implements Serializable{
     // private List<TransaksiPesananModel> listTransaksiPesanan;
 
     // id transaksi komplain
-    @OneToMany(mappedBy = "produkKomplain", fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private List<TransaksiKomplainModel> listTransaksiKomplain;
+//    @OneToMany(mappedBy = "produkKomplain", fetch = FetchType.LAZY)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @JsonIgnore
+//    private List<TransaksiKomplainModel> listTransaksiKomplain;
 
 
     public Long getIdProduk() {
@@ -140,12 +140,12 @@ public class ProdukModel implements Serializable{
     //     this.listTransaksiPesanan = listTransaksiPesanan;
     // }
 
-    public List<TransaksiKomplainModel> getListTransaksiKomplain() {
-        return this.listTransaksiKomplain;
-    }
-
-    public void setListTransaksiKomplain(List<TransaksiKomplainModel> listTransaksiKomplain) {
-        this.listTransaksiKomplain = listTransaksiKomplain;
-    }
+//    public List<TransaksiKomplainModel> getListTransaksiKomplain() {
+//        return this.listTransaksiKomplain;
+//    }
+//
+//    public void setListTransaksiKomplain(List<TransaksiKomplainModel> listTransaksiKomplain) {
+//        this.listTransaksiKomplain = listTransaksiKomplain;
+//    }
 
 }

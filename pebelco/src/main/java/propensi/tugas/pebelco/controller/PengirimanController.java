@@ -1,6 +1,7 @@
 package propensi.tugas.pebelco.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,14 +56,21 @@ public class PengirimanController {
     public String detailPengiriman(@PathVariable Long id, Model model) {
         Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
         int status = pengiriman.getStatusId();
-
-        model.addAttribute("pengiriman", pengiriman);
-        model.addAttribute("isPengiriman", true);
-        model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
-        model.addAttribute("showUbahStatus", pengirimanService.showUbahStatusButton(status));
-        model.addAttribute("showUbahPengiriman", pengirimanService.showUbahPengirimanButton(status));
-        return "pengiriman/detailPengiriman";
+        if (pengiriman.isShown()) {
+            model.addAttribute("pengiriman", pengiriman);
+            model.addAttribute("isPengiriman", true);
+            model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
+            model.addAttribute("showUbahStatus", pengirimanService.showUbahStatusButton(status));
+            model.addAttribute("showUbahPengiriman", pengirimanService.showUbahPengirimanButton(status));
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
+            return "pengiriman/detailPengiriman";
     }
+
+
 
     @RequestMapping("pengiriman/update/{id}")
     public String formUbahPengiriman(@PathVariable Long id, Model model) {
@@ -75,9 +83,15 @@ public class PengirimanController {
     @PostMapping("pengiriman/update/")
     public String ubahPengiriman(
             @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
+            @RequestParam Long metodePengiriman,
+            Model model) {
         pengirimanService.updateMetodePengiriman(id, metodePengiriman);
-        return "redirect:/pengiriman/" + id.toString();
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman Berhasil Diubah");
+        model.addAttribute("pengiriman", pengirimanService.findPengirimanById(id));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", pengirimanService.findAllBarangByIdPengiriman(id));
+        return "pengiriman/ubahPengiriman";
     }
 
     @RequestMapping("pengiriman/update-status/{id}")
@@ -92,7 +106,8 @@ public class PengirimanController {
     @PostMapping("pengiriman/update-status/")
     public String ubahStatus(
             @RequestParam Long id,
-            @RequestParam int statusPengiriman) {
+            @RequestParam int statusPengiriman,
+            Model model) {
 
         // Jika sudah diterima...
         if (statusPengiriman == 3) {
@@ -101,7 +116,13 @@ public class PengirimanController {
         }
         else{
             pengirimanService.updateStatusPengiriman(id, statusPengiriman);
-            return "redirect:/pengiriman/" + id.toString();
+            Pengiriman pengiriman = pengirimanService.findPengirimanById(id);
+            model.addAttribute("pop", "green");
+            model.addAttribute("msg", "Status Pengiriman Berhasil Diubah");
+            model.addAttribute("pengiriman", pengiriman);
+            model.addAttribute("status", pengiriman.getNextStatus());
+            model.addAttribute("statusId", pengiriman.getNextStatusId());
+            return "pengiriman/ubahStatus";
         }
 
     }
@@ -116,20 +137,54 @@ public class PengirimanController {
     public String penerimaanBarang(
             @RequestParam Long id,
             @RequestParam String tanggalDiterima,
-            @RequestParam String namaPenerima) throws ParseException {
+            @RequestParam String namaPenerima, Model model) throws ParseException {
         pengirimanService.updateStatusPengiriman(id, 3);
         Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-mm-dd").parse(tanggalDiterima);
         pengirimanService.terimaPengiriman(id, tanggalDiterimaDate, namaPenerima);
-
-        return "redirect:/pengiriman/" + id.toString();
+        model.addAttribute("pengiriman", pengirimanService.findPengirimanById(id));
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Status Pengiriman Berhasil Diubah");
+        return "pengiriman/penerimaanBarang";
     }
 
-    @PostMapping("pengiriman/hapus/")
+    @GetMapping("/pengiriman/konfirmasi-hapus/{id}")
+    public String konfirmasiHapusPengiriman(
+            @PathVariable Long id,
+            Model model) {
+        List<Pengiriman> pengirimans = pengirimanService.findAll();
+        model.addAttribute("pengirimans", pengirimans);
+        model.addAttribute("id", id);
+        model.addAttribute("pop", "konfirmasi hapus");
+        model.addAttribute("msg2", "Konfirmasi Penghapusan");
+        model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus pengiriman ini?");
+
+        return "pengiriman/tabelPengiriman";
+    }
+
+    @PostMapping("pengiriman/hapus/{id}")
     public String hapusPengiriman(
-            @RequestParam Long id) {
+            @PathVariable Long id, Model model) {
         pengirimanService.setIsShownFalse(id);
-        return "redirect:/pengiriman";
+        List<Pengiriman> pengirimans = pengirimanService.findAll();
+        model.addAttribute("pengirimans", pengirimans);
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman berhasil dihapus");
+        return "pengiriman/tabelPengiriman";
     }
+
+
+//        @GetMapping("/pengiriman/hapus/")
+//        public String hapusPengiriman(
+//                @PathVariable Long id,
+//                Model model) {
+//            pengirimanService.setIsShownFalse(id);
+//            List<Pengiriman> pengirimans = pengirimanService.findAll();
+//                    model.addAttribute("pengirimans", pengirimans);
+//                    model.addAttribute("pop", "green");
+//                    model.addAttribute("msg2", "Jadwal Kunjungan Berhasil Dihapus");
+//
+//            return "pengiriman/hapusPengiriman";
+//        }
 
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {

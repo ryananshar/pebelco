@@ -11,6 +11,17 @@
 </head>
 
 <body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/perludikirim}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
@@ -66,7 +77,7 @@
                             <br><br>
                         </div>
                     </div>
-                    <form th:action="@{'/perlu-dikirim/add/' + ${pengiriman.type} + '/'}" method="POST">
+                    <form th:action="@{'/perludikirim/tambah/' + ${pengiriman.type} + '/'}" method="POST">
                         <div class="row">
                             <div class="form-group col-6">
                                 <label>Metode Pengiriman</label>
@@ -81,7 +92,7 @@
                         <div>
                             <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">
                             <div class="row justify-content-end">
-                                <a class="btn but-outline" type="button" th:href="@{/perlu-dikirim}">Batal</a>
+                                <a class="btn but-outline" type="button" th:href="@{/perludikirim}">Batal</a>
                                 <button class="btn but-success" type="submit" value="Submit">Simpan</button>
                             </div>
                         </div>

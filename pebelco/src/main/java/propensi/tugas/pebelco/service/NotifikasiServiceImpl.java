@@ -46,12 +46,13 @@ public class NotifikasiServiceImpl implements NotifikasiService{
             notifikasi.setWaktuDibuat(new Date());
             notifikasi.setListUser(listUser);
             notifikasiDb.save(notifikasi);
-        }        
+            userPenerima.getListNotifikasi().add(notifikasi);
+        }
     }
 
     @Override
     public List<NotifikasiModel> getNotifListByUserAndRole(Long idPenerima, Long idRole, Boolean isNotif) {
         return notifikasiDb.findByIdPenerimaOrIdRoleAndIsNotifOrderByWaktuDibuatDesc(idPenerima, idRole, isNotif);
     }
-    
+
 }
