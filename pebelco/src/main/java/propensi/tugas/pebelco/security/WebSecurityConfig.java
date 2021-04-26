@@ -48,6 +48,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/komplain/konfirmasi-ubah-status/**").hasAnyAuthority("Admin Komplain","Admin")
                 .antMatchers("/komplain/hapus/**").hasAnyAuthority("Admin Komplain", "Admin")
                 .antMatchers("/komplain/konfirmasi-hapus/**").hasAnyAuthority("Admin Komplain", "Admin")
+                // Produk
+                .antMatchers("/produk").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
+                .antMatchers("/produk/*").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
+                .antMatchers("/produk/tambah/").hasAnyAuthority( "Factory Manager", "Admin")
+                .antMatchers("/produk/ubah/**").hasAnyAuthority( "Vice Factory Manager","Sales Counter", "Admin")
+                .antMatchers("/produk/ubah/stok/***").hasAnyAuthority( "Sales Counter", "Admin")
+                .antMatchers("/produk/konfirmasi-hapus/**").hasAnyAuthority("Factory Manager","Admin")
+                .antMatchers("/produk/hapus/**").hasAnyAuthority("Factory Manager","Admin")
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -77,6 +86,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-            .passwordEncoder(encoder());
+                .passwordEncoder(encoder());
     }
 }
