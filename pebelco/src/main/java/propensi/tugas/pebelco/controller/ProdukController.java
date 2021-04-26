@@ -55,7 +55,9 @@ public class ProdukController {
     @GetMapping(value = "/produk/{id}")
     public String detailproduk(@PathVariable Long id, Model model) {
         ProdukModel produk=produkService.getProdukById(id);
+        List<TagProdukModel> listTagProduk=produk.getListTagProduk();
 
+        model.addAttribute("listTag",listTagProduk);
         model.addAttribute("detailProduk", produk);
         return "produk/detail-produk";
     }
@@ -112,6 +114,8 @@ public class ProdukController {
 
         produk.setListTagProduk(tagTempList);
         produk.getListTagProduk().add(tagGaib);
+        System.out.println(produk.getListTagProduk());
+        System.out.println(produk.getListTagProduk().size());
 
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
@@ -213,11 +217,11 @@ public class ProdukController {
 
     }
 
-    @RequestMapping(value="/produk/ubah/{id}", params={"removeRowUbah"})
+    @RequestMapping(value="/produk/ubah/{id}", params={"removeRow"})
     public String removeRowUbah(@PathVariable Long id,
-            @ModelAttribute ProdukModel produk, Model model,
-            final HttpServletRequest req, final BindingResult bindingResult) {
-        final Integer tagId = Integer.valueOf(req.getParameter("removeRowUbah"));
+                                @ModelAttribute ProdukModel produk, Model model,
+                                final HttpServletRequest req, final BindingResult bindingResult) {
+        final Integer tagId = Integer.valueOf(req.getParameter("removeRow"));
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         produk.getListTagProduk().remove(tagId.intValue());
         model.addAttribute("produk", produk);
@@ -226,15 +230,17 @@ public class ProdukController {
         return "produk/ubah-produk";
     }
 
-    @RequestMapping(value="/produk/ubah/{id}", params={"addRowUbah"})
+    @RequestMapping(value="/produk/ubah/{id}", params={"addRow"})
     public String addRowUbah(@PathVariable Long id,
-            @ModelAttribute ProdukModel produk, Model model,
-            final BindingResult bindingResult) {
+                             @ModelAttribute ProdukModel produk, Model model,
+                             final BindingResult bindingResult) {
         List<TagProdukModel> tagTempList = produk.getListTagProduk();
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         TagProdukModel tagGaib = new TagProdukModel();
 
         produk.setListTagProduk(tagTempList);
+        System.out.println(produk.getListTagProduk());
+        System.out.println(produk.getListTagProduk().size());
         produk.getListTagProduk().add(tagGaib);
 
         model.addAttribute("produk", produk);
@@ -250,6 +256,9 @@ public class ProdukController {
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         TagProdukModel tagGaib = listTag.get(1);
 
+        List<TagProdukModel> listTagProduk=produk.getListTagProduk();
+
+        model.addAttribute("listTags",listTagProduk);
 
         produk.setListTagProduk(tagTempList);
         produk.getListTagProduk().add(tagGaib);

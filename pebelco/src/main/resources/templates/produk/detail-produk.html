@@ -9,173 +9,161 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
-        </div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
 
-        <div class="container col">
-            <a
-                    th:href="@{/produk}"
-                    class="btn but-arrow"
-            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
-            </a>
+    <div class="container col">
+        <a
+                th:href="@{/produk}"
+                class="btn but-arrow"
+        ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
         <div class="row justify-content-center">
-        <div th:unless="${message} != null">
-            <div class="card" id="produk" style="min-width: 900px;">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm">
-                            <h4>Detail Produk</h4>
+            <div th:unless="${message} != null">
+                <div class="card" id="produk" style="min-width: 900px;">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h4>Detail Produk</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-3">
-                                <div>ID Produk</div>
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>ID Produk</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${id}"></div>
+                                </div>
                             </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Nama Produk</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${detailProduk.namaProduk}"></div>
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <div th:text="${id}"></div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Stok</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${detailProduk.stok}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Harga</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="'Rp '+ ${#numbers.formatInteger(detailProduk.harga,3,'POINT')}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Tipe</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div th:if="${detailProduk.tipe==1}" class="col-8">Coffee Table</div>
+                                <div th:if="${detailProduk.tipe==2}" class="col-8">Display Rack</div>
+                                <div th:if="${detailProduk.tipe==3}" class="col-8">Kursi Cafe</div>
+                                <div th:if="${detailProduk.tipe==4}" class="col-8">Kursi Lipat</div>
+                                <div th:if="${detailProduk.tipe==5}" class="col-8">Kursi Makan</div>
+                                <div th:if="${detailProduk.tipe==6}" class="col-8">Kursi Stool</div>
+                                <div th:if="${detailProduk.tipe==7}" class="col-8">Laci Meja Tulis</div>
+                                <div th:if="${detailProduk.tipe==8}" class="col-8">Lemari Pakaian Besi</div>
+                                <div th:if="${detailProduk.tipe==9}" class="col-8">Meja Cafe</div>
+                                <div th:if="${detailProduk.tipe==10}" class="col-8">Meja Makan</div>
+                                <div th:if="${detailProduk.tipe==11}" class="col-8">Meja Lipat</div>
+                                <div th:if="${detailProduk.tipe==12}" class="col-8">Meja Tulis</div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Tanggal</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div th:text="${#dates.format(detailProduk.tanggal_dibuat, 'dd/MM/yyyy')}" class="col-8"></div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Spesifikasi</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div th:text="${detailProduk.spesifikasi}" class="col-8"></div>
+                            </div>
+                            <br><br>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-hover table-bordered daftar-table ">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">Tag Produk</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="lis, idStat : *{listTag}">
+                                    <td th:text="${idStat.count}" style=" text-align: center;"></td>
+                                    <td th:if="${lis.idTagProduk==1}" style=" text-align: center;">Lemari Baju</td>
+                                    <td th:if="${lis.idTagProduk==2}" style=" text-align: center;">Rak Buku</td>
+                                    <td th:if="${lis.idTagProduk==3}" style=" text-align: center;">Laci</td>
+                                    <td th:if="${lis.idTagProduk==4}" style=" text-align: center;">Spring Bed</td>
+                                    <td th:if="${lis.idTagProduk==5}" style=" text-align: center;">Soft Bed</td>
+                                    <td th:if="${lis.idTagProduk==6}" style=" text-align: center;">Meja Belajar</td>
+                                    <td th:if="${lis.idTagProduk==7}" style=" text-align: center;">Kursi Kantor</td>
+                                    <td th:if="${lis.idTagProduk==8}" style=" text-align: center;">Meja Kantor</td>
+                                    <td th:if="${lis.idTagProduk==9}" style=" text-align: center;">Meja Makan</td>
+                                    <td th:if="${lis.idTagProduk==10}" style=" text-align: center;">Kursi Lipat</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br><br>
+
+                            <div class="row justify-content-end">
+                                <a th:href="@{/produk/ubah/stok/} + ${id}"
+                                   class="btn but-ubah-stat"
+                                   sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                                <a th:href="@{/produk/ubah/} + ${id}"
+                                   class="btn but-ubah"
+                                   sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
                             </div>
                         </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Nama Produk</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div class="col-8">
-                                <div th:text="${detailProduk.namaProduk}"></div>
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Stok</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div class="col-8">
-                                <div th:text="${detailProduk.stok}"></div>
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Harga</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div class="col-8">
-                                <div th:text="'Rp '+ ${#numbers.formatInteger(detailProduk.harga,3,'POINT')}"></div>
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Tipe</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div th:text="${detailProduk.tipe}" class="col-8"></div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Tanggal</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div th:text="${#dates.format(detailProduk.tanggal_dibuat, 'dd/MM/yyyy')}" class="col-8"></div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-3">
-                                <div>Spesifikasi</div>
-                            </div>
-                            <div class="col-1">
-                                <div th:text="':'"></div>
-                            </div>
-                            <div th:text="${detailProduk.spesifikasi}" class="col-8"></div>
-                        </div>
-                        <br><br>
                     </div>
-                    <div class="row justify-content-end">
-<!--                        hapus style sesuai dengan template ryan-->
-                        <a th:href="@{/produk/ubah/stok/} + ${id}"
-                           class="btn but-ubah-stat"
-                           sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
-                        <a th:href="@{/produk/ubah/} + ${id}"
-                           class="btn but-ubah"
-                           sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
-                    </div>
+
                 </div>
             </div>
 
         </div>
-        </div>
-
-
-        <!--        <div class="container col">-->
-<!--            <table class="table">-->
-<!--                <thead>-->
-<!--                <div class="bg-dark text-center"><a style="font-size: 30px; color: white"><b>Detail Produk</b></a></div>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">ID Produk</td>-->
-<!--                    <td th:text="${id}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Nama Produk</td>-->
-<!--                    <td th:text="${detailProduk.namaProduk}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Stok</td>-->
-<!--                    <td th:text="${detailProduk.stok}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Harga</td>-->
-<!--                    <td th:text="${detailProduk.harga}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Tipe</td>-->
-<!--                    <td th:text="${detailProduk.tipe}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Tanggal</td>-->
-<!--                    <td th:text="${detailProduk.tanggal_dibuat}" scope="col"></td>-->
-<!--                </tr>-->
-
-<!--                <tr class="text-center">-->
-<!--                    <td scope="col">Spesifikasi</td>-->
-<!--                    <td th:text="${detailProduk.spesifikasi}" scope="col"></td>-->
-<!--                </tr>-->
-
-
-<!--                </tbody></table>-->
-<!--            <a th:href="@{/produk/ubah/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah</a>-->
-<!--            <a th:href="@{/produk/ubah/stok/}+${id}" class="text-center btn pull-right" style="margin: auto; background-color: #f5a302">Ubah Stok</a></div>-->
-
     </div>
-    </div>
-
+</div>
 </body>
 </html>
