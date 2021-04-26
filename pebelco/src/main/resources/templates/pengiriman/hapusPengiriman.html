@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hapus Pengiriman</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<object th:replace="fragments/fragment :: navbar"></object>
+
+<section class="container-fluid py-5" style="height: calc(100% - 56px)">
+  <div class="row-cols-1 h-100 mx-auto justify-content-center align-items-center">
+
+    <div th:replace="fragments/div :: headVar(title='Hapus Pengiriman', col='6')"></div>
+
+    <div class="col-md-6 col-12 mx-auto p-4 shadow">
+
+      <p style="color:darkblue;text-align: center" th:text="'Pengiriman berhasil dihapus.'"></p>
+      <br>
+      <a role="button" class="btn btn-primary" th:href="@{/pengiriman}">Kembali</a>
+
+    </div>
+  </div>
+</section>
+</body>
+
+</html>

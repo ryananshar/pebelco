@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PengirimanDb extends JpaRepository<PengirimanModel, Long> {
     List<PengirimanModel> findAllByIsShownIsTrue();
+
+    PengirimanModel findByKodePengiriman(String kodePengiriman);
 }

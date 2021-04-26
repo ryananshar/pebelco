@@ -83,7 +83,6 @@ public class PesananPenjualanController {
 
         barangGaib.setPesananTransaksi(pesananPenjualan);
         barangExist.add(barangGaib);
-
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk);
         return "pesanan/form-add-pesanan";
@@ -123,9 +122,9 @@ public class PesananPenjualanController {
 
     @PostMapping("/pesanan/tambah")
     public String addPesananSubmit(
-            @ModelAttribute PesananPenjualanModel pesananPenjualan,
-            Principal principal, final BindingResult bindingResult,
-            Model model
+        @ModelAttribute PesananPenjualanModel pesananPenjualan,
+        Principal principal, final BindingResult bindingResult,
+        Model model
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
@@ -160,15 +159,16 @@ public class PesananPenjualanController {
                     model.addAttribute("subMsg", "Jumlah Barang tidak valid");
 
                     return "pesanan/form-add-pesanan";
-                } else if (barang.getJumlah() > stokProduk) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listProduk", listProduk);
-                    model.addAttribute("pop", "red");
-                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                    model.addAttribute("subMsg", "Jumlah Barang melebihi stok");
+                } 
+                // else if (barang.getJumlah() > stokProduk) {
+                //     model.addAttribute("pesananPenjualan", pesananPenjualan);
+                //     model.addAttribute("listProduk", listProduk);
+                //     model.addAttribute("pop", "red");
+                //     model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                //     model.addAttribute("subMsg", "Jumlah Barang melebihi stok");
 
-                    return "pesanan/form-add-pesanan";
-                }
+                //     return "pesanan/form-add-pesanan";
+                // }
             }
 
             // initiate pesanan penjualan early value
@@ -222,6 +222,7 @@ public class PesananPenjualanController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         try {
             PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
+            System.out.println(pesananPenjualan.getUser().getRole().getNamaRole());
             List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
             if (user.getRole().getNamaRole().equals("Staf Sales")) {
                 if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
@@ -260,8 +261,8 @@ public class PesananPenjualanController {
 
     @PostMapping("/pesanan/req/{kodePesananPenjualan}")
     public String addRequestPesananSubmit(
-            @ModelAttribute PesananPenjualanModel pesananPenjualan, Principal principal,
-            Model model
+        @ModelAttribute PesananPenjualanModel pesananPenjualan, Principal principal,
+        Model model
     ) {
         String email = principal.getName();
         UserModel user = userService.getUserbyEmail(email);
