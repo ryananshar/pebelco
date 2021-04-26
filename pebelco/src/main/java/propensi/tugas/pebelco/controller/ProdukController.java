@@ -215,8 +215,8 @@ public class ProdukController {
 
     @RequestMapping(value="/produk/ubah/{id}", params={"removeRowUbah"})
     public String removeRowUbah(@PathVariable Long id,
-            @ModelAttribute ProdukModel produk, Model model,
-            final HttpServletRequest req, final BindingResult bindingResult) {
+                                @ModelAttribute ProdukModel produk, Model model,
+                                final HttpServletRequest req, final BindingResult bindingResult) {
         final Integer tagId = Integer.valueOf(req.getParameter("removeRowUbah"));
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         produk.getListTagProduk().remove(tagId.intValue());
@@ -228,8 +228,8 @@ public class ProdukController {
 
     @RequestMapping(value="/produk/ubah/{id}", params={"addRowUbah"})
     public String addRowUbah(@PathVariable Long id,
-            @ModelAttribute ProdukModel produk, Model model,
-            final BindingResult bindingResult) {
+                             @ModelAttribute ProdukModel produk, Model model,
+                             final BindingResult bindingResult) {
         List<TagProdukModel> tagTempList = produk.getListTagProduk();
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         TagProdukModel tagGaib = new TagProdukModel();

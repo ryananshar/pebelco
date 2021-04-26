@@ -35,28 +35,28 @@ public class PengirimanServiceImpl implements PengirimanService {
     }
 
     @Override
-    public Pengiriman findPengirimanById(Long id) {
-        PengirimanModel pengirimanModel = pengirimanDb.getOne(id);
+    public Pengiriman findPengirimanByKode(String kodePengiriman) {
+        PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
         return new Pengiriman(pengirimanModel);
     }
 
     @Override
-    public List<Barang> findAllBarangByIdPengiriman(Long id) {
-        PengirimanModel pengiriman = pengirimanDb.getOne(id);
+    public List<Barang> findAllBarangByKodePengiriman(String kodePengiriman) {
+        PengirimanModel pengiriman = pengirimanDb.findByKodePengiriman(kodePengiriman);
         boolean isKomplain = checkIfKomplain(pengiriman);
 
         if (isKomplain) {
             KomplainModel komplain = pengiriman.getKomplain();
-            return perluDikirimService.findAllBarangByIdKomplain(komplain.getIdKomplain());
+            return perluDikirimService.findAllBarangByKodeKomplain(komplain.getKodeKomplain());
         } else {
             PesananPenjualanModel pesanan = pengiriman.getPesananPenjualan();
-            return perluDikirimService.findAllBarangByIdPesanan(pesanan.getIdPesananPenjualan());
+            return perluDikirimService.findAllBarangByKodePesanan(pesanan.getKodePesananPenjualan());
         }
     }
 
     @Override
-    public void updateMetodePengiriman(Long id, Long idMetodePengiriman) {
-        PengirimanModel pengiriman = pengirimanDb.getOne(id);
+    public void updateMetodePengiriman(String kodePengiriman, Long idMetodePengiriman) {
+        PengirimanModel pengiriman = pengirimanDb.findByKodePengiriman(kodePengiriman);
         MetodePengirimanModel metodePengiriman = metodePengirimanDb.getOne(idMetodePengiriman);
 
         pengiriman.setMetodePengiriman(metodePengiriman);
@@ -64,8 +64,8 @@ public class PengirimanServiceImpl implements PengirimanService {
     }
 
     @Override
-    public void updateStatusPengiriman(Long id, int statusPengiriman) {
-        PengirimanModel pengirimanModel = pengirimanDb.getOne(id);
+    public void updateStatusPengiriman(String kodePengiriman, int statusPengiriman) {
+        PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
 
         // Kalau sekarang dikirim
         if (statusPengiriman == 2) {
@@ -77,8 +77,8 @@ public class PengirimanServiceImpl implements PengirimanService {
     }
 
     @Override
-    public void terimaPengiriman(Long id, Date tanggalDiterima, String namaPenerima) {
-        PengirimanModel pengirimanModel = pengirimanDb.getOne(id);
+    public void terimaPengiriman(String kodePengiriman, Date tanggalDiterima, String namaPenerima) {
+        PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
 
         pengirimanModel.setTanggalDiterima(tanggalDiterima);
         pengirimanModel.setNamaPenerima(namaPenerima);
@@ -96,9 +96,8 @@ public class PengirimanServiceImpl implements PengirimanService {
     }
 
     @Override
-    public void setIsShownFalse(Long id) {
-        PengirimanModel pengirimanModel = pengirimanDb.getOne(id);
-
+    public void setIsShownFalse(String kodePengiriman) {
+        PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
         pengirimanModel.setIsShown(false);
         pengirimanDb.save(pengirimanModel);
     }

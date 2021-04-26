@@ -1,17 +1,23 @@
 package propensi.tugas.pebelco.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PerluDikirimService;
 import propensi.tugas.pebelco.service.UserService;
+import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
+import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
-@RequestMapping("/perlu-dikirim")
+@RequestMapping("/perludikirim")
 public class PerluDikirimController {
     @Autowired
     private UserService userService;
@@ -19,72 +25,96 @@ public class PerluDikirimController {
     @Autowired
     private PerluDikirimService perluDikirimService;
 
+    @Autowired
+    private NotifikasiService notifikasiService;
+
     @RequestMapping
     public String tabelPerluDikirim(Model model) {
-        model.addAttribute("items", perluDikirimService.findAll());
+//        model.addAttribute("pengirimans", perluDikirimService.findAll());
+        List<PerluDikirim> pengirimans = perluDikirimService.findAll();
+        if (pengirimans.isEmpty()){
+            model.addAttribute("msg", "tidak ada pengiriman");
+            model.addAttribute("pesan", "Tidak Terdapat Pesanan/Komplain yang Perlu Dilakukan Pengiriman");
+        }
+        else{
+            model.addAttribute("msg", "ada pengiriman");
+            model.addAttribute("pengirimans", pengirimans);
+        }
         return "perluDikirim/tabelPerluDikirim";
     }
 
-    @RequestMapping("/komplain/{id}")
-    public String detailPengirimanKomplain(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findKomplainById(id));
+    @RequestMapping("/komplain/{kodeKomplain}")
+    public String detailPengirimanKomplain(@PathVariable String kodeKomplain, Model model) {
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
         model.addAttribute("isPengiriman", false);
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
-        return "pengiriman/detailPengiriman";
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+        return "pengiriman/detailPerluDikirim";
     }
 
-    @RequestMapping("/pesanan/{id}")
-    public String detailPengirimanPesanan(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findPesananById(id));
+    @RequestMapping("/pesanan/{kodePesanan}")
+    public String detailPengirimanPesanan(@PathVariable String kodePesanan, Model model) {
+        model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
         model.addAttribute("isPengiriman", false);
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
-        return "pengiriman/detailPengiriman";
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+        return "pengiriman/detailPerluDikirim";
     }
 
-    @RequestMapping("/add/komplain/{id}")
-    public String formTambahPengirimanKomplain(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findKomplainById(id));
+    @RequestMapping("/tambah/komplain/{kodeKomplain}")
+    public String formTambahPengirimanKomplain(@PathVariable String kodeKomplain, Model model) {
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdKomplain(id));
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
         return "perluDikirim/tambahPengiriman";
     }
 
-    @RequestMapping("/add/pesanan/{id}")
-    public String formTambahPengirimanPesanan(@PathVariable Long id, Model model) {
-        model.addAttribute("item", perluDikirimService.findPesananById(id));
+    @RequestMapping("/tambah/pesanan/{kodePesanan}")
+    public String formTambahPengirimanPesanan(@PathVariable String kodePesanan, Model model) {
+        model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
         model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByIdPesanan(id));
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
         return "perluDikirim/tambahPengiriman";
     }
 
-    @PostMapping("/add/komplain/")
+    @PostMapping("/tambah/komplain/")
     public String tambahPengirimanKomplainItem(
-            @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
+            @RequestParam String kodeKomplain,
+            @RequestParam Long metodePengiriman,
+            Model model) {
 
-        perluDikirimService.addPengirimanKomplain(id, metodePengiriman);
-        return "redirect:/pengiriman";
+        perluDikirimService.addPengirimanKomplain(kodeKomplain, metodePengiriman);
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman Berhasil Ditambahkan");
+        model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+        return "perluDikirim/tambahPengiriman";
     }
 
-    @PostMapping("/add/pesanan/")
+    @PostMapping("/tambah/pesanan/")
     public String tambahPengirimanPesananItem(
-            @RequestParam Long id,
-            @RequestParam Long metodePengiriman) {
+            @RequestParam String kodePesanan,
+            @RequestParam Long metodePengiriman,
+            Model model) {
 
-        perluDikirimService.addPengirimanPesanan(id, metodePengiriman);
-        return "redirect:/pengiriman";
+        perluDikirimService.addPengirimanPesanan(kodePesanan, metodePengiriman);
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pengiriman Berhasil Ditambahkan");
+        model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
+        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+        return "perluDikirim/tambahPengiriman";
     }
 
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {
         try {
-            String email = principal.getName();
-            UserModel user = userService.getUserbyEmail(email);
-            model.addAttribute("namaUser", user.getNamaPanjang());
-            model.addAttribute("roleUser", user.getRole().getNamaRole());
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
         } catch (Exception e) {
-            model.addAttribute("namaUser", null);
-            model.addAttribute("roleUser", null);
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
         }
     }
 }

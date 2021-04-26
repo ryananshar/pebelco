@@ -1,38 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
-    <title>Penerimaan Barang</title>
+    <title>Form Penerimaan Barang</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h1>Form Penerimaan Barang</h1>
-
-    <h3>Kode Pengiriman</h3>
-    <p th:text="${item.kodePengiriman}">Kode Pengiriman</p>
-
-    <h3>Nama Toko</h3>
-    <p th:text="${item.namaToko}">Nama Toko</p>
-
-    <h3>Alamat Toko</h3>
-    <p th:text="${item.alamatToko}">Alamat Toko</p>
-
-    <h3>Metode Pengiriman</h3>
-    <p th:text="${item.metodePengiriman}">Metode Pengiriman</p>
-
-    <form th:action="@{/pengiriman/terima/}" method="POST">
-        <h3>Tanggal Diterima</h3>
-        <input th:type="date" th:name="tanggalDiterima" th:attr="min=${item.tanggalDikirim}" required>
-
-        <h3>Nama Penerima</h3>
-        <input th:type="text" th:name="namaPenerima" required aria-required="true">
-
-        <div class="form-group">
-            <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}" class="btn">
+                OK
+            </a>
         </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                <div class="card-header">
+                    <h4>Form Penerimaan Barang</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Kode Pesanan/Komplain</label>
+                                    <input type="text"  name="kode" th:field="*{pengiriman.kode}" th:value="*{pengiriman.kode}" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Nama Toko</label>
+                                    <input type="text"  name="namaToko" th:field="*{pengiriman.namaToko}" th:value="*{pengiriman.namaToko}" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Alamat Toko</label>
+                                <textarea th:field="${pengiriman.alamatToko}" class="form-control"
+                                          style="width: 100%; height: 350px" readonly></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Metode Pengiriman</label>
+                                    <input type="text"  name="metodePengiriman" th:field="*{pengiriman.metodePengiriman}" th:value="*{pengiriman.metodePengiriman}" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="col-6">
+                            <form th:action="@{/pengiriman/terima/}" method="POST">
+                                <div class="form-group">
+                                    <label>Nama Penerima</label>
+                                    <input th:field="*{pengiriman.namaPenerima}" type="text" class="form-control"
+                                                   name="namaPenerima"
+                                                   placeholder="Masukan nama penerima" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tanggal Diterima</label>
+                                    <input th:field="*{pengiriman.tanggalDiterima}" type="date" class="form-control"
+                                                   name="tanggalDiterima" th:attr="min=${pengiriman.tanggalDikirim}" required>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="row justify-content-end" style="margin-top: 525px;">
+                                        <div>
+                                            <input th:type="text" class="form-control" th:name="kodePengiriman" th:value="${pengiriman.kodePengiriman}" hidden aria-hidden="true">
+                                        </div>
+<!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+                                        <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}">Batal</a>
+                                        <button class="btn but-success" type="submit" value="Submit">Simpan</button>
+                                    </div>
+                                </div>
+
+                           </form>
+                        </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </form>
+    </div>
+</div>
 </body>
 </html>
