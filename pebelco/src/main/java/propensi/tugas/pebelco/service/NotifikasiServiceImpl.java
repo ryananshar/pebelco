@@ -37,12 +37,8 @@ public class NotifikasiServiceImpl implements NotifikasiService{
             notifikasi.setListUser(listUser);
             notifikasiDb.save(notifikasi);
             for (UserModel user : listUser) {
-                // if (user.getListNotifikasi().isEmpty()) {
-                //     user.setListNotifikasi(new ArrayList<NotifikasiModel>());
-                // }
                 user.getListNotifikasi().add(notifikasi);
             }
-            System.out.println("------- Id Penerima null");
         } else {
             List<UserModel> listUser = new ArrayList<UserModel>();
             UserModel userPenerima = userService.getUserbyIdUser(notifikasi.getIdPenerima());
@@ -50,13 +46,13 @@ public class NotifikasiServiceImpl implements NotifikasiService{
             notifikasi.setWaktuDibuat(new Date());
             notifikasi.setListUser(listUser);
             notifikasiDb.save(notifikasi);
-            System.out.println("------- Id role null");
-        }        
+            userPenerima.getListNotifikasi().add(notifikasi);
+        }
     }
 
     @Override
     public List<NotifikasiModel> getNotifListByUserAndRole(Long idPenerima, Long idRole, Boolean isNotif) {
         return notifikasiDb.findByIdPenerimaOrIdRoleAndIsNotifOrderByWaktuDibuatDesc(idPenerima, idRole, isNotif);
     }
-    
+
 }

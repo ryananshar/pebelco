@@ -43,35 +43,39 @@
                     <h4>Ubah Produk</h4>
                 </div>
 
-                <div class="card-body pull-left">
+                <div class="card-body">
                     <form th:action="@{/produk/ubah/}+${produk.idProduk}"th:object="${produk}" method="POST">
-                        <table class="table table-borderless" style="width: 600px; margin: auto">
+                        <table class="card-body table table-borderless" style="margin: 0px;">
                             <thead>
                             <th>
                                 <tr>
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
-                                    <th class="form-group" style="color: #005479">
+                                    <th class="form-group">
                                         Nama Produk
-                                        <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" style="border-radius: 10px ;width: 500px" class="form-control" required>
+                                        <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" class="form-control" required>
                                     </th>
-                                    <th class="form-group" style="color: #005479">
-                                        Spesifikasi
-                                        <input type="text" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" style="border-radius: 10px ;width: 500px" class="form-control" required>
+                                    <th class="form-group" rowspan="5" colspan="2">
+                                        <label>Spesifikasi</label>
+                                        <textarea th:field="*{spesifikasi}"
+                                                  th:value="*{spesifikasi}"
+                                                  class="form-control"
+                                                  style="width: 100%; height: 392px"
+                                                  name="spesifikasi"></textarea>
                                     </th>
                                 </tr>
 
                                 <tr>
-                                    <th class="form-group" style="color: #005479">
+                                    <th class="form-group">
                                         Stok Produk
                                         <input type="hidden" name="stok" th:field="*{stok}" th:value="*{stok}" />
-                                        <input type="text"  name="stok" th:field="*{stok}" th:value="*{stok}" style="border-radius: 10px ;width: 500px" class="form-control" disabled>
+                                        <input type="text"  name="stok" th:field="*{stok}" th:value="*{stok}" class="form-control" disabled>
                                     </th>
                                 </tr>
 
                                 <tr>
-                                    <th class="form-group" style="color: #005479">
+                                    <th class="form-group">
                                         Tipe
-                                        <select class="form-control form-control-lg" style="width: 500px" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
+                                        <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
                                             <option value="1">Coffee Table</option>
                                             <option value="2">Display Rack</option>
                                             <option value="3">Kursi Cafe</option>
@@ -89,28 +93,55 @@
                                 </tr>
 
                                 <tr>
-                                    <th class="form-group" style="color: #005479">
+                                    <th class="form-group">
                                         Harga
-                                        <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" style="border-radius: 10px ;width: 500px" class="form-control" required>
+                                        <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" required>
                                     </th>
                                 </tr>
 
                                 <tr>
-                                    <th class="form-group" style="color: #005479">
+                                    <th class="form-group">
                                         Tanggal Dibuat
-                                        <input type="date" class="form-control" name="tanggal_dibuat" style="width: 500px" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" required>
+                                        <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" required>
                                     </th>
                                 </tr>
 
                                 <tr>
-                                    <th class="form-group" style="color: #005479">
-                                        Tag Produk
-                                        <select class="form-control form-control-lg" style="width: 500px" name="produkModel">
-                                            <option value="2"  th:each="produk:${produk}" th:text="${produk.listTagProduk}" th:value="${produk.listTagProduk}"></option>
-                                            <option value="1" th:each="produk:${produk}" th:text="1" th:value="1">#Meja</option>
-
-                                        </select>
+                                    <th colspan="1">
+                                        <div class="float-md-left">
+                                            <h3 class="float-md-left">Tag Produk</h3>
+                                        </div>
                                     </th>
+                                    <th colspan="2">
+                                        <div class="float-sm-right">
+                                            <button class="btn but-success" type="submit" name="addRowUbah">Tambah </button>
+                                        </div>
+                                    </th>
+                                </tr>
+
+
+                                <tr class="form-group">
+                                    <th>No</th>
+                                    <th>Tag Produk</th>
+                                </tr>
+
+                                <tr th:each="tag, tagStat : *{listTagProduk}">
+                                    <td th:text="${tagStat.count}"></td>
+                                    <td>
+                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
+                                                class="form-control" required>
+                                            <option selected value="">-- PILIH Nama Tag --</option>
+                                            <option th:each="isi : ${listTag}"
+                                                    th:value="${isi.idTagProduk}"
+                                                    th:text="${isi.namaTag}">
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button th:if="${tagStat.index} != 0" class="btn but-danger" type="submit" name="removeRowUbah"
+                                                th:value="${tagStat.index}">
+                                            <i class="fa fa-trash"></i></button>
+                                    </td>
                                 </tr>
 
                             </th>

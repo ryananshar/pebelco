@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
         String pass = encrypt(newPassword);
         user.setPassword(pass);
         userDb.save(user);
-        
+
     }
 
     @Override
@@ -69,5 +69,5 @@ public class UserServiceImpl implements UserService{
     public UserModel getUserbyIdUser(Long idUser) {
         return userDb.findById(idUser).get();
     }
-   
+
 }
