@@ -231,16 +231,14 @@ public class ProdukController {
     }
 
     @RequestMapping(value="/produk/ubah/{id}", params={"addRow"})
-    public String addRowUbah(@PathVariable Long id,
-                             @ModelAttribute ProdukModel produk, Model model,
-                             final BindingResult bindingResult) {
+    public String addRowUbah(
+            @ModelAttribute ProdukModel produk, Model model,
+            final BindingResult bindingResult) {
         List<TagProdukModel> tagTempList = produk.getListTagProduk();
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         TagProdukModel tagGaib = new TagProdukModel();
 
         produk.setListTagProduk(tagTempList);
-        System.out.println(produk.getListTagProduk());
-        System.out.println(produk.getListTagProduk().size());
         produk.getListTagProduk().add(tagGaib);
 
         model.addAttribute("produk", produk);
