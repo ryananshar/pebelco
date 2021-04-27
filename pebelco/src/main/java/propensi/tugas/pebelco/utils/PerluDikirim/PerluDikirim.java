@@ -22,10 +22,12 @@ public abstract class PerluDikirim {
     }
 
     private String getStatusFromStatusNumber(int number) {
-        if (number == 1) {
+        if (number == 1 || number == 3 || number == 4){
             return "Disetujui";
         } else if (number == 2) {
             return "Ditolak";
+        } else if (number == 0) {
+            return "Menunggu Persetujuan";
         } else {
             return "Not a status";
         }
