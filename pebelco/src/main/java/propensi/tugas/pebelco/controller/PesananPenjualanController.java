@@ -220,7 +220,6 @@ public class PesananPenjualanController {
             Model model
     ) {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        try {
             PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
             System.out.println(pesananPenjualan.getUser().getRole().getNamaRole());
             List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
@@ -241,11 +240,6 @@ public class PesananPenjualanController {
             }
 
             return "pesanan/detail-pesanan";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Pesanan Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "pesanan/detail-pesanan";
-        }
 
     }
 
