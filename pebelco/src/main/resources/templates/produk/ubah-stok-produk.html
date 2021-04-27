@@ -125,11 +125,11 @@
                                 <td th:text="${tagStat.count}"></td>
                                 <td>
                                     <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                            class="form-control" required>
-                                        <option selected value="">-- PILIH Nama Tag --</option>
+                                            class="form-control" disabled>
                                         <option th:each="isi : ${listTag}"
+                                                th:if="${tag.idTagProduk == isi.idTagProduk}"
                                                 th:value="${isi.idTagProduk}"
-                                                th:text="${isi.namaTag}" >
+                                                th:text="${isi.namaTag}" selected>
                                         </option>
                                     </select>
                                 </td>
@@ -146,7 +146,7 @@
                 </form>
             </div>
 
-        </div>
+            </div>
         </div>
     </div>
 

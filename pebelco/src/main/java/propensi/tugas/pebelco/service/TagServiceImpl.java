@@ -57,9 +57,9 @@ public class TagServiceImpl implements TagService{
             for(int j=0; j<produk.get(i).getListTagProduk().size();j++){
                 tag=tagProdukDb.findByIdTagProduk(produk.get(i).getListTagProduk().get(j).getIdTagProduk());
             }
-                    tag.getListProduk().add(produk.get(i));
-                    produk.remove(i);
-                    i--;
+            tag.getListProduk().add(produk.get(i));
+            produk.remove(i);
+            i--;
         }
     }
 
@@ -85,7 +85,7 @@ public class TagServiceImpl implements TagService{
             produk.remove(i);
             i--;
         }
- }
+    }
 
     @Override
     public void deleteTagProduk(ProdukModel produk) {

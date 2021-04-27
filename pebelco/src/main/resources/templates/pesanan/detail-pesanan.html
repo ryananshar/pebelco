@@ -93,19 +93,17 @@
                                     </div>
                                     <br><br>
                                 </div>
-                                <div sec:authorize="!hasAuthority('Staf Sales')">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div>Nama Staf</div>                                     
-                                        </div>
-                                        <div class="col-1">
-                                            <div th:text="':'"></div>
-                                        </div>
-                                        <div class="col-8">
-                                            <div th:text="${pesananPenjualan.user.namaPanjang}"></div>
-                                        </div>
+                                <div class="row" sec:authorize="!hasAuthority('Staf Sales')">
+                                    <div class="col-3">
+                                        <div>Nama Staf</div>
                                     </div>
-                                    <br><br>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pesananPenjualan.user.namaPanjang}"></div>
+                                    </div>
+                                    <br><br><br>
                                 </div>
                                 <div class="row">
                                     <div class="col-3">
