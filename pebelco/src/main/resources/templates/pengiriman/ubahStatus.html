@@ -22,6 +22,7 @@
         </div>
     </div>
 </div>
+
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
@@ -31,6 +32,27 @@
     </div>
     <div class="container col">
         <div class="row justify-content-center">
+            <div class="container col">
+                <div class="row justify-content-center">
+                    <div th:if="${message} != null">
+                        <div class="card">
+                            <div class="card-header" id>
+                                Error
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <div th:text="${message}"></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                                    Kembali
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${message} != null">
             <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
                 <div class="card-header">
                     <h4>Ubah Status Pengiriman</h4>
@@ -63,6 +85,9 @@
             </div>
         </div>
     </div>
+    </div>
+</div>
+        </div>
     </div>
 </div>
 </body>

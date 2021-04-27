@@ -5,11 +5,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
+import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.service.NotifikasiService;
-import propensi.tugas.pebelco.service.PerluDikirimService;
-import propensi.tugas.pebelco.service.UserService;
+import propensi.tugas.pebelco.service.*;
 import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
 import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 
@@ -28,6 +28,12 @@ public class PerluDikirimController {
     @Autowired
     private NotifikasiService notifikasiService;
 
+    @Autowired
+    private KomplainService komplainService;
+
+    @Autowired
+    private PesananPenjualanService pesananPenjualanService;
+
     @RequestMapping
     public String tabelPerluDikirim(Model model) {
 //        model.addAttribute("pengirimans", perluDikirimService.findAll());
@@ -43,35 +49,62 @@ public class PerluDikirimController {
         return "perluDikirim/tabelPerluDikirim";
     }
 
+
     @RequestMapping("/komplain/{kodeKomplain}")
     public String detailPengirimanKomplain(@PathVariable String kodeKomplain, Model model) {
-        model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
-        model.addAttribute("isPengiriman", false);
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+                if(komplain.getIsShown() && komplain.getStatusKomplain() == 1){
+                    model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
+                    model.addAttribute("isPengiriman", false);
+                    model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+                }
+                else{
+                    model.addAttribute("message", "Data Perlu Dikirim Tidak Ditemukan");
+                }
+
         return "pengiriman/detailPerluDikirim";
     }
 
     @RequestMapping("/pesanan/{kodePesanan}")
     public String detailPengirimanPesanan(@PathVariable String kodePesanan, Model model) {
-        model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
-        model.addAttribute("isPengiriman", false);
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+        PesananPenjualanModel pesanan = pesananPenjualanService.getPesananByKodePesanan(kodePesanan);
+            if (pesanan.getIsShown() && pesanan.getStatusPesanan() == 1) {
+                model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
+                model.addAttribute("isPengiriman", false);
+                model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+            }
+            else{
+                model.addAttribute("message", "Data Perlu Dikirim Tidak Ditemukan");
+            }
         return "pengiriman/detailPerluDikirim";
     }
 
     @RequestMapping("/tambah/komplain/{kodeKomplain}")
     public String formTambahPengirimanKomplain(@PathVariable String kodeKomplain, Model model) {
-        model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
-        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+        KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
+            if (komplain.getIsShown() && komplain.getStatusKomplain() == 1){
+                model.addAttribute("pengiriman", perluDikirimService.findKomplainByKode(kodeKomplain));
+                model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+                model.addAttribute("barangList", perluDikirimService.findAllBarangByKodeKomplain(kodeKomplain));
+            }
+            else{
+                model.addAttribute("message", "Data Perlu Dikirim Tidak Ditemukan");
+            }
+
         return "perluDikirim/tambahPengiriman";
     }
 
     @RequestMapping("/tambah/pesanan/{kodePesanan}")
     public String formTambahPengirimanPesanan(@PathVariable String kodePesanan, Model model) {
-        model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
-        model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+        PesananPenjualanModel pesanan = pesananPenjualanService.getPesananByKodePesanan(kodePesanan);
+        if (pesanan.getIsShown() && pesanan.getStatusPesanan() == 1){
+            model.addAttribute("pengiriman", perluDikirimService.findPesananByKode(kodePesanan));
+            model.addAttribute("metodePengiriman", perluDikirimService.findAllMetodePengiriman());
+            model.addAttribute("barangList", perluDikirimService.findAllBarangByKodePesanan(kodePesanan));
+        }
+        else{
+            model.addAttribute("message", "Data Perlu Dikirim Tidak Ditemukan");
+        }
         return "perluDikirim/tambahPengiriman";
     }
 

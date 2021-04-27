@@ -5,10 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.tugas.pebelco.model.KunjunganModel;
-import propensi.tugas.pebelco.model.NotifikasiModel;
-import propensi.tugas.pebelco.model.PengirimanModel;
-import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.model.*;
+import propensi.tugas.pebelco.repository.MetodePengirimanDb;
 import propensi.tugas.pebelco.repository.PengirimanDb;
 import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PengirimanService;
@@ -40,6 +38,9 @@ public class PengirimanController {
 
     @Autowired
     private PengirimanDb pengirimanDb;
+
+    @Autowired
+    private MetodePengirimanDb metodePengirimanDb;
 
     @GetMapping(value = "/pengiriman")
     public String halamanUtamaPengiriman(Model model) {
@@ -80,21 +81,38 @@ public class PengirimanController {
     }
 
 
-
     @RequestMapping("pengiriman/ubah/{kodePengiriman}")
     public String formUbahPengiriman(@PathVariable String kodePengiriman, Model model) {
-        model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
-        model.addAttribute("metode", perluDikirimService.findAllMetodePengiriman());
-        model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
+        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+        if (pengiriman.isShown()){
+            if (pengiriman.getStatusId() == 1) {
+                model.addAttribute("pengiriman", pengiriman);
+                model.addAttribute("isPengiriman", true);
+                model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
+                model.addAttribute("metode", perluDikirimService.findAllMetodePengiriman());
+                model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
+            }
+            else {
+                    model.addAttribute("message", "Data Pengiriman Tidak Dapat Diubah");
+                    model.addAttribute("pengiriman", pengiriman);
+            }
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
+
+//        model.addAttribute("metodePengiriman", pengiriman.getMetodePengiriman())
         return "pengiriman/ubahPengiriman";
     }
 
     @PostMapping("pengiriman/ubah/")
     public String ubahPengiriman(
             @RequestParam String kodePengiriman,
-            @RequestParam Long metodePengiriman,
+            @RequestParam String metodePengiriman,
             Model model) {
-        pengirimanService.updateMetodePengiriman(kodePengiriman, metodePengiriman);
+        MetodePengirimanModel method = metodePengirimanDb.findByNamaMetodePengiriman(metodePengiriman).get();
+        pengirimanService.updateMetodePengiriman(kodePengiriman, method.getIdMetode());
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Pengiriman Berhasil Diubah");
         model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
@@ -106,11 +124,25 @@ public class PengirimanController {
     @RequestMapping("pengiriman/ubah-status/{kodePengiriman}")
     public String formUbahStatus(@PathVariable String kodePengiriman, Model model) {
         Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
-        model.addAttribute("pengiriman", pengiriman);
-        model.addAttribute("status", pengiriman.getNextStatus());
-        model.addAttribute("statusId", pengiriman.getNextStatusId());
+        if (pengiriman.isShown()) {
+            if (pengiriman.getStatusId() == 1 || pengiriman.getStatusId() == 2){
+                model.addAttribute("pengiriman", pengiriman);
+                model.addAttribute("isPengiriman", true);
+                model.addAttribute("status", pengiriman.getNextStatus());
+                model.addAttribute("statusId", pengiriman.getNextStatusId());
+            }
+            else {
+                model.addAttribute("message", "Data Pengiriman Tidak Dapat Diubah");
+                model.addAttribute("pengiriman", pengiriman);
+            }
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
         return "pengiriman/ubahStatus";
     }
+
 
     @PostMapping("pengiriman/ubah-status/")
     public String ubahStatus(
@@ -133,10 +165,10 @@ public class PengirimanController {
             Long idStafSales = (long) 0;
             if (pengiriman.getKode().contains("KOM")) {
                 idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain().getUser().getIdUser();
-                desc = "Komplain dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+                desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk komplain " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
             } else {
                 idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan().getUser().getIdUser();
-                desc = "Pesanan dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+                desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk pesanan " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
             }
             String url ="/pengiriman/" + pengiriman.getKodePengiriman();
             Long idPengirim = user.getIdUser();
@@ -154,9 +186,24 @@ public class PengirimanController {
 
     @RequestMapping("pengiriman/terima/{kodePengiriman}")
     public String formPenerimaanBarang(@PathVariable String kodePengiriman, Model model) {
-        model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
+        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+        if (pengiriman.isShown()) {
+            if (pengiriman.getStatusId() == 2){
+                model.addAttribute("pengiriman", pengiriman);
+                model.addAttribute("isPengiriman", true);
+            }
+            else {
+                model.addAttribute("message", "Form Penerimaan Tidak Dapat Dibuat");
+                model.addAttribute("pengiriman", pengiriman);
+            }
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
         return "pengiriman/penerimaanBarang";
     }
+
 
     @PostMapping("pengiriman/terima/")
     public String penerimaanBarang(
@@ -173,15 +220,20 @@ public class PengirimanController {
         String desc;
         Long idStafSales = (long) 0;
         if (pengiriman.getKode().contains("KOM")) {
-            idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain().getUser().getIdUser();
-            desc = "Komplain dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+            KomplainModel komplainDiterima = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain();
+            idStafSales = komplainDiterima.getUser().getIdUser();
+            komplainDiterima.setStatusKomplain(3);
+            desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk komplain " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
         } else {
-            idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan().getUser().getIdUser();
-            desc = "Pesanan dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+            PesananPenjualanModel pesananDiterima = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan();
+            idStafSales = pesananDiterima.getUser().getIdUser();
+            pesananDiterima.setStatusPesanan(3);
+            desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk pesanan " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
         }
         String url ="/pengiriman/" + pengiriman.getKodePengiriman();
         Long idPengirim = user.getIdUser();
         notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, idStafSales, null));
+
 
         model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
         model.addAttribute("pop", "green");
@@ -194,6 +246,7 @@ public class PengirimanController {
             @PathVariable String kodePengiriman,
             Model model) {
         List<Pengiriman> pengirimans = pengirimanService.findAll();
+        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
         if (pengirimans.isEmpty()){
             model.addAttribute("msg", "tidak ada pengiriman");
             model.addAttribute("pesan", "Belum Terdapat Pengiriman");
@@ -202,19 +255,35 @@ public class PengirimanController {
             model.addAttribute("msg", "ada pengiriman");
             model.addAttribute("pengirimans", pengirimans);
         }
-        model.addAttribute("pengirimans", pengirimans);
-        model.addAttribute("kodePengiriman", kodePengiriman);
-        model.addAttribute("pop", "konfirmasi hapus");
-        model.addAttribute("msg2", "Konfirmasi Penghapusan");
-        model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus pengiriman ini?");
+        if (pengiriman.isShown()) {
+            if (pengiriman.getStatusId() == 3){
+                model.addAttribute("pengiriman", pengiriman);
+                model.addAttribute("isPengiriman", true);
+                model.addAttribute("pengirimans", pengirimans);
+                model.addAttribute("kodePengiriman", kodePengiriman);
+                model.addAttribute("pop", "konfirmasi hapus");
+                model.addAttribute("msg2", "Konfirmasi Penghapusan");
+                model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus pengiriman ini?");
+            }
+            else {
+                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("pengiriman", pengiriman);
+            }
 
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
         return "pengiriman/tabelPengiriman";
     }
 
-    @PostMapping("pengiriman/hapus/{kodePengiriman}")
+
+    @GetMapping ("pengiriman/hapus/{kodePengiriman}")
     public String hapusPengiriman(
             @PathVariable String kodePengiriman, Model model) {
         List<Pengiriman> pengirimans = pengirimanService.findAll();
+        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
         if (pengirimans.isEmpty()){
             model.addAttribute("msg", "tidak ada pengiriman");
             model.addAttribute("pesan", "Belum Terdapat Pengiriman");
@@ -223,26 +292,29 @@ public class PengirimanController {
             model.addAttribute("msg", "ada pengiriman");
             model.addAttribute("pengirimans", pengirimans);
         }
-        pengirimanService.setIsShownFalse(kodePengiriman);
-        model.addAttribute("pengirimans", pengirimans);
-        model.addAttribute("pop", "green");
-        model.addAttribute("msg2", "Pengiriman berhasil dihapus");
+
+        if (pengiriman.isShown()) {
+            if (pengiriman.getStatusId() == 3){
+                pengirimanService.setIsShownFalse(kodePengiriman);
+                model.addAttribute("pengirimans", pengirimans);
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg2", "Pengiriman Berhasil Dihapus");
+            }
+            else {
+                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("pengiriman", pengiriman);
+            }
+
+        }
+        else {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("pengiriman", pengiriman);
+        }
+
         return "pengiriman/tabelPengiriman";
     }
 
 
-//        @GetMapping("/pengiriman/hapus/")
-//        public String hapusPengiriman(
-//                @PathVariable Long id,
-//                Model model) {
-//            pengirimanService.setIsShownFalse(id);
-//            List<Pengiriman> pengirimans = pengirimanService.findAll();
-//                    model.addAttribute("pengirimans", pengirimans);
-//                    model.addAttribute("pop", "green");
-//                    model.addAttribute("msg2", "Jadwal Kunjungan Berhasil Dihapus");
-//
-//            return "pengiriman/hapusPengiriman";
-//        }
 
     @ModelAttribute
     public void userInformation(Principal principal, Model model) {

@@ -20,10 +20,30 @@
   </div>
   <div class="container col">
     <a
-            th:href="@{/perludikirim/}"
+            th:href="@{/perludikirim}"
             class="btn but-arrow">
       <i class="fa fa-arrow-left" aria-hidden="true"></i>
     </a>
+    <div class="row justify-content-center">
+      <div th:if="${message} != null">
+        <div class="card">
+          <div class="card-header" id>
+            Error
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="col-12">
+                <div th:text="${message}"></div>
+              </div>
+            </div>
+            <br>
+            <a th:href="@{/perludikirim}" class="btn btn-success">
+              Kembali
+            </a>
+          </div>
+        </div>
+      </div>
+      <div th:unless="${message} != null">
     <div class="card" id="pengiriman" style="min-width: 900px;">
       <div class="card-header">
         <div class="row">
