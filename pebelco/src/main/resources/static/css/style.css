@@ -118,6 +118,7 @@ body {
 }
 
 .pop-up a {
+    margin-top: 10px;
     margin-bottom: 30px;
     width: 150px;
     font-family: Poppins;
