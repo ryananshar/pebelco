@@ -48,14 +48,14 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
     }
 
     @Override
-    public PerluDikirim findKomplainById(Long id) {
-        KomplainModel komplain = komplainDb.findById(id).get();
+    public PerluDikirim findKomplainByKode(String kodeKomplain) {
+        KomplainModel komplain = komplainDb.findByKodeKomplain(kodeKomplain);
         return utils.getPerluDikirimFromKomplain(komplain);
     }
 
     @Override
-    public PerluDikirim findPesananById(Long id) {
-        PesananPenjualanModel pesanan = pesananPenjualanDb.findById(id).get();
+    public PerluDikirim findPesananByKode(String kodePesanan) {
+        PesananPenjualanModel pesanan = pesananPenjualanDb.findByKodePesananPenjualan(kodePesanan);
         return utils.getPerluDikirimFromPesanan(pesanan);
     }
 
@@ -65,22 +65,22 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
     }
 
     @Override
-    public List<Barang> findAllBarangByIdKomplain(Long id) {
-        KomplainModel komplain = komplainDb.findById(id).get();
+    public List<Barang> findAllBarangByKodeKomplain(String kodeKomplain) {
+        KomplainModel komplain = komplainDb.findByKodeKomplain(kodeKomplain);
         List<TransaksiKomplainModel> transaksiList = transaksiKomplainDb.findAllByKomplainTransaksi(komplain);
         return getBarangListFromTransaksiKomplain(transaksiList);
     }
 
     @Override
-    public List<Barang> findAllBarangByIdPesanan(Long id) {
-        PesananPenjualanModel pesanan = pesananPenjualanDb.findById(id).get();
+    public List<Barang> findAllBarangByKodePesanan(String kodePesanan) {
+        PesananPenjualanModel pesanan = pesananPenjualanDb.findByKodePesananPenjualan(kodePesanan);
         List<TransaksiPesananModel> transaksiList = transaksiPesananDb.findAllByPesananTransaksi(pesanan);
         return getBarangListFromTransaksiPesanan(transaksiList);
     }
 
     @Override
-    public void addPengirimanKomplain(Long idKomplain, Long idMetodePengiriman) {
-        KomplainModel komplain = komplainDb.getOne(idKomplain);
+    public void addPengirimanKomplain(String kodeKomplain, Long idMetodePengiriman) {
+        KomplainModel komplain = komplainDb.findByKodeKomplain(kodeKomplain);
         MetodePengirimanModel metodePengiriman = metodePengirimanDb.getOne(idMetodePengiriman);
 
         komplain.setIsShown(false);
@@ -90,8 +90,8 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
     }
 
     @Override
-    public void addPengirimanPesanan(Long idPesanan, Long idMetodePengiriman) {
-        PesananPenjualanModel pesanan = pesananPenjualanDb.getOne(idPesanan);
+    public void addPengirimanPesanan(String kodePesanan, Long idMetodePengiriman) {
+        PesananPenjualanModel pesanan = pesananPenjualanDb.findByKodePesananPenjualan(kodePesanan);
         MetodePengirimanModel metodePengiriman = metodePengirimanDb.getOne(idMetodePengiriman);
 
         pesanan.setIsShown(false);

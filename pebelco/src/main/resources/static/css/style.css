@@ -184,7 +184,6 @@ body {
     line-height: 100%;
     text-align: center;
     letter-spacing: 0.045em;
-
     color: #000000;
 }
 
@@ -372,6 +371,21 @@ body {
     background: #f0c8c8;
 }
 
+.belumDikirim{
+    color: #958B32;
+    background: #FDFCA1;
+}
+
+.dikirim{
+    color: #CFA315;
+    background: #FBEFCA;
+}
+
+.diterima{
+    color: #155724;
+    background: #E6FAFD;
+}
+
 .card-header h4{
     font-family: Poppins;
     font-style: normal;
@@ -435,10 +449,21 @@ body {
     background: #005479;
 }
 
+.but-tambah {
+    margin: 5px 10px;
+    color: #FFFFFF;
+    background: #298134;
+    border-radius: 5px;
+}
+
+.but-tambah:hover {
+    color: #FFFFFF;
+    background: #88CB90;
+}
+
 /* Detail but */
 .but-detail {
-    /* margin: 5px 10px; */
-    background: #6497B1;
+    background: #4c7285;
     color: #FFFFFF;
     box-sizing: border-box;
     border-radius: 5px;
@@ -446,7 +471,7 @@ body {
 
 .but-detail:hover {
     color: #FFFFFF;
-    background: #4c7285;
+    background: #6497B1;
 }
 
 /* Ubah Status but */
@@ -498,13 +523,18 @@ body {
 .but-danger {    
     margin: 5px 10px;
     color: #FFFFFF;
-    background: #FFA5A5;
+    background: #eb3f3f;
     border-radius: 5px;
 }
 
 .but-danger:hover {
     color: #FFFFFF;
-    background: #FF5555;
+    background: #fb6152;
+    
+}
+
+.btn-set{
+    margin-top: 100px;
 }
 
 /* Table Styles */

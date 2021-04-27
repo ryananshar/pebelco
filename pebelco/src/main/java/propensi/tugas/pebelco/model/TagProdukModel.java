@@ -21,7 +21,7 @@ public class TagProdukModel implements Serializable{
     private String namaTag;
 
     // create table "produk_tag"
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "produk_tag", 
         joinColumns = @JoinColumn(name = "id_tag_produk"), 
