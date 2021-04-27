@@ -8,119 +8,121 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <div th:if="${pop} != null" class="overlay" id="center">
-        <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
-                <p th:text="${msg}"></p>
-                <a th:href="@{/komplain}" class="btn">
-                    OK
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/komplain}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'notification'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/komplain}" class="btn but-outline">
+                    Tidak
+                </a>
+                <a th:href="@{/komplain/hapus/} + ${kodeKomplain}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
                 </a>
             </div>
-            <div th:if="${pop} == 'notification'" class="col-md-5" id="konfirmasi-hapus">
-                <p th:text="${msg}"></p>
-                <span class="sub-msg" th:text="${subMsg}"></span>
-                <div class="row justify-content-center">
-                    <a th:href="@{/komplain}" class="btn but-outline">
-                        Tidak
-                    </a>
-                    <a th:href="@{/komplain/hapus/} + ${kodeKomplain}" class="btn but-success" style="margin-left: 10px;">
-                        Ya
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
+    <div th:if="${message} != null" class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="card">
+                <div class="card-header" id>
+                    Error
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12">
+                            <div th:text="${message}"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <a th:href="@{/komplain}" class="btn btn-success">
+                        Kembali
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
-        </div>
-        <div th:if="${message} != null" class="container-fluid col">
-            <div class="row justify-content-center">
-                <div class="card">
-                    <div class="card-header" id>
-                        Error
-                    </div>
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="col-12">
-                                <div th:text="${message}"></div>
-                            </div>
-                        </div>
-                        <br>
-                        <a th:href="@{/komplain}" class="btn btn-success">
-                            Kembali
-                        </a>
-                    </div>
+
+    <div th:unless="${message} != null" class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2 >Daftar Komplain</h2>
+                    <hr class="solid">
                 </div>
-            </div>
-        </div>
-
-        <div th:unless="${message} != null" class="container-fluid col">
-            <div class="row justify-content-center">
-                <div class="col" id="table-utama">
-                    <div class="list-header">
-                        <h2 >Daftar Komplain</h2>
-                        <hr class="solid">
+                <div class="list-body">
+                    <div class="butt-tambah-komplain">
+                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin', 'Admin Komplain')">
+                            <a class="btn but-outline" th:href="@{/komplain/tambah}">
+                                +Tambah Komplain
+                            </a>
+                        </div>
                     </div>
-                    <div class="list-body">
-                        <div class="butt-tambah-komplain">
-                            <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin',)">
-                                <a class="btn but-outline" th:href="@{/komplain/tambah}">
-                                    +Tambah Komplain
-                                </a>
-                            </div>
-                        </div>
-                        <div th:if="${pesan != null}">
-                            <h3 th:text="${pesan}"></h3>
-                        </div>
-                        <div th:if="${pesan == null}">
-                            <table class="table daftar-table table-hover table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Kode Komplain</th>
-                                    <th>Nama Toko</th>
-                                    <th sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain', 'Factory Manager', 'Vice Factory Manager', 'Manager Pemasaran')" >Nama Staf</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                    <div th:if="${pesan != null}">
+                        <h3 th:text="${pesan}"></h3>
+                    </div>
+                    <div th:if="${pesan == null}">
+                        <table class="table daftar-table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Komplain</th>
+                                <th>Nama Toko</th>
+                                <th sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain', 'Factory Manager', 'Vice Factory Manager', 'Manager Pemasaran')" >Nama Staf</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
 
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr
-                                        th:each="komplain, iterationStatus : ${komplainList}"
-                                >
-                                    <td th:text="${iterationStatus.count}"></td>
-                                    <td th:text="${komplain.kodeKomplain}"></td>
-                                    <td th:text="${komplain.namaToko}"></td>
-                                    <td th:text="${komplain.user.namaPanjang}" sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain', 'Factory Manager', 'Vice Factory Manager', 'Manager Pemasaran')"></td>
-                                    <td th:text="${#dates.format(komplain.tanggalKomplain, 'dd/MM/yyyy')}"></td>
-                                    <div th:switch="${komplain.statusKomplain}">
-                                        <td th:case="0">Menunggu Persetujuan</td>
-                                        <td th:case="1">Disetujui</td>
-                                        <td th:case="2">Ditolak</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr
+                                    th:each="komplain, iterationStatus : ${komplainList}"
+                            >
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${komplain.kodeKomplain}"></td>
+                                <td th:text="${komplain.namaToko}"></td>
+                                <td th:text="${komplain.user.namaPanjang}" sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain', 'Factory Manager', 'Vice Factory Manager', 'Manager Pemasaran')"></td>
+                                <td th:text="${#dates.format(komplain.tanggalKomplain, 'dd/MM/yyyy')}"></td>
+                                <div th:switch="${komplain.statusKomplain}">
+                                    <td th:case="0">Menunggu Persetujuan</td>
+                                    <td th:case="1">Disetujui</td>
+                                    <td th:case="2">Ditolak</td>
+                                    <td th:case="3">Disetujui</td>
+                                    <td th:case="4">Disetujui</td>
+                                </div>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
+                                           class="btn but-detail">Detail</a>
+                                        <a th:href="@{/komplain/konfirmasi-hapus/} + ${komplain.kodeKomplain}"
+                                           th:classappend="${(komplain.statusKomplain == 1 || komplain.statusKomplain == 4) ? 'disabled':''}"
+                                           class="btn but-danger"
+                                           sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain')">Hapus</a>
                                     </div>
-                                    <td>
-                                        <div class="inline-buts">
-                                            <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
-                                               class="btn but-detail">Detail</a>
-                                            <a th:href="@{/komplain/konfirmasi-hapus/} + ${komplain.kodeKomplain}"
-                                               th:classappend="${komplain.statusKomplain != 1 ? '':'disabled'}"
-                                               class="btn but-danger"
-                                               sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain')">Hapus</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </body>

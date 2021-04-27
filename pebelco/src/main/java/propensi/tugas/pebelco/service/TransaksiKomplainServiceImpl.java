@@ -33,4 +33,9 @@ public class TransaksiKomplainServiceImpl implements TransaksiKomplainService {
     public List<TransaksiKomplainModel> getListTransaksiKomplain(){
         return transaksiKomplainDb.findAll();
     }
+
+    @Override
+    public void deleteTransaksiKomplain(TransaksiKomplainModel transaksiKomplain){
+        transaksiKomplainDb.deleteById(transaksiKomplain.getIdTransaksiKomplain());
+    }
 }
