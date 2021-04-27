@@ -257,7 +257,7 @@ public class PesananPenjualanController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown() && pesananPenjualan.getStatusPesanan() == 0) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
             } else {
                 model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
