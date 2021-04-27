@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,8 +49,9 @@ public class ProdukController {
 
     @GetMapping(value = "/produk")
     public String daftarproduk(Model model) {
-        model.addAttribute("produk", produkService.findAll());
-        return "produk/daftar-produk";
+
+//        model.addAttribute("produk", produkService.findAll());
+        return findPagination(1, model);
     }
 
     @GetMapping(value = "/produk/{id}")
@@ -328,5 +330,25 @@ public class ProdukController {
             model.addAttribute("jumlahNotif", null);
             model.addAttribute("listNotif", null);
         }
+    }
+
+    @GetMapping("/produk/page/{pageNo}")
+    public String findPagination(
+            @PathVariable (value="pageNo") int pageNo, Model model
+    ){
+        int pageSize = 10;
+
+        Page<ProdukModel> page = produkService.findPaginated(pageNo, pageSize);
+        List<ProdukModel> listProduk = page.getContent();
+
+        model.addAttribute("currPage", pageNo);
+        model.addAttribute("totPage", page.getTotalPages());
+        model.addAttribute("totItems", page.getTotalElements());
+        model.addAttribute("produk", listProduk);
+        model.addAttribute("pageSize", pageSize);
+
+        return "produk/daftar-produk";
+
+
     }
 }

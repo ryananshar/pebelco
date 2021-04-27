@@ -65,7 +65,10 @@
                         </thead>
                         <tbody>
                         <tr th:each="produk, iterationStatus: ${produk}">
-                            <td th:text="${iterationStatus.count}"></td>
+                            <div th:with="result=${iterationStatus.count + (currPage-1) * pageSize}">
+                                <td th:text="${result}"></td>
+                            </div>
+<!--                            <td th:text="${iterationStatus.count}"></td>-->
                             <td th:text="${produk.namaProduk}"></td>
                             <td th:text="${produk.stok}"></td>
                             <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
@@ -81,6 +84,29 @@
 
                         </tbody>
                     </table>
+
+                    <div th:if="${totPage > 1}">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-1">
+                                <a th:if="${currPage > 1}" th:href="@{'/produk/page/' + ${currPage - 1}}">Previous</a>
+                                <span th:if="${currPage == 1}">Previous</span>
+                            </div>
+                            <div class="col-sm-1">
+                                <span th:each="i: ${#numbers.sequence(1, totPage)}">
+                                    <a th:if="${currPage != i}" th:href="@{'/produk/page/' + ${i}}">[[${i}]]</a>
+                                    <span th:if="${currPage == i}">[[${i}]]</span>
+                                </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <a th:if="${currPage < totPage}" th:href="@{'/produk/page/' + ${currPage + 1}}">Next</a>
+                                <span th:if="${currPage >= totPage}">Next</span>
+                            </div>
+<!--                            <div class="col-sm-1">-->
+<!--                                <a th:if="${currPage < totPage}" th:href="@{'/produk/page/' + ${totPage}}">Last</a>-->
+<!--                                <span th:if="${currPage >= totPage}">Last</span>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
 
                 </div>
             </div>
