@@ -8,105 +8,110 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-    <div th:if="${pop} != null" class="overlay" id="center">
-        <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
-                <p th:text="${msg}"></p>
-                <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
-                    OK
-                </a>
-            </div>
-            <div th:if="${pop} == 'red'" class="col-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
-                <p th:text="${msg}"></p>
-                <p th:text="${subMsg}"></p>
-                <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
-                    OK
-                </a>
-            </div>
-            <div th:if="${pop} == 'statusPop'" class="col-5 pop-up">
-                <div class="row justify-content-left" style=" text-align: left">
-                    <h4 th:text="${msg}" style="margin: 10px 10px 0 10px; color: #033C59"></h4>
-                    <p th:text="${subMsg}" style="text-align: left; font-weight: normal; font-size: 16px"></p>
-                </div>
-                <div class="row justify-content-center">
-                    <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn btn-tidak" style="background-color: #FFFFFF;
-                        border-color: #005479; border-width: medium; color: #005479;">
-                        Tidak
-                    </a>
-                    <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn" style="margin-left: 10px;">
-                        Ya
-                    </a>
-                </div>
-            </div>
-            <div th:if="${pop} == 'statusPop'" class="col-md-5" id="konfirmasi-hapus">
-                <p th:text="${msg}"></p>
-                <span class="sub-msg" th:text="${subMsg}"></span>
-                <div class="row justify-content-center">
-                    <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn but-outline">
-                        Tidak
-                    </a>
-                    <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn but-success" style="margin-left: 10px;">
-                        Ya
-                    </a>
-                </div>
-            </div>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
+                OK
+            </a>
         </div>
-    </div>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <p th:text="${subMsg}"></p>
+            <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
+                OK
+            </a>
         </div>
-        <div class="container col">
+        <div th:if="${pop} == 'statusPop'" class="col-5 pop-up">
+            <div class="row justify-content-left" style=" text-align: left">
+                <h4 th:text="${msg}" style="margin: 10px 10px 0 10px; color: #033C59"></h4>
+                <p th:text="${subMsg}" style="text-align: left; font-weight: normal; font-size: 16px"></p>
+            </div>
             <div class="row justify-content-center">
-                <div th:if="${message} != null">
-                    <div class="card">
-                        <div class="card-header" id>
-                            Error
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="col-12">
-                                    <div th:text="${message}"></div>
-                                </div>
+                <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn btn-tidak" style="background-color: #FFFFFF;
+                        border-color: #005479; border-width: medium; color: #005479;">
+                    Tidak
+                </a>
+                <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn" style="margin-left: 10px;">
+                    Ya
+                </a>
+            </div>
+        </div>
+        <div th:if="${pop} == 'statusPop'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/komplain/ubah-status/} + ${kodeKomplain}" class="btn but-outline">
+                    Tidak
+                </a>
+                <a th:href="@{/komplain/ubah-status/} + ${statKomplain} + '/' + ${kodeKomplain}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div th:text="${message}"></div>
                             </div>
-                            <br>
-                            <a th:href="@{/komplain}" class="btn btn-success">
-                                Kembali
-                            </a>
                         </div>
+                        <br>
+                        <a th:href="@{/komplain}" class="btn btn-success">
+                            Kembali
+                        </a>
                     </div>
                 </div>
-                <div th:if="${message} == null"class="container containerAll">
-                    <div class="page-header">
-                        <h3>Ubah Status Komplain</h3>
-                    </div>
-                    <div class="container containIsi">
-                        Status Komplain<br/>
-                        <select name="statusKomplain" class="form-control" th:onchange="selectOnChange(this)" required id="dropdown">
-                            <option selected value="">-- Pilih Status Komplain --</option>
-                            <option value="1">Disetujui</option>
-                            <option value="2">Ditolak</option>
-                        </select>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <div class="row justify-content-end">
-                            <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
-                               class="btn btn-batal">Batal</a>
-                            <a id="goNext" th:href="@{/#/}"
-                               class="btn btn-ubah" onclick="makeAlert()">Ubah</a>
+            </div>
+            <div th:if="${message} == null" class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                <div class="card-header">
+                    <h3>Ubah Status Komplain</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Status Komplain</label>
+                                <select name="statusKomplain" class="form-control" th:onchange="selectOnChange(this)" required id="dropdown">
+                                    <option selected value="">-- Pilih Status Komplain --</option>
+                                    <option value="1">Disetujui</option>
+                                    <option value="2">Ditolak</option>
+                                </select>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="row justify-content-end">
+                                <a th:href="@{/komplain/} + ${komplain.kodeKomplain}"
+                                   class="btn btn-batal">Batal</a>
+                                <a id="goNext" th:href="@{/#/}"
+                                   class="btn btn-ubah" onclick="makeAlert()">Ubah</a>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 </body>
 <script type="text/javascript" th:inline="javascript">
     var kode=[[${kodeKomplain}]];

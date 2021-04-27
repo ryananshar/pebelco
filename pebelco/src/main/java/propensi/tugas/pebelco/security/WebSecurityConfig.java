@@ -40,11 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/pesanan/konfirmasi-hapus/**").hasAnyAuthority("Sales Counter", "Admin")
 
                 // Pengiriman
-                .antMatchers("/pengiriman/").hasAnyAuthority("Staf Pengiriman", "Staf Sales", "Sales Counter", "Admin Komplain", "Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
+                .antMatchers("/pengiriman").hasAnyAuthority("Staf Pengiriman", "Staf Sales", "Sales Counter", "Admin Komplain", "Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
                 .antMatchers("/pengiriman/*").hasAnyAuthority("Staf Pengiriman", "Staf Sales", "Sales Counter", "Admin Komplain", "Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
-                .antMatchers("/perludikirim/*").hasAnyAuthority("Staf Pengiriman","Admin")
-                .antMatchers("/daftarpengiriman/*").hasAnyAuthority("Staf Pengiriman", "Staf Sales", "Sales Counter", "Admin Komplain", "Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
-                .antMatchers("/tambah/*").hasAnyAuthority("Staf Pengiriman", "Admin")
+                .antMatchers("/perludikirim").hasAnyAuthority("Staf Pengiriman","Admin")
+                .antMatchers("/perludikirim/**").hasAnyAuthority("Staf Pengiriman","Admin")
+                .antMatchers("/daftarpengiriman").hasAnyAuthority("Staf Pengiriman", "Staf Sales", "Sales Counter", "Admin Komplain", "Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
                 .antMatchers("/pengiriman/ubah/**").hasAnyAuthority("Staf Pengiriman","Admin")
                 .antMatchers("/pengiriman/ubah-status/**").hasAnyAuthority("Staf Pengiriman","Admin")
                 .antMatchers("/pengiriman/hapus/**").hasAnyAuthority("Staf Pengiriman", "Admin")
