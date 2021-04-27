@@ -97,7 +97,6 @@
                                         <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" disabled>
                                     </th>
                                 </tr>
-
                                 <tr>
                                     <th class="form-group" >
                                         Tanggal Dibuat
@@ -105,25 +104,17 @@
                                         <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
                                     </th>
                                 </tr>
-
+                                <!-- <div th:if="${produk.listTagProduk.size()} > 0"> -->
                                 <tr>
                                     <th colspan="1">
                                         <div class="float-md-left">
-                                            <h3 class="float-md-left">Tag Produk</h3>
+                                            <h5 class="float-md-left">Tag Produk</h5>
                                         </div>
                                     </th>
-
-                                </tr>
-
-
-                                <tr class="form-group">
-                                    <th>No</th>
-                                    <th>Tag Produk</th>
                                 </tr>
 
                                 <tr th:each="tag, tagStat : *{listTagProduk}">
-                                    <td th:text="${tagStat.count}"></td>
-                                    <td>
+                                    <td colspan="3">
                                         <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
                                                 class="form-control" disabled>
                                             <option th:each="isi : ${listTag}"
@@ -135,7 +126,7 @@
                                     </td>
 
                                 </tr>
-
+                                <!-- </div> -->
                             </th>
                             </thead>
                         </table>

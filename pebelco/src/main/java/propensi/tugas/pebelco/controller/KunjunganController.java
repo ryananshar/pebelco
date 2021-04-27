@@ -71,7 +71,7 @@ public class KunjunganController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown()) {
                 model.addAttribute("kunjungan", kunjungan);
             }
             // Jika Staf Sales membuka halaman detail kunjungan yang bukan miliknya atau yang sudah dihapus
@@ -80,7 +80,7 @@ public class KunjunganController {
             }
         }
         else {
-            if (kunjungan.getIsShown() == true) {
+            if (kunjungan.getIsShown()) {
                 model.addAttribute("kunjungan", kunjungan);
             }
             // Jika Admin membuka halaman detail kunjungan yang sudah dihapus
@@ -132,7 +132,7 @@ public class KunjunganController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown()) {
                 model.addAttribute("kunjungan", kunjungan);
             }
             // Jika Staf Sales membuka halaman ubah kunjungan yang bukan miliknya atau yang sudah dihapus
@@ -141,7 +141,7 @@ public class KunjunganController {
             }
         }
         else {
-            if (kunjungan.getIsShown() == true) {
+            if (kunjungan.getIsShown()) {
                 model.addAttribute("kunjungan", kunjungan);
             }
             // Jika Admin membuka halaman ubah kunjungan yang sudah dihapus
@@ -150,7 +150,6 @@ public class KunjunganController {
             }
         }
 
-//        model.addAttribute("kunjungan", kunjungan);
         return "kunjungan/form-ubah-kunjungan";
     }
 
@@ -172,7 +171,6 @@ public class KunjunganController {
             model.addAttribute("subMsg", "Waktu tidak valid");
         }
 
-//        model.addAttribute("kunjungan", kunjunganUpdated);
         return "kunjungan/form-ubah-kunjungan";
     }
 
@@ -195,7 +193,7 @@ public class KunjunganController {
                 model.addAttribute("listKunjungan", listKunjunganStafSales);
             }
 
-            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown()) {
                 model.addAttribute("listKunjungan", listKunjunganStafSales);
                 model.addAttribute("pop", "konfirmasi hapus");
                 model.addAttribute("msg2", "Konfirmasi Penghapusan");
@@ -220,7 +218,7 @@ public class KunjunganController {
                 model.addAttribute("listKunjungan", listKunjungan);
             }
 
-            if (kunjungan.getIsShown() == true) {
+            if (kunjungan.getIsShown()) {
                 model.addAttribute("listKunjungan", listKunjungan);
                 model.addAttribute("pop", "konfirmasi hapus");
                 model.addAttribute("msg2", "Konfirmasi Penghapusan");
@@ -255,7 +253,7 @@ public class KunjunganController {
                 model.addAttribute("listKunjungan", listKunjunganStafSales);
             }
 
-            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown() == true) {
+            if (kunjungan.getStafSales().getIdUser() == user.getIdUser() && kunjungan.getIsShown()) {
                 kunjunganService.deleteKunjungan(kunjungan);
                 model.addAttribute("listKunjungan", listKunjunganStafSales);
                 model.addAttribute("pop", "green");
@@ -279,7 +277,7 @@ public class KunjunganController {
                 model.addAttribute("listKunjungan", listKunjungan);
             }
 
-            if (kunjungan.getIsShown() == true) {
+            if (kunjungan.getIsShown()) {
                 kunjunganService.deleteKunjungan(kunjungan);
                 model.addAttribute("listKunjungan", listKunjungan);
                 model.addAttribute("pop", "green");
