@@ -68,7 +68,7 @@
                         </div> <!-- /.lg -->
                         <div th:if="${jumlahNotif != 0}"class="lg">
                             <div th:each="notif, iterationStatus : ${listNotif}">
-                                <a th:href="${notif.url}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <a th:href="@{'/notif/' + ${notif.idNotifikasi}}" class="list-group-item list-group-item-action flex-column align-items-start">
                                     <h5 class="mb-1" th:text="${notif.desc}"></h5>
                                     <p class="mb-0" th:text="${#dates.format(notif.waktuDibuat, 'EEE, d MMM yyyy | HH:mm:ss')}">17 October 2016 | 9:32 pm</p>
                                 </a>

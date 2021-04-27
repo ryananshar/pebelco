@@ -463,8 +463,7 @@ body {
 
 /* Detail but */
 .but-detail {
-    /* margin: 5px 10px; */
-    background: #6497B1;
+    background: #4c7285;
     color: #FFFFFF;
     box-sizing: border-box;
     border-radius: 5px;
@@ -472,7 +471,7 @@ body {
 
 .but-detail:hover {
     color: #FFFFFF;
-    background: #4c7285;
+    background: #6497B1;
 }
 
 /* Ubah Status but */
@@ -524,13 +523,18 @@ body {
 .but-danger {    
     margin: 5px 10px;
     color: #FFFFFF;
-    background: #FFA5A5;
+    background: #eb3f3f;
     border-radius: 5px;
 }
 
 .but-danger:hover {
     color: #FFFFFF;
-    background: #FF5555;
+    background: #fb6152;
+    
+}
+
+.btn-set{
+    margin-top: 100px;
 }
 
 .btn-set{
