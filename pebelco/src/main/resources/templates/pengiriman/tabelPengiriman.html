@@ -1,36 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Tabel Pengiriman</title>
+    <title>Daftar Pengiriman</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h1>Tabel Pengiriman</h1>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th>Kode Pengiriman</th>
-            <th>Nama Toko</th>
-            <th>Tanggal</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${items}">
-            <td th:text="${item.kodePengiriman}">Kode</td>
-            <td th:text="${item.namaToko}">Nama Toko</td>
-            <td th:text="${item.tanggalDibuat}">Tanggal</td>
-            <td th:text="${item.status}">Status</td>
-            <td>
-                <a th:href="@{'/pengiriman/' + ${item.id}}">Detail</a>
-                <form th:action="@{/pengiriman/hapus/}" method="POST">
-                    <input th:type="text" class="form-control" th:name="id" th:value="${item.id}" hidden aria-hidden="true">
-                    <button type="submit" class="btn btn-primary" th:disabled="${item.disableHapus}">Hapus</button>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg2}"></p>
+            <a th:href="@{/daftarpengiriman}" class="btn">
+                OK
+            </a>
+        </div>
+
+        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg2}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/daftarpengiriman}" class="btn but-outline">
+                    Tidak
+                </a>
+                <form th:action="@{'/pengiriman/hapus/' + ${kodePengiriman}}" method="POST">
+                    <!--                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+                    <button value="Submit" class="btn but-success" style="margin-left: 10px; margin-top: 30px; width: 130px;">
+                        Ya
+                    </button>
                 </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+
+    <div th:unless="${message} != null" class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Daftar Pengiriman</h2>
+                    <hr>
+                </div>
+                <div class="list-body">
+                    <div th:if="${msg == 'tidak ada pengiriman'}">
+                        <h3 th:text="${pesan}"></h3>
+                    </div>
+
+                    <div th:if="${msg == 'ada pengiriman'}">
+                    <table class="table daftar-table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Pengiriman</th>
+                            <th>Nama Toko</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${pengiriman.kodePengiriman}">Kode</td>
+                            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
+                            <td th:text="${pengiriman.status}">Status</td>
+                            <td>
+                                <div class="inline-buts">
+                                    <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
+                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">
+<!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
+                                        <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 </body>
+
 </html>

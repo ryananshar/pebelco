@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -122,40 +122,30 @@
                                 <div th:text="${detailProduk.spesifikasi}" class="col-8"></div>
                             </div>
                             <br><br>
-                        </div>
-                        <div class="form-group">
-                            <table class="table table-hover table-bordered daftar-table ">
-                                <thead>
-                                <tr>
-                                    <th colspan="2">Tag Produk</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="lis, idStat : *{listTag}">
-                                    <td th:text="${idStat.count}" style=" text-align: center;"></td>
-                                    <td th:if="${lis.idTagProduk==1}" style=" text-align: center;">Lemari Baju</td>
-                                    <td th:if="${lis.idTagProduk==2}" style=" text-align: center;">Rak Buku</td>
-                                    <td th:if="${lis.idTagProduk==3}" style=" text-align: center;">Laci</td>
-                                    <td th:if="${lis.idTagProduk==4}" style=" text-align: center;">Spring Bed</td>
-                                    <td th:if="${lis.idTagProduk==5}" style=" text-align: center;">Soft Bed</td>
-                                    <td th:if="${lis.idTagProduk==6}" style=" text-align: center;">Meja Belajar</td>
-                                    <td th:if="${lis.idTagProduk==7}" style=" text-align: center;">Kursi Kantor</td>
-                                    <td th:if="${lis.idTagProduk==8}" style=" text-align: center;">Meja Kantor</td>
-                                    <td th:if="${lis.idTagProduk==9}" style=" text-align: center;">Meja Makan</td>
-                                    <td th:if="${lis.idTagProduk==10}" style=" text-align: center;">Kursi Lipat</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <br><br>
 
-                            <div class="row justify-content-end">
-                                <a th:href="@{/produk/ubah/stok/} + ${id}"
-                                   class="btn but-ubah-stat"
-                                   sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
-                                <a th:href="@{/produk/ubah/} + ${id}"
-                                   class="btn but-ubah"
-                                   sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
+                            <div th:if="${listTag.size()} > 0" class="row">
+                                <div class="col-3">
+                                    <div>Tag Produk</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:each="lis : *{listTag}">
+                                        <div th:text="' #' + ${lis.namaTag}"></div>
+                                    </div>
+                                </div>
                             </div>
+                            <br><br>
+                        </div>
+                        <div class="row justify-content-end">
+                            <a th:href="@{/produk/ubah/stok/} + ${id}"
+                                class="btn but-ubah-stat"
+                                sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                            <a th:href="@{/produk/ubah/} + ${id}"
+                                class="btn but-ubah"
+                                sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
+
                         </div>
                     </div>
 

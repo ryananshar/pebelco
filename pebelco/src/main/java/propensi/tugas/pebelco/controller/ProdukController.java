@@ -57,7 +57,8 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         List<TagProdukModel> listTagProduk=produk.getListTagProduk();
 
-        model.addAttribute("listTag",listTagProduk);
+
+        model.addAttribute("listTag", listTagProduk);
         model.addAttribute("detailProduk", produk);
         return "produk/detail-produk";
     }
@@ -224,6 +225,10 @@ public class ProdukController {
         final Integer tagId = Integer.valueOf(req.getParameter("removeRow"));
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         produk.getListTagProduk().remove(tagId.intValue());
+
+        List<TagProdukModel> listTagProduk=produk.getListTagProduk();
+
+        model.addAttribute("listTags",listTagProduk);
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
 
@@ -241,6 +246,10 @@ public class ProdukController {
         produk.setListTagProduk(tagTempList);
         produk.getListTagProduk().add(tagGaib);
 
+        List<TagProdukModel> listTagProduk=produk.getListTagProduk();
+
+        model.addAttribute("listTags",listTagProduk);
+
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
 
@@ -252,15 +261,18 @@ public class ProdukController {
         ProdukModel produk=produkService.getProdukById(id);
         List<TagProdukModel> tagTempList = new ArrayList<TagProdukModel>();
         List<TagProdukModel> listTag = tagProdukDb.findAll();
-        TagProdukModel tagGaib = listTag.get(1);
 
         List<TagProdukModel> listTagProduk=produk.getListTagProduk();
 
         model.addAttribute("listTags",listTagProduk);
 
-        produk.setListTagProduk(tagTempList);
-        produk.getListTagProduk().add(tagGaib);
+        if (listTagProduk.size() == 0) {
+            TagProdukModel tagGaib = new TagProdukModel();
+            tagTempList.add(tagGaib);
+            produk.setListTagProduk(tagTempList);
+        }
 
+        model.addAttribute("listTags", produk.getListTagProduk());
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
 

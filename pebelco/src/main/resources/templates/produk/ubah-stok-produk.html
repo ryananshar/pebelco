@@ -97,7 +97,6 @@
                                     <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" disabled>
                                 </th>
                             </tr>
-
                             <tr>
                                 <th class="form-group" >
                                     Tanggal Dibuat
@@ -105,37 +104,29 @@
                                     <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
                                 </th>
                             </tr>
+                            <!-- <div th:if="${produk.listTagProduk.size()} > 0"> -->
+                                <tr>
+                                    <th colspan="1">
+                                        <div class="float-md-left">
+                                            <h5 class="float-md-left">Tag Produk</h5>
+                                        </div>
+                                    </th>
+                                </tr>
 
-                            <tr>
-                                <th colspan="1">
-                                    <div class="float-md-left">
-                                        <h3 class="float-md-left">Tag Produk</h3>
-                                    </div>
-                                </th>
+                                <tr th:each="tag, tagStat : *{listTagProduk}">
+                                    <td colspan="3">
+                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
+                                                class="form-control" disabled>
+                                            <option th:each="isi : ${listTag}"
+                                                    th:if="${tag.idTagProduk == isi.idTagProduk}"
+                                                    th:value="${isi.idTagProduk}"
+                                                    th:text="${isi.namaTag}" selected>
+                                            </option>
+                                        </select>
+                                    </td>
 
-                            </tr>
-
-
-                            <tr class="form-group">
-                                <th>No</th>
-                                <th>Tag Produk</th>
-                            </tr>
-
-                            <tr th:each="tag, tagStat : *{listTagProduk}">
-                                <td th:text="${tagStat.count}"></td>
-                                <td>
-                                    <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                            class="form-control" required>
-                                        <option selected value="">-- PILIH Nama Tag --</option>
-                                        <option th:each="isi : ${listTag}"
-                                                th:value="${isi.idTagProduk}"
-                                                th:text="${isi.namaTag}" >
-                                        </option>
-                                    </select>
-                                </td>
-
-                            </tr>
-
+                                </tr>
+                            <!-- </div> -->
                         </th>
                         </thead>
                     </table>
@@ -146,7 +137,7 @@
                 </form>
             </div>
 
-        </div>
+            </div>
         </div>
     </div>
 

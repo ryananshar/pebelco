@@ -9,6 +9,8 @@ public interface UserService {
     //  Method untuk menambah objek
     UserModel addUser(UserModel user);
 
+    void updateUser(UserModel user);
+
     //  Method untuk mendapatkan list data yang telah tersimpan
     List<UserModel> getUserListbyRole(RoleModel role);
 

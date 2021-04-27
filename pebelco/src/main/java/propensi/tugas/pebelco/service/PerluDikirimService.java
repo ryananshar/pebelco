@@ -8,11 +8,11 @@ import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 
 public interface PerluDikirimService {
     List<PerluDikirim> findAll();
-    PerluDikirim findKomplainById(Long id);
-    PerluDikirim findPesananById(Long id);
+    PerluDikirim findKomplainByKode(String kodeKomplain);
+    PerluDikirim findPesananByKode(String kodePesanan);
     List<MetodePengirimanModel> findAllMetodePengiriman();
-    List<Barang> findAllBarangByIdKomplain(Long id);
-    List<Barang> findAllBarangByIdPesanan(Long id);
-    void addPengirimanKomplain(Long idKomplain, Long idMetodePengiriman);
-    void addPengirimanPesanan(Long idPesanan, Long idMetodePengiriman);
+    List<Barang> findAllBarangByKodeKomplain(String kodeKomplain);
+    List<Barang> findAllBarangByKodePesanan(String kodePesanan);
+    void addPengirimanKomplain(String kodeKomplain, Long idMetodePengiriman);
+    void addPengirimanPesanan(String kodePesanan, Long idMetodePengiriman);
 }

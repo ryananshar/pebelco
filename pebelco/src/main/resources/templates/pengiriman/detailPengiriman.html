@@ -1,80 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
     <meta charset="UTF-8">
     <title>Detail Pengiriman</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
+
 <body>
-    <h1>Detail Pengiriman</h1>
-
-    <h3>Status</h3>
-    <p th:text="${item.status}">Status</p>
-
-    <h3>Kode Komplain/Pesanan</h3>
-    <p th:text="${item.kode}">Kode Komplain/Pesanan</p>
-
-    <h3>Nama Toko</h3>
-    <p th:text="${item.namaToko}">Nama Toko</p>
-
-    <h3>Alamat Toko</h3>
-    <p th:text="${item.alamatToko}">Alamat Toko</p>
-
-    <div th:if="${isPengiriman}">
-        <th:block th:each="metodePengiriman : ${item.metodePengiriman}">
-            <div th:if="${metodePengiriman}">
-                <h3>Metode Pengiriman</h3>
-                <p th:text="${metodePengiriman}">Metode Pengiriman</p>
-            </div>
-        </th:block>
-
-        <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
-        <!--  buat th:block lain juga sama  -->
-        <th:block th:each="tanggalDikirim : ${item.tanggalDikirim}">
-            <div th:if="${tanggalDikirim}">
-                <h3>Tanggal Dikirim</h3>
-                <p th:text="${tanggalDikirim}">Tanggal Dikirim</p>
-            </div>
-        </th:block>
-
-        <th:block th:each="tanggalDiterima : ${item.tanggalDiterima}">
-            <div th:if="${tanggalDiterima}">
-                <h3>Tanggal Diterima</h3>
-                <p th:text="${tanggalDiterima}">Tanggal Diterima</p>
-            </div>
-        </th:block>
-
-        <th:block th:each="namaPenerima : ${item.namaPenerima}">
-            <div th:if="${namaPenerima}">
-                <h3>Nama Penerima</h3>
-                <p th:text="${namaPenerima}">Nama Penerima</p>
-            </div>
-        </th:block>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
     </div>
-
-    <h3>Daftar Barang</h3>
-    <table border="1" cellpadding="10">
-        <thead>
-        <tr>
-            <th>Nama Barang</th>
-            <th>Jumlah</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="barang : ${barangList}">
-            <td th:text="${barang.namaBarang}">Nama Barang</td>
-            <td th:text="${barang.jumlah}">Jumlah</td>
-        </tr>
-        </tbody>
-    </table>
-    <br>
-
-    <div th:if="${isPengiriman}">
-        <div th:if="${showUbahStatus}">
-            <a th:href="@{'/pengiriman/update-status/' + ${item.id}}">Ubah Status</a>
+    <div class="container col">
+        <a
+                th:if="${pengiriman.statusId == 1 || pengiriman.statusId == 2 || pengiriman.statusId == 3}"
+                th:href="@{/daftarpengiriman/}"
+                class="btn but-arrow">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <div class="row justify-content-center">
+        <div th:if="${message} != null">
+            <div class="card">
+                <div class="card-header" id>
+                    Error
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12">
+                            <div th:text="${message}"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                        Kembali
+                    </a>
+                </div>
+            </div>
         </div>
-        <div th:if="${showUbahPengiriman}">
-            <a th:href="@{'/pengiriman/update/' + ${item.id}}">Ubah</a>
+        <div th:unless="${message} != null">
+                <div class="card" id="pengiriman" style="min-width: 900px;">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-7">
+                                <h4>Detail Pengiriman</h4>
+                            </div>
+                            <div class="col-4">
+<!--                                <span th:text="${pengiriman.status}"></span>-->
+                                <span th:if="${pengiriman.statusId == 1}"
+                                      class="belumDikirim">Belum Dikirim</span>
+                                <span th:if="${pengiriman.statusId == 2}"
+                                      class="dikirim">Dikirim</span>
+                                <span th:if="${pengiriman.statusId == 3}"
+                                      class="diterima">Diterima</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row kode">
+                                <div th:text="${pengiriman.kodePengiriman}"></div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Kode Pesanan/Komplain</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${pengiriman.kode}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Nama Toko</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${pengiriman.namaToko}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Alamat Toko</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                    <div th:text="${pengiriman.alamatToko}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div th:if="${isPengiriman}">
+                                <th:block th:each="metodePengiriman : ${pengiriman.metodePengiriman}">
+                                    <div th:if="${metodePengiriman}">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div>Metode Pengiriman</div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div th:text="':'"></div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div th:text="${metodePengiriman}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </th:block>
+
+                                <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
+                                <!--  buat th:block lain juga sama  -->
+                                <th:block th:each="tanggalDikirim : ${pengiriman.tanggalDikirim}">
+                                    <div th:if="${tanggalDikirim}">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div>Tanggal Dikirim</div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div th:text="':'"></div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div th:text="${#dates.format(tanggalDikirim, 'dd/MM/yyyy')}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </th:block>
+
+
+                                <th:block th:each="tanggalDiterima : ${pengiriman.tanggalDiterima}">
+                                    <div th:if="${tanggalDiterima}">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div>Tanggal Diterima</div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div th:text="':'"></div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div th:text="${#dates.format(tanggalDiterima, 'dd/MM/yyyy')}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </th:block>
+
+
+                                <th:block th:each="namaPenerima : ${pengiriman.namaPenerima}">
+                                    <div th:if="${namaPenerima}">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <div>Nama Penerima</div>
+                                            </div>
+                                            <div class="col-1">
+                                                <div th:text="':'"></div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div th:text="${namaPenerima}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                </th:block>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div>Daftar Barang</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-8">
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-hover table-bordered daftar-table ">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Jumlah</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="barang, iterationStatus : ${barangList}">
+                                    <td th:text="${iterationStatus.count}"></td>
+                                    <td th:text="${barang.namaBarang}"></td>
+                                    <td th:text="${barang.jumlah}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br><br><br>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div th:if="${isPengiriman}">
+<!--                                <div >-->
+                                    <a th:if="${showUbahStatus}" th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah-stat"
+                                    sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
+<!--                                </div>-->
+<!--                                <div th:if="${showUbahPengiriman}">-->
+                                    <a th:if="${showUbahPengiriman}" th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
+                                    sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
+<!--                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
 </body>
+
 </html>
+
+

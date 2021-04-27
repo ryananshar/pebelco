@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void updateUser(UserModel user) {
+        userDb.save(user);
+    }
+
+    @Override
     public UserModel getUserbyNamaPanjang(String namaPanjang) {
         return userDb.findByNamaPanjang(namaPanjang);
     }

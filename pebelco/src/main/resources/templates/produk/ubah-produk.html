@@ -60,6 +60,7 @@
                                                   th:value="*{spesifikasi}"
                                                   class="form-control"
                                                   style="width: 100%; height: 392px"
+                                                  required
                                                   name="spesifikasi"></textarea>
                                     </th>
                                 </tr>
@@ -107,48 +108,46 @@
                                 </tr>
 
                                 <tr>
-                                    <th colspan="1">
-                                        <div class="float-md-left">
-                                            <h3 class="float-md-left">Tag Produk</h3>
-                                        </div>
-                                    </th>
                                     <th colspan="2">
+                                        <div class="float-md-left">
+                                            <h5 class="float-md-left">Tag Produk</h5>
+                                        </div>
+                                    </th>
+                                    <th colspan="1">
                                         <div class="float-sm-right">
-                                            <button class="btn but-success" type="submit" name="addRow">Tambah </button>
+
+                                            <button class="btn but-success" type="submit" name="addRow">Tambah Tag</button>
+
                                         </div>
                                     </th>
                                 </tr>
 
-
-                                <tr class="form-group">
-                                    <th>No</th>
-                                    <th>Tag Produk</th>
-                                </tr>
 
                                 <tr th:each="tag, tagStat : ${listTags}">
-                                    <td th:text="${tagStat.count}"></td>
-                                    <td>
+                                    <td colspan="2">
                                         <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
                                                 class="form-control" required>
-                                            <option th:if="${tag.idTagProduk==1}" selected value="1" style=" text-align: center;">Lemari Baju</option>
-                                            <option th:if="${tag.idTagProduk==2}" selected value="2" style=" text-align: center;">Rak Buku</option>
-                                            <option th:if="${tag.idTagProduk==3}" selected value="3" style=" text-align: center;">Laci</option>
-                                            <option th:if="${tag.idTagProduk==4}" selected value="4" style=" text-align: center;">Spring Bed</option>
-                                            <option th:if="${tag.idTagProduk==5}" selected value="5" style=" text-align: center;">Sofa Bed</option>
-                                            <option th:if="${tag.idTagProduk==6}" selected value="6" style=" text-align: center;">Meja Belajar</option>
-                                            <option th:if="${tag.idTagProduk==7}" selected value="7" style=" text-align: center;">Meja Kantor</option>
-                                            <option th:if="${tag.idTagProduk==8}" selected value="8" style=" text-align: center;">Kursi Kantor</option>
-                                            <option th:if="${tag.idTagProduk==9}" selected value="9" style=" text-align: center;">Meja Makan</option>
-                                            <option th:if="${tag.idTagProduk==10}" selected value="10" style=" text-align: center;">Kursi Duduk</option>
-
-                                            <option th:each="isi : ${listTag}"
+                                            <option th:if="${tag.idTagProduk== null}" selected value="">-- PILIH Tag Produk --</option> 
+                                            <div th:each="isi : ${listTag}">
+                                                <option 
+                                                    th:if="${tag.idTagProduk == isi.idTagProduk}"
+                                                    th:value="${isi.idTagProduk}"
+                                                    th:text="${isi.namaTag}" selected>
+                                                </option>
+                                            </div>
+                                            <div th:each="isi : ${listTag}">
+                                                <option 
+                                                    th:unless="${tag.idTagProduk == isi.idTagProduk}"
                                                     th:value="${isi.idTagProduk}"
                                                     th:text="${isi.namaTag}">
-                                            </option>
+                                                </option>
+                                            </div>
                                         </select>
                                     </td>
                                     <td>
-                                        <button th:if="${tagStat.index} != 0" class="btn but-danger" type="submit" name="removeRow"
+
+
+                                        <button th:if="${tagStat.size} > 1" class="btn but-danger" type="submit" name="removeRow"
                                                 th:value="${tagStat.index}">
                                             <i class="fa fa-trash"></i></button>
                                     </td>
