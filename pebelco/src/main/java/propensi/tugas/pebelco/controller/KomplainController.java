@@ -14,6 +14,7 @@ import propensi.tugas.pebelco.service.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class KomplainController {
             model.addAttribute("komplainList", komplainList);
         }
 
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && komplain.getStatusKomplain() != 1) {
             model.addAttribute("komplainList", komplainList);
             model.addAttribute("pop", "notification");
             model.addAttribute("msg", "Konfirmasi Penghapusan");
@@ -110,7 +111,7 @@ public class KomplainController {
             model.addAttribute("komplainList", komplainList);
         }
 
-        if (kompDelete.getIsShown()) {
+        if (kompDelete.getIsShown() && kompDelete.getStatusKomplain() != 1 ) {
             komplainService.deleteKomplain(kompDelete);
 
             model.addAttribute("komplainList", komplainList);
@@ -338,7 +339,7 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
-        if (komplain.getIsShown() == false){
+        if (komplain.getIsShown() == false || komplain.getStatusKomplain() != 0){
             model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             return "komplain/komplain-ubah-status";
         }
@@ -359,7 +360,7 @@ public class KomplainController {
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
 
             String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
-            String urlPengiriman ="/perludikirim/tambah/komplain/" + komplain.getKodeKomplain();
+            String urlPengiriman ="/perlu-dikirim/add/komplain/" + komplain.getKodeKomplain();
             Long idAdminPengiriman = (long) 3;
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
 
@@ -405,7 +406,7 @@ public class KomplainController {
     ){
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && komplain.getStatusKomplain() != 1) {
             List<String> listDesc = new ArrayList<>();
             List<String> listBarang = new ArrayList<>();
             List<Integer> listJumlah = new ArrayList<>();
@@ -449,6 +450,9 @@ public class KomplainController {
 
         System.out.println(komplain.getTemp());
 
+        KomplainModel komplainBarangDel = komplainService.getKomplainByKodeKomplain(komplain.getKodeKomplain());
+
+
         String[] tempTransaksi = komplain.getTemp().split("---");
         String condition = tempTransaksi[tempTransaksi.length - 1];
 
@@ -475,15 +479,27 @@ public class KomplainController {
                 transaksiKomplainList.add(transaksiKomplain);
             }
 
-            komplain.setBarangKomplain(null);
+            for (int i = 0; i < komplainBarangDel.getBarangKomplain().size(); i++){
+                if (Arrays.stream(listTempBarang).anyMatch(komplainBarangDel.getBarangKomplain().get(i).getNamaBarang()::equals)){
+                    System.out.println("sesuai");
+                }else{
+                    System.out.println("gak sesuai" + komplainBarangDel.getBarangKomplain().get(i).getNamaBarang());
+                    transaksiKomplainService.deleteTransaksiKomplain(komplainBarangDel.getBarangKomplain().get(i));
+
+                }
+            }
+
+
+            System.out.println("===============================================");
+
             komplain.setBarangKomplain(transaksiKomplainList);
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
 
             for(int i = 0; i < komplain.getBarangKomplain().size(); i++){
-                System.out.println(transaksiKomplainList.get(i).getNamaBarang());
-                System.out.println(transaksiKomplainList.get(i).getJumlah());
-                System.out.println(transaksiKomplainList.get(i).getDeskripsiKomplain()  );
+                System.out.println(komplain.getBarangKomplain().get(i).getNamaBarang());
+                System.out.println(komplain.getBarangKomplain().get(i).getJumlah());
+                System.out.println(komplain.getBarangKomplain().get(i).getDeskripsiKomplain()  );
             }
 
             model.addAttribute("komplain", komplain);
@@ -518,12 +534,12 @@ public class KomplainController {
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (komplain.getUser() == user && komplain.getIsShown()) {
+            if (komplain.getUser() == user && komplain.getIsShown() && komplain.getStatusKomplain() == 0) {
                 model.addAttribute("komplain", komplain);
             } else {
                 model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             }
-        } else {
+        } else if (user.getRole().getNamaRole().equals("Admin") ){
             if (komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
             } else {
@@ -543,11 +559,6 @@ public class KomplainController {
         String email = principal.getName();
         UserModel user = userService.getUserbyEmail(email);
         komplainService.updateKomplain(komplain);
-
-        String descReq = "Komplain dengan id " + komplain.getKodeKomplain() + " mendapat Request Change";
-        String urlPengiriman ="/komplain/" + komplain.getKodeKomplain();
-        Long idAdminKomplain = (long) 4;
-        notifikasiService.addNotifikasi(new NotifikasiModel(true, descReq, urlPengiriman, user.getIdUser(), null, idAdminKomplain));
 
         model.addAttribute("kodeKomplain", komplain.getKodeKomplain());
         model.addAttribute("komplain", komplain);

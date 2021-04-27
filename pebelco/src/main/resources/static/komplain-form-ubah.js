@@ -7,15 +7,20 @@ var divBtn=document.getElementById("col-btn");
 var reqTemplate=document.getElementById("reqTemplate");
 
 function hapusBaris(selectObject) {
+    // console.log(listId);
     var index = selectObject.id;
     document.getElementById("namaBarang-" + index.substring(11)).value = "Deleted";
     document.getElementById("jumlah-" + index.substring(11)).style.display = "none";
     document.getElementById("description-" + index.substring(11)).style.display = "none";
     document.getElementById("namaBarang-" + index.substring(11)).style.display = "none";
     document.getElementById("btn-barang-" + index.substring(11)).style.display = "none";
+    //
+    // console.log(index);
+    // console.log(parseInt(index.substring(11)));
+    // console.log(listId.indexOf(parseInt(index.substring(11))));
 
-    listMaxJumlah.splice(listId.indexOf(parseInt(event.target.id.substring(11))),1);
-    listId.splice(listId.indexOf(parseInt(event.target.id.substring(11))),1);
+    listMaxJumlah.splice(listId.indexOf(parseInt(index.substring(11))),1);
+    listId.splice(listId.indexOf(parseInt(index.substring(11))),1);
 
 }
 
