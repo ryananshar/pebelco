@@ -359,7 +359,7 @@ public class KomplainController {
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
 
             String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
-            String urlPengiriman ="/perlu-dikirim/add/komplain/" + komplain.getKodeKomplain();
+            String urlPengiriman ="/perludikirim/tambah/komplain/" + komplain.getKodeKomplain();
             Long idAdminPengiriman = (long) 3;
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
 
@@ -546,8 +546,8 @@ public class KomplainController {
 
         String descReq = "Komplain dengan id " + komplain.getKodeKomplain() + " mendapat Request Change";
         String urlPengiriman ="/komplain/" + komplain.getKodeKomplain();
-        Long idAdminPengiriman = (long) 3;
-        notifikasiService.addNotifikasi(new NotifikasiModel(true, descReq, urlPengiriman, user.getIdUser(), null, idAdminPengiriman));
+        Long idAdminKomplain = (long) 4;
+        notifikasiService.addNotifikasi(new NotifikasiModel(true, descReq, urlPengiriman, user.getIdUser(), null, idAdminKomplain));
 
         model.addAttribute("kodeKomplain", komplain.getKodeKomplain());
         model.addAttribute("komplain", komplain);

@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.repository.NotifikasiDb;
 import propensi.tugas.pebelco.service.NotifikasiService;
 // import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.RoleService;
@@ -23,9 +25,6 @@ import propensi.tugas.pebelco.service.UserService;
 
 @Controller
 public class UserController {
-    // @Autowired
-    // private RoleDb roleDb;
-
     @Autowired
     private RoleService roleService;
     
@@ -35,12 +34,10 @@ public class UserController {
     @Autowired
     private NotifikasiService notifikasiService;
 
+    @Autowired NotifikasiDb notifikasiDb;
+
     @RequestMapping("/")
     public String home(Model model) {
-        // UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        // List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
-        // System.out.println("----------------- out: " + listNotifUser.size());
-        // model.addAttribute("listNotifUser", listNotifUser.size());
         return "home";
     }
 
@@ -77,6 +74,22 @@ public class UserController {
             return "user/register"; 
         }
         
+    }
+
+    @GetMapping("/notif/{idNotifikasi}")
+    public String notifikasiLink(
+            @PathVariable Long idNotifikasi,
+            Model model) {
+        NotifikasiModel notifikasi = notifikasiDb.findById(idNotifikasi).get();
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        // user.getListNotifikasi().remove(notifikasi);
+        // userService.updateUser(user);
+        // notifikasi.getListUser().remove(user);
+        // notifikasiDb.save(notifikasi);
+        // notifikasi.setIsNotif(false);
+        // notifikasiDb.save(notifikasi);
+
+        return "redirect:" + notifikasi.getUrl();
     }
 
     @ModelAttribute

@@ -9,6 +9,7 @@ import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PengirimanModel;
 import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.repository.PengirimanDb;
 import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PengirimanService;
 import propensi.tugas.pebelco.service.PerluDikirimService;
@@ -36,6 +37,9 @@ public class PengirimanController {
 
     @Autowired
     private NotifikasiService notifikasiService;
+
+    @Autowired
+    private PengirimanDb pengirimanDb;
 
     @GetMapping(value = "/pengiriman")
     public String halamanUtamaPengiriman(Model model) {
@@ -120,8 +124,24 @@ public class PengirimanController {
             return "redirect:/pengiriman/terima/" + kodePengiriman;
         }
         else{
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
             pengirimanService.updateStatusPengiriman(kodePengiriman, statusPengiriman);
             Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+
+            Boolean isNotif = true;
+            String desc;
+            Long idStafSales = (long) 0;
+            if (pengiriman.getKode().contains("KOM")) {
+                idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain().getUser().getIdUser();
+                desc = "Komplain dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+            } else {
+                idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan().getUser().getIdUser();
+                desc = "Pesanan dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+            }
+            String url ="/pengiriman/" + pengiriman.getKodePengiriman();
+            Long idPengirim = user.getIdUser();
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, idStafSales, null));
+
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Pengiriman Berhasil Diubah");
             model.addAttribute("pengiriman", pengiriman);
@@ -143,9 +163,26 @@ public class PengirimanController {
             @RequestParam String kodePengiriman,
             @RequestParam String tanggalDiterima,
             @RequestParam String namaPenerima, Model model) throws ParseException {
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         pengirimanService.updateStatusPengiriman(kodePengiriman, 3);
         Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-mm-dd").parse(tanggalDiterima);
         pengirimanService.terimaPengiriman(kodePengiriman, tanggalDiterimaDate, namaPenerima);
+
+        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+        Boolean isNotif = true;
+        String desc;
+        Long idStafSales = (long) 0;
+        if (pengiriman.getKode().contains("KOM")) {
+            idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain().getUser().getIdUser();
+            desc = "Komplain dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+        } else {
+            idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan().getUser().getIdUser();
+            desc = "Pesanan dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+        }
+        String url ="/pengiriman/" + pengiriman.getKodePengiriman();
+        Long idPengirim = user.getIdUser();
+        notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, idStafSales, null));
+
         model.addAttribute("pengiriman", pengirimanService.findPengirimanByKode(kodePengiriman));
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Status Pengiriman Berhasil Diubah");
