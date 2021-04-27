@@ -63,6 +63,7 @@
                                             <td th:if="${pesanan.statusPesanan == 0}">Menunggu Persetujuan</td>
                                             <td th:if="${pesanan.statusPesanan == 1}">Disetujui</td>
                                             <td th:if="${pesanan.statusPesanan == 2}">Ditolak</td>
+                                            <td th:if="${pesanan.statusPesanan == 3}">Disetujui</td>
                                         </div>
                                         <td th:text="'Rp '+ ${#numbers.formatInteger(pesanan.totalHarga,3,'POINT')}" style="text-align: right;"></td>
                                         <td sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')">
