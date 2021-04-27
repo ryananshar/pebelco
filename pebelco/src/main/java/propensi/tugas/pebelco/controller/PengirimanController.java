@@ -133,10 +133,10 @@ public class PengirimanController {
             Long idStafSales = (long) 0;
             if (pengiriman.getKode().contains("KOM")) {
                 idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getKomplain().getUser().getIdUser();
-                desc = "Komplain dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+                desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk komplain " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
             } else {
                 idStafSales = pengirimanDb.findByKodePengiriman(kodePengiriman).getPesananPenjualan().getUser().getIdUser();
-                desc = "Pesanan dengan id " + pengiriman.getKode() + " telah " + pengiriman.getStatus() + " pada " + pengiriman.getKodePengiriman();
+                desc = "Pengiriman dengan id " + pengiriman.getKodePengiriman() + " untuk pesanan " + pengiriman.getKode() + " telah " + pengiriman.getStatus();
             }
             String url ="/pengiriman/" + pengiriman.getKodePengiriman();
             Long idPengirim = user.getIdUser();
