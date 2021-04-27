@@ -102,52 +102,67 @@
 <div class="sidebar flex-fixed-width-item" id="sidebar-wrapper" th:fragment="sidebar">
     <div th:if="${pop} == null" class="list-group list-group-flush">
         <a th:href="@{/}" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
-           class="list-group-item list-group-item-action">Beranda
+           class="list-group-item list-group-item-action">
+           <i class="fa fa-home fa-lg" aria-hidden="true"></i>Beranda
         </a>
         <a th:href="@{/kunjungan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/kunjungan') ? 'active':''}"
            class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Kunjungan
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">
+           <i class="fa fa-address-book fa-lg" aria-hidden="true"></i>Kunjungan
         </a>
         <a th:href="@{/pesanan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pesanan')? 'active':''}"
            class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>Pesanan Penjualan
         </a>
         <a th:href="@{/pengiriman}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pengiriman')? 'active':''}"
            class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pengiriman
+           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-truck fa-lg" aria-hidden="true"></i>Pengiriman
         </a>
         <a th:href="@{/komplain}"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/komplain')? 'active':''}"
            class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Komplain
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-user-times fa-lg" aria-hidden="true"></i>Komplain
         </a>
-        <a th:href="@{/produk}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produk')? 'active':''}" class="list-group-item list-group-item-action">Produk
+        <a th:href="@{/produk}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produk')? 'active':''}" class="list-group-item list-group-item-action">
+            <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>Produk
         </a>
-        <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pameran
+        <a th:href="@{/#}"  class="list-group-item list-group-item-action">
+           <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
         <a th:href="@{/#}" class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Laporan
+           sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>Laporan
         </a>
     </div>
     <div th:unless="${pop} == null" class="list-group list-group-flush">
-        <a th:href="@{/}" class="list-group-item list-group-item-action">Beranda</a>
+        <a th:href="@{/}" class="list-group-item list-group-item-action"><i class="fa fa-home fa-4" aria-hidden="true"></i>Beranda</a>
         <a th:href="@{/kunjungan}" class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Kunjungan
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">
+           <i class="fa fa-address-book fa-lg" aria-hidden="true"></i>Kunjungan
         </a>
         <a th:href="@{/pesanan}" class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pesanan Penjualan
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>Pesanan Penjualan
         </a>
         <a th:href="@{/pengiriman}"  class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Pengiriman
+           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-truck fa-lg" aria-hidden="true"></i>Pengiriman
         </a>
         <a th:href="@{/komplain}"  class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Komplain
+           sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-user-times fa-lg" aria-hidden="true"></i>Komplain
         </a>
-        <a th:href="@{/produk}" class="list-group-item list-group-item-action">Produk
+        <a th:href="@{/produk}" class="list-group-item list-group-item-action">
+            <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>Produk
         </a>
-        <a th:href="@{/#}"  class="list-group-item list-group-item-action">Pameran
+        <a th:href="@{/#}"  class="list-group-item list-group-item-action">
+           <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
         <a th:href="@{/#}" class="list-group-item list-group-item-action"
-           sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">Laporan
+           sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
+           <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>Laporan
         </a>
     </div>
 </div>
