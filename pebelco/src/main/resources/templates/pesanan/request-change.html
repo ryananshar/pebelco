@@ -31,7 +31,25 @@
         </div>
         <div class="container col">
             <div class="row justify-content-center">
-                <div class="card" id="pesananPenjualan">
+                <div th:if="${message} != null">
+                    <div class="card">
+                        <div class="card-header" id>
+                            Error
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div th:text="${message}"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <a th:href="@{/pesanan}" class="btn btn-success">
+                                Kembali
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${message} != null" class="card" id="pesananPenjualan">
                     <div class="card-header" style="width: 700px;">
                         <h4>Request Change</h4>
                     </div>
