@@ -9,7 +9,6 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
-
 <body>
 <div th:if="${pop} != null" class="overlay" id="center">
     <div class="row justify-content-center">
@@ -22,7 +21,6 @@
         </div>
     </div>
 </div>
-<nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
         <!-- <div class="position-fixed"> -->
@@ -31,6 +29,27 @@
     </div>
     <div class="container col">
         <div class="row justify-content-center">
+            <div class="row justify-content-center">
+                <div th:if="${message} != null">
+                    <div class="card">
+                        <div class="card-header" id>
+                            Error
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div th:text="${message}"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                                Kembali
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${message} != null">
             <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
                 <div class="card-header">
                     <h4>Ubah Pengiriman</h4>
@@ -80,14 +99,25 @@
                         <form th:object="${pengiriman}" th:action="@{/pengiriman/ubah/}" method="POST">
                             <div class="row">
                             <div class="form-group col-6">
-                                <label>Metode Pengiriman</label>
-                                <select th:field="*{metodePengiriman}" name="metodePengiriman"  class="form-control" required>
-<!--                                    <option disabled selected value> &#45;&#45; PILIH Metode Pengiriman &#45;&#45; </option>-->
-<!--                                    <th:block th:each="metode : ${metodePengiriman}">-->
-                                        <option th:each="metPeng : ${metode}" th:value="${metPeng.idMetode}" th:text="${metPeng.namaMetodePengiriman}"></option>
 
-<!--                                    </th:block>-->
+                                <label>Metode Pengiriman</label>
+<!--                                <select th:field="*{metodePengiriman}" name="metodePengiriman"  class="form-control" required>-->
+<!--&lt;!&ndash;                                    <option disabled selected value> &#45;&#45; PILIH Metode Pengiriman &#45;&#45; </option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <th:block th:each="metode : ${metodePengiriman}">&ndash;&gt;-->
+<!--                                        <option  th:each="metPeng : ${metode}" th:value="${metPeng.idMetode}"-->
+<!--                                    th:text="${metPeng.namaMetodePengiriman}" th:selected="${pengiriman.metodePengiriman}">-->
+<!--                                        </option>-->
+<!--&lt;!&ndash;                                    </th:block>&ndash;&gt;-->
+<!--                                </select>-->
+                                <select th:field="*{metodePengiriman}" th:name="metodePengiriman" class="form-control" required>
+                                    <option th:each="metPeng : ${metode}"
+                                            th:with="namaMet=${metPeng.namaMetodePengiriman}"
+                                            th:if="${metodePengiriman == namaMet}"
+                                            th:value="${namaMet}"
+                                            th:text="${namaMet}"></option>
                                 </select>
+
+
                             </div>
                             </div>
                                 <div>
@@ -102,7 +132,7 @@
                                 </div>
                         </form>
                     </div>
-
+            </div>
                 </div>
             </div>
         </div>
