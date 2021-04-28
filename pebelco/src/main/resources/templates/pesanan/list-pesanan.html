@@ -25,7 +25,7 @@
                     <hr>
                 </div>
                 <div class="list-body">
-                    <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">
+                    <div sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter','Admin')">
                         <a
                                 th:href="@{/pesanan/tambah}"
                                 class="btn but-outline"

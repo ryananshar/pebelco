@@ -10,4 +10,5 @@ public interface TransaksiKomplainService {
     void addTransaksiKomplain(TransaksiKomplainModel transaksiKomplain);
     List<TransaksiKomplainModel> getListTransaksiKomplain();
     TransaksiKomplainModel updateTransaksiKomplain(TransaksiKomplainModel transaksiKomplain);
+    void deleteTransaksiKomplain(TransaksiKomplainModel transaksiKomplain);
 }

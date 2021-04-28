@@ -14,6 +14,7 @@ import propensi.tugas.pebelco.service.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class KomplainController {
             model.addAttribute("komplainList", komplainList);
         }
 
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && (komplain.getStatusKomplain() == 0 || komplain.getStatusKomplain() == 2 || komplain.getStatusKomplain() == 3)) {
             model.addAttribute("komplainList", komplainList);
             model.addAttribute("pop", "notification");
             model.addAttribute("msg", "Konfirmasi Penghapusan");
@@ -110,7 +111,7 @@ public class KomplainController {
             model.addAttribute("komplainList", komplainList);
         }
 
-        if (kompDelete.getIsShown()) {
+        if (kompDelete.getIsShown() && (kompDelete.getStatusKomplain() == 0 || kompDelete.getStatusKomplain() == 2 || kompDelete.getStatusKomplain() == 3)) {
             komplainService.deleteKomplain(kompDelete);
 
             model.addAttribute("komplainList", komplainList);
@@ -214,14 +215,17 @@ public class KomplainController {
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
 
-            // setting pre-save values for notifikasi
-            Boolean isNotif = true;
-            String desc = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu diproses";
-            String url ="/komplain/" + komplain.getKodeKomplain();
-            Long idPengirim = user.getIdUser();
-            Long idRole = (long) 4;                 // id Sales Counter
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            if (user.getRole().getNamaRole().equals("Staf Sales")){
+                // setting pre-save values for notifikasi
+                Boolean isNotif = true;
+                String desc = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu diproses";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idRole = (long) 4;                 // id Sales Counter
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
 
+            }
+            
             model.addAttribute("pesananList", pesananPenjualanList);
             model.addAttribute("komplain", new KomplainModel());
             model.addAttribute("pop", "green");
@@ -260,6 +264,7 @@ public class KomplainController {
             if (komplain.getUser() == user && komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
                 model.addAttribute("listBarang", listBarangTransaksi);
+                model.addAttribute("user", user.getRole().getNamaRole());
             } else {
                 model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             }
@@ -267,6 +272,7 @@ public class KomplainController {
             if (komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
                 model.addAttribute("listBarang", listBarangTransaksi);
+                model.addAttribute("user", user.getRole().getNamaRole());
             } else {
                 model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             }
@@ -302,7 +308,7 @@ public class KomplainController {
     ){
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
-        if (komplain.getIsShown() == false){
+        if (komplain.getIsShown() == false || komplain.getStatusKomplain() != 0){
             model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             return "komplain/komplain-ubah-status";
         }
@@ -320,7 +326,7 @@ public class KomplainController {
             model.addAttribute("subMsg", "Apakah anda yakin ingin menolak komplain ini?");
             model.addAttribute("kodeKomplain", kodeKomplain);
         }else{
-            model.addAttribute("pesan", "Status Komplain Tidak Dapat Diubah");
+            model.addAttribute("message", "Status Komplain Tidak Dapat Diubah");
         }
 
 
@@ -338,7 +344,7 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
 
-        if (komplain.getIsShown() == false){
+        if (komplain.getIsShown() == false || komplain.getStatusKomplain() != 0){
             model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             return "komplain/komplain-ubah-status";
         }
@@ -405,7 +411,7 @@ public class KomplainController {
     ){
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && komplain.getStatusKomplain() == 0) {
             List<String> listDesc = new ArrayList<>();
             List<String> listBarang = new ArrayList<>();
             List<Integer> listJumlah = new ArrayList<>();
@@ -449,6 +455,9 @@ public class KomplainController {
 
         System.out.println(komplain.getTemp());
 
+        KomplainModel komplainBarangDel = komplainService.getKomplainByKodeKomplain(komplain.getKodeKomplain());
+
+
         String[] tempTransaksi = komplain.getTemp().split("---");
         String condition = tempTransaksi[tempTransaksi.length - 1];
 
@@ -475,15 +484,27 @@ public class KomplainController {
                 transaksiKomplainList.add(transaksiKomplain);
             }
 
-            komplain.setBarangKomplain(null);
+            for (int i = 0; i < komplainBarangDel.getBarangKomplain().size(); i++){
+                if (Arrays.stream(listTempBarang).anyMatch(komplainBarangDel.getBarangKomplain().get(i).getNamaBarang()::equals)){
+                    System.out.println("sesuai");
+                }else{
+                    System.out.println("gak sesuai" + komplainBarangDel.getBarangKomplain().get(i).getNamaBarang());
+                    transaksiKomplainService.deleteTransaksiKomplain(komplainBarangDel.getBarangKomplain().get(i));
+
+                }
+            }
+
+
+            System.out.println("===============================================");
+
             komplain.setBarangKomplain(transaksiKomplainList);
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
 
             for(int i = 0; i < komplain.getBarangKomplain().size(); i++){
-                System.out.println(transaksiKomplainList.get(i).getNamaBarang());
-                System.out.println(transaksiKomplainList.get(i).getJumlah());
-                System.out.println(transaksiKomplainList.get(i).getDeskripsiKomplain()  );
+                System.out.println(komplain.getBarangKomplain().get(i).getNamaBarang());
+                System.out.println(komplain.getBarangKomplain().get(i).getJumlah());
+                System.out.println(komplain.getBarangKomplain().get(i).getDeskripsiKomplain()  );
             }
 
             model.addAttribute("komplain", komplain);
@@ -494,14 +515,14 @@ public class KomplainController {
         }else if (condition.equals("jumlahInvalid")) {
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "red");
-            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("msg", "Komplain Gagal Diubah");
             model.addAttribute("subMsg", "Jumlah tidak valid");
 
 
         }else {
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "red");
-            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("msg", "Komplain Gagal Diubah");
             model.addAttribute("subMsg", "Deskripsi tidak valid");
         }
 
@@ -518,12 +539,12 @@ public class KomplainController {
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (komplain.getUser() == user && komplain.getIsShown()) {
+            if (komplain.getUser() == user && komplain.getIsShown() && komplain.getStatusKomplain() == 0) {
                 model.addAttribute("komplain", komplain);
             } else {
                 model.addAttribute("message", "Data Komplain Tidak Ditemukan");
             }
-        } else {
+        } else if (user.getRole().getNamaRole().equals("Admin") ){
             if (komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
             } else {
@@ -548,6 +569,7 @@ public class KomplainController {
         String urlPengiriman ="/komplain/" + komplain.getKodeKomplain();
         Long idAdminKomplain = (long) 4;
         notifikasiService.addNotifikasi(new NotifikasiModel(true, descReq, urlPengiriman, user.getIdUser(), null, idAdminKomplain));
+
 
         model.addAttribute("kodeKomplain", komplain.getKodeKomplain());
         model.addAttribute("komplain", komplain);

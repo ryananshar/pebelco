@@ -193,13 +193,16 @@ public class PesananPenjualanController {
             pesananPenjualan.setTotalHarga(hargaTotal);
             pesananPenjualanService.updatePesanan(pesananPenjualan);
 
-            // setting pre-save values for notifikasi
-            Boolean isNotif = true;
-            String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
-            String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
-            Long idPengirim = user.getIdUser();
-            Long idRole = (long) 2;                 // id Sales Counter
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            if (user.getRole().getNamaRole().equals("Staf Sales")) {
+                // setting pre-save values for notifikasi
+                Boolean isNotif = true;
+                String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
+                String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
+                Long idPengirim = user.getIdUser();
+                Long idRole = (long) 2;                 // id Sales Counter
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            }
+           
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan");
