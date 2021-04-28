@@ -72,7 +72,7 @@
                                         <a th:href="@{/pesanan/} + ${pesanan.kodePesananPenjualan}"
                                            class="btn but-detail"
                                         >Detail</a>
-                                        <a th:href="@{/pesanan/hapus/} + ${pesanan.kodePesananPenjualan}"
+                                        <a th:href="@{/pesanan/#}"
                                            th:classappend="${(pesanan.statusPesanan == 1 || pesanan.statusPesanan == 4) ? 'disabled':''}"
                                            class="btn but-danger"
                                            sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Hapus</a>
