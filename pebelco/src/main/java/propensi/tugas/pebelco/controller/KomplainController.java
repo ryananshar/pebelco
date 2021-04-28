@@ -225,7 +225,7 @@ public class KomplainController {
                 notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
 
             }
-
+            
             model.addAttribute("pesananList", pesananPenjualanList);
             model.addAttribute("komplain", new KomplainModel());
             model.addAttribute("pop", "green");
