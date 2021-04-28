@@ -515,14 +515,14 @@ public class KomplainController {
         }else if (condition.equals("jumlahInvalid")) {
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "red");
-            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("msg", "Komplain Gagal Diubah");
             model.addAttribute("subMsg", "Jumlah tidak valid");
 
 
         }else {
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "red");
-            model.addAttribute("msg", "Komplain Gagal Ditambahkan");
+            model.addAttribute("msg", "Komplain Gagal Diubah");
             model.addAttribute("subMsg", "Deskripsi tidak valid");
         }
 

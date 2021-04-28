@@ -85,7 +85,7 @@ function checkerForm(temp){
     var adder = "";
     for (i=0; i < listId.length; i++){
         if (listJumlah[i] <= 0){
-            adder = "jumlahInvalid1";
+            adder = "jumlahInvalid";
             // reqTemplate.setAttribute("value", temp);
             break;
         } else if (listDesc[i].includes(",,,") || listDesc[i].includes("---")){
