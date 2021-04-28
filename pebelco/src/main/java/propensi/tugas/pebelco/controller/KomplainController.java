@@ -215,14 +215,17 @@ public class KomplainController {
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
 
-            // setting pre-save values for notifikasi
-            Boolean isNotif = true;
-            String desc = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu diproses";
-            String url ="/komplain/" + komplain.getKodeKomplain();
-            Long idPengirim = user.getIdUser();
-            Long idRole = (long) 4;                 // id Sales Counter
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            if (user.getRole().getNamaRole().equals("Staf Sales")){
+                // setting pre-save values for notifikasi
+                Boolean isNotif = true;
+                String desc = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu diproses";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idRole = (long) 4;                 // id Sales Counter
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
 
+            }
+            
             model.addAttribute("pesananList", pesananPenjualanList);
             model.addAttribute("komplain", new KomplainModel());
             model.addAttribute("pop", "green");
