@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>403 Forbidden!</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+<body class="bg-purple" id="not-found">
+        
+    <div class="stars">
+        <div class="custom-navbar">
+            <div class="brand-logo">
+                <a class="navbar-brand font-weight-bold" th:href="@{/}">PEBELCO</a>
+            </div>
+        </div>
+        <div class="central-body">
+            <h1>403</h1>
+            <h2>Akses ditolak!</h2>
+            <a href="/" class="btn-go-home">Kembali</a>
+        </div>
+        <div class="objects">
+            <img class="object_rocket" src="http://salehriaz.com/404Page/img/rocket.svg" width="40px">
+            <div class="earth-moon">
+                <img class="object_earth" src="http://salehriaz.com/404Page/img/earth.svg" width="100px">
+                <img class="object_moon" src="http://salehriaz.com/404Page/img/moon.svg" width="80px">
+            </div>
+            <div class="box_astronaut">
+                <img class="object_astronaut" src="http://salehriaz.com/404Page/img/astronaut.svg" width="140px">
+            </div>
+        </div>
+        <div class="glowing_stars">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
