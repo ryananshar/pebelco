@@ -14,8 +14,8 @@ function hapusBaris(selectObject) {
     document.getElementById("namaBarang-" + index.substring(11)).style.display = "none";
     document.getElementById("btn-barang-" + index.substring(11)).style.display = "none";
 
-    listMaxJumlah.splice(listId.indexOf(parseInt(event.target.id.substring(11))),1);
-    listId.splice(listId.indexOf(parseInt(event.target.id.substring(11))),1);
+    listMaxJumlah.splice(listId.indexOf(parseInt(index.substring(11))),1);
+    listId.splice(listId.indexOf(parseInt(index.substring(11))),1);
 
 }
 
