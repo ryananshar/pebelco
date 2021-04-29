@@ -29,7 +29,7 @@
         <div class="row justify-content-center" id="center">
             <div class="col">
                 <div class="row justify-content-center list-fitur">
-                    <div class="col-md-3 fix">
+                    <div sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')" class="col-md-3 fix">
                         <p>Daftar Perlu Dikirim</p>
                         <img th:src="@{/img/daftarperludikirim.png}">
                         <a th:href="@{/perludikirim}" class="btn">

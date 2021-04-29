@@ -79,7 +79,6 @@ public class PengirimanServiceImpl implements PengirimanService {
     @Override
     public void terimaPengiriman(String kodePengiriman, Date tanggalDiterima, String namaPenerima) {
         PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
-
         pengirimanModel.setTanggalDiterima(tanggalDiterima);
         pengirimanModel.setNamaPenerima(namaPenerima);
         pengirimanDb.save(pengirimanModel);

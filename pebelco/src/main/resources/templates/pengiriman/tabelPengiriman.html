@@ -27,12 +27,9 @@
                 <a th:href="@{/daftarpengiriman}" class="btn but-outline">
                     Tidak
                 </a>
-                <form th:action="@{'/pengiriman/hapus/' + ${kodePengiriman}}" method="POST">
-                    <!--                    <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
-                    <button value="Submit" class="btn but-success" style="margin-left: 10px; margin-top: 30px; width: 130px;">
-                        Ya
-                    </button>
-                </form>
+                <a th:href="@{'/pengiriman/hapus/' + ${kodePengiriman}}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
+                </a>
             </div>
         </div>
     </div>
@@ -43,6 +40,27 @@
         <!-- <div class="position-fixed"> -->
         <nav th:replace="fragments/fragment :: sidebar"></nav>
         <!-- </div> -->
+    </div>
+
+    <div th:if="${message} != null" class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="card">
+                <div class="card-header" id>
+                    Error
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12">
+                            <div th:text="${message}"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                        Kembali
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div th:unless="${message} != null" class="container-fluid col">
@@ -80,10 +98,14 @@
                             <td>
                                 <div class="inline-buts">
                                     <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
-                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">
-<!--                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">-->
-                                        <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>
-                                    </form>
+<!--                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">-->
+<!--&lt;!&ndash;                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">&ndash;&gt;-->
+<!--                                        <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>-->
+<!--                                    </form>-->
+                                    <a th:href="@{/pengiriman/konfirmasi-hapus/} + ${pengiriman.kodePengiriman}"
+                                       th:classappend="${pengiriman.statusId != 3 ? 'disabled':''}"
+                                       class="btn but-danger"
+                                       sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Hapus</a>
                                 </div>
 
                             </td>

@@ -193,13 +193,16 @@ public class PesananPenjualanController {
             pesananPenjualan.setTotalHarga(hargaTotal);
             pesananPenjualanService.updatePesanan(pesananPenjualan);
 
-            // setting pre-save values for notifikasi
-            Boolean isNotif = true;
-            String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
-            String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
-            Long idPengirim = user.getIdUser();
-            Long idRole = (long) 2;                 // id Sales Counter
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            if (user.getRole().getNamaRole().equals("Staf Sales")) {
+                // setting pre-save values for notifikasi
+                Boolean isNotif = true;
+                String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
+                String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
+                Long idPengirim = user.getIdUser();
+                Long idRole = (long) 2;                 // id Sales Counter
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+            }
+           
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan");
@@ -220,7 +223,6 @@ public class PesananPenjualanController {
             Model model
     ) {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        try {
             PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
             System.out.println(pesananPenjualan.getUser().getRole().getNamaRole());
             List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
@@ -241,11 +243,6 @@ public class PesananPenjualanController {
             }
 
             return "pesanan/detail-pesanan";
-        } catch (NullPointerException e) {
-            String message = "Proses Pencarian Gagal Karena ID Pesanan Tidak Ditemukan";
-            model.addAttribute("message", message);
-            return "pesanan/detail-pesanan";
-        }
 
     }
 
@@ -257,7 +254,7 @@ public class PesananPenjualanController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
-            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown() && pesananPenjualan.getStatusPesanan() == 0) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
             } else {
                 model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");

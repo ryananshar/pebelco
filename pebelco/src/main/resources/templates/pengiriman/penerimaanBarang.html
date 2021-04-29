@@ -31,6 +31,26 @@
     </div>
     <div class="container col">
         <div class="row justify-content-center">
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        <div th:unless="${message} != null">
             <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
                 <div class="card-header">
                     <h4>Form Penerimaan Barang</h4>
@@ -96,7 +116,7 @@
 
                     </div>
                 </div>
-
+            </div>
             </div>
         </div>
     </div>

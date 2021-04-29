@@ -43,7 +43,9 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception {
-        pesananPenjualanDb.deleteById(pesananPenjualan.getIdPesananPenjualan());        
+        // pesananPenjualanDb.deleteById(pesananPenjualan.getIdPesananPenjualan());
+        pesananPenjualan.setIsShown(false);
+        pesananPenjualanDb.save(pesananPenjualan);        
     }
 
     @Override
