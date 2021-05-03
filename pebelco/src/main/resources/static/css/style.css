@@ -118,6 +118,7 @@ body {
 }
 
 .pop-up a {
+    margin-top: 10px;
     margin-bottom: 30px;
     width: 150px;
     font-family: Poppins;
@@ -194,6 +195,7 @@ body {
 
 /* Home */
 .jumbotron {
+    margin-top: 15px;
     height: auto;
     margin-bottom: 75px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
@@ -531,6 +533,10 @@ body {
     color: #FFFFFF;
     background: #fb6152;
     
+}
+
+.btn-set{
+    margin-top: 100px;
 }
 
 .btn-set{

@@ -58,6 +58,10 @@
                                           class="disetujui">Disetujui</span>
                                     <span th:if="${pesananPenjualan.statusPesanan} == 2"
                                           class="ditolak">Ditolak</span>
+                                    <span th:if="${pesananPenjualan.statusPesanan} == 3"
+                                          class="disetujui">Disetujui</span>
+                                    <span th:if="${pesananPenjualan.statusPesanan} == 4"
+                                          class="disetujui">Disetujui</span>
                                 </div>
                             </div>                            
                         </div>
@@ -80,7 +84,6 @@
                                 </div>
                                 <br><br>
                                 <div th:if="${pesananPenjualan.tanggalPersetujuan} != null">
-                                    <br><br>
                                     <div class="row">
                                         <div class="col-3">
                                             <div>Tanggal Disetujui</div>                                     
@@ -138,7 +141,8 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-8">
-                                        <div th:text="${pesananPenjualan.diskon}"></div>
+                                        <div th:unless="${pesananPenjualan.diskon} != null" th:text="'0 %'"></div>
+                                        <div th:if="${pesananPenjualan.diskon} != null"th:text="${pesananPenjualan.diskon} + ' %'"></div>
                                     </div>
                                 </div>
                                 <br><br>
@@ -201,15 +205,30 @@
                                 </table>
                                 <br><br><br>
                             </div>
-                            <div class="row justify-content-end">    
-                                <a th:href="@{/pesanan/ubah-status/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                            <!-- <div class="row justify-content-end">    
+                                <a th:href="@{/pesanan/ubah-status/} + ${pesananPenjualan.kodePesananPenjualan}"
+                                   th:if="${pesananPenjualan.statusPesanan} == 0" class="btn but-outline" 
                                    class="btn but-ubah-stat"
                                    sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah Status</a>                            
                                 <a th:href="@{/pesanan/ubah/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   th:if="${pesananPenjualan.statusPesanan} == 0" class="btn but-outline"
                                    class="btn but-ubah"
                                    sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah</a>
-                                <a  th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
-                                   class="btn but-outline"
+                                <a th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   th:if="${pesananPenjualan.statusPesanan} == 0" class="btn but-outline"
+                                   sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
+                            </div> -->
+                            <div class="row justify-content-end">    
+                                <a th:href="@{/pesanan/} + ${pesananPenjualan.kodePesananPenjualan} + '/#'"
+                                   th:if="${pesananPenjualan.statusPesanan} == 0"
+                                   class="btn but-ubah-stat"
+                                   sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah Status</a>                            
+                                <a th:href="@{/pesanan/} + ${pesananPenjualan.kodePesananPenjualan} + '/#'"
+                                   th:if="${pesananPenjualan.statusPesanan} == 0"
+                                   class="btn but-ubah"
+                                   sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah</a>
+                                <a th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                   th:if="${pesananPenjualan.statusPesanan} == 0" class="btn but-outline"
                                    sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
                             </div>
                         </div>

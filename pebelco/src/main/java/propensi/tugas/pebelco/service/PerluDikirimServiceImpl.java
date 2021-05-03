@@ -83,7 +83,9 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
         KomplainModel komplain = komplainDb.findByKodeKomplain(kodeKomplain);
         MetodePengirimanModel metodePengiriman = metodePengirimanDb.getOne(idMetodePengiriman);
 
-        komplain.setIsShown(false);
+        komplain.setStatusKomplain(4);
+
+//        komplain.setIsShown(false);
         komplainDb.save(komplain);
 
         savePengirimanFromKomplain(komplain, metodePengiriman);
@@ -94,7 +96,8 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
         PesananPenjualanModel pesanan = pesananPenjualanDb.findByKodePesananPenjualan(kodePesanan);
         MetodePengirimanModel metodePengiriman = metodePengirimanDb.getOne(idMetodePengiriman);
 
-        pesanan.setIsShown(false);
+        pesanan.setStatusPesanan(4);
+//        pesanan.setIsShown(false);
         pesananPenjualanDb.save(pesanan);
 
         savePengirimanFromPesanan(pesanan, metodePengiriman);

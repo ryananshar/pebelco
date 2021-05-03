@@ -115,8 +115,6 @@ public class ProdukController {
 
         produk.setListTagProduk(tagTempList);
         produk.getListTagProduk().add(tagGaib);
-        System.out.println(produk.getListTagProduk());
-        System.out.println(produk.getListTagProduk().size());
 
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
@@ -131,7 +129,7 @@ public class ProdukController {
         ProdukModel produk=new ProdukModel();
         List<TagProdukModel> tagTempList = new ArrayList<TagProdukModel>();
         List<TagProdukModel> listTag = tagProdukDb.findAll();
-        TagProdukModel tagGaib = listTag.get(1);
+        TagProdukModel tagGaib = new TagProdukModel();
 
 
         produk.setListTagProduk(tagTempList);

@@ -39,7 +39,7 @@
     <div class="container col">
         <div class="row justify-content-center">
             <div class="card" id="ubah-produk">
-                <div class="card-header">
+                <div class="card-header" style="min-width: 600px; width: 1000px">
                     <h4>Ubah Produk</h4>
                 </div>
 
@@ -127,26 +127,24 @@
                                     <td colspan="2">
                                         <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
                                                 class="form-control" required>
-                                            <option th:if="${tag.idTagProduk== null}" selected value="">-- PILIH Tag Produk --</option> 
+                                            <option th:if="${tag.idTagProduk== null}" selected value="">-- PILIH Tag Produk --</option>
                                             <div th:each="isi : ${listTag}">
-                                                <option 
-                                                    th:if="${tag.idTagProduk == isi.idTagProduk}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}" selected>
+                                                <option
+                                                        th:if="${tag.idTagProduk == isi.idTagProduk}"
+                                                        th:value="${isi.idTagProduk}"
+                                                        th:text="${isi.namaTag}" selected>
                                                 </option>
                                             </div>
                                             <div th:each="isi : ${listTag}">
-                                                <option 
-                                                    th:unless="${tag.idTagProduk == isi.idTagProduk}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}">
+                                                <option
+                                                        th:unless="${tag.idTagProduk == isi.idTagProduk}"
+                                                        th:value="${isi.idTagProduk}"
+                                                        th:text="${isi.namaTag}">
                                                 </option>
                                             </div>
                                         </select>
                                     </td>
                                     <td>
-
-
                                         <button th:if="${tagStat.size} > 1" class="btn but-danger" type="submit" name="removeRow"
                                                 th:value="${tagStat.index}">
                                             <i class="fa fa-trash"></i></button>
@@ -160,6 +158,7 @@
                             <a class="btn but-outline" type="button" th:href="@{/produk/}+${id}">Batal</a>
                             <button type="submit" class="btn but-success">Ubah</button>
                         </div>
+
                     </form>
                 </div>
 
