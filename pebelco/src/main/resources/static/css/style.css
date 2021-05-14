@@ -358,6 +358,18 @@ body {
     border-radius: 30px;
 }
 
+.list-status span{
+    padding: 0 10px 0 10px;
+    min-height: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+
+    border: 0.3px solid #CACCCF;
+    box-sizing: border-box;
+    border-radius: 30px;
+}
+
 .pending{
     color: #FFFFFF;
     background: #d5d6d8;

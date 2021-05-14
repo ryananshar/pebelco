@@ -181,11 +181,6 @@
                                 <div class="col-3">
                                     <div>Daftar Barang</div>
                                 </div>
-                                <div class="col-1">
-                                    <div th:text="':'"></div>
-                                </div>
-                                <div class="col-8">
-                                </div>
                             </div>
                             <br><br>
                         </div>
@@ -212,11 +207,11 @@
                             <div th:if="${isPengiriman}">
 <!--                                <div >-->
                                     <a th:if="${showUbahStatus}" th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah-stat"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman')">Ubah Status</a>
+                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Ubah Status</a>
 <!--                                </div>-->
 <!--                                <div th:if="${showUbahPengiriman}">-->
                                     <a th:if="${showUbahPengiriman}" th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman')"> Ubah </a>
+                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')"> Ubah </a>
 <!--                                </div>-->
                             </div>
                         </div>

@@ -52,13 +52,21 @@
                                 <td th:text="${pengiriman.kode}">Kode</td>
                                 <td th:text="${pengiriman.namaToko}">Nama Toko</td>
                                 <td th:text="${#dates.format(pengiriman.tanggalPersetujuan, 'dd/MM/yyyy')}">Tanggal</td>
-                                <td th:text="${pengiriman.status}">Status</td>
+                                <div th:switch="${pengiriman.status}">
+                                    <td class="list-status text-center">
+                                        <span th:case="Disetujui"
+                                              class="disetujui">Disetujui</span>
+                                        <span th:case="Ditolak"
+                                              class="ditolak">Ditolak</span>
+                                    </td>
+                                </div>
+                                <!-- <td th:text="${pengiriman.status}">Status</td> -->
                                 <td>
                                     <div class="inline-buts">
                                         <a th:href="@{'/perludikirim/' + ${pengiriman.type} + '/' + ${pengiriman.kode}}" class="btn but-detail">Detail</a>
                                         &nbsp;
                                         <a th:href="@{'/perludikirim/tambah/' + ${pengiriman.type} + '/' + ${pengiriman.kode}}" class="btn but-tambah"
-                                           sec:authorize="hasAnyAuthority('Staf Pengiriman')">Tambah</a>
+                                           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Tambah</a>
 
                                     </div>
                                 </td>
