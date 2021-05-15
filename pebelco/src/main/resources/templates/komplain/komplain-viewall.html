@@ -99,11 +99,18 @@
                                 <td th:text="${komplain.user.namaPanjang}" sec:authorize="hasAnyAuthority('Admin', 'Admin Komplain', 'Factory Manager', 'Vice Factory Manager', 'Manager Pemasaran')"></td>
                                 <td th:text="${#dates.format(komplain.tanggalKomplain, 'dd/MM/yyyy')}"></td>
                                 <div th:switch="${komplain.statusKomplain}">
-                                    <td th:case="0">Menunggu Persetujuan</td>
-                                    <td th:case="1">Disetujui</td>
-                                    <td th:case="2">Ditolak</td>
-                                    <td th:case="3">Disetujui</td>
-                                    <td th:case="4">Disetujui</td>
+                                    <td class="list-status text-center">
+                                        <span th:case="0"
+                                            class="pending">Menunggu Persetujuan</span>
+                                        <span th:case="1"
+                                              class="disetujui">Disetujui</span>
+                                        <span th:case="2"
+                                              class="ditolak">Ditolak</span>
+                                        <span th:case="3"
+                                              class="disetujui">Disetujui</span>
+                                        <span th:case="4"
+                                              class="disetujui">Disetujui</span>
+                                    </td>
                                 </div>
                                 <td>
                                     <div class="inline-buts">

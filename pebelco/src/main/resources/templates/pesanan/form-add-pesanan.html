@@ -62,9 +62,12 @@
                         </div>
                         <div class="form-group">
                             <label>Diskon</label>
-                            <input th:field="*{diskon}" type="number" class="form-control"
-                                   name="diskon"
-                                   placeholder="Masukan besar diskon">
+                            <div class="row">
+                                <input th:field="*{diskon}" type="number" class="form-control"
+                                   name="diskon" min="0" max="100" style="width: 160px; margin: 0 15px;"
+                                   placeholder="Diskon">
+                                <label style="margin-top: 7px; top: 50%;">%</label>
+                            </div>
                         </div>
 
                         <br><br>
@@ -85,7 +88,7 @@
                                     <th>No</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
-                                    <th>Harga</th>
+                                    <th></th>
                                     <th>
                                         <!-- <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button> -->
                                     </th>
@@ -109,7 +112,7 @@
                                     </td>
                                     <td>
                                         <input type="number" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}"
-                                               placeholder="Masukan jumlah"
+                                               placeholder="Masukan jumlah" min="1"
                                                class="form-control" required/>
                                     </td>
                                     <td>
