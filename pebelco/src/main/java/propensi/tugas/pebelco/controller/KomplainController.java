@@ -323,7 +323,7 @@ public class KomplainController {
             model.addAttribute("kodeKomplain", kodeKomplain);
         }else if (statKomplain.equals("2")){
             model.addAttribute("pop", "statusPop");
-            model.addAttribute("msg", "Konfirmasi Persetujuan");
+            model.addAttribute("msg", "Konfirmasi Penolakan");
             model.addAttribute("subMsg", "Apakah anda yakin ingin menolak komplain ini?");
             model.addAttribute("kodeKomplain", kodeKomplain);
         }else{
