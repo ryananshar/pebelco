@@ -80,7 +80,7 @@ function addBaris(pesananIndex){
     for (i = 0; i < transaksiList[pesananIndex].length; i++) {
         addCounterBaris(transaksiList[pesananIndex][i]["idTransaksiPesanan"]);
         divNamaBarang.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" id="namaBarang-'+jumlahBaris+'" readonly="readonly" required="required" value="'+transaksiList[pesananIndex][i]["namaBarang"]+'"/>';
-        divJumlah.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="number" id="jumlah-'+jumlahBaris+'"  required="required" value="'+transaksiList[pesananIndex][i]["jumlah"]+'"/>';
+        divJumlah.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="number" id="jumlah-'+jumlahBaris+'" min="1" required="required" value="'+transaksiList[pesananIndex][i]["jumlah"]+'"/>';
         divDeskripsi.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" required="required" id="description-'+jumlahBaris+'"/>';
         divBtn.innerHTML+='<div style="margin-bottom: 11px" ></div><button id="btn-barang-'+jumlahBaris+'" type="button" onclick="hapusBaris(this)" class="btn but-danger"> <i class="fa fa-trash"></i></button>';
     }
@@ -114,6 +114,15 @@ function appendTransaksi(){
         alert("Deskripsi tidak boleh kosong");
         return;
     }
+    for (i=0; i < listId.length; i++) {
+        if (listJumlah[i] <= 0) {
+            listBarang = [];
+            listDesc = [];
+            listJumlah = [];
+            alert("Jumlah tidak boleh kurang dari 1");
+            return;
+        }
+    }
     temp = temp+ listBarang.length + "---";
     for (i=0; i<listBarang.length;i++){
         temp = temp + listBarang[i] + ",,,";
@@ -129,6 +138,7 @@ function appendTransaksi(){
     }
 
     temp = temp + "---";
+
     checkerForm(temp);
     if (reqTemplate.value[0] == 0){
         alert("Silahkan pilih salah satu pesanan untuk di komplain");
@@ -144,9 +154,10 @@ function checkerForm(temp){
     var adder = "";
     for (i=0; i < listId.length; i++){
         if (listJumlah[i] <= 0){
-            console.log("jumlah barang negatif");
-            adder = "jumlahInvalid";
-            // reqTemplate.setAttribute("value", temp);
+            listBarang = [];
+            listDesc = [];
+            listJumlah = [];
+            alert("Jumlah tidak boleh kurang dari 1");
             break;
         } else if (listDesc[i].includes(",,,") || listDesc[i].includes("---")){
             console.log("descripsi mengandung koma tiga atau strip tiga");
