@@ -52,8 +52,8 @@
                                 <h4>Detail Komplain </h4>
                             </div>
                             <div class="col">
-                                    <span th:if="${komplain.statusKomplain} == 0"
-                                          class="pending">Menunggu Persetujuan</span>
+                                <span th:if="${komplain.statusKomplain} == 0"
+                                    class="pending">Menunggu Persetujuan</span>
                                 <span th:if="${komplain.statusKomplain} == 1"
                                       class="disetujui">Disetujui</span>
                                 <span th:if="${komplain.statusKomplain} == 2"
@@ -135,12 +135,6 @@
                             <div class="row">
                                 <div class="col-3">
                                     <div>Daftar Barang</div>
-                                </div>
-                                <div class="col-1">
-                                    <div th:text="':'"></div>
-                                </div>
-                                <div class="col-8">
-
                                 </div>
                             </div>
                             <br><br>
