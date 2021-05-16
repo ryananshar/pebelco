@@ -224,7 +224,6 @@ public class KomplainController {
                 Long idRole = (long) 4;                 // id Sales Counter
                 notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
 
-
             }
             
             model.addAttribute("pesananList", pesananPenjualanList);
