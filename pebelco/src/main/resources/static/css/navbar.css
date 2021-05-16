@@ -96,6 +96,14 @@ body {
     line-height: 2;
 }
 
+.clicked {
+    background-color: #5050501c;
+}
+
+.clicked:hover {
+    background-color: #50505049;
+}
+
 /* Sidebar */
 .flex-fixed-width-item {
     flex: 0 0 100px;

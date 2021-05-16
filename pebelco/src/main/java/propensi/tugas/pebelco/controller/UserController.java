@@ -1,7 +1,6 @@
 package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.NotifikasiDb;
 import propensi.tugas.pebelco.service.NotifikasiService;
-// import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.service.RoleService;
 import propensi.tugas.pebelco.service.UserService;
 
@@ -86,8 +83,8 @@ public class UserController {
         // userService.updateUser(user);
         // notifikasi.getListUser().remove(user);
         // notifikasiDb.save(notifikasi);
-        // notifikasi.setIsNotif(false);
-        // notifikasiDb.save(notifikasi);
+        notifikasi.setIsNotif(false);
+        notifikasiDb.save(notifikasi);
 
         return "redirect:" + notifikasi.getUrl();
     }

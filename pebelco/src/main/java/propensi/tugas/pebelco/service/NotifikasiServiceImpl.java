@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,9 @@ public class NotifikasiServiceImpl implements NotifikasiService{
 
     @Override
     public List<NotifikasiModel> getNotifListByUserAndRole(Long idPenerima, Long idRole, Boolean isNotif) {
-        return notifikasiDb.findByIdPenerimaOrIdRoleAndIsNotifOrderByWaktuDibuatDesc(idPenerima, idRole, isNotif);
+        Date now = Date.from(ZonedDateTime.now().toInstant());
+        Date minusNow = Date.from(ZonedDateTime.now().minusDays(3).toInstant());
+        return notifikasiDb.findByIdPenerimaOrIdRoleAndWaktuDibuatBetweenOrderByWaktuDibuatDesc(idPenerima, idRole, minusNow, now);
     }
 
 }

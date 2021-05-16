@@ -133,91 +133,74 @@ public class PesananPenjualanController {
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
-
         if (diskon == null) {
             diskon = 0;
         }
 
-        if (diskon >= 0 && diskon <= 100) {
-            String email = principal.getName();
-            UserModel user = userService.getUserbyEmail(email);
-            Date date = new Date();
-            List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
-            List<TransaksiPesananModel> checkList = pesananPenjualan.getBarangPesanan();
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        Date date = new Date();
+        List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
+        List<TransaksiPesananModel> checkList = pesananPenjualan.getBarangPesanan();
 
-            for (TransaksiPesananModel barang : tempList) {
-                Integer stokProduk = produkDb.findByNamaProduk(barang.getNamaBarang()).getStok();
-                // Handle duplicate
-                if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listProduk", listProduk);
-                    model.addAttribute("pop", "red");
-                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                    model.addAttribute("subMsg", "Nama barang tidak dapat berulang");
+        for (TransaksiPesananModel barang : tempList) {
+            // Handle duplicate
+            if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listProduk", listProduk);
+                model.addAttribute("pop", "red");
+                model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                model.addAttribute("subMsg", "Nama barang tidak dapat berulang");
 
-                    return "pesanan/form-add-pesanan";
-                } else if (barang.getJumlah() <= 0) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listProduk", listProduk);
-                    model.addAttribute("pop", "red");
-                    model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                    model.addAttribute("subMsg", "Jumlah Barang tidak valid");
+                return "pesanan/form-add-pesanan";
+            } else if (barang.getJumlah() <= 0) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listProduk", listProduk);
+                model.addAttribute("pop", "red");
+                model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                model.addAttribute("subMsg", "Jumlah Barang tidak valid");
 
-                    return "pesanan/form-add-pesanan";
-                } 
-                // else if (barang.getJumlah() > stokProduk) {
-                //     model.addAttribute("pesananPenjualan", pesananPenjualan);
-                //     model.addAttribute("listProduk", listProduk);
-                //     model.addAttribute("pop", "red");
-                //     model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                //     model.addAttribute("subMsg", "Jumlah Barang melebihi stok");
-
-                //     return "pesanan/form-add-pesanan";
-                // }
-            }
-
-            // initiate pesanan penjualan early value
-            pesananPenjualan.setStatusPesanan(0);
-            pesananPenjualan.setTanggalPesanan(date);
-            pesananPenjualan.setIsShown(true);
-            pesananPenjualan.setUser(user);
-            pesananPenjualan.setKodePesananPenjualan("belum");
-            pesananPenjualan.setBarangPesanan(null);
-
-            // save pesanan penjualan and all transaksi pesanan to repository
-            pesananPenjualanService.addPesanan(pesananPenjualan);
-            Long pesananId = pesananPenjualan.getIdPesananPenjualan();
-            transaksiPesananService.addAll(tempList, pesananId);
-
-            // setting remaining values for pesanan penjualan
-            String prefix = "PSP";
-            String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
-            Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
-            pesananPenjualan.setKodePesananPenjualan(prefix+kode);
-            pesananPenjualan.setBarangPesanan(tempList);
-            pesananPenjualan.setTotalHarga(hargaTotal);
-            pesananPenjualanService.updatePesanan(pesananPenjualan);
-
-            laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
-
-            if (user.getRole().getNamaRole().equals("Staf Sales")) {
-                // setting pre-save values for notifikasi
-                Boolean isNotif = true;
-                String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
-                String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
-                Long idPengirim = user.getIdUser();
-                Long idRole = (long) 2;                 // id Sales Counter
-                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
-            }
-           
-
-            model.addAttribute("pop", "green");
-            model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan");
-        } else {
-            model.addAttribute("pop", "red");
-            model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-            model.addAttribute("subMsg", "Diskon tidak valid");
+                return "pesanan/form-add-pesanan";
+            } 
         }
+
+        // initiate pesanan penjualan early value
+        pesananPenjualan.setStatusPesanan(0);
+        pesananPenjualan.setTanggalPesanan(date);
+        pesananPenjualan.setIsShown(true);
+        pesananPenjualan.setUser(user);
+        pesananPenjualan.setKodePesananPenjualan("belum");
+        pesananPenjualan.setBarangPesanan(null);
+
+        // save pesanan penjualan and all transaksi pesanan to repository
+        pesananPenjualanService.addPesanan(pesananPenjualan);
+        Long pesananId = pesananPenjualan.getIdPesananPenjualan();
+        transaksiPesananService.addAll(tempList, pesananId);
+
+        // setting remaining values for pesanan penjualan
+        String prefix = "PSP";
+        String kode = String.valueOf(pesananPenjualan.getIdPesananPenjualan());
+        Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
+        pesananPenjualan.setKodePesananPenjualan(prefix+kode);
+        pesananPenjualan.setBarangPesanan(tempList);
+        pesananPenjualan.setTotalHarga(hargaTotal);
+        pesananPenjualanService.updatePesanan(pesananPenjualan);
+
+        // add laporan staf sales
+        laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
+
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            // setting pre-save values for notifikasi
+            Boolean isNotif = true;
+            String desc = "Pesanan Penjualan dengan id " + pesananPenjualan.getKodePesananPenjualan() + " perlu diproses";
+            String url ="/pesanan/" + pesananPenjualan.getKodePesananPenjualan();
+            Long idPengirim = user.getIdUser();
+            Long idRole = (long) 2;                 // id Sales Counter
+            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+        }
+        
+        model.addAttribute("pop", "green");
+        model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan");
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk);
 
