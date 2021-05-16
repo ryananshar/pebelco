@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
+import propensi.tugas.pebelco.service.LaporanStafSalesService;
 import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PesananPenjualanService;
 import propensi.tugas.pebelco.service.TransaksiPesananService;
@@ -45,6 +47,9 @@ public class PesananPenjualanController {
 
     @Autowired
     private ProdukDb produkDb;
+
+    @Autowired
+    private LaporanStafSalesService laporanStafSalesService;
 
     @GetMapping("/pesanan")
     public String listPesanan(Principal principal, Model model) {
@@ -192,6 +197,8 @@ public class PesananPenjualanController {
             pesananPenjualan.setBarangPesanan(tempList);
             pesananPenjualan.setTotalHarga(hargaTotal);
             pesananPenjualanService.updatePesanan(pesananPenjualan);
+
+            laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
 
             if (user.getRole().getNamaRole().equals("Staf Sales")) {
                 // setting pre-save values for notifikasi

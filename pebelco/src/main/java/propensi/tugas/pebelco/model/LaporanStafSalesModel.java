@@ -49,6 +49,25 @@ public class LaporanStafSalesModel implements Serializable{
     private PesananPenjualanModel pesananPenjualan;
 
 
+    public LaporanStafSalesModel() {
+    }
+
+    public LaporanStafSalesModel(UserModel stafSales, Boolean isKunjungan, Date tanggalDibuat, PesananPenjualanModel pesananPenjualan) {
+        this.stafSales = stafSales;
+        this.isKunjungan = isKunjungan;
+        this.tanggalDibuat = tanggalDibuat;
+        this.pesananPenjualan = pesananPenjualan;
+    }
+
+
+    public LaporanStafSalesModel(UserModel stafSales, Boolean isKunjungan, Date tanggalDibuat, KunjunganModel kunjungan) {
+        this.stafSales = stafSales;
+        this.isKunjungan = isKunjungan;
+        this.tanggalDibuat = tanggalDibuat;
+        this.kunjungan = kunjungan;
+    }
+
+
     public Long getIdLaporanStafSales() {
         return this.idLaporanStafSales;
     }

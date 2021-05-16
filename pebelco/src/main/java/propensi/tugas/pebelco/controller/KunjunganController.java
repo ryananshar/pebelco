@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import propensi.tugas.pebelco.model.KunjunganModel;
+import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.KunjunganService;
+import propensi.tugas.pebelco.service.LaporanStafSalesService;
 import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.UserService;
 
@@ -28,6 +30,9 @@ public class KunjunganController {
 
     @Autowired
     private NotifikasiService notifikasiService;
+
+    @Autowired 
+    private LaporanStafSalesService laporanStafSalesService;
 
     @GetMapping("/kunjungan")
     public String daftarKunjungan(Model model) {
@@ -111,6 +116,7 @@ public class KunjunganController {
                 kunjungan.setCatatanKunjungan(null);
             }
             kunjunganService.addKunjungan(kunjungan);
+            laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(stafSales, true, kunjungan.getTanggalKunjungan(), kunjungan));
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Jadwal Kunjungan Berhasil Ditambahkan");
         } else {

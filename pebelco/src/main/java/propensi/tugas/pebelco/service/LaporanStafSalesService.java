@@ -3,6 +3,7 @@ package propensi.tugas.pebelco.service;
 import java.util.List;
 
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
+import propensi.tugas.pebelco.model.UserModel;
 
 public interface LaporanStafSalesService {
     void addLaporanStafSales(LaporanStafSalesModel laporanStafSales);
@@ -12,4 +13,8 @@ public interface LaporanStafSalesService {
     LaporanStafSalesModel updateLaporanStafSales(LaporanStafSalesModel laporanStafSales);
 
     void deleteLaporanStafSales(LaporanStafSalesModel laporanStafSales);
+
+    List<LaporanStafSalesModel> getLaporanStafSalesByStafSalesList(UserModel stafSales);
+
+    LaporanStafSalesModel getLaporanStafSalesById(Long idLaporanStafSales);
 }
