@@ -139,7 +139,7 @@ public class ProdukController {
         }
         model.addAttribute("daftarTag",daftarTag);
 
-        
+
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
 
@@ -194,7 +194,7 @@ public class ProdukController {
         produkService.addProduk(produk);
         // System.out.println(checkboxValue);
         // System.out.println(checkboxValue.length);
-        
+
         for(int i =0; i< checkboxValue.length;i++) {
             Long idTag = Long.valueOf(checkboxValue[i]);
             TagProdukModel tag = tagService.getTagbyId(idTag);
