@@ -104,7 +104,7 @@
                             <br><br>
                             <div class="row">
                                 <div class="col-3">
-                                    <div>Tanggal</div>
+                                    <div>Tanggal Dibuat</div>
                                 </div>
                                 <div class="col-1">
                                     <div th:text="':'"></div>
@@ -123,16 +123,16 @@
                             </div>
                             <br><br>
 
-                            <div th:if="${listTag.size()} > 0" class="row">
+                            <div th:if="${listTag.size()} > 0 " class="row">
                                 <div class="col-3">
                                     <div>Tag Produk</div>
                                 </div>
                                 <div class="col-1">
                                     <div th:text="':'"></div>
                                 </div>
-                                <div class="col" th:each="lis : *{listTag}">
-                                    <div class="row">
-                                    <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
+                                <div th:each="lis : *{listTag}">
+                                    <div class="row col-sm-1" style="padding-right: 15px;">
+                                        <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
                                         <span th:text="' #' + ${lis.namaTag}" style="color: #FFFFFF; background-color: #385A6C; padding: 0 10px 0 10px; display: inline-table;
                                 min-height: 10px;
                                 display: inline-flex;
@@ -143,8 +143,8 @@
                                 box-sizing: border-box;
                                 border-radius: 30px;">
                                     </span>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
 
                             </div>
