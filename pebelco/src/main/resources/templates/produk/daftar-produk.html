@@ -73,7 +73,7 @@
                             <td>
                                 <div class="inline-buts">
                                     <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
-                                    <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAuthority('Factory Manager')">Hapus</a>
+                                    <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
                                 </div>
                             </td>
 
