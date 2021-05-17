@@ -61,15 +61,14 @@
                     <form th:action="@{/produk/ubah/}+${produk.idProduk}"th:object="${produk}" method="POST">
                         <table class="card-body table table-borderless" style="margin: 0px;">
                             <thead>
-                            <th>
-                                <tr>
+                                <tr style="font-weight: normal">
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                     <th class="form-group">
                                         Nama Produk
                                         <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" class="form-control" required>
                                     </th>
                                     <th class="form-group" rowspan="5" colspan="2">
-                                        <label>Spesifikasi</label>
+                                        Spesifikasi
                                         <textarea th:field="*{spesifikasi}"
                                                   th:value="*{spesifikasi}"
                                                   class="form-control"
@@ -147,7 +146,7 @@
                                         </th>
                                     </tr>
                                 </div>
-                            </th>
+
                             </thead>
                         </table>
                         <div class="row justify-content-end">
