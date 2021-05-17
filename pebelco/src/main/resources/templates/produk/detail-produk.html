@@ -153,10 +153,10 @@
                         <div class="row justify-content-end">
                             <a th:href="@{/produk/ubah/stok/} + ${id}"
                                class="btn but-ubah-stat"
-                               sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                               sec:authorize="hasAnyAuthority('Sales Counter')">Ubah</a>
                             <a th:href="@{/produk/ubah/} + ${id}"
                                class="btn but-ubah"
-                               sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
+                               sec:authorize="hasAnyAuthority('Vice Factory Manager','Admin')">Ubah</a>
 
                         </div>
                     </div>

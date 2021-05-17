@@ -568,6 +568,11 @@ body {
 
 table {
     white-space: nowrap;
+    font-weight: normal;
+}
+th{
+    font-weight: normal;
+    font-size: 15px ;
 }
 
 td, th {
