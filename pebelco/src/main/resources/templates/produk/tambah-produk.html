@@ -6,6 +6,20 @@
     <title>Tambah Produk</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+            var requiredCheckboxes = $(':checkbox[required]');
+            requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')) {
+                    requiredCheckboxes.removeAttr('required');
+                }
+                else {
+                    requiredCheckboxes.attr('required', 'required');
+                }
+            });
+        });
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
@@ -39,106 +53,105 @@
     <div class="container col">
         <div class="row justify-content-center">
             <div class="card" id="tambah-produk">
-                <div class="card-header">
+                <div class="card-header" style="min-width: 600px; width: 1000px">
                     <h4>Tambah Produk</h4>
                 </div>
 
                 <div class="card-body">
                     <form th:action="@{/produk/tambah}"th:object="${produk}" method="POST">
-                        <table class="card-body table table-borderless" style="margin: 0px;">
-                            <thead>
-                            <th>
-                                <tr>
-                                    <th class="form-group" >
-                                        Nama Produk
-                                        <input th:field="*{namaProduk}" type="text" name="namaProduk"  class="form-control" placeholder="Masukan nama produk" required>
-                                    </th>
-                                    <th class="form-group" rowspan="5" colspan="2">
-                                        <label>Spesifikasi</label>
-                                        <textarea th:field="*{spesifikasi}" class="form-control"
-                                                  style="width: 100%; height: 392px"
-                                                  name="spesifikasi"
-                                                  required
-                                                  placeholder="Masukan catatan spesifikasi"></textarea>
-                                    </th>
-                                </tr>
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Nama Produk</label>
+                                    <input th:field="*{namaProduk}" type="text" name="namaProduk"  class="form-control" placeholder="Masukan nama produk" required>
+                                </div>
 
-                                <tr>
-                                    <th class="form-group" >
-                                        Stok Produk
-                                        <input th:field="*{stok}"  type="text"  name="stok"  class="form-control" placeholder="Masukan jumlah stok" required>
-                                    </th>
-                                </tr>
+                                <div class="form-group">
+                                    <label>Stok Produk</label>
+                                    <input th:field="*{stok}"  type="number"  name="stok"  class="form-control" placeholder="Masukan jumlah stok" min="0" required>
+                                </div>
 
-                                <tr>
-                                    <th class="form-group" >
-                                        Tipe
-                                        <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
-                                            <option selected value="">-- PILIH Tipe--</option>
-                                            <option value="1">Coffee Table</option>
-                                            <option value="2">Display Rack</option>
-                                            <option value="3">Kursi Cafe</option>
-                                            <option value="4">Kursi Lipat</option>
-                                            <option value="5">Kursi Makan</option>
-                                            <option value="6">Kursi Stool</option>
-                                            <option value="7">Laci Meja Tulis</option>
-                                            <option value="8">Lemari Pakaian Besi</option>
-                                            <option value="9">Meja Cafe</option>
-                                            <option value="10">Meja Makan</option>
-                                            <option value="11">Meja Lipat</option>
-                                            <option value="12">Meja Tulis</option>
-                                        </select>
-                                    </th>
-                                </tr>
+                                <div class="form-group">
+                                    <label>Tipe</label>
+                                    <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
+                                        <option selected value="">-- PILIH Tipe--</option>
+                                        <option value="1">Coffee Table</option>
+                                        <option value="2">Display Rack</option>
+                                        <option value="3">Kursi Cafe</option>
+                                        <option value="4">Kursi Lipat</option>
+                                        <option value="5">Kursi Makan</option>
+                                        <option value="6">Kursi Stool</option>
+                                        <option value="7">Laci Meja Tulis</option>
+                                        <option value="8">Lemari Pakaian Besi</option>
+                                        <option value="9">Meja Cafe</option>
+                                        <option value="10">Meja Makan</option>
+                                        <option value="11">Meja Lipat</option>
+                                        <option value="12">Meja Tulis</option>
+                                    </select>
+                                </div>
 
-                                <tr>
-                                    <th class="form-group" >
+
+                                <div class="form-group">
+                                    <label>
                                         Harga
-                                        <input th:field="*{harga}"  type="text" name="harga"  class="form-control" placeholder="Masukan jumlah harga" required>
-                                    </th>
-                                </tr>
+                                    </label>
+                                    <input th:field="*{harga}"  type="number" name="harga"  class="form-control" placeholder="Masukan jumlah harga" min="0" required>
+                                </div>
 
-                                <tr>
-                                    <th class="form-group">
+                                <div class="form-group">
+                                    <label>
                                         Tanggal Dibuat
-                                        <input th:field="*{tanggal_dibuat}"  type="date" class="form-control" name="tanggal_dibuat" required>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">
-                                        <div class="float-md-left">
-                                            <h5 class="float-md-left">Tag Produk</h5>
+                                    </label>
+                                    <input th:field="*{tanggal_dibuat}"  type="date" class="form-control" name="tanggal_dibuat" required>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        Tag Produk
+                                    </label>
+                                </div>
+                                <div class="checkbox-group required">
+                                    <div class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="checkboxName" id="inlineCheckbox1" value="1" required>
+                                            <label class="form-check-label">#Meja</label>
                                         </div>
-                                    </th>
-                                    <th colspan="1">
-                                        <div class="float-sm-right">
-                                            <button class="btn but-success" type="submit" name="addRow">Tambah Tag</button>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="checkboxName" id="inlineCheckbox3" value="3" required>
+                                            <label class="form-check-label">#Lemari</label>
                                         </div>
-                                    </th>
-                                </tr>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="checkboxName" id="inlineCheckbox5" value="5" required>
+                                            <label class="form-check-label">#Rak</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="checkboxName" id="inlineCheckbox2" value="2" required>
+                                            <label class="form-check-label">#Kursi</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="checkboxName" id="inlineCheckbox4" value="4" required>
+                                            <label class="form-check-label">#Laci</label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <tr th:each="tag, tagStat : *{listTagProduk}">
-                                    <td>
-                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                                class="form-control" required>
-                                            <option selected value="">-- PILIH Nama Tag --</option>
-                                            <option th:each="isi : ${listTag}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}">
-                                            </option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button th:if="${tagStat.size} > 1" class="btn but-danger" type="submit" name="removeRow"
-                                                th:value="${tagStat.index}">
-                                            <i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Spesifikasi</label>
+                                    <textarea th:field="*{spesifikasi}" class="form-control"
+                                              style="width: 100%; height: 392px"
+                                              name="spesifikasi"
+                                              required
+                                              placeholder="Masukan catatan spesifikasi"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
 
-                            </th>
-                            </thead>
-                        </table>
                         <div class="row justify-content-end">
                             <a class="btn but-outline" type="button" th:href="@{/produk}">Batal</a>
                             <button type="submit" class="btn but-success">Simpan</button>

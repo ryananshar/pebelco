@@ -11,27 +11,27 @@
 </head>
 
 <body>
-    <div th:if="${pop} != null" class="overlay" id="center">
-        <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
-                <p th:text="${msg}"></p>
-                <a th:href="@{/pesanan}" class="btn">
-                    OK
-                </a>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pesanan}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
             </div>
-            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
-                <img th:src="@{/img/red-check.svg}">
-                <p th:text="${msg}"></p>
-                <div class="sub-msg">
-                    <span th:text="${subMsg}"></span>
-                </div>
-                <a th:href="@{/pesanan/tambah}" class="btn">
-                    OK
-                </a>
-            </div>
+            <a th:href="@{/pesanan/tambah}" class="btn">
+                OK
+            </a>
         </div>
     </div>
+</div>
 </div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
@@ -100,11 +100,11 @@
                                     <td>
                                         <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}"
                                                 class="form-control" required>
-                                            <option selected value="">-- PILIH Nama Barang (Harga) -[Stok] --</option> 
+                                            <option selected value="">-- PILIH Nama Barang (Harga) -[Stok] --</option>
                                             <option th:each="produk : ${listProduk}"
                                                     th:value="${produk.namaProduk}"
                                                     th:with="harga=${produk.harga}"
-                                                    th:text="${produk.namaProduk} + 
+                                                    th:text="${produk.namaProduk} +
                                                             '(Rp ' + ${#numbers.formatInteger(harga,3,'POINT')} + ')'
                                                             + ' -[' + ${produk.stok} + ']'"
                                             ></option>

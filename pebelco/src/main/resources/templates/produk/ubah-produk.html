@@ -6,6 +6,20 @@
     <title>Ubah Produk</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <script>
+        $(function(){
+            var requiredCheckboxes = $(':checkbox[required]');
+            requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')) {
+                    requiredCheckboxes.removeAttr('required');
+                }
+                else {
+                    requiredCheckboxes.attr('required', 'required');
+                }
+            });
+        });
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
@@ -39,7 +53,7 @@
     <div class="container col">
         <div class="row justify-content-center">
             <div class="card" id="ubah-produk">
-                <div class="card-header">
+                <div class="card-header" style="min-width: 600px; width: 1000px">
                     <h4>Ubah Produk</h4>
                 </div>
 
@@ -96,7 +110,7 @@
                                 <tr>
                                     <th class="form-group">
                                         Harga
-                                        <input type="text" name="harga" th:field="*{harga}" th:value="*{harga}" class="form-control" required>
+                                        <input type="number" name="harga" th:field="*{harga}" th:value="*{harga}" min="0" class="form-control" required>
                                     </th>
                                 </tr>
 
@@ -108,46 +122,38 @@
                                 </tr>
 
                                 <tr>
-                                    <th colspan="2">
-                                        <div class="float-md-left">
-                                            <h5 class="float-md-left">Tag Produk</h5>
-                                        </div>
+                                    <th class="form-group">
+                                        Tag Produk
                                     </th>
-                                    <th colspan="1">
-                                        <div class="float-sm-right">
-                                            <button class="btn but-success" type="submit" name="addRow">Tambah Tag</button>
-                                        </div>
-                                    </th>
-                                </tr>
+                                    <!--                                    <th colspan="1">-->
+                                    <!--                                        <div class="float-sm-right">-->
 
-                                <tr th:each="tag, tagStat : ${listTags}">
-                                    <td colspan="2">
-                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                                class="form-control" required>
-                                            <option th:if="${tag.idTagProduk== null}" selected value="">-- PILIH Tag Produk --</option> 
-                                            <div th:each="isi : ${listTag}">
-                                                <option 
-                                                    th:if="${tag.idTagProduk == isi.idTagProduk}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}" selected>
-                                                </option>
-                                            </div>
-                                            <div th:each="isi : ${listTag}">
-                                                <option 
-                                                    th:unless="${tag.idTagProduk == isi.idTagProduk}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}">
-                                                </option>
-                                            </div>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button th:if="${tagStat.size} > 1" class="btn but-danger" type="submit" name="removeRow"
-                                                th:value="${tagStat.index}">
-                                            <i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                                    <!--                                            <button class="btn but-success" type="submit" name="addRow">Tambah Tag</button>-->
 
+                                    <!--                                        </div>-->
+                                    <!--                                    </th>-->
+                                </tr>
+                                <div class="checkbox-group required">
+                                    <tr>
+                                        <th colspan="1">
+                                            <input class="form-check-input" style="margin-left: 5px" type="checkbox" name="checkboxName" id="inlineCheckbox1" value="1" required>
+                                            <label class="form-check-label" style="margin-left: 20px">#Meja</label>
+                                            <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox3" value="3" required>
+                                            <label class="form-check-label" style="margin-left: 35px">#Lemari</label>
+                                            <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox5" value="5" required>
+                                            <label class="form-check-label" style="margin-left: 35px">#Rak</label>
+                                        </th>
+                                    </tr>
+
+                                    <tr>
+                                        <th colspan="1">
+                                            <input class="form-check-input" style="margin-left: 5px" type="checkbox" name="checkboxName" id="inlineCheckbox2" value="2" required>
+                                            <label class="form-check-label" style="margin-left: 20px">#Kursi</label>
+                                            <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox4" value="4" required>
+                                            <label class="form-check-label" style="margin-left: 35px">#Laci</label>
+                                        </th>
+                                    </tr>
+                                </div>
                             </th>
                             </thead>
                         </table>
@@ -155,6 +161,7 @@
                             <a class="btn but-outline" type="button" th:href="@{/produk/}+${id}">Batal</a>
                             <button type="submit" class="btn but-success">Ubah</button>
                         </div>
+
                     </form>
                 </div>
 
@@ -165,4 +172,8 @@
 </div>
 
 </body>
+<script th:inline="javascript">
+    var listTags = [[${daftarTag}]];
+</script>
+<script th:src="@{/javascript/ubah-produk.js}"></script>
 </html>
