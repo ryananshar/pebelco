@@ -47,8 +47,7 @@
                     <form th:action="@{/produk/ubah/stok/}+${produk.idProduk}"th:object="${produk}" method="POST">
                         <table class="card-body table table-borderless" style="margin: 0px;">
                             <thead>
-                            <th>
-                                <tr>
+                                <tr style="font-weight: normal">
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                     <th class="form-group">
                                         Nama Produk
@@ -131,7 +130,6 @@
                                         <label class="form-check-label" style="margin-left: 35px">#Laci</label>
                                     </th>
                                 </tr>
-                            </th>
                             </thead>
                         </table>
                         <div class="row justify-content-end">
