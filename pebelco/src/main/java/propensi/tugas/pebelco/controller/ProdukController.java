@@ -114,10 +114,8 @@ public class ProdukController {
         List<ProdukModel> listproduk=new ArrayList<ProdukModel>();
         produkService.addProduk(produk);
         for(int i =0; i<checkboxValue.length;i++){
-            TagProdukModel tag=new TagProdukModel();
-            Long nilai=Long.valueOf(checkboxValue[i]);
-            tag.setIdTagProduk(nilai);
-            tag.setNamaTag(tagService.getNamaTagById(nilai));
+            Long idTag = Long.valueOf(checkboxValue[i]);
+            TagProdukModel tag = tagService.getTagbyId(idTag);
             list1.add(tag);
             listproduk.add(produk);
             produk.setListTagProduk(list1);
@@ -141,7 +139,7 @@ public class ProdukController {
         }
         model.addAttribute("daftarTag",daftarTag);
 
-
+        
         model.addAttribute("produk", produk);
         model.addAttribute("listTag", listTag);
 
@@ -167,6 +165,7 @@ public class ProdukController {
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         List<TagProdukModel> listTagProduk=produk.getListTagProduk();
         List<Long> daftarTag=new ArrayList<>();
+        // System.out.println(listTagProduk);
 
         if (listTagProduk.size() == 0) {
             TagProdukModel tagGaib = new TagProdukModel();
@@ -193,17 +192,21 @@ public class ProdukController {
         List<TagProdukModel> list1=new ArrayList<TagProdukModel>();
         List<ProdukModel> listproduk=new ArrayList<ProdukModel>();
         produkService.addProduk(produk);
+        // System.out.println(checkboxValue);
+        // System.out.println(checkboxValue.length);
+        
         for(int i =0; i< checkboxValue.length;i++) {
-            TagProdukModel tag=new TagProdukModel();
-            Long nilai=Long.valueOf(checkboxValue[i]);
-            tag.setIdTagProduk(nilai);
-            tag.setNamaTag(tagService.getNamaTagById(nilai));
+            Long idTag = Long.valueOf(checkboxValue[i]);
+            TagProdukModel tag = tagService.getTagbyId(idTag);
             list1.add(tag);
             listproduk.add(produk);
             produk.setListTagProduk(list1);
             tagService.updateTagProduk(listproduk,produk1);
+            // System.out.println(tag.getNamaTag());
         }
+        // System.out.println(produk.getListTagProduk());
         ProdukModel produkUpdated = produkService.updateStokProduk(produk);
+        // System.out.println(produkUpdated.getListTagProduk());
         model.addAttribute("idProduk", produkUpdated.getIdProduk());
         model.addAttribute("produk", produk);
         model.addAttribute("pop", "green");

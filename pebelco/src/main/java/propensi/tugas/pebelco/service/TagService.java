@@ -3,7 +3,6 @@ import java.util.List;
 
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TagProdukModel;
-import propensi.tugas.pebelco.model.TransaksiPesananModel;
 
 public interface TagService {
     List<TagProdukModel> findAll();
@@ -16,4 +15,6 @@ public interface TagService {
     void deleteTagProdukUpdate(ProdukModel produk);
 
     void deleteTagProduk(ProdukModel produk);
+
+    TagProdukModel getTagbyId(Long id);
 }
