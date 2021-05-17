@@ -41,7 +41,6 @@
         <nav th:replace="fragments/fragment :: sidebar"></nav>
         <!-- </div> -->
     </div>
-
     <div th:if="${message} != null" class="container-fluid col">
         <div class="row justify-content-center">
             <div class="card">
@@ -64,6 +63,14 @@
     </div>
 
     <div th:unless="${message} != null" class="container-fluid col">
+        <div>
+            <a
+                    th:href="@{/pengiriman/}"
+                    class="btn but-arrow">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <br>
+        </div>
         <div class="row justify-content-center">
             <div class="col" id="table-utama">
                 <div class="list-header">
@@ -94,7 +101,16 @@
                                 <td th:text="${pengiriman.kodePengiriman}">Kode</td>
                                 <td th:text="${pengiriman.namaToko}">Nama Toko</td>
                                 <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
-                                <td th:text="${pengiriman.status}">Status</td>
+                                <div th:switch="${pengiriman.status}">
+                                    <td class="list-status text-center">
+                                    <span th:case="'Belum Dikirim'"
+                                          class="belumDikirim">Belum Dikirim</span>
+                                        <span th:case="'Dikirim'"
+                                              class="dikirim">Dikirim</span>
+                                        <span th:case="'Diterima'"
+                                              class="diterima">Diterima</span>
+                                    </td>
+                                </div>
                                 <td>
                                     <div class="inline-buts">
                                         <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>

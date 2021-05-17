@@ -45,6 +45,15 @@ function appendTransaksi(){
         alert("Deskripsi tidak boleh kosong");
         return;
     }
+    for (i=0; i < listId.length; i++) {
+        if (listJumlah[i] <= 0) {
+            listBarang = [];
+            listDesc = [];
+            listJumlah = [];
+            alert("Jumlah tidak boleh kurang dari 1");
+            return;
+        }
+    }
     temp = temp+ listBarang.length + "---";
     for (i=0; i<listBarang.length;i++){
         temp = temp + listBarang[i] + ",,,";
