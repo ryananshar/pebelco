@@ -131,8 +131,9 @@
                                     <div th:text="':'"></div>
                                 </div>
                                 <div class="col" th:each="lis : *{listTag}">
-                                    <div class=col style="width: 50px; margin-right: 15px;">
-                                        <span th:text="' #' + ${lis.namaTag}" style="color: #FFFFFF; background-color: #385A6C;      padding: 0 10px 0 10px;
+                                    <div class="row">
+                                    <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
+                                        <span th:text="' #' + ${lis.namaTag}" style="color: #FFFFFF; background-color: #385A6C; padding: 0 10px 0 10px; display: inline-table;
                                 min-height: 10px;
                                 display: inline-flex;
                                 align-items: center;
@@ -144,7 +145,7 @@
                                     </span>
                                     </div>
                                 </div>
-
+                                </div>
 
                             </div>
                             <br><br>

@@ -118,6 +118,11 @@ public class TagServiceImpl implements TagService{
         }
     }
 
+    @Override
+    public TagProdukModel getTagbyId(Long id) {
+        return tagProdukDb.findByIdTagProduk(id);
+    }
+
 //    @Override
 //    public void deleteListTagProduk(List<TagProdukModel>list){
 //        tagProdukDb.deleteAllByListProduk(list);
