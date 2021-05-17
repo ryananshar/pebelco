@@ -11,74 +11,73 @@
 </head>
 
 <body>
-    <div th:if="${pop} != null" class="overlay" id="center">
-        <div class="row justify-content-center">
-            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
-                <img th:src="@{/img/green-check.svg}">
-                <p th:text="${msg}"></p>
-                <a th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}" class="btn">
-                    OK
-                </a>
-            </div>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}" class="btn">
+                OK
+            </a>
         </div>
     </div>
+</div>
 
-    <nav th:replace="fragments/fragment :: navbar"></nav>
-    <div class="row d-flex">
-        <div class="col-md-auto">
-            <!-- <div class="position-fixed"> -->
-            <nav th:replace="fragments/fragment :: sidebar"></nav>
-            <!-- </div> -->
-        </div>
-        <div class="container col">
-            <div class="row justify-content-center">
-                <div class="container col">
-                    <div class="row justify-content-center">
-                        <div th:if="${message} != null">
-                            <div class="card">
-                                <div class="card-header" id>
-                                    Error
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="col-12">
-                                            <div th:text="${message}"></div>
-                                        </div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div class="container col">
+                <div class="row justify-content-center">
+                    <div th:if="${message} != null">
+                        <div class="card">
+                            <div class="card-header" id>
+                                Error
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-12">
+                                        <div th:text="${message}"></div>
                                     </div>
-                                    <br>
-                                    <a th:href="@{/daftarpengiriman}" class="btn btn-success">
-                                        Kembali
-                                    </a>
                                 </div>
+                                <br>
+                                <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                                    Kembali
+                                </a>
                             </div>
                         </div>
-                        <div th:unless="${message} != null">
-                            <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
-                                <div class="card-header">
-                                    <h4>Ubah Status Pengiriman</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row justify-content-center">
-                                        <div class="col-12">
-                                            <form th:action="@{/pengiriman/ubah-status/}" method="POST">
-                                                <div class="form-group">
-                                                    <label>Status Pengiriman</label>
-                                                    <select name="statusPengiriman" class="form-control" required>
-                                                        <option disabled selected value> -- PILIH Status Pengiriman -- </option>
-                                                        <option th:value="${statusId}" th:text="${status}"></option>
-                                                    </select>
+                    </div>
+                    <div th:unless="${message} != null">
+                        <div class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                            <div class="card-header">
+                                <h4>Ubah Status Pengiriman</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <form th:action="@{/pengiriman/ubah-status/}" method="POST">
+                                            <div class="form-group">
+                                                <label>Status Pengiriman</label>
+                                                <select name="statusPengiriman" class="form-control" required>
+                                                    <option disabled selected value> -- PILIH Status Pengiriman -- </option>
+                                                    <option th:value="${statusId}" th:text="${status}"></option>
+                                                </select>
 
-                                                    <div>
-                                                        <input th:type="text" class="form-control" th:name="kodePengiriman" th:value="${pengiriman.kodePengiriman}" hidden aria-hidden="true">
-                                                    </div>
-
-                                                    <div class="row justify-content-end" style="margin-top: 50px;">
-                                                        <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}">Batal</a>
-                                                        <button class="btn but-success" type="submit" value="Submit">Ubah</button>
-                                                    </div>
+                                                <div>
+                                                    <input th:type="text" class="form-control" th:name="kodePengiriman" th:value="${pengiriman.kodePengiriman}" hidden aria-hidden="true">
                                                 </div>
-                                            </form>
-                                        </div>
+
+                                                <div class="row justify-content-end" style="margin-top: 50px;">
+                                                    <a class="btn but-outline" type="button" th:href="@{/pengiriman/}+${pengiriman.kodePengiriman}">Batal</a>
+                                                    <button class="btn but-success" type="submit" value="Submit">Ubah</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -88,6 +87,7 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>

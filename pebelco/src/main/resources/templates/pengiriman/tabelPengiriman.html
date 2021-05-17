@@ -65,9 +65,9 @@
     <div th:unless="${message} != null" class="container-fluid col">
         <div>
             <a
-                th:href="@{/pengiriman/}"
-                class="btn but-arrow">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    th:href="@{/pengiriman/}"
+                    class="btn but-arrow">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             <br>
         </div>
@@ -83,56 +83,56 @@
                     </div>
 
                     <div th:if="${msg == 'ada pengiriman'}">
-                    <table class="table daftar-table table-hover table-bordered">
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Kode Pengiriman</th>
-                            <th>Nama Toko</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
+                        <table class="table daftar-table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Pengiriman</th>
+                                <th>Nama Toko</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
 
-                        <tbody>
-                        <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
-                            <td th:text="${iterationStatus.count}"></td>
-                            <td th:text="${pengiriman.kodePengiriman}">Kode</td>
-                            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
-                            <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
-                            <div th:switch="${pengiriman.status}">
-                                <td class="list-status text-center">
+                            <tbody>
+                            <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${pengiriman.kodePengiriman}">Kode</td>
+                                <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+                                <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
+                                <div th:switch="${pengiriman.status}">
+                                    <td class="list-status text-center">
                                     <span th:case="'Belum Dikirim'"
                                           class="belumDikirim">Belum Dikirim</span>
-                                    <span th:case="'Dikirim'"
-                                          class="dikirim">Dikirim</span>
-                                    <span th:case="'Diterima'"
-                                          class="diterima">Diterima</span>
-                                </td>
-                            </div>
-                            <td>
-                                <div class="inline-buts">
-                                    <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
-<!--                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">-->
-<!--&lt;!&ndash;                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">&ndash;&gt;-->
-<!--                                        <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>-->
-<!--                                    </form>-->
-                                    <a th:href="@{/pengiriman/konfirmasi-hapus/} + ${pengiriman.kodePengiriman}"
-                                       th:classappend="${pengiriman.statusId != 3 ? 'disabled':''}"
-                                       class="btn but-danger"
-                                       sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Hapus</a>
+                                        <span th:case="'Dikirim'"
+                                              class="dikirim">Dikirim</span>
+                                        <span th:case="'Diterima'"
+                                              class="diterima">Diterima</span>
+                                    </td>
                                 </div>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
+                                        <!--                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">-->
+                                        <!--&lt;!&ndash;                                        <input th:type="text" class="form-control" th:name="id" th:value="${pengiriman.id}" hidden aria-hidden="true">&ndash;&gt;-->
+                                        <!--                                        <button th:disabled="${pengiriman.disableHapus}" class="btn but-danger" value="Submit">Hapus</button>-->
+                                        <!--                                    </form>-->
+                                        <a th:href="@{/pengiriman/konfirmasi-hapus/} + ${pengiriman.kodePengiriman}"
+                                           th:classappend="${pengiriman.statusId != 3 ? 'disabled':''}"
+                                           class="btn but-danger"
+                                           sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Hapus</a>
+                                    </div>
 
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 </body>

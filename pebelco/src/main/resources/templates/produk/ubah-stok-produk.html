@@ -65,7 +65,7 @@
                                 <tr>
                                     <th class="form-group">
                                         Stok Produk
-                                        <input type="text" name="stok" th:field="*{stok}" th:value="*{stok}"  class="form-control" required>
+                                        <input type="number" name="stok" th:field="*{stok}" th:value="*{stok}"  min="0" class="form-control" required>
                                     </th>
                                 </tr>
 
@@ -104,29 +104,32 @@
                                         <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
                                     </th>
                                 </tr>
-                                <!-- <div th:if="${produk.listTagProduk.size()} > 0"> -->
+
                                 <tr>
-                                    <th colspan="1">
-                                        <div class="float-md-left">
-                                            <h5 class="float-md-left">Tag Produk</h5>
-                                        </div>
+                                    <th class="form-group">
+                                        Tag Produk
                                     </th>
                                 </tr>
 
-                                <tr th:each="tag, tagStat : *{listTagProduk}">
-                                    <td colspan="3">
-                                        <select th:field="*{listTagProduk[__${tagStat.index}__].namaTag}"
-                                                class="form-control" disabled>
-                                            <option th:each="isi : ${listTag}"
-                                                    th:if="${tag.idTagProduk == isi.idTagProduk}"
-                                                    th:value="${isi.idTagProduk}"
-                                                    th:text="${isi.namaTag}" selected>
-                                            </option>
-                                        </select>
-                                    </td>
-
+                                <tr>
+                                    <th colspan="1">
+                                        <input class="form-check-input" style="margin-left: 5px" type="checkbox" name="checkboxName" id="inlineCheckbox1" value="1" disabled>
+                                        <label class="form-check-label" style="margin-left: 20px">#Meja</label>
+                                        <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox3" value="3" disabled>
+                                        <label class="form-check-label" style="margin-left: 35px">#Lemari</label>
+                                        <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox5" value="5" disabled>
+                                        <label class="form-check-label" style="margin-left: 35px">#Rak</label>
+                                    </th>
                                 </tr>
-                                <!-- </div> -->
+
+                                <tr>
+                                    <th colspan="1">
+                                        <input class="form-check-input" style="margin-left: 5px" type="checkbox" name="checkboxName" id="inlineCheckbox2" value="2" disabled>
+                                        <label class="form-check-label" style="margin-left: 20px">#Kursi</label>
+                                        <input class="form-check-input" style="margin-left: 20px" type="checkbox" name="checkboxName" id="inlineCheckbox4" value="4" disabled>
+                                        <label class="form-check-label" style="margin-left: 35px">#Laci</label>
+                                    </th>
+                                </tr>
                             </th>
                             </thead>
                         </table>
@@ -144,4 +147,8 @@
 </div>
 
 </body>
+<script th:inline="javascript">
+    var listTags = [[${daftarTag}]];
+</script>
+<script th:src="@{/javascript/ubah-produk.js}"></script>
 </html>
