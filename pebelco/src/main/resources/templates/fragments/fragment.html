@@ -43,14 +43,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
-
-            <!-- items for user featrue -->
-            <!-- Weird html placement to cope with unique position regarding notification -->
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" th:href="@{/#}">Profile</a>
-                <a class="dropdown-item" th:href="@{/logout}" >Logout</a>
-            </div>
-
             <!-- Notifications -->
             <div class="d-inline dropdown notif ml-auto">
                 <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
@@ -68,7 +60,11 @@
                         </div> <!-- /.lg -->
                         <div th:if="${jumlahNotif != 0}"class="lg">
                             <div th:each="notif, iterationStatus : ${listNotif}">
-                                <a th:href="@{'/notif/' + ${notif.idNotifikasi}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                <a th:if="${notif.getIsNotif()} == true" th:href="@{'/notif/' + ${notif.idNotifikasi}}" class="list-group-item list-group-item-action flex-column align-items-start unclicked">
+                                    <h5 class="mb-1" th:text="${notif.desc}"></h5>
+                                    <p class="mb-0" th:text="${#dates.format(notif.waktuDibuat, 'EEE, d MMM yyyy | HH:mm:ss')}">17 October 2016 | 9:32 pm</p>
+                                </a>
+                                <a th:if="${notif.getIsNotif()} == false" th:href="@{'/notif/' + ${notif.idNotifikasi}}" class="list-group-item list-group-item-action flex-column align-items-start clicked">
                                     <h5 class="mb-1" th:text="${notif.desc}"></h5>
                                     <p class="mb-0" th:text="${#dates.format(notif.waktuDibuat, 'EEE, d MMM yyyy | HH:mm:ss')}">17 October 2016 | 9:32 pm</p>
                                 </a>
@@ -79,15 +75,23 @@
             </div> <!-- /.dropdown -->
 
             <!-- user feature -->
+            <div>
+                
+            </div>
             <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
             <li class="profile nav-item">
                 <span class="namaUser" sec:authentication="principal.namaPanjang"></span>
                 <span sec:authentication="principal.role"></span>
             </li>
-            <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-            </a>
-            <!-- The items dropdown should be here in normal circumtances -->
+            <div>
+                <a class="nav-link dropdown-toggle" th:href="@{/#}"  id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/#}">Profile</a>
+                    <a class="dropdown-item" th:href="@{/logout}" >Logout</a>
+                </div>
+            </div>
             </li>
         </div>
         <div class="navbar-nav ml-auto" sec:authorize="isAnonymous()">
