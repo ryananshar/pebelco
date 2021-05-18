@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PebelcoApplication<pebelco>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "propensi.tugas.pebelco.PebelcoApplication",
+            "projectName": "pebelco",
+            "args": ""
+        }
+    ]
+}
