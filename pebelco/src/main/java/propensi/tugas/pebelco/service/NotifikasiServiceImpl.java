@@ -31,21 +31,41 @@ public class NotifikasiServiceImpl implements NotifikasiService{
 
     @Override
     public void addNotifikasi(NotifikasiModel notifikasi) {
+        // if (Objects.isNull(notifikasi.getIdPenerima())) {
+        //     RoleModel role = roleDb.findById(notifikasi.getIdRole()).get();
+        //     List<UserModel> listUser = userService.getUserListbyRole(role);
+        //     notifikasi.setWaktuDibuat(new Date());
+        //     notifikasi.setListUser(listUser);
+        //     notifikasiDb.save(notifikasi);
+        //     for (UserModel user : listUser) {
+        //         user.getListNotifikasi().add(notifikasi);
+        //     }
+        // } else {
+        //     List<UserModel> listUser = new ArrayList<UserModel>();
+        //     UserModel userPenerima = userService.getUserbyIdUser(notifikasi.getIdPenerima());
+        //     listUser.add(userPenerima);
+        //     notifikasi.setWaktuDibuat(new Date());
+        //     notifikasi.setListUser(listUser);
+        //     notifikasiDb.save(notifikasi);
+        //     userPenerima.getListNotifikasi().add(notifikasi);
+        // }
         if (Objects.isNull(notifikasi.getIdPenerima())) {
             RoleModel role = roleDb.findById(notifikasi.getIdRole()).get();
             List<UserModel> listUser = userService.getUserListbyRole(role);
-            notifikasi.setWaktuDibuat(new Date());
-            notifikasi.setListUser(listUser);
-            notifikasiDb.save(notifikasi);
+            Date date = new Date();
             for (UserModel user : listUser) {
-                user.getListNotifikasi().add(notifikasi);
+                NotifikasiModel newNotif = new NotifikasiModel(notifikasi.getIsNotif(), notifikasi.getDesc(), 
+                                                               notifikasi.getUrl(), notifikasi.getIdPengirim(), 
+                                                               notifikasi.getIdPenerima(), notifikasi.getIdRole());
+                newNotif.setUser(user);
+                newNotif.setWaktuDibuat(date);
+                notifikasiDb.save(newNotif);
+                user.getListNotifikasi().add(newNotif);
             }
         } else {
-            List<UserModel> listUser = new ArrayList<UserModel>();
             UserModel userPenerima = userService.getUserbyIdUser(notifikasi.getIdPenerima());
-            listUser.add(userPenerima);
             notifikasi.setWaktuDibuat(new Date());
-            notifikasi.setListUser(listUser);
+            notifikasi.setUser(userPenerima);
             notifikasiDb.save(notifikasi);
             userPenerima.getListNotifikasi().add(notifikasi);
         }
@@ -53,9 +73,11 @@ public class NotifikasiServiceImpl implements NotifikasiService{
 
     @Override
     public List<NotifikasiModel> getNotifListByUserAndRole(Long idPenerima, Long idRole, Boolean isNotif) {
+        UserModel user = userService.getUserbyIdUser(idPenerima);
         Date now = Date.from(ZonedDateTime.now().toInstant());
         Date minusNow = Date.from(ZonedDateTime.now().minusDays(3).toInstant());
-        return notifikasiDb.findByIdPenerimaOrIdRoleAndWaktuDibuatBetweenOrderByWaktuDibuatDesc(idPenerima, idRole, minusNow, now);
+        // return notifikasiDb.findByIdPenerimaOrIdRoleAndWaktuDibuatBetweenOrderByWaktuDibuatDesc(idPenerima, idRole, minusNow, now);
+        return notifikasiDb.findByUserAndWaktuDibuatBetweenOrderByWaktuDibuatDesc(user, minusNow, now);
     }
 
 }

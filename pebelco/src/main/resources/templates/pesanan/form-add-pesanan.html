@@ -85,7 +85,6 @@
                             <table>
                                 <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>Nama Barang</th>
                                     <th>Jumlah</th>
                                     <th></th>
@@ -96,7 +95,6 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="barang, barangStat : *{barangPesanan}">
-                                    <td th:text="${barangStat.count}"></td>
                                     <td>
                                         <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}"
                                                 class="form-control" required>

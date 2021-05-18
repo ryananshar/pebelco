@@ -8,6 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -49,12 +53,18 @@ public class NotifikasiModel implements Serializable{
     private Date waktuDibuat; 
     
     // create table "notifikasi user"
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "notifikasi_user", 
-        joinColumns = @JoinColumn(name = "id_notifikasi"), 
-        inverseJoinColumns = @JoinColumn(name = "id_user"))
-    private List<UserModel> listUser;
+    // @ManyToMany(cascade = CascadeType.ALL)
+    // @JoinTable(
+    //     name = "notifikasi_user", 
+    //     joinColumns = @JoinColumn(name = "id_notifikasi"), 
+    //     inverseJoinColumns = @JoinColumn(name = "id_user"))
+    // private List<UserModel> listUser;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel user;
 
 
     public NotifikasiModel() {
@@ -130,14 +140,6 @@ public class NotifikasiModel implements Serializable{
         this.idRole = idRole;
     }
 
-    public List<UserModel> getListUser() {
-        return this.listUser;
-    }
-
-    public void setListUser(List<UserModel> listUser) {
-        this.listUser = listUser;
-    }
-
     public Date getWaktuDibuat() {
         return this.waktuDibuat;
     }
@@ -146,4 +148,11 @@ public class NotifikasiModel implements Serializable{
         this.waktuDibuat = waktuDibuat;
     }
 
+    public UserModel getUser() {
+        return this.user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }  
 }

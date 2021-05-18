@@ -37,7 +37,12 @@ public class UserModel implements Serializable{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(mappedBy = "listUser")
+    // @ManyToMany(mappedBy = "listUser")
+    // private List<NotifikasiModel> listNotifikasi;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<NotifikasiModel> listNotifikasi;
 
     @ManyToOne(fetch = FetchType.EAGER)
