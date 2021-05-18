@@ -61,15 +61,14 @@
                     <form th:action="@{/produk/ubah/}+${produk.idProduk}"th:object="${produk}" method="POST">
                         <table class="card-body table table-borderless" style="margin: 0px;">
                             <thead>
-                            <th>
-                                <tr>
+                                <tr style="font-weight: normal">
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                     <th class="form-group">
                                         Nama Produk
                                         <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" class="form-control" required>
                                     </th>
                                     <th class="form-group" rowspan="5" colspan="2">
-                                        <label>Spesifikasi</label>
+                                        Spesifikasi
                                         <textarea th:field="*{spesifikasi}"
                                                   th:value="*{spesifikasi}"
                                                   class="form-control"
@@ -90,7 +89,7 @@
                                 <tr>
                                     <th class="form-group">
                                         Tipe
-                                        <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
+                                        <select class="form-control" name="status" th:field="*{tipe}" th:value="*{tipe}" required>
                                             <option value="1">Coffee Table</option>
                                             <option value="2">Display Rack</option>
                                             <option value="3">Kursi Cafe</option>
@@ -125,13 +124,6 @@
                                     <th class="form-group">
                                         Tag Produk
                                     </th>
-                                    <!--                                    <th colspan="1">-->
-                                    <!--                                        <div class="float-sm-right">-->
-
-                                    <!--                                            <button class="btn but-success" type="submit" name="addRow">Tambah Tag</button>-->
-
-                                    <!--                                        </div>-->
-                                    <!--                                    </th>-->
                                 </tr>
                                 <div class="checkbox-group required">
                                     <tr>
@@ -154,7 +146,7 @@
                                         </th>
                                     </tr>
                                 </div>
-                            </th>
+
                             </thead>
                         </table>
                         <div class="row justify-content-end">

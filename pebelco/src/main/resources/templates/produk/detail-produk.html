@@ -104,7 +104,7 @@
                             <br><br>
                             <div class="row">
                                 <div class="col-3">
-                                    <div>Tanggal</div>
+                                    <div>Tanggal Dibuat</div>
                                 </div>
                                 <div class="col-1">
                                     <div th:text="':'"></div>
@@ -123,16 +123,17 @@
                             </div>
                             <br><br>
 
-                            <div th:if="${listTag.size()} > 0" class="row">
+                            <div th:if="${listTag.size()} > 0 " class="row">
                                 <div class="col-3">
                                     <div>Tag Produk</div>
                                 </div>
                                 <div class="col-1">
                                     <div th:text="':'"></div>
                                 </div>
-                                <div class="col" th:each="lis : *{listTag}">
-                                    <div class=col style="width: 50px; margin-right: 15px;">
-                                        <span th:text="' #' + ${lis.namaTag}" style="color: #FFFFFF; background-color: #385A6C;      padding: 0 10px 0 10px;
+                                <div th:each="lis : *{listTag}">
+                                    <div class="row col-sm-1" style="padding-right: 15px;">
+                                        <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
+                                        <span th:text="' #' + ${lis.namaTag}" style="color: #FFFFFF; background-color: #385A6C; padding: 0 10px 0 10px; display: inline-table;
                                 min-height: 10px;
                                 display: inline-flex;
                                 align-items: center;
@@ -142,9 +143,9 @@
                                 box-sizing: border-box;
                                 border-radius: 30px;">
                                     </span>
+                                        </div>
                                     </div>
                                 </div>
-
 
                             </div>
                             <br><br>
@@ -152,10 +153,10 @@
                         <div class="row justify-content-end">
                             <a th:href="@{/produk/ubah/stok/} + ${id}"
                                class="btn but-ubah-stat"
-                               sec:authorize="hasAuthority('Sales Counter')">Ubah</a>
+                               sec:authorize="hasAnyAuthority('Sales Counter')">Ubah</a>
                             <a th:href="@{/produk/ubah/} + ${id}"
                                class="btn but-ubah"
-                               sec:authorize="hasAuthority('Vice Factory Manager')">Ubah</a>
+                               sec:authorize="hasAnyAuthority('Vice Factory Manager','Admin')">Ubah</a>
 
                         </div>
                     </div>

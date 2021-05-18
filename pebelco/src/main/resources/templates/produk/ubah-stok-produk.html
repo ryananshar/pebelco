@@ -47,18 +47,18 @@
                     <form th:action="@{/produk/ubah/stok/}+${produk.idProduk}"th:object="${produk}" method="POST">
                         <table class="card-body table table-borderless" style="margin: 0px;">
                             <thead>
-                            <th>
-                                <tr>
+                                <tr style="font-weight: normal">
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                     <th class="form-group">
                                         Nama Produk
                                         <input type="hidden" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" />
                                         <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}"  class="form-control" disabled>
                                     </th>
-                                    <th class="form-group" >
+                                    <th class="form-group"  rowspan="5" colspan="2">
                                         Spesifikasi
                                         <input type="hidden" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}" />
-                                        <input type="text" name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}"  class="form-control" disabled>
+                                        <textarea name="spesifikasi" th:field="*{spesifikasi}" th:value="*{spesifikasi}"  class="form-control"  style="width: 100%; height: 392px" disabled>
+                                        </textarea>
                                     </th>
                                 </tr>
 
@@ -73,7 +73,7 @@
                                     <th class="form-group">
                                         Tipe
                                         <input type="hidden" name="tipe" th:field="*{tipe}" th:value="*{tipe}" />
-                                        <select class="form-control form-control-lg" name="status" th:field="*{tipe}" th:value="*{tipe}" disabled>
+                                        <select class="form-control" name="status" th:field="*{tipe}" th:value="*{tipe}" disabled>
                                             <option value="1">Coffee Table</option>
                                             <option value="2">Display Rack</option>
                                             <option value="3">Kursi Cafe</option>
@@ -130,7 +130,6 @@
                                         <label class="form-check-label" style="margin-left: 35px">#Laci</label>
                                     </th>
                                 </tr>
-                            </th>
                             </thead>
                         </table>
                         <div class="row justify-content-end">

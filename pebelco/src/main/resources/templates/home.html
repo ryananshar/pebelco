@@ -32,28 +32,28 @@
                     <h2 class="fitur"> Daftar Fitur</h2>
                     <br>
                     <div class="row justify-content-center list-fitur">
-                        <div class="col-md-3 fix">
+                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')" class="col-md-3 fix">
                             <p>Kunjungan</p>
                             <img th:src="@{/img/kunjungan.svg}">
                             <a th:href="@{/kunjungan}" class="btn">
                                 Daftar Kunjungan
                             </a>
                         </div>
-                        <div class="col-md-3 fix">
+                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')" class="col-md-3 fix">
                             <p>Pesanan Penjualan</p>
                             <img th:src="@{/img/pesanan.svg}">
                             <a th:href="@{/pesanan}" class="btn">
                                 Daftar Pesanan
                             </a>
                         </div>
-                        <div class="col-md-3 fix">
+                        <div sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Staf Sales', 'Sales Counter', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')" class="col-md-3 fix">
                             <p>Pengiriman</p>
                             <img th:src="@{/img/pengiriman.svg}">
                             <a th:href="@{/pengiriman}" class="btn">
                                 Daftar Pengiriman
                             </a>
                         </div>
-                        <div class="col-md-3 fix">
+                        <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin Komplain', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')" class="col-md-3 fix">
                             <p>Komplain</p>
                             <img th:src="@{/img/komplain.svg}">
                             <a th:href="@{/komplain}" class="btn">
