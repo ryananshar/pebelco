@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Laporan</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
             <div class="col" id="table-utama">
                 <div class="list-header">
-                    <h2>LAPORAN</h2>
+                    <h2>Laporan</h2>
                     <hr>
                 </div>
             </div>
@@ -29,10 +29,10 @@
         <div class="row justify-content-center" id="center">
             <div class="col">
                 <div class="row justify-content-center list-fitur">
-                    <div sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')" class="col-md-3 fix">
+                    <div class="col-md-3 fix">
                         <p>Laporan Staf Sales</p>
                         <img th:src="@{/img/laporan-staf.png}">
-                        <a th:href="@{/laporan/staf-sales}" class="btn">
+                        <a th:href="@{/laporan/staf-sales/}" class="btn">
                             Lihat Laporan
                         </a>
                     </div>
