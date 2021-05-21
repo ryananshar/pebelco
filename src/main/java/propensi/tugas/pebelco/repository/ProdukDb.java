@@ -18,4 +18,5 @@ public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
     List<ProdukModel> findAll();
 
 
+
 }

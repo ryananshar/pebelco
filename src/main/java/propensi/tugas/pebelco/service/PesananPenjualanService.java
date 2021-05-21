@@ -29,4 +29,10 @@ public interface PesananPenjualanService {
     void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception;
 
     Long calculateTotal(List<TransaksiPesananModel> barangPesanan, Integer diskon);
+
+     void hapusPesanan(PesananPenjualanModel pesanan);
+
+    void changeStatusDisetujui(PesananPenjualanModel pesanan);
+
+    void changeStatusDitolak(PesananPenjualanModel pesanan);
 }

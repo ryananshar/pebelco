@@ -37,8 +37,14 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
             transaksiPesanan.setHarga(calculatePrice(transaksiPesanan.getJumlah(), produkDb.findByNamaProduk(transaksiPesanan.getNamaBarang())));
             transaksiPesananDb.save(transaksiPesanan);
         }
-        
-    }   
+    }
+//
+//    @Override
+//    public void deleteAll(List<TransaksiPesananService> listTransaksiPesanan,Long idPesanan){
+//        listTransaksiPesanan.
+//        transaksiPesanan.setPesananTransaksi(pesananPenjualanService.getPesananByIdPesanan(idPesanan));
+//        transaksiPesananDb.save(transaksiPesanan);
+//    }
 
     @Override
     public List<TransaksiPesananModel> getTransaksiPesananList() {
@@ -72,4 +78,8 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
         return transaksiPesananDb.findByPesananTransaksi(pesananTransaksi);
     }
 
+    @Override
+    public List<TransaksiPesananModel> getListByIdPesananPenjualan(Long idPesanan){
+        return transaksiPesananDb.findAllByIdTransaksiPesanan(idPesanan);
+    }
 }
