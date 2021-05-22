@@ -451,12 +451,15 @@ public class PesananPenjualanController {
             Date date = new Date();
             pesanan.setTanggalPersetujuan(date);
             pesananPenjualanService.changeStatusDisetujui(pesanan);
+
             Boolean isNotif = true;
-            String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
-            String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
             Long idPengirim = user.getIdUser();
-            Long idStafSales = pesanan.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            if (pesanan.getUser().getRole().getIdRole() == 1) {
+                String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
+                String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idStafSales = pesanan.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            }            
 
             String descPengiriman = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " perlu dikirim";
             String urlPengiriman ="/perludikirim/tambah/pesanan/" + pesanan.getKodePesananPenjualan();
