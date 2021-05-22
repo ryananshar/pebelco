@@ -67,6 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/produk/ubah/stok/**").hasAnyAuthority( "Sales Counter", "Admin")
                 .antMatchers("/produk/konfirmasi-hapus/**").hasAnyAuthority("Factory Manager","Admin")
                 .antMatchers("/produk/hapus/**").hasAnyAuthority("Factory Manager","Admin")
+                // Pameran
+                .antMatchers("/pameran").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
+                .antMatchers("/pameran/*").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
+                .antMatchers("/pameran/tambah").hasAnyAuthority("Vice Factory Manager","Admin")
+                .antMatchers("/pameran/ubah/**").hasAnyAuthority("Vice Factory Manager","Admin")
+                .antMatchers("/pameran/konfirmasi-hapus/**").hasAnyAuthority("Vice Factory Manager","Admin")
+                .antMatchers("/pameran/hapus/**").hasAnyAuthority("Vice Factory Manager","Admin")
 
                 .anyRequest().authenticated()
                 .and()

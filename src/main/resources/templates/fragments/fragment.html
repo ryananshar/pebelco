@@ -132,7 +132,8 @@
         <a th:href="@{/produk}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produk')? 'active':''}" class="list-group-item list-group-item-action">
             <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>Produk
         </a>
-        <a th:href="@{/#}"  class="list-group-item list-group-item-action">
+        <a th:href="@{/pameran}"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pameran')? 'active':''}"
+           class="list-group-item list-group-item-action">
            <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
         <a th:href="@{/#}" class="list-group-item list-group-item-action"
@@ -161,7 +162,7 @@
         <a th:href="@{/produk}" class="list-group-item list-group-item-action">
             <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>Produk
         </a>
-        <a th:href="@{/#}"  class="list-group-item list-group-item-action">
+        <a th:href="@{/pameran}"  class="list-group-item list-group-item-action">
            <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
         <a th:href="@{/#}" class="list-group-item list-group-item-action"
