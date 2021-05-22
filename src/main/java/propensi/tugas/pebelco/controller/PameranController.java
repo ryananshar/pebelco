@@ -162,8 +162,4 @@ public class PameranController {
         return "pameran/daftar-pameran";
     }
 
-
-
-
-
 }

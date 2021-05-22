@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface PameranDb extends JpaRepository<PameranModel,Long> {
     List<PameranModel> findAll();
-
 }
