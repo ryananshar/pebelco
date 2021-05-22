@@ -38,13 +38,6 @@ public class TransaksiPesananServiceImpl implements TransaksiPesananService{
             transaksiPesananDb.save(transaksiPesanan);
         }
     }
-//
-//    @Override
-//    public void deleteAll(List<TransaksiPesananService> listTransaksiPesanan,Long idPesanan){
-//        listTransaksiPesanan.
-//        transaksiPesanan.setPesananTransaksi(pesananPenjualanService.getPesananByIdPesanan(idPesanan));
-//        transaksiPesananDb.save(transaksiPesanan);
-//    }
 
     @Override
     public List<TransaksiPesananModel> getTransaksiPesananList() {

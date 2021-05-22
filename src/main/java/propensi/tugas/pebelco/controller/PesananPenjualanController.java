@@ -169,7 +169,7 @@ public class PesananPenjualanController {
             // Handle duplicate
             if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
-                model.addAttribute("listProdu   k", listProduk);
+                model.addAttribute("listProduk", listProduk);
                 model.addAttribute("pop", "red");
                 model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
                 model.addAttribute("subMsg", "Nama barang tidak dapat berulang");
