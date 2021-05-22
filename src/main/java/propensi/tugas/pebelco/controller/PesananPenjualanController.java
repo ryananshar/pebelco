@@ -76,7 +76,18 @@ public class PesananPenjualanController {
             else{
                 model.addAttribute("listPesanan", listPesanan);
             }
-        } else {
+        }
+        else if(user.getRole().getNamaRole().equals("Sales Counter")){
+            List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUser(user, true);
+            if (listPesanan.isEmpty()){
+                model.addAttribute("msg", "error");
+                model.addAttribute("message", "Anda Belum Memiliki Pesanan Penjualan");
+            }
+            else{
+                model.addAttribute("listPesanan", listPesanan);
+            }
+        }
+        else {
             List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList(true);
             if (listPesanan.isEmpty()){
                 model.addAttribute("msg", "error");
@@ -158,7 +169,7 @@ public class PesananPenjualanController {
             // Handle duplicate
             if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
-                model.addAttribute("listProduk", listProduk);
+                model.addAttribute("listProdu   k", listProduk);
                 model.addAttribute("pop", "red");
                 model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
                 model.addAttribute("subMsg", "Nama barang tidak dapat berulang");
@@ -235,7 +246,16 @@ public class PesananPenjualanController {
                 } else {
                     model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
                 }
-            } else {
+            }
+            else if(user.getRole().getNamaRole().equals("Sales Counter")){
+                if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+                    model.addAttribute("pesananPenjualan", pesananPenjualan);
+                    model.addAttribute("listbarang", listbarang);
+                } else {
+                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+                }
+            }
+            else {
                 if (pesananPenjualan.getIsShown()) {
                     model.addAttribute("pesananPenjualan", pesananPenjualan);
                     model.addAttribute("listbarang", listbarang);
