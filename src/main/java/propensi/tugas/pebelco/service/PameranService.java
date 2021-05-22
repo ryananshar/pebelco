@@ -1,6 +1,5 @@
 package propensi.tugas.pebelco.service;
 
-import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.PameranModel;
 
 import java.util.List;

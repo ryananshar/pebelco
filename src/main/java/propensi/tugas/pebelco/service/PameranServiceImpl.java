@@ -2,9 +2,7 @@ package propensi.tugas.pebelco.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.PameranModel;
-import propensi.tugas.pebelco.repository.KunjunganDb;
 import propensi.tugas.pebelco.repository.PameranDb;
 
 import javax.transaction.Transactional;
