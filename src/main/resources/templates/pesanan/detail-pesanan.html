@@ -213,15 +213,15 @@
                                    sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
                             </div> -->
                             <div class="row justify-content-end">    
-                                <a th:href="@{/pesanan/} + ${pesananPenjualan.kodePesananPenjualan} + '/#'"
+                                <a th:href="@{/pesanan/ubah-status/} + ${pesananPenjualan.kodePesananPenjualan}"
                                    th:if="${pesananPenjualan.statusPesanan} == 0"
                                    class="btn but-ubah-stat"
                                    sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah Status</a>                            
-                                <a th:href="@{/pesanan/} + ${pesananPenjualan.kodePesananPenjualan} + '/#'"
+                                <a th:href="@{/pesanan/ubah/} + ${pesananPenjualan.kodePesananPenjualan}"
                                    th:if="${pesananPenjualan.statusPesanan} == 0"
                                    class="btn but-ubah"
                                    sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Ubah</a>
-                                <a th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}" 
+                                <a th:href="@{/pesanan/req/} + ${pesananPenjualan.kodePesananPenjualan}"
                                    th:if="${pesananPenjualan.statusPesanan} == 0" class="btn but-outline"
                                    sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')">Request Change</a>
                             </div>

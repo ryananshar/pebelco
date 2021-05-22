@@ -358,11 +358,13 @@ public class KomplainController {
             komplainService.changeStatusDisetujui(komplain);
 
             Boolean isNotif = true;
-            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
-            String url ="/komplain/" + komplain.getKodeKomplain();
             Long idPengirim = user.getIdUser();
-            Long idStafSales = komplain.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            if (komplain.getUser().getRole().getIdRole() == 1) {
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            }            
 
             String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
             String urlPengiriman ="/perludikirim/tambah/komplain/" + komplain.getKodeKomplain();

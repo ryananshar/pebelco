@@ -21,4 +21,5 @@ public interface PesananPenjualanDb extends JpaRepository<PesananPenjualanModel,
     List<PesananPenjualanModel> findByUser(UserModel user);
 
     List<PesananPenjualanModel> findByUserAndIsShown(UserModel user, Boolean isShown);
+
 }
