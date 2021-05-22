@@ -30,8 +30,6 @@ public interface PesananPenjualanService {
 
     Long calculateTotal(List<TransaksiPesananModel> barangPesanan, Integer diskon);
 
-     void hapusPesanan(PesananPenjualanModel pesanan);
-
     void changeStatusDisetujui(PesananPenjualanModel pesanan);
 
     void changeStatusDitolak(PesananPenjualanModel pesanan);

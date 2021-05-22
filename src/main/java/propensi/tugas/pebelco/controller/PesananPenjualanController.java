@@ -18,11 +18,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 import propensi.tugas.pebelco.repository.ProdukDb;
 import propensi.tugas.pebelco.repository.TransaksiPesananDb;
-import propensi.tugas.pebelco.service.*;
+import propensi.tugas.pebelco.model.LaporanStafSalesModel;
+import propensi.tugas.pebelco.model.NotifikasiModel;
+import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.ProdukModel;
+import propensi.tugas.pebelco.model.TransaksiPesananModel;
+import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.service.LaporanStafSalesService;
+import propensi.tugas.pebelco.service.NotifikasiService;
+import propensi.tugas.pebelco.service.PesananPenjualanService;
+import propensi.tugas.pebelco.service.TransaksiPesananService;
+import propensi.tugas.pebelco.service.UserService;
+import propensi.tugas.pebelco.service.ProdukService;
 
 @Controller
 public class PesananPenjualanController {
@@ -544,7 +554,7 @@ public class PesananPenjualanController {
         UserModel user = userService.getUserbyEmail(email);
         List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUser(user, true);
 
-        pesananPenjualanService.hapusPesanan(pesanan);
+        pesanan.setIsShown(false);
 
         PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
 

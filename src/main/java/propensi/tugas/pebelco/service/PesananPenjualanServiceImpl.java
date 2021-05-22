@@ -50,11 +50,6 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     }
 
     @Override
-    public void hapusPesanan(PesananPenjualanModel pesanan) {
-        pesananPenjualanDb.delete(pesanan);
-    }
-
-    @Override
     public Long calculateTotal(List<TransaksiPesananModel> barangPesanan, Integer diskon) {
         Long tempTotal = 0L;
         for (TransaksiPesananModel barang : barangPesanan) {
