@@ -55,4 +55,9 @@ public class ProdukServiceImpl implements ProdukService{
         produkDb.save(produk);
     }
 
+    @Override
+    public ProdukModel getProdukByNama(String nama){
+        return produkDb.findByNamaProduk(nama);
+    }
+
 }

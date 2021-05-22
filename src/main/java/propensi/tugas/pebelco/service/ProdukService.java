@@ -12,4 +12,5 @@ public interface ProdukService {
     void deleteProduk(ProdukModel produk);
     void deleteProdukByIdProduk(Long IdProduk);
     ProdukModel updateStokProduk(ProdukModel produk);
+    ProdukModel getProdukByNama(String nama);
 }
