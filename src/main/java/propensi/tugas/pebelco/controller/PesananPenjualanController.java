@@ -385,11 +385,12 @@ public class PesananPenjualanController {
         pesanan1.setBarangPesanan(pesananPenjualan.getBarangPesanan());
         pesanan1.setDiskon(pesananPenjualan.getDiskon());
         pesanan1.setNamaToko(pesananPenjualan.getNamaToko());
+        pesanan1.setUser(pesananPenjualan.getUser());
         pesanan1.setBarangPesanan(tempList);
         pesanan1.setTotalHarga(hargaTotal);
 
 
-        pesananPenjualanService.updatePesanan(pesanan1);
+        // pesananPenjualanService.updatePesanan(pesanan1);
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Pesanan Penjualan Berhasil Diubah");
         model.addAttribute("pesananPenjualan", pesananPenjualan);
