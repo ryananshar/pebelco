@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface LaporanStafSalesDb extends JpaRepository<LaporanStafSalesModel,
     List<LaporanStafSalesModel> findAll();
 
     List<LaporanStafSalesModel> findByStafSales(UserModel stafSales);
+
+    List<LaporanStafSalesModel> findByTanggalDibuatBetween(Date startDate, Date finalDate);
 }

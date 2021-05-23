@@ -78,11 +78,6 @@ public class UserController {
             @PathVariable Long idNotifikasi,
             Model model) {
         NotifikasiModel notifikasi = notifikasiDb.findById(idNotifikasi).get();
-        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        // user.getListNotifikasi().remove(notifikasi);
-        // userService.updateUser(user);
-        // notifikasi.getListUser().remove(user);
-        // notifikasiDb.save(notifikasi);
         notifikasi.setIsNotif(false);
         notifikasiDb.save(notifikasi);
 

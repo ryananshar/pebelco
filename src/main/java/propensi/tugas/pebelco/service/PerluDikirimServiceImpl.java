@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.*;
-import propensi.tugas.pebelco.service.*;
 import propensi.tugas.pebelco.utils.PerluDikirim.Barang;
 import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirimUtils;
@@ -35,9 +34,6 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
 
     @Autowired
     private PerluDikirimUtils utils;
-
-    @Autowired
-    private ProdukService produkService;
 
     @Override
     public List<PerluDikirim> findAll() {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.UserModel;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,4 +23,5 @@ public interface PesananPenjualanDb extends JpaRepository<PesananPenjualanModel,
 
     List<PesananPenjualanModel> findByUserAndIsShown(UserModel user, Boolean isShown);
 
+    List<PesananPenjualanModel> findByUserAndTanggalPesananBetween(UserModel user, Date tanggalAwal, Date tanggalAkhir);
 }

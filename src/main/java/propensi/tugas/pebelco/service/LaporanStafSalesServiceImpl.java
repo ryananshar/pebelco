@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -46,6 +47,11 @@ public class LaporanStafSalesServiceImpl implements LaporanStafSalesService{
     public LaporanStafSalesModel getLaporanStafSalesById(Long id) {
         return laporanStafSalesDb.findById(id).get();
     }
+
+	@Override
+	public List<LaporanStafSalesModel> getLaporanStafSalesByDate(Date startDate, Date finalDate) {
+		return laporanStafSalesDb.findByTanggalDibuatBetween(startDate, finalDate);
+	}
     
     
 }

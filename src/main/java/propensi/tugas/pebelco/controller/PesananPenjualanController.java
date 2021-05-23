@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 import propensi.tugas.pebelco.repository.ProdukDb;
-import propensi.tugas.pebelco.repository.TransaksiPesananDb;
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
@@ -32,21 +30,11 @@ import propensi.tugas.pebelco.service.NotifikasiService;
 import propensi.tugas.pebelco.service.PesananPenjualanService;
 import propensi.tugas.pebelco.service.TransaksiPesananService;
 import propensi.tugas.pebelco.service.UserService;
-import propensi.tugas.pebelco.service.ProdukService;
 
 @Controller
 public class PesananPenjualanController {
     @Autowired
     private PesananPenjualanService pesananPenjualanService;
-
-    @Autowired
-    private PesananPenjualanDb pesananPenjualanDb;
-
-    @Autowired
-    private TransaksiPesananDb transaksiPesananDb;
-
-    @Autowired
-    private ProdukService produkService;
 
     @Autowired
     private UserService userService;
@@ -200,9 +188,6 @@ public class PesananPenjualanController {
         pesananPenjualan.setTotalHarga(hargaTotal);
         pesananPenjualanService.updatePesanan(pesananPenjualan);
 
-        // add laporan staf sales
-        laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
-
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             // setting pre-save values for notifikasi
             Boolean isNotif = true;
@@ -211,6 +196,9 @@ public class PesananPenjualanController {
             Long idPengirim = user.getIdUser();
             Long idRole = (long) 2;                 // id Sales Counter
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+
+            // add laporan staf sales
+            laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
         }
         
         model.addAttribute("pop", "green");
@@ -227,26 +215,26 @@ public class PesananPenjualanController {
             Model model
     ) {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-            PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-            List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
-            if (user.getRole().getNamaRole().equals("Staf Sales")) {
-                if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listbarang", listbarang);
-                } else {
-                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
-                }
+        PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
+        List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listbarang", listbarang);
+            } else {
+                model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
             }
-            else {
-                if (pesananPenjualan.getIsShown()) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listbarang", listbarang);
-                } else {
-                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
-                }
+        }
+        else {
+            if (pesananPenjualan.getIsShown()) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listbarang", listbarang);
+            } else {
+                model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
             }
+        }
 
-            return "pesanan/detail-pesanan";
+        return "pesanan/detail-pesanan";
 
     }
 
@@ -475,12 +463,14 @@ public class PesananPenjualanController {
         } else if (status == 2){
             pesananPenjualanService.changeStatusDitolak(pesanan);
 
-            Boolean isNotif = true;
-            String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
-            String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = pesanan.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            if (pesanan.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
+                String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = pesanan.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Pesanan Berhasil Diubah");

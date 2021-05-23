@@ -381,12 +381,14 @@ public class KomplainController {
         } else if (status == 2){
             komplainService.changeStatusDitolak(komplain);
 
-            Boolean isNotif = true;
-            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
-            String url ="/komplain/" + komplain.getKodeKomplain();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = komplain.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            if (komplain.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Komplain Berhasil Diubah");
