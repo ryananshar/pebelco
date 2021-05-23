@@ -131,9 +131,9 @@ public class PesananPenjualanController {
 
     @PostMapping("/pesanan/tambah")
     public String addPesananSubmit(
-        @ModelAttribute PesananPenjualanModel pesananPenjualan,
-        Principal principal, final BindingResult bindingResult,
-        Model model
+            @ModelAttribute PesananPenjualanModel pesananPenjualan,
+            Principal principal, final BindingResult bindingResult,
+            Model model
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
@@ -149,10 +149,6 @@ public class PesananPenjualanController {
 
         for (TransaksiPesananModel barang : tempList) {
             // Handle duplicate
-            String namaBarang=barang.getNamaBarang();
-            ProdukModel produk=produkService.getProdukByNama(namaBarang);
-            Integer jumlahproduk=produk.getStok();
-            Integer jumlahpesanan=barang.getJumlah();
             if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
                 model.addAttribute("listProduk", listProduk);
@@ -162,15 +158,6 @@ public class PesananPenjualanController {
 
                 return "pesanan/form-add-pesanan";
             } else if (barang.getJumlah() <= 0) {
-                model.addAttribute("pesananPenjualan", pesananPenjualan);
-                model.addAttribute("listProduk", listProduk);
-                model.addAttribute("pop", "red");
-                model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
-                model.addAttribute("subMsg", "Jumlah Barang tidak valid");
-
-                return "pesanan/form-add-pesanan";
-            }
-            else if(jumlahpesanan>jumlahproduk){
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
                 model.addAttribute("listProduk", listProduk);
                 model.addAttribute("pop", "red");
@@ -225,6 +212,7 @@ public class PesananPenjualanController {
 
         return "pesanan/form-add-pesanan";
     }
+
 
     @GetMapping("/pesanan/{kodePesananPenjualan}")
     public String viewDetailPesanan(
@@ -451,8 +439,19 @@ public class PesananPenjualanController {
             ProdukModel produk=produkService.getProdukByNama(pesanan.getBarangPesanan().get(l).getNamaBarang());
             Integer jumlahproduk=produk.getStok();
             Integer totaljumlah=jumlahproduk-jumlahpesanan;
-            produk.setStok(totaljumlah);
-            produkService.updateStokProduk(produk);
+            if(totaljumlah<0){
+                model.addAttribute("pop", "red");
+                model.addAttribute("msg", "Pesanan Penjualan Gagal Diubah");
+                model.addAttribute("subMsg", "Jumlah Stok Barang tidak valid");
+                model.addAttribute("pesanan", pesanan);
+                model.addAttribute("kodePesanan", kodePesanan);
+
+                return "pesanan/ubah-status-pesanan";
+            }
+            else{
+                produk.setStok(totaljumlah);
+                produkService.updateStokProduk(produk);
+            }
         }
 
         if (pesanan.getIsShown() == false || pesanan.getStatusPesanan() != 0){
