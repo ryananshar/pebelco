@@ -76,7 +76,8 @@
                     <td th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
                     <td>
                         <div class="inline-buts">
-                            <a th:href="@{/laporan/staf-sales/#}"
+                            <a th:href="@{/laporan/staf-sales/} + ${tanggalMulai} + '/'
+                                        + ${tanggalAkhir} + '/' + ${map.value[3]}"
                                 class="btn but-detail"
                             >Detail</a>
                         </div>                        

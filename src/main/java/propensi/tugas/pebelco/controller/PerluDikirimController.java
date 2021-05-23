@@ -10,7 +10,6 @@ import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.service.*;
-import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
 import propensi.tugas.pebelco.utils.PerluDikirim.PerluDikirim;
 
 import java.security.Principal;

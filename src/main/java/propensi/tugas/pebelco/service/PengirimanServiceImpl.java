@@ -6,7 +6,6 @@ import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.MetodePengirimanModel;
 import propensi.tugas.pebelco.model.PengirimanModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
-import propensi.tugas.pebelco.repository.KomplainDb;
 import propensi.tugas.pebelco.repository.MetodePengirimanDb;
 import propensi.tugas.pebelco.repository.PengirimanDb;
 import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;

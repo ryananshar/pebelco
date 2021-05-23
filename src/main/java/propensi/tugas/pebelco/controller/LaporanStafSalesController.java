@@ -14,17 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.service.KunjunganService;
+import propensi.tugas.pebelco.repository.KunjunganDb;
+import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 import propensi.tugas.pebelco.service.LaporanStafSalesService;
 import propensi.tugas.pebelco.service.NotifikasiService;
-import propensi.tugas.pebelco.service.PesananPenjualanService;
 import propensi.tugas.pebelco.service.UserService;
 
 @Controller
@@ -33,10 +35,10 @@ public class LaporanStafSalesController {
     private UserService userService;
     
     @Autowired
-    private KunjunganService kunjunganService;
+    private KunjunganDb kunjunganDb;
 
     @Autowired
-    private PesananPenjualanService pesananPenjualanService;
+    private PesananPenjualanDb pesananPenjualanDb;
 
     @Autowired
     private LaporanStafSalesService laporanStafSalesService;
@@ -64,7 +66,7 @@ public class LaporanStafSalesController {
                 for (LaporanStafSalesModel laporanStaf: listLaporanStaf) {
                     UserModel stafSales = laporanStaf.getStafSales();
                     if (!mapStafSales.containsKey(stafSales.getNamaPanjang())) {
-                        Long[] data = new Long[] {0L, 0L, 0L};
+                        Long[] data = new Long[] {0L, 0L, 0L, stafSales.getIdUser()};
                         if (laporanStaf.getIsKunjungan()) {
                             ++data[0];
                         } else {
@@ -95,6 +97,7 @@ public class LaporanStafSalesController {
                     model.addAttribute("tanggalAkhir", tanggalAkhir);
                     model.addAttribute("mapStatus", "green");
                     model.addAttribute("mapStafSales", mapStafSales);
+                    model.addAttribute("userService", userService);
                 } else {
                     model.addAttribute("tanggalMulai", tanggalMulai);
                     model.addAttribute("tanggalAkhir", tanggalAkhir);
@@ -106,6 +109,32 @@ public class LaporanStafSalesController {
             }
         }
         return "laporan/daftar-laporan-staf";
+    }
+
+    @GetMapping("/laporan/staf-sales/{tanggalAwal}/{tanggalAkhir}/{idStafSales}")
+    public String viewDetailLaporanStafSales(
+            @PathVariable(value = "tanggalAwal") String tanggalAwal,
+            @PathVariable(value = "tanggalAkhir") String tanggalAkhir,
+            @PathVariable(value = "idStafSales") Long idStafSales,
+            Model model
+    ) throws ParseException {
+        UserModel stafSales = userService.getUserbyIdUser(idStafSales);
+        if (stafSales.getRole().getNamaRole().equals("Staf Sales")) {
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAwal);
+            Date finalDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAkhir);
+            List<KunjunganModel> listKunjungan = kunjunganDb.findByStafSalesAndTanggalKunjunganBetween(stafSales, startDate, finalDate);
+            List<PesananPenjualanModel> listPesanan = pesananPenjualanDb.findByUserAndTanggalPesananBetween(stafSales, startDate, finalDate);
+            model.addAttribute("listKunjungan", listKunjungan);
+            model.addAttribute("listPesanan", listPesanan);
+            model.addAttribute("stafSales", stafSales);
+        }
+        else {
+            model.addAttribute("message", "Data Laporan Staf Sales Tidak Ditemukan");
+        }
+        model.addAttribute("tanggalMulai", tanggalAwal);
+        model.addAttribute("tanggalAkhir", tanggalAkhir);
+        return "laporan/detail-laporan-staf";
+
     }
 
     @ModelAttribute
