@@ -343,9 +343,6 @@ public class PesananPenjualanController {
         if (diskon == null) {
             diskon = 0;
         }
-        String email = principal.getName();
-        UserModel user = userService.getUserbyEmail(email);
-        Date date = new Date();
         List<TransaksiPesananModel> tempList = pesananPenjualan.getBarangPesanan();
         List<TransaksiPesananModel> checkList = pesananPenjualan.getBarangPesanan();
 
@@ -385,27 +382,20 @@ public class PesananPenjualanController {
             transaksiPesananService.deleteTransaksiPesanan(transaksi.get(j).getIdTransaksiPesanan());
         }
 
-        pesananPenjualan.setStatusPesanan(0);
-        pesananPenjualan.setTanggalPesanan(date);
-        pesananPenjualan.setIsShown(true);
-        pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
-        pesananPenjualan.setBarangPesanan(null);
-
-        pesananPenjualanService.addPesanan(pesanan1);
+        pesanan1.setBarangPesanan(null);
         transaksiPesananService.addAll(tempList, idPesanan);
 
         Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
-        pesananPenjualan.setIdPesananPenjualan(pesananPenjualan.getIdPesananPenjualan());
-        pesananPenjualan.setAlamatToko(pesananPenjualan.getAlamatToko());
-        pesananPenjualan.setBarangPesanan(pesananPenjualan.getBarangPesanan());
-        pesananPenjualan.setDiskon(pesananPenjualan.getDiskon());
-        pesananPenjualan.setNamaToko(pesananPenjualan.getNamaToko());
-        pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
-        pesananPenjualan.setBarangPesanan(tempList);
-        pesananPenjualan.setStatusPesanan(0);
-        pesananPenjualan.setTotalHarga(hargaTotal);
+        pesanan1.setAlamatToko(pesananPenjualan.getAlamatToko());
+        pesanan1.setBarangPesanan(pesananPenjualan.getBarangPesanan());
+        pesanan1.setDiskon(pesananPenjualan.getDiskon());
+        pesanan1.setNamaToko(pesananPenjualan.getNamaToko());
+        pesanan1.setUser(pesananPenjualan.getUser());
+        pesanan1.setBarangPesanan(tempList);
+        pesanan1.setTotalHarga(hargaTotal);
 
-        pesananPenjualanService.updatePesanan(pesananPenjualan);
+
+        // pesananPenjualanService.updatePesanan(pesanan1);
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Pesanan Penjualan Berhasil Diubah");
         model.addAttribute("pesananPenjualan", pesananPenjualan);
