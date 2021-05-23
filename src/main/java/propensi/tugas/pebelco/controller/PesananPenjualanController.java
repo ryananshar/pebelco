@@ -475,12 +475,14 @@ public class PesananPenjualanController {
         } else if (status == 2){
             pesananPenjualanService.changeStatusDitolak(pesanan);
 
-            Boolean isNotif = true;
-            String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
-            String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = pesanan.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            if (pesanan.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
+                String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = pesanan.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Pesanan Berhasil Diubah");
