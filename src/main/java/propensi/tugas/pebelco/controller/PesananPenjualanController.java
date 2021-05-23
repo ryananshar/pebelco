@@ -398,7 +398,6 @@ public class PesananPenjualanController {
         pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
         pesananPenjualan.setBarangPesanan(tempList);
         pesananPenjualan.setStatusPesanan(0);
-        pesananPenjualan.setUser(user);
         pesananPenjualan.setTotalHarga(hargaTotal);
 
 
