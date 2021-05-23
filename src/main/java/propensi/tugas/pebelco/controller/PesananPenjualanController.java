@@ -383,7 +383,6 @@ public class PesananPenjualanController {
         pesananPenjualan.setStatusPesanan(0);
         pesananPenjualan.setTanggalPesanan(date);
         pesananPenjualan.setIsShown(true);
-        pesananPenjualan.setUser(user);
         pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
         pesananPenjualan.setBarangPesanan(null);
 
