@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 import propensi.tugas.pebelco.repository.ProdukDb;
-import propensi.tugas.pebelco.repository.TransaksiPesananDb;
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
@@ -38,12 +36,6 @@ import propensi.tugas.pebelco.service.ProdukService;
 public class PesananPenjualanController {
     @Autowired
     private PesananPenjualanService pesananPenjualanService;
-
-    @Autowired
-    private PesananPenjualanDb pesananPenjualanDb;
-
-    @Autowired
-    private TransaksiPesananDb transaksiPesananDb;
 
     @Autowired
     private ProdukService produkService;
@@ -157,6 +149,10 @@ public class PesananPenjualanController {
 
         for (TransaksiPesananModel barang : tempList) {
             // Handle duplicate
+            String namaBarang=barang.getNamaBarang();
+            ProdukModel produk=produkService.getProdukByNama(namaBarang);
+            Integer jumlahproduk=produk.getStok();
+            Integer jumlahpesanan=barang.getJumlah();
             if (checkList.stream().filter(o -> o.getNamaBarang().equals(barang.getNamaBarang())).skip(1).findAny().isPresent()) {
                 model.addAttribute("pesananPenjualan", pesananPenjualan);
                 model.addAttribute("listProduk", listProduk);
@@ -173,7 +169,16 @@ public class PesananPenjualanController {
                 model.addAttribute("subMsg", "Jumlah Barang tidak valid");
 
                 return "pesanan/form-add-pesanan";
-            } 
+            }
+            else if(jumlahpesanan>jumlahproduk){
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listProduk", listProduk);
+                model.addAttribute("pop", "red");
+                model.addAttribute("msg", "Pesanan Penjualan Gagal Ditambahkan");
+                model.addAttribute("subMsg", "Jumlah Barang tidak valid");
+
+                return "pesanan/form-add-pesanan";
+            }
         }
 
 
@@ -200,9 +205,6 @@ public class PesananPenjualanController {
         pesananPenjualan.setTotalHarga(hargaTotal);
         pesananPenjualanService.updatePesanan(pesananPenjualan);
 
-        // add laporan staf sales
-        laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
-
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             // setting pre-save values for notifikasi
             Boolean isNotif = true;
@@ -211,8 +213,11 @@ public class PesananPenjualanController {
             Long idPengirim = user.getIdUser();
             Long idRole = (long) 2;                 // id Sales Counter
             notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, desc, url, idPengirim, null, idRole));
+
+            // add laporan staf sales
+            laporanStafSalesService.addLaporanStafSales(new LaporanStafSalesModel(user, false, date, pesananPenjualan));
         }
-        
+
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Pesanan Penjualan Berhasil Ditambahkan");
         model.addAttribute("pesananPenjualan", pesananPenjualan);
@@ -227,26 +232,26 @@ public class PesananPenjualanController {
             Model model
     ) {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-            PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-            List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
-            if (user.getRole().getNamaRole().equals("Staf Sales")) {
-                if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listbarang", listbarang);
-                } else {
-                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
-                }
+        PesananPenjualanModel pesananPenjualan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
+        List<TransaksiPesananModel> listbarang = pesananPenjualan.getBarangPesanan();
+        if (user.getRole().getNamaRole().equals("Staf Sales")) {
+            if (pesananPenjualan.getUser() == user && pesananPenjualan.getIsShown()) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listbarang", listbarang);
+            } else {
+                model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
             }
-            else {
-                if (pesananPenjualan.getIsShown()) {
-                    model.addAttribute("pesananPenjualan", pesananPenjualan);
-                    model.addAttribute("listbarang", listbarang);
-                } else {
-                    model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
-                }
+        }
+        else {
+            if (pesananPenjualan.getIsShown()) {
+                model.addAttribute("pesananPenjualan", pesananPenjualan);
+                model.addAttribute("listbarang", listbarang);
+            } else {
+                model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
             }
+        }
 
-            return "pesanan/detail-pesanan";
+        return "pesanan/detail-pesanan";
 
     }
 
@@ -395,7 +400,6 @@ public class PesananPenjualanController {
         pesananPenjualan.setStatusPesanan(0);
         pesananPenjualan.setTanggalPesanan(date);
         pesananPenjualan.setIsShown(true);
-        pesananPenjualan.setUser(user);
         pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
         pesananPenjualan.setBarangPesanan(null);
 
@@ -411,9 +415,7 @@ public class PesananPenjualanController {
         pesananPenjualan.setKodePesananPenjualan(kodePesananPenjualan);
         pesananPenjualan.setBarangPesanan(tempList);
         pesananPenjualan.setStatusPesanan(0);
-        pesananPenjualan.setUser(user);
         pesananPenjualan.setTotalHarga(hargaTotal);
-
 
         pesananPenjualanService.updatePesanan(pesananPenjualan);
         model.addAttribute("pop", "green");
@@ -440,8 +442,19 @@ public class PesananPenjualanController {
             @PathVariable String statPesanan,
             Model model
     ){
+        List<TransaksiPesananModel> listbarang=new ArrayList<>();
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesanan);
+
+        for(int l=0;l<pesanan.getBarangPesanan().size();l++){
+            Integer jumlahpesanan=pesanan.getBarangPesanan().get(l).getJumlah();
+            ProdukModel produk=produkService.getProdukByNama(pesanan.getBarangPesanan().get(l).getNamaBarang());
+            Integer jumlahproduk=produk.getStok();
+            Integer totaljumlah=jumlahproduk-jumlahpesanan;
+            produk.setStok(totaljumlah);
+            produkService.updateStokProduk(produk);
+        }
+
         if (pesanan.getIsShown() == false || pesanan.getStatusPesanan() != 0){
             model.addAttribute("message", "Data Pesanan Tidak Ditemukan");
             return "pesanan/ubah-status-pesanan";
@@ -451,12 +464,15 @@ public class PesananPenjualanController {
             Date date = new Date();
             pesanan.setTanggalPersetujuan(date);
             pesananPenjualanService.changeStatusDisetujui(pesanan);
+
             Boolean isNotif = true;
-            String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
-            String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
             Long idPengirim = user.getIdUser();
-            Long idStafSales = pesanan.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            if (pesanan.getUser().getRole().getIdRole() == 1) {
+                String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
+                String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idStafSales = pesanan.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            }
 
             String descPengiriman = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " perlu dikirim";
             String urlPengiriman ="/perludikirim/tambah/pesanan/" + pesanan.getKodePesananPenjualan();
@@ -472,12 +488,14 @@ public class PesananPenjualanController {
         } else if (status == 2){
             pesananPenjualanService.changeStatusDitolak(pesanan);
 
-            Boolean isNotif = true;
-            String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
-            String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = pesanan.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            if (pesanan.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " ditolak";
+                String url ="/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = pesanan.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Pesanan Berhasil Diubah");

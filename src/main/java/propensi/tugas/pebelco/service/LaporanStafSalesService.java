@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.Date;
 import java.util.List;
 
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
@@ -17,4 +18,6 @@ public interface LaporanStafSalesService {
     List<LaporanStafSalesModel> getLaporanStafSalesByStafSalesList(UserModel stafSales);
 
     LaporanStafSalesModel getLaporanStafSalesById(Long idLaporanStafSales);
+
+    List<LaporanStafSalesModel> getLaporanStafSalesByDate(Date startDate, Date finalDate);
 }
