@@ -89,10 +89,18 @@ public class LaporanStafSalesController {
                         mapStafSales.put(stafSales.getNamaPanjang(), data);
                     }
                 }
-                model.addAttribute("tanggalMulai", tanggalMulai);
-                model.addAttribute("tanggalAkhir", tanggalAkhir);
-                model.addAttribute("mapStatus", "green");
-                model.addAttribute("mapStafSales", mapStafSales);
+
+                if (!listLaporanStaf.isEmpty()) {
+                    model.addAttribute("tanggalMulai", tanggalMulai);
+                    model.addAttribute("tanggalAkhir", tanggalAkhir);
+                    model.addAttribute("mapStatus", "green");
+                    model.addAttribute("mapStafSales", mapStafSales);
+                } else {
+                    model.addAttribute("tanggalMulai", tanggalMulai);
+                    model.addAttribute("tanggalAkhir", tanggalAkhir);
+                    model.addAttribute("mapStatus", "red");
+                    model.addAttribute("errorMsg", "Laporan Staf Sales Tidak Ditemukan");
+                }
             } catch (ParseException e) {
 
             }
