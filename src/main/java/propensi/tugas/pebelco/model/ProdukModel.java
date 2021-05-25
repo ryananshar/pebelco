@@ -36,7 +36,7 @@ public class ProdukModel implements Serializable{
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggal_dibuat", nullable = false)
-    private Date tanggal_dibuat;
+    private Date tanggalDibuat;
 
     @NotNull
     @Column(name = "tipe", nullable = false)
@@ -50,19 +50,6 @@ public class ProdukModel implements Serializable{
     //id produk
     @ManyToMany(mappedBy = "listProduk")
     private List<TagProdukModel> listTagProduk;
-
-    // id transaksi pesanan
-    // @OneToMany(mappedBy = "produkPesanan", fetch = FetchType.LAZY)
-    // @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnore
-    // private List<TransaksiPesananModel> listTransaksiPesanan;
-
-    // id transaksi komplain
-//    @OneToMany(mappedBy = "produkKomplain", fetch = FetchType.LAZY)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnore
-//    private List<TransaksiKomplainModel> listTransaksiKomplain;
-
 
     public Long getIdProduk() {
         return this.idProduk;
@@ -97,11 +84,11 @@ public class ProdukModel implements Serializable{
     }
 
     public Date getTanggal_dibuat() {
-        return this.tanggal_dibuat;
+        return this.tanggalDibuat;
     }
 
-    public void setTanggal_dibuat(Date tanggal_dibuat) {
-        this.tanggal_dibuat = tanggal_dibuat;
+    public void setTanggal_dibuat(Date tanggalDibuat) {
+        this.tanggalDibuat = tanggalDibuat;
     }
 
     public Integer getTipe() {
@@ -127,21 +114,4 @@ public class ProdukModel implements Serializable{
     public void setListTagProduk(List<TagProdukModel> listTagProduk) {
         this.listTagProduk = listTagProduk;
     }
-
-    // public List<TransaksiPesananModel> getListTransaksiPesanan() {
-    //     return this.listTransaksiPesanan;
-    // }
-
-    // public void setListTransaksiPesanan(List<TransaksiPesananModel> listTransaksiPesanan) {
-    //     this.listTransaksiPesanan = listTransaksiPesanan;
-    // }
-
-//    public List<TransaksiKomplainModel> getListTransaksiKomplain() {
-//        return this.listTransaksiKomplain;
-//    }
-//
-//    public void setListTransaksiKomplain(List<TransaksiKomplainModel> listTransaksiKomplain) {
-//        this.listTransaksiKomplain = listTransaksiKomplain;
-//    }
-
 }

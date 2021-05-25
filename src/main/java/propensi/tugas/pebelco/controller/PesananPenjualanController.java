@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -326,6 +325,13 @@ public class PesananPenjualanController {
         PesananPenjualanModel pesananPenjualan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
         List<ProdukModel> listProduk=produkDb.findAll();
 
+        // if (pesananPenjualan.getIsShown()) {
+        //     model.addAttribute("listProduk", listProduk);
+        //     model.addAttribute("pesananPenjualan",pesananPenjualan);
+        // } else {
+        //     model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+        // }
+
         model.addAttribute("listProduk", listProduk);
         model.addAttribute("pesananPenjualan",pesananPenjualan);
         return "pesanan/ubah-pesanan";
@@ -415,6 +421,13 @@ public class PesananPenjualanController {
         PesananPenjualanModel pesananPenjualan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
         Integer status=pesananPenjualan.getStatusPesanan();
 
+        // if (pesananPenjualan.getIsShown()) {
+                // model.addAttribute("pesanan", pesananPenjualan);
+                // model.addAttribute("statPesanan",status);
+        // } else {
+        //     model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
+        // }
+
         model.addAttribute("pesanan", pesananPenjualan);
         model.addAttribute("statPesanan",status);
         return "pesanan/ubah-status-pesanan";
@@ -464,26 +477,26 @@ public class PesananPenjualanController {
                     pesananPenjualanService.changeStatusDisetujui(pesanan);
                     produk.setStok(totaljumlah);
                     produkService.updateStokProduk(produk);
-                    Boolean isNotif = true;
-                    Long idPengirim = user.getIdUser();
-                    if (pesanan.getUser().getRole().getIdRole() == 1) {
-                        String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
-                        String url = "/pesanan/" + pesanan.getKodePesananPenjualan();
-                        Long idStafSales = pesanan.getUser().getIdUser();
-                        notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
-                    }
-
-                    String descPengiriman = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " perlu dikirim";
-                    String urlPengiriman = "/perludikirim/tambah/pesanan/" + pesanan.getKodePesananPenjualan();
-                    Long idAdminPengiriman = (long) 3;
-                    notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
-
-                    model.addAttribute("pop", "green");
-                    model.addAttribute("msg", "Status Pesanan Berhasil Diubah");
-                    model.addAttribute("subMsg", "");
-                    model.addAttribute("pesanan", pesanan);
-                    model.addAttribute("kodePesanan", kodePesanan);
                 }
+                Boolean isNotif = true;
+                Long idPengirim = user.getIdUser();
+                if (pesanan.getUser().getRole().getIdRole() == 1) {
+                    String descPesanan = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " disetujui";
+                    String url = "/pesanan/" + pesanan.getKodePesananPenjualan();
+                    Long idStafSales = pesanan.getUser().getIdUser();
+                    notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPesanan, url, idPengirim, idStafSales, null));
+                }
+
+                String descPengiriman = "Pesanan dengan id " + pesanan.getKodePesananPenjualan() + " perlu dikirim";
+                String urlPengiriman = "/perludikirim/tambah/pesanan/" + pesanan.getKodePesananPenjualan();
+                Long idAdminPengiriman = (long) 3;
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descPengiriman, urlPengiriman, idPengirim, null, idAdminPengiriman));
+
+                model.addAttribute("pop", "green");
+                model.addAttribute("msg", "Status Pesanan Berhasil Diubah");
+                model.addAttribute("subMsg", "");
+                model.addAttribute("pesanan", pesanan);
+                model.addAttribute("kodePesanan", kodePesanan);
             }
             return "pesanan/ubah-status-pesanan";
         }

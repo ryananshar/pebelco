@@ -139,7 +139,7 @@
                         <div class="col-4">
                             <form th:action="@{/search}" method="GET">
                                 <div class="row">
-                                    <input placeholder="Masukkan keyword disini" type="search" name="keyword" size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
+                                    <input placeholder="Masukkan keyword disini" type="search" name="keyword" th:value="${keyword}"size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
                                     <!--                                    <div class="col-6">-->
                                     <!--                                    </div>-->
                                     <div class="col-1">
@@ -148,7 +148,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-5 justify-content-end" style="margin-left: 10px;">
+                        <div class="col-5" style="margin-left: 10px;">
                             <a th:href="@{'/search-filter/?keyword=' + ${keyword}}" class="btn but-success"><i class="fa fa-filter"></i> Filter</a>
                         </div>
                     </div>
@@ -173,7 +173,10 @@
                                     <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                         Harga</a>
                                 </th>
-                                <th>Tanggal Dibuat</th>
+                                <th>
+                                    <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        Tanggal Dibuat</a>
+                                </th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
