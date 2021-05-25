@@ -40,9 +40,6 @@
             <h3 th:text="${filterTitle}" style="margin-left: 30px; color: #033C59;"></h3>
             <br>
             <div class="form-group" style="margin-left: 30px; width: 85%; color: #033C59;">
-                <input value="noKey" id="keyword-key" type="hidden">
-<!--                <input th:value="${tipe}" id="tipe-key" type="hidden">-->
-<!--                <input th:value="${tags}" id="tags-key" type="hidden">-->
                 <label>Tipe Produk</label>
                 <select class="form-control" name="status" onchange="selectOnChange(this)"required>
                     <option selected value="">-- Pilih Tipe Produk --</option>
@@ -109,10 +106,10 @@
                 <div class="row justify-content-center">
                     <a class="btn but-outline" type="button"
                        style=" background-color: white; color: #033C59; border: 1px solid #033C59;"
-                       th:href="@{/produk}">Batal</a>
+                       th:href="@{'/search?keyword=' + ${keyword}}">Batal</a>
                     <a class="btn but-success" type="button" id="submitButtonFilter"
                        onclick="filterSubmit()"
-                       >Filter</a>
+                    >Filter</a>
                 </div>
             </div>
         </div>
@@ -152,49 +149,53 @@
                             </form>
                         </div>
                         <div class="col-5 justify-content-end" style="margin-left: 10px;">
-                            <a th:href="@{/produk/filter}" class="btn but-success"><i class="fa fa-filter"></i> Filter</a>
+                            <a th:href="@{'/search-filter/?keyword=' + ${keyword}}" class="btn but-success"><i class="fa fa-filter"></i> Filter</a>
                         </div>
-<!--                        <div class="col">-->
-<!--                            <button class="btn but-success"><i class="fa fa-filter"></i>Filter</button>-->
-<!--                        </div>-->
                     </div>
-                    <table class="table daftar-table table-hover table-bordered">
-                        <tr class="bg-dark text-center">
-                            <th>No</th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Nama Produk</a>
-                            </th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Stok</a>
-                            </th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Harga</a>
-                            </th>
-                            <th>
-                                Tanggal Dibuat
-                            </th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="produk, iterationStatus: ${produk}">
-                            <td th:text="${iterationStatus.count}"></td>
-                            <td th:text="${produk.namaProduk}"></td>
-                            <td th:text="${produk.stok}"></td>
-                            <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
-                            <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
-                            <td>
-                                <div class="inline-buts">
-                                    <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
-                                    <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div th:if="${produk.size() == 0}">
+                        <br>
+                        <br>
+                        <h3 th:text="${pesanKey}"></h3>
+                    </div>
+                    <div th:if="${produk.size() > 0}">
+                        <table  class="table daftar-table table-hover table-bordered">
+                            <tr class="bg-dark text-center">
+                                <th>No</th>
+                                <th>
+                                    <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        Nama Produk</a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        Stok</a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        Harga</a>
+                                </th>
+                                <th>Tanggal Dibuat</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="produk, iterationStatus: ${produk}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${produk.namaProduk}"></td>
+                                <td th:text="${produk.stok}"></td>
+                                <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                                <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                        <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
