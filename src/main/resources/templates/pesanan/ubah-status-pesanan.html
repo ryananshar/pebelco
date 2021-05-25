@@ -18,6 +18,16 @@
                 OK
             </a>
         </div>
+        <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/pesanan/} + ${kodePesananPenjualan}" class="btn">
+                OK
+            </a>
+        </div>
         <div th:if="${pop} == 'statusPop'" class="col-5 pop-up">
             <div class="row justify-content-left" style=" text-align: left">
                 <h4 th:text="${msg}" style="margin: 10px 10px 0 10px; color: #033C59"></h4>
