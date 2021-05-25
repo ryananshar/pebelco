@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -340,6 +341,10 @@ public class PesananPenjualanController {
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
+        String email = principal.getName();
+        PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
+        Long idUser=pesanan.getUser().getIdUser();
+        UserModel user=userService.getUserbyIdUser(idUser);
         if (diskon == null) {
             diskon = 0;
         }
@@ -385,17 +390,18 @@ public class PesananPenjualanController {
         pesanan1.setBarangPesanan(null);
         transaksiPesananService.addAll(tempList, idPesanan);
 
+
         Long hargaTotal = pesananPenjualanService.calculateTotal(tempList, diskon);
         pesanan1.setAlamatToko(pesananPenjualan.getAlamatToko());
         pesanan1.setBarangPesanan(pesananPenjualan.getBarangPesanan());
         pesanan1.setDiskon(pesananPenjualan.getDiskon());
         pesanan1.setNamaToko(pesananPenjualan.getNamaToko());
-        pesanan1.setUser(pesananPenjualan.getUser());
+        pesanan1.setUser(user);
         pesanan1.setBarangPesanan(tempList);
         pesanan1.setTotalHarga(hargaTotal);
+        pesanan1.setIdPesananPenjualan(pesananPenjualan.getIdPesananPenjualan());
 
-
-        // pesananPenjualanService.updatePesanan(pesanan1);
+        pesananPenjualanService.updatePesanan(pesanan1);
         model.addAttribute("pop", "green");
         model.addAttribute("msg", "Pesanan Penjualan Berhasil Diubah");
         model.addAttribute("pesananPenjualan", pesananPenjualan);

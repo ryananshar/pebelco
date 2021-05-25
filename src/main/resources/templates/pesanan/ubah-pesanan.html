@@ -46,6 +46,7 @@
                 <div class="card-body">
                     <form th:action="@{/pesanan/ubah/}+${kodePesananPenjualan}" th:object="${pesananPenjualan}" method="POST">
                         <input type="hidden" name="id" th:field="*{idPesananPenjualan}" th:value="*{idPesananPenjualan}" />
+                        <input type="hidden" name="user" th:field="*{user}" th:value="*{user}"/>
                         <div class="form-group">
                             <label>Nama Toko</label>
                             <input type="text" name="namaToko" th:field="*{namaToko}" th:value="*{namaToko}" class="form-control" required>
@@ -118,7 +119,7 @@
                             </table>
                         </div>
                         <div class="row justify-content-end">
-                            <a class="btn but-outline" type="button" th:href="@{/pesanan}">Batal</a>
+                            <a class="btn but-outline" type="button" th:href="@{/pesanan/}+${kodePesananPenjualan}">Batal</a>
                             <button class="btn but-success" type="submit" value="Submit">Ubah</button>
                         </div>
                     </form>
