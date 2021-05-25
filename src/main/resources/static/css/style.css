@@ -620,3 +620,53 @@ td, th {
 .list-body table{
     margin-top:10px;
 }
+
+.tagContainerOuter{
+    margin:0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*min-height: 100vh;*/
+}
+.tagContainerInner{
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.containerTag{
+    margin: 10px;
+}
+.labelTag{
+    cursor: pointer;
+}
+.checkboxTag{
+    display:none;
+}
+.spanTag{
+    position: relative;
+    display: inline-block;
+    background: white;
+    color: #033C59;
+    border-width: thin;
+    border-style: solid;
+    border-color: #033C59;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 15px;
+    transition: 0.2s;
+    user-select: none;
+    overflow: hidden;
+}
+.spanTag:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+}
+.checkboxTag:checked ~ span{
+    background: #033C59;
+    color: white;
+}
