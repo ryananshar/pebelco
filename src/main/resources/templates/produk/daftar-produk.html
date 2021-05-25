@@ -123,7 +123,6 @@
     <div class="col-md-auto">
         <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
-
     <div class="container-fluid col">
         <div class="row justify-content-center">
             <div class="col" id="table-utama">
@@ -193,9 +192,7 @@
                                     <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
                                 </div>
                             </td>
-
                         </tr>
-
                         </tbody>
                     </table>
 

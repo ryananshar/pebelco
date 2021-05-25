@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Pesanan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pesanan/} + ${kodePesananPenjualan}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'red'" class="col-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/pesanan/} + ${kodePesananPenjualan}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'statusPop'" class="col-5 pop-up">
+            <div class="row justify-content-left" style=" text-align: left">
+                <h4 th:text="${msg}" style="margin: 10px 10px 0 10px; color: #033C59"></h4>
+                <p th:text="${subMsg}" style="text-align: left; font-weight: normal; font-size: 16px"></p>
+            </div>
+            <div class="row justify-content-center">
+                <a th:href="@{/pesanan/ubah-status/} + ${pesanan.kodePesananPenjualan}" class="btn btn-tidak" style="background-color: #FFFFFF;
+                        border-color: #005479; border-width: medium; color: #005479;">
+                    Tidak
+                </a>
+                <a th:href="@{/pesanan/ubah-status/} + ${statPesanan} + '/' + ${pesanan.kodePesananPenjualan}" class="btn" style="margin-left: 10px;">
+                    Ya
+                </a>
+            </div>
+        </div>
+        <div th:if="${pop} == 'statusPop'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/pesanan/ubah-status/} + ${pesanan.kodePesananPenjualan}" class="btn but-outline">
+                    Tidak
+                </a>
+                <a th:href="@{/pesanan/ubah-status/} + ${statPesanan} + '/' + ${pesanan.kodePesananPenjualan}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/pesanan}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${message} == null" class="card" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                <div class="card-header">
+                    <h3>Ubah Status Pesanan Penjualan</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Status Pesanan Penjualan</label>
+                                <select name="statusPesanan" class="form-control" th:onchange="selectOnChange(this)" required id="dropdown">
+                                    <option selected value="">-- Pilih Status Pesanan Penjualan --</option>
+                                    <option value="1">Disetujui</option>
+                                    <option value="2">Ditolak</option>
+                                </select>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="row justify-content-end">
+                                <a th:href="@{/pesanan/} + ${pesanan.kodePesananPenjualan}"
+                                   class="btn btn-batal">Batal</a>
+                                <a id="goNext" th:href="@{/#/}"
+                                   class="btn btn-ubah" onclick="makeAlert()">Ubah</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    var kode=[[${kodePesananPenjualan}]];
+    var link = document.getElementById("goNext");
+    var dropdown = document.getElementById("dropdown");
+    function selectOnChange(selectObjectStatus){
+        console.log(link);
+        var stat = selectObjectStatus.value;
+        var newUrl = "/pesanan/konfirmasi-ubah-status/$s/$h".replace('$s', stat);
+        var newerUrl = newUrl.replace('$h', kode);
+        // link = newUrl;
+        link.setAttribute("href", newerUrl);
+        console.log(link);
+    }
+
+    function makeAlert(){
+        if (dropdown.value == ""){
+            alert("Pilih salah satu status");
+            link.setAttribute("href", "/pesanan/ubah-status/%s".replace('%s',kode));
+        }
+    }
+</script>
+<style>
+    .containerAll{
+        border:2px solid #033C59;
+        border-radius: 20px;
+        width: 550px;
+        height: 300px;
+        margin-top: 100px;
+    }
+    .page-header{
+        margin: 10px 0 30px 10px;
+        color:#033C59;
+        font-family: 'Poppins', sans-serif;
+    }
+    .containIsi{
+        color: #033C59;
+        margin-left: 5px;
+    }
+    .btn-batal{
+        background-color: #FFFFFF;
+        border-color: #005479;
+        color: #005479;
+    }
+    .btn-batal:hover {
+        background-color: #005479;
+        color: #FFFFFF;
+        transition: all 0.3s;
+    }
+    .btn-ubah{
+        margin-left: 10px;
+        background-color: #005479;
+        color: #FFFFFF;
+    }
+    .btn-ubah:hover {
+        background-color: #2A7C86;
+        color: #FFFFFF;
+        transition: all 0.3s;
+    }
+</style>
+</html>

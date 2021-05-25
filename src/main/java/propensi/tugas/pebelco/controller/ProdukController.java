@@ -11,12 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.*;
-import propensi.tugas.pebelco.repository.ProdukDb;
-import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 import propensi.tugas.pebelco.service.*;
 
@@ -27,19 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ProdukController {
     @Autowired
-    private RoleDb roleDb;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private ProdukService produkService;
-
-    @Autowired
-    private ProdukDb produkDb;
 
     @Autowired
     private TagService tagService;
@@ -279,7 +267,7 @@ public class ProdukController {
 
     @GetMapping(value = "/produk/hapus/{id}")
     public String hapusproduk(@PathVariable Long id, Model model) {
-        List<TagProdukModel> list=new ArrayList<TagProdukModel>();
+        // List<TagProdukModel> list=new ArrayList<TagProdukModel>();
         ProdukModel produk=produkService.getProdukById(id);
         tagService.deleteTagProduk(produk);
         produkService.deleteProduk(produk);

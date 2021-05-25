@@ -22,4 +22,6 @@ public interface TransaksiPesananService {
     Long calculatePrice(Integer jumlah, ProdukModel produk);
 
     List<TransaksiPesananModel> getListByIdPesanan(PesananPenjualanModel pesananTransaksi);
+
+    List<TransaksiPesananModel> getListByIdPesananPenjualan(Long idPesanan);
 }

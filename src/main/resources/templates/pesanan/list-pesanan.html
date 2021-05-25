@@ -10,6 +10,30 @@
 </head>
 
 <body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+    <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
+        <p th:text="${msg2}"></p>
+        <span class="sub-msg" th:text="${subMsg}"></span>
+        <div class="row justify-content-center">
+            <a th:href="@{/pesanan}" class="btn but-outline">
+                Tidak
+            </a>
+            <a th:href="@{/pesanan/hapus/}+${kodePesananPenjualan}" class="btn but-success" style="margin-left: 10px;">
+                Ya
+            </a>
+        </div>
+    </div>
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pesanan}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
     <div class="col-md-auto">
@@ -79,7 +103,7 @@
                                         <a th:href="@{/pesanan/} + ${pesanan.kodePesananPenjualan}"
                                            class="btn but-detail"
                                         >Detail</a>
-                                        <a th:href="@{/pesanan/#}"
+                                        <a th:href="@{/pesanan/konfirmasi-hapus/}+${pesanan.kodePesananPenjualan}"
                                            th:classappend="${(pesanan.statusPesanan == 1 || pesanan.statusPesanan == 4) ? 'disabled':''}"
                                            class="btn but-danger"
                                            sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Hapus</a>

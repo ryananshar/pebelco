@@ -1,6 +1,5 @@
 package propensi.tugas.pebelco.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.ProdukModel;
-import propensi.tugas.pebelco.model.TagProdukModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 
@@ -75,6 +73,11 @@ public class ProdukServiceImpl implements ProdukService{
     @Override
     public List<ProdukModel> findBySearch(String keyword){
         return produkDb.findByNamaProdukContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public ProdukModel getProdukByNama(String nama){
+        return produkDb.findByNamaProduk(nama);
     }
 
 }

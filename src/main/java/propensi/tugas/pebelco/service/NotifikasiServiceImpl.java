@@ -1,7 +1,6 @@
 package propensi.tugas.pebelco.service;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -31,24 +30,6 @@ public class NotifikasiServiceImpl implements NotifikasiService{
 
     @Override
     public void addNotifikasi(NotifikasiModel notifikasi) {
-        // if (Objects.isNull(notifikasi.getIdPenerima())) {
-        //     RoleModel role = roleDb.findById(notifikasi.getIdRole()).get();
-        //     List<UserModel> listUser = userService.getUserListbyRole(role);
-        //     notifikasi.setWaktuDibuat(new Date());
-        //     notifikasi.setListUser(listUser);
-        //     notifikasiDb.save(notifikasi);
-        //     for (UserModel user : listUser) {
-        //         user.getListNotifikasi().add(notifikasi);
-        //     }
-        // } else {
-        //     List<UserModel> listUser = new ArrayList<UserModel>();
-        //     UserModel userPenerima = userService.getUserbyIdUser(notifikasi.getIdPenerima());
-        //     listUser.add(userPenerima);
-        //     notifikasi.setWaktuDibuat(new Date());
-        //     notifikasi.setListUser(listUser);
-        //     notifikasiDb.save(notifikasi);
-        //     userPenerima.getListNotifikasi().add(notifikasi);
-        // }
         if (Objects.isNull(notifikasi.getIdPenerima())) {
             RoleModel role = roleDb.findById(notifikasi.getIdRole()).get();
             List<UserModel> listUser = userService.getUserListbyRole(role);
