@@ -73,7 +73,8 @@
                     <td th:text="${map.key}"></td>
                     <td th:text="${map.value[0]}"></td>
                     <td th:text="${map.value[1]}"></td>
-                    <td th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
+                    <td th:if="${map.value[2]} == 0" th:text="'-'" style="text-align: right;"></td>
+                    <td th:unless="${map.value[2]} == 0" th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
                     <td>
                         <div class="inline-buts">
                             <a th:href="@{/laporan/staf-sales/} + ${tanggalMulai} + '/'
