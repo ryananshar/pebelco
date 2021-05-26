@@ -386,6 +386,16 @@ public class KomplainController {
             komplain.setTanggalPersetujuan(date);
             komplainService.changeStatusDisetujui(komplain);
 
+            int tempStokProduk;
+            int jumlahBarangDiKomplain;
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                produk.setStok(tempStokProduk-jumlahBarangDiKomplain);
+            }
+
             Boolean isNotif = true;
             Long idPengirim = user.getIdUser();
             if (komplain.getUser().getRole().getIdRole() == 1) {
