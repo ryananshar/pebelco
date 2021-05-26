@@ -40,9 +40,6 @@
             <h3 th:text="${filterTitle}" style="margin-left: 30px; color: #033C59;"></h3>
             <br>
             <div class="form-group" style="margin-left: 30px; width: 85%; color: #033C59;">
-                <input value="noKey" id="keyword-key" type="hidden">
-<!--                <input th:value="${tipe}" id="tipe-key" type="hidden">-->
-<!--                <input th:value="${tags}" id="tags-key" type="hidden">-->
                 <label>Tipe Produk</label>
                 <select class="form-control" name="status" onchange="selectOnChange(this)"required>
                     <option selected value="">-- Pilih Tipe Produk --</option>
@@ -112,7 +109,7 @@
                        th:href="@{/produk}">Batal</a>
                     <a class="btn but-success" type="button" id="submitButtonFilter"
                        onclick="filterSubmit()"
-                       >Filter</a>
+                    >Filter</a>
                 </div>
             </div>
         </div>
@@ -159,19 +156,55 @@
                             <th>No</th>
                             <th>
                                 <a th:href="@{'/produk-sorted/?sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Nama Produk</a>
+                                    <div th:if="${sortField} != 'namaProduk'">
+                                        <i class="fas fa-sort"></i>
+                                        Nama Produk
+                                    </div>
+                                    <div th:if="${sortField} == 'namaProduk'">
+                                        <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                        <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                        Nama Produk
+                                    </div>
+                                </a>
                             </th>
                             <th>
                                 <a th:href="@{'/produk-sorted/?sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Stok</a>
+                                    <div th:if="${sortField} != 'stok'">
+                                        <i class="fas fa-sort"></i>
+                                        Stok
+                                    </div>
+                                    <div th:if="${sortField} == 'stok'">
+                                        <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                        <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                        Stok
+                                    </div>
+                                </a>
                             </th>
                             <th>
                                 <a th:href="@{'/produk-sorted/?sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Harga</a>
+                                    <div th:if="${sortField} != 'harga'">
+                                        <i class="fas fa-sort"></i>
+                                        Harga
+                                    </div>
+                                    <div th:if="${sortField} == 'harga'">
+                                        <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                        <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                        Harga
+                                    </div>
+                                </a>
                             </th>
                             <th>
-                                <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    Tanggal Dibuat</a>
+                                <a th:href="@{'/produk-sorted/?sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                    <div th:if="${sortField} != 'tanggalDibuat'">
+                                        <i class="fas fa-sort"></i>
+                                        Tanggal Dibuat
+                                    </div>
+                                    <div th:if="${sortField} == 'tanggalDibuat'">
+                                        <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                        <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                        Tanggal Dibuat
+                                    </div>
+                                </a>
                             </th>
                             <th>Aksi</th>
                         </tr>
