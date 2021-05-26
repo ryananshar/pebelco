@@ -51,6 +51,7 @@ public class ProdukModel implements Serializable{
     @ManyToMany(mappedBy = "listProduk")
     private List<TagProdukModel> listTagProduk;
 
+
     public Long getIdProduk() {
         return this.idProduk;
     }
@@ -83,11 +84,11 @@ public class ProdukModel implements Serializable{
         this.harga = harga;
     }
 
-    public Date getTanggal_dibuat() {
+    public Date getTanggalDibuat() {
         return this.tanggalDibuat;
     }
 
-    public void setTanggal_dibuat(Date tanggalDibuat) {
+    public void setTanggalDibuat(Date tanggalDibuat) {
         this.tanggalDibuat = tanggalDibuat;
     }
 
@@ -113,5 +114,5 @@ public class ProdukModel implements Serializable{
 
     public void setListTagProduk(List<TagProdukModel> listTagProduk) {
         this.listTagProduk = listTagProduk;
-    }
+    }  
 }

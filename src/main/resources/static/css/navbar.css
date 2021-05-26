@@ -110,6 +110,12 @@ body {
     transition: all .2s;
 }
 
+.clicked h5 {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2;
+}
+
 .clicked:hover {
     background-color: #a7a7a796;
 }
