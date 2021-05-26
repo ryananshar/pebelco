@@ -151,7 +151,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-5 justify-content-end" style="margin-left: 10px;">
+                        <div class="col-5" style="margin-left: 10px;">
                             <a th:href="@{/produk/filter}" class="btn but-success"><i class="fa fa-filter"></i> Filter</a>
                         </div>
 <!--                        <div class="col">-->
@@ -174,7 +174,8 @@
                                     Harga</a>
                             </th>
                             <th>
-                                Tanggal Dibuat
+                                <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                    Tanggal Dibuat</a>
                             </th>
                             <th>Aksi</th>
                         </tr>
