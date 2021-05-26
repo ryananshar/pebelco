@@ -137,20 +137,19 @@
                         <br><br>
                     </div>
                     <div class="row justify-content-left">
-                        <div class="col-4">
+                        <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
                             <form th:action="@{/search}" method="GET">
                                 <div class="row">
                                     <input placeholder="Masukkan keyword disini" type="search" name="keyword" th:value="${keyword}" size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
-                                    <!--                                    <div class="col-6">-->
-                                    <!--                                    </div>-->
                                     <div class="col-1">
                                         <input type="submit" value="Search" class="btn but-success"/>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                        <div class="col-5" style="margin-left: 10px;">
-                            <a th:href="@{/produk/filter}" class="btn but-success"><i class="fa fa-filter"></i> Filter</a>
+                            <a th:href="@{/produk/filter}" class="btn but-success" style="width: auto;">
+                                <i class="fa fa-filter"></i> 
+                                Filter
+                            </a>
                         </div>
                     </div>
                     <div th:if="${produk.size() == 0}">
@@ -223,7 +222,7 @@
                                 <td th:text="${produk.namaProduk}"></td>
                                 <td th:text="${produk.stok}"></td>
                                 <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
-                                <td th:text="${#dates.format(produk.tanggal_dibuat, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
                                 <td>
                                     <div class="inline-buts">
                                         <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>

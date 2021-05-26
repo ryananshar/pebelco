@@ -586,6 +586,10 @@ td, th {
     margin: 50px 20px 50px 20px;
 }
 
+.list-header {
+    background: white;
+}
+
 .list-header h2{
     font-family: Poppins;
     font-style: normal;
@@ -603,6 +607,7 @@ td, th {
 
 .list-body {
     margin-top: 50px;
+    background: white;
 }
 
 .list-body h3{
