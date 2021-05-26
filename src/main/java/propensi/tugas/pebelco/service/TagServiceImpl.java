@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TagProdukModel;
-import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 
-import javax.swing.text.html.HTML;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,9 +15,6 @@ import java.util.List;
 public class TagServiceImpl implements TagService{
     @Autowired
     private TagProdukDb tagProdukDb;
-
-    @Autowired
-    private ProdukService produkService;
 
     @Autowired
     private TagService tagService;
@@ -50,8 +44,6 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public void addTagProduk(List<ProdukModel>produk){
-        List<TagProdukModel>list=new ArrayList<TagProdukModel>();
-        Long id =produk.get(0).getIdProduk();
         TagProdukModel tag= new TagProdukModel();
         for(int i=0; i<produk.size();i++){
             for(int j=0; j<produk.get(i).getListTagProduk().size();j++){
@@ -65,17 +57,6 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public void updateTagProduk(List<ProdukModel>produk,ProdukModel produkmodel){
-        List<TagProdukModel> tag1=tagService.findAll();
-//        Long idproduk=produkmodel.getIdProduk();
-//        for(int k=0; k<tag1.size();k++){
-//            for(int l=0; l<tag1.get(k).getListProduk().size();l++) {
-//                Long id1 = tag1.get(k).getListProduk().get(l).getIdProduk();
-//                if(idproduk==id1) {
-//                    tag1.get(k).getListProduk().remove(l);
-//                    l--;
-//                }
-//            }
-//        }
         TagProdukModel tag= new TagProdukModel();
         for(int i=0; i<produk.size();i++){
             for(int j=0; j<produk.get(i).getListTagProduk().size();j++){

@@ -39,15 +39,17 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "user/login";
+    public String login(Model model) {
+        model.addAttribute("listRole", roleService.findAll());
+        model.addAttribute("user", new UserModel());
+        return "user/login-v2";
     }
 
     @GetMapping(value = "/user/register")
     public String addUser(Model model) {
         model.addAttribute("listRole", roleService.findAll());
         model.addAttribute("user", new UserModel());
-        return "user/register";
+        return "user/login-v2";
     }
 
     @PostMapping("/user/register")
@@ -59,16 +61,16 @@ public class UserController {
                 // user.setListLaporanStafSales(new ArrayList<LaporanStafSalesModel>());
                 return "redirect:/login";
             } else {
-                model.addAttribute("msg", "Email Invalid");
+                model.addAttribute("msg", "Email Sudah Terdaftar di Database");
                 model.addAttribute("listRole", roleService.findAll());
                 model.addAttribute("user", new UserModel());
-                return "user/register";
+                return "user/login-v2";
             }    
         } catch (Exception e) {
             model.addAttribute("listRole", roleService.findAll());
-            model.addAttribute("msg", "Email Invalid on Database");
+            model.addAttribute("msg", "Email Sudah Terdaftar di Database");
             model.addAttribute("user", new UserModel());
-            return "user/register"; 
+            return "user/login-v2";
         }
         
     }
@@ -78,11 +80,6 @@ public class UserController {
             @PathVariable Long idNotifikasi,
             Model model) {
         NotifikasiModel notifikasi = notifikasiDb.findById(idNotifikasi).get();
-        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        // user.getListNotifikasi().remove(notifikasi);
-        // userService.updateUser(user);
-        // notifikasi.getListUser().remove(user);
-        // notifikasiDb.save(notifikasi);
         notifikasi.setIsNotif(false);
         notifikasiDb.save(notifikasi);
 

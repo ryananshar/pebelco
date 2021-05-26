@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
@@ -66,6 +67,16 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public List<PesananPenjualanModel> getPesananListByUser(UserModel user, Boolean bolean) {
         return pesananPenjualanDb.findByUserAndIsShown(user, bolean);
+    }
+
+    @Override
+    public void changeStatusDisetujui(PesananPenjualanModel pesanan){
+        pesanan.setStatusPesanan(1);
+    }
+
+    @Override
+    public void changeStatusDitolak(PesananPenjualanModel pesanan){
+        pesanan.setStatusPesanan(2);
     }
     
 }

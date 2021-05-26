@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Pameran</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+
+        <div class="container col">
+            <a
+                    th:href="@{/pameran}"
+                    class="btn but-arrow"
+            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <div class="row justify-content-center">
+                    <div class="card" id="detail-pameran" style="min-width: 900px;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4>Detail Pameran</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-12">
+                                <br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>ID Pameran</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pameran.idPameran}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Nama Pameran</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pameran.namaPameran}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Tanggal</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${#dates.format(pameran.tanggalMulai, 'dd/MM/yyyy')} + ' - ' + ${#dates.format(pameran.tanggalSelesai, 'dd/MM/yyyy')}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Waktu</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pameran.waktuMulai} + ' - ' + ${pameran.waktuSelesai}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Tipe Pameran</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:if="${pameran.tipePameran==1}">Lokal</div>
+                                        <div th:if="${pameran.tipePameran==2}">Nasional</div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Alamat Pameran</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${pameran.alamatPameran}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Catatan</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:if="${pameran.catatanPameran} != null" th:text="${pameran.catatanPameran}"></div>
+                                        <div th:unless="${pameran.catatanPameran} != null" th:text="'-'"></div>
+                                    </div>
+                                </div>
+                                <br><br><br>
+                            </div>
+
+                            <div class="row justify-content-end">
+                                <a th:href="@{/pameran/ubah/}+${pameran.idPameran}"
+                                   class="btn but-ubah"
+                                   sec:authorize="hasAnyAuthority('Vice Factory Manager', 'Admin')">Ubah</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

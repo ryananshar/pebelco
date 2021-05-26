@@ -70,8 +70,15 @@
                         <div class="col-md-3 fix">
                             <p>Pameran</p>
                             <img th:src="@{/img/pameran.svg}">
-                            <a th:href="@{/#}" class="btn">
+                            <a th:href="@{/pameran}" class="btn">
                                 Daftar Pameran
+                            </a>
+                        </div>
+                        <div sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')" class="col-md-3 fix">
+                            <p>Laporan</p>
+                            <img th:src="@{/img/laporan-pengiriman.png}">
+                            <a th:href="@{/laporan}" class="btn">
+                                Lihat Laporan
                             </a>
                         </div>
                     </div>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Staf Sales</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Laporan Staf Sales</h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 40px;">
+            <form th:action="@{/laporan/staf-sales/}" method="GET">
+                <div class="row">
+                    <div class="col-sm" style="max-width: 350px;"> 
+                        <div class="form-group" style="width: 300px;">
+                            <label>Tanggal Mulai</label>
+                            <input  type="date" class="form-control"
+                                    th:value="${tanggalMulai}"
+                                    name="tanggalMulai" required>
+                        </div>
+                    </div>
+                    <div class="col-sm" style="max-width: 350px;">
+                        <div class="form-group" style="width: 300px;">
+                            <label>Tanggal Akhir</label>
+                            <input  type="date" class="form-control"
+                                    th:value="${tanggalAkhir}"
+                                    name="tanggalAkhir" required>
+                        </div>
+                    </div>    
+                    <div class="col-sm">
+                        <br>
+                        <button class="btn but-success" type="submit" value="Submit">
+                            <i class="fa fa-search" aria-hidden="true" 
+                                style="font-size: 18px; margin-right: 15px;">
+                            </i>Cari</button>
+                    </div>
+                </div>                      
+            </form>
+        </div>
+        <div class="list-body" th:if="${mapStatus} == 'green'" id="table-utama">
+            <table class="table table-hover table-bordered daftar-table" >
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kunjungan</th>
+                    <th>Pesanan</th>
+                    <th>Total Penjualan</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="map, mapStat : ${mapStafSales}">
+                    <td th:text="${mapStat.count}"></td>
+                    <td th:text="${map.key}"></td>
+                    <td th:text="${map.value[0]}"></td>
+                    <td th:text="${map.value[1]}"></td>
+                    <td th:if="${map.value[2]} == 0" th:text="'-'" style="text-align: right;"></td>
+                    <td th:unless="${map.value[2]} == 0" th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
+                    <td>
+                        <div class="inline-buts">
+                            <a th:href="@{/laporan/staf-sales/} + ${tanggalMulai} + '/'
+                                        + ${tanggalAkhir} + '/' + ${map.value[3]}"
+                                class="btn but-detail"
+                            >Detail</a>
+                        </div>                        
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="list-body" th:if="${mapStatus} == 'red'">
+            <div class="central-body">
+                <img th:src="@{/img/laporanNotFound.png}" 
+                     style="display: block; 
+                            margin-left: auto; 
+                            margin-right: auto;
+                            margin-top: 120px;">
+                <br>
+                <h3 th:text="${errorMsg}"></h3>
+            </div>
+        </div>        
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Pesanan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/pesanan/}+${kodePesananPenjualan}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/pesanan/ubah/}+${kodePesananPenjualan}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container col">
+        <div class="row justify-content-center">
+            <div class="card" id="pesananPenjualan">
+                <div class="card-header">
+                    <h4>Ubah Pesanan Penjualan</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/pesanan/ubah/}+${kodePesananPenjualan}" th:object="${pesananPenjualan}" method="POST">
+                        <input type="hidden" name="id" th:field="*{idPesananPenjualan}" th:value="*{idPesananPenjualan}" />
+                        <input type="hidden" name="user" th:field="*{user}" th:value="*{user}"/>
+                        <div class="form-group">
+                            <label>Nama Toko</label>
+                            <input type="text" name="namaToko" th:field="*{namaToko}" th:value="*{namaToko}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat Toko</label>
+                            <input type="text" name="alamatToko" th:field="*{alamatToko}" th:value="*{alamatToko}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Diskon</label>
+                            <div class="row">
+                                <input type="number" name="diskon" th:field="*{diskon}" th:value="*{diskon}" class="form-control" required min="0" max="100" style="width: 160px; margin: 0 15px;">
+                                <label style="margin-top: 7px; top: 50%;">%</label>
+                            </div>
+                        </div>
+
+                        <br><br>
+                        <div class="row justify-content-between">
+                            <div class="float-md-left">
+                                <h3>Barang Pesanan</h3>
+                            </div>
+                            <div class="float-sm-right">
+                                <button class="btn but-success" type="submit" name="addRowUbah">Tambah Barang</button>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <th>Jumlah</th>
+                                    <th></th>
+                                    <th>
+                                        <!-- <button class="btn but-success" type="submit" name="addRow">Tambah Barang</button> -->
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="barang, barangStat : *{barangPesanan}">
+                                    <td>
+                                        <select th:field="*{barangPesanan[__${barangStat.index}__].namaBarang}"
+                                                class="form-control" required>
+                                            <option selected value="">-- PILIH Nama Barang (Harga) -[Stok] --</option>
+                                            <option th:each="produk : ${listProduk}"
+                                                    th:value="${produk.namaProduk}"
+                                                    th:with="harga=${produk.harga}"
+                                                    th:text="${produk.namaProduk} +
+                                                            '(Rp ' + ${#numbers.formatInteger(harga,3,'POINT')} + ')'
+                                                            + ' -[' + ${produk.stok} + ']'"
+                                            >
+                                                <input type="hidden" name="harga" th:field="${produk.harga}" th:value="${produk.harga}">
+                                            </option>
+
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" th:field="*{barangPesanan[__${barangStat.index}__].jumlah}"
+                                               placeholder="Masukan jumlah" min="1"
+                                               class="form-control" required/>
+                                    </td>
+                                    <td>
+                                        <button th:if="${barangStat.size} > 1" class="btn but-danger" type="submit" name="removeRowUbah"
+                                                th:value="${barangStat.index}">
+                                            <i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row justify-content-end">
+                            <a class="btn but-outline" type="button" th:href="@{/pesanan/}+${kodePesananPenjualan}">Batal</a>
+                            <button class="btn but-success" type="submit" value="Submit">Ubah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

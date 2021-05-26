@@ -1,15 +1,17 @@
 package propensi.tugas.pebelco.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.ProdukModel;
-import propensi.tugas.pebelco.model.TagProdukModel;
 import propensi.tugas.pebelco.repository.ProdukDb;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 
@@ -28,6 +30,19 @@ public class ProdukServiceImpl implements ProdukService{
     @Override
     public List<ProdukModel> findAll() {
         return produkDb.findAll();
+    }
+
+    @Override
+    public Page<ProdukModel> findPaginated(String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(0,produkDb.findAll().size(),sort);
+        return produkDb.findAll(pageable);
+    }
+
+    @Override
+    public List<ProdukModel> getProdukByTipe(Integer tipe){
+        return produkDb.findByTipe(tipe);
     }
 
     @Override
@@ -53,6 +68,16 @@ public class ProdukServiceImpl implements ProdukService{
     @Override
     public void addProduk(ProdukModel produk){
         produkDb.save(produk);
+    }
+
+    @Override
+    public List<ProdukModel> findBySearch(String keyword){
+        return produkDb.findByNamaProdukContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public ProdukModel getProdukByNama(String nama){
+        return produkDb.findByNamaProduk(nama);
     }
 
 }

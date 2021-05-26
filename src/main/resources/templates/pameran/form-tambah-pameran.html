@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Pameran</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <div th:if="${pop} != null" class="overlay" id="center">
+        <div class="row justify-content-center">
+            <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+                <img th:src="@{/img/green-check.svg}">
+                <p th:text="${msg}"></p>
+                <a th:href="@{/pameran}" class="btn">
+                    OK
+                </a>
+            </div>
+            <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+                <img th:src="@{/img/red-check.svg}">
+                <p th:text="${msg}"></p>
+                <div class="sub-msg">
+                    <span th:text="${subMsg}"></span>
+                </div>
+                <a th:href="@{/pameran/tambah}" class="btn">
+                    OK
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+
+        <div class="container col">
+            <div class="row justify-content-center">
+                <div class="card" id="tambah-pameran" style="min-width: 600px; width: 1000px; margin: 70px 10px 70px 10px">
+                    <div class="card-header">
+                        <h4>Tambah Pameran</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/pameran/tambah}" th:object="${newPameran}" method="POST">
+                            <div class="row justify-content-center">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Nama Pameran</label>
+                                        <input th:field="*{namaPameran}" type="text" class="form-control"
+                                               name="namaPameran"
+                                               placeholder="Masukan nama pameran" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tanggal Mulai</label>
+                                        <input th:field="*{tanggalMulai}" type="date" class="form-control"
+                                               name="tanggalMulai" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Tanggal Selesai</label>
+                                        <input th:field="*{tanggalSelesai}" type="date" class="form-control"
+                                               name="tanggalSelesai" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Waktu Mulai</label>
+                                        <input th:field="*{waktuMulai}" type="time" class="form-control"
+                                               name="waktuMulai" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Waktu Selesai</label>
+                                        <input th:field="*{waktuSelesai}" type="time" class="form-control"
+                                               name="waktuSelesai" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Tipe Pameran</label>
+                                        <select th:field="*{tipePameran}" class="form-control" name="tipePameran" th:value="*{tipePameran}" required>
+                                            <option selected value="">-- PILIH Tipe Pameran --</option>
+                                            <option th:value="1">Lokal</option>
+                                            <option th:value="2">Nasional</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Alamat Pameran</label>
+                                        <textarea th:field="*{alamatPameran}" class="form-control"
+                                                  style="width: 100%; height: 123px"
+                                                  name="alamatPameran"
+                                                  placeholder="Masukan alamat pameran" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Catatan</label>
+                                        <textarea th:field="*{catatanPameran}" class="form-control"
+                                                  style="width: 100%; height: 124px"
+                                                  name="catatanPameran"
+                                                  placeholder="Masukan catatan pameran"></textarea>
+                                    </div>
+
+                                    <br><br>
+
+                                    <div class="row justify-content-end">
+                                        <a class="btn but-outline" type="button" th:href="@{/pameran}">Batal</a>
+                                        <button class="btn but-success" type="submit" value="Submit">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

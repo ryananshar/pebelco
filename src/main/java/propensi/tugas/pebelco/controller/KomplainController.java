@@ -28,6 +28,10 @@ public class KomplainController {
     @Autowired
     TransaksiKomplainService transaksiKomplainService;
 
+    @Qualifier("produkServiceImpl")
+    @Autowired
+    ProdukService produkService;
+
     @Qualifier("pesananPenjualanServiceImpl")
     @Autowired
     PesananPenjualanService pesananPenjualanService;
@@ -357,12 +361,24 @@ public class KomplainController {
             komplain.setTanggalPersetujuan(date);
             komplainService.changeStatusDisetujui(komplain);
 
+            int tempStokProduk;
+            int jumlahBarangDiKomplain;
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                produk.setStok(tempStokProduk-jumlahBarangDiKomplain);
+            }
+
             Boolean isNotif = true;
-            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
-            String url ="/komplain/" + komplain.getKodeKomplain();
             Long idPengirim = user.getIdUser();
-            Long idStafSales = komplain.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            if (komplain.getUser().getRole().getIdRole() == 1) {
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " disetujui";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            }            
 
             String descPengiriman = "Komplain dengan id " + komplain.getKodeKomplain() + " perlu dikirim";
             String urlPengiriman ="/perludikirim/tambah/komplain/" + komplain.getKodeKomplain();
@@ -379,12 +395,14 @@ public class KomplainController {
         } else if (status == 2){
             komplainService.changeStatusDitolak(komplain);
 
-            Boolean isNotif = true;
-            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
-            String url ="/komplain/" + komplain.getKodeKomplain();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = komplain.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            if (komplain.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Komplain Berhasil Diubah");
