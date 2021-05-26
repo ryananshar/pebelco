@@ -62,13 +62,14 @@ public class ProdukController {
         return "produk/daftar-produk";
     }
 
-    @GetMapping(value = "/produk/filter")
+    @GetMapping(value = "/filter-produk")
     public String daftarProdukFilter(Model model) {
 
 
         model.addAttribute("filterTitle", "Filter Produk");
         model.addAttribute("produk", produkService.findAll());
         model.addAttribute("reverseSortDir", "asc");
+        model.addAttribute("pesanKey", "Tidak terdapat produk");
         return "produk/daftar-produk";
     }
 

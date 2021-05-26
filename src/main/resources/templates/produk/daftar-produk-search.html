@@ -163,19 +163,55 @@
                                 <th>No</th>
                                 <th>
                                     <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                        Nama Produk</a>
+                                        <div th:if="${sortField} != 'namaProduk'">
+                                            <i class="fas fa-sort"></i>
+                                            Nama Produk
+                                        </div>
+                                        <div th:if="${sortField} == 'namaProduk'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                            Nama Produk
+                                        </div>
+                                    </a>
                                 </th>
                                 <th>
                                     <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                        Stok</a>
+                                        <div th:if="${sortField} != 'stok'">
+                                            <i class="fas fa-sort"></i>
+                                            Stok
+                                        </div>
+                                        <div th:if="${sortField} == 'stok'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                            Stok
+                                        </div>
+                                    </a>
                                 </th>
                                 <th>
                                     <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                        Harga</a>
+                                        <div th:if="${sortField} != 'harga'">
+                                            <i class="fas fa-sort"></i>
+                                            Harga
+                                        </div>
+                                        <div th:if="${sortField} == 'harga'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                            Harga
+                                        </div>
+                                    </a>
                                 </th>
                                 <th>
                                     <a th:href="@{'/search-sorted/?keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                        Tanggal Dibuat</a>
+                                        <div th:if="${sortField} != 'tanggalDibuat'">
+                                            <i class="fas fa-sort"></i>
+                                            Tanggal Dibuat
+                                        </div>
+                                        <div th:if="${sortField} == 'tanggalDibuat'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                            Tanggal Dibuat
+                                        </div>
+                                    </a>
                                 </th>
                                 <th>Aksi</th>
                             </tr>
