@@ -97,12 +97,12 @@ body {
 }
 
 .unclicked {
-    background-color: #5050501c;
+    background-color: #4bb6eb81;
     transition: all .2s;
 }
 
 .unclicked:hover {
-    background-color: #50505049;
+    background-color: #4bb6eb46;
 }
 
 .clicked {
