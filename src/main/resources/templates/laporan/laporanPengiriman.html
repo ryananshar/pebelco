@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div style="margin-left: 40px;">
+        <div style="margin-left: 20px;">
             <form th:action="@{/laporan/laporan-pengiriman/}" method="GET">
                 <div class="row">
                     <div class="col-sm" style="max-width: 350px;"> 
@@ -60,90 +60,93 @@
                 </div>                      
             </form>
         </div>
-<!--        <div class="list-body" th:if="${mapStatus} == 'green'" id="table-utama">-->
-
-        <div class="list-body" th:if="${mapStatus} == 'green'">
+        <br>
+        <div th:if="${mapStatus} == 'green'">
             <div class="list-header" style="margin-left: 20px;">
                 <h4>Total Metode Pengiriman</h4>
             </div>
-            <table class="table daftar-table table-hover table-bordered" >
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Metode Pengiriman</th>
-                    <th>Jumlah</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>H. Hasan</td>
-                    <td th:text="${jumlahHasan}"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Berkat Kawan</td>
-                    <td th:text="${jumlahBK}"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Aran</td>
-                    <td th:text="${jumlahAran}"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Global</td>
-                    <td th:text="${jumlahGlobal}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="list-body" id="table-utama" style="margin-top: 30px;">
+                <table class="table daftar-table table-hover table-bordered" >
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Metode Pengiriman</th>
+                        <th>Jumlah</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>H. Hasan</td>
+                        <td th:text="${jumlahHasan}"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Berkat Kawan</td>
+                        <td th:text="${jumlahBK}"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Aran</td>
+                        <td th:text="${jumlahAran}"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Global</td>
+                        <td th:text="${jumlahGlobal}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>            
             <br><br>
             <div class="list-header" style="margin-left: 20px;">
                 <h4>Daftar Laporan Pengiriman</h4>
             </div>
-            <table class="table daftar-table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kode Pengiriman</th>
-                        <th>Nama Toko</th>
-                        <th>Tanggal Dikirim</th>
-                        <th>Tanggal Diterima</th>
-                        <th>Metode Pengiriman</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
-                        <td th:text="${iterationStatus.count}"></td>
-                        <td th:text="${pengiriman.kodePengiriman}">Kode</td>
-                        <td th:text="${pengiriman.namaToko}">Nama Toko</td>
-                        <td th:text="${#dates.format(pengiriman.tanggalDikirim, 'dd/MM/yyyy')}">Tanggal Dikirim</td>
-                        <td th:text="${#dates.format(pengiriman.tanggalDiterima, 'dd/MM/yyyy')}">Tanggal Diterima</td>
-                        <td th:text="${pengiriman.metodePengiriman}">Metode Pengiriman</td>
-                        <td>
-                            <div class="inline-buts">
-                                <a th:href="@{'/laporan/laporan-pengiriman/' + ${tanggalMulai} + '/'
-                                     + ${tanggalAkhir} + '/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="list-body" id="table-utama" style="margin-top: 30px;">
+                <table class="table daftar-table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Pengiriman</th>
+                            <th>Nama Toko</th>
+                            <th>Tanggal Dikirim</th>
+                            <th>Tanggal Diterima</th>
+                            <th>Metode Pengiriman</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${pengiriman.kodePengiriman}">Kode</td>
+                            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDikirim, 'dd/MM/yyyy')}">Tanggal Dikirim</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDiterima, 'dd/MM/yyyy')}">Tanggal Diterima</td>
+                            <td th:text="${pengiriman.metodePengiriman}">Metode Pengiriman</td>
+                            <td>
+                                <div class="inline-buts">
+                                    <a th:href="@{'/laporan/laporan-pengiriman/' + ${tanggalMulai} + '/'
+                                            + ${tanggalAkhir} + '/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>         
 
-
-        <div class="list-body" th:if="${mapStatus} == 'red'">
-            <div class="central-body">
-                <img th:src="@{/img/laporanNotFound.png}"
-                     style="display: block; 
-                            margin-left: auto; 
-                            margin-right: auto;
-                            margin-top: 120px;">
-                <br>
-                <h3 th:text="${errorMsg}"></h3>
+            <div class="list-body" th:if="${mapStatus} == 'red'">
+                <div class="central-body">
+                    <img th:src="@{/img/laporanNotFound.png}"
+                            style="display: block; 
+                                margin-left: auto; 
+                                margin-right: auto;
+                                margin-top: 120px;">
+                    <br>
+                    <h3 th:text="${errorMsg}"></h3>
+                </div>
             </div>
         </div>
-    </div>
+
 </div>
 </div>
 </body>
