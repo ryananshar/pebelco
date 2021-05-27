@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface MetodePengirimanDb extends JpaRepository<MetodePengirimanModel, Long> {
     Optional<MetodePengirimanModel> findByNamaMetodePengiriman(String namaMetodePengiriman);
-
+    Optional<String> findNamaByIdMetode(Long id);
 }

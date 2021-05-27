@@ -34,6 +34,12 @@ public class PengirimanServiceImpl implements PengirimanService {
     }
 
     @Override
+    public List<Pengiriman> findAllLaporan() {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAll();
+        return getPengirimanFromModel(pengirimanList);
+    }
+
+    @Override
     public Pengiriman findPengirimanByKode(String kodePengiriman) {
         PengirimanModel pengirimanModel = pengirimanDb.findByKodePengiriman(kodePengiriman);
         return new Pengiriman(pengirimanModel);
@@ -118,4 +124,11 @@ public class PengirimanServiceImpl implements PengirimanService {
             return false;
         }
     }
+
+    
+	@Override
+	public List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate) {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetween(startDate, finalDate);
+		return getPengirimanFromModel(pengirimanList);
+	}
 }
