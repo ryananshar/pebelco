@@ -20,7 +20,6 @@
     </div>
     <div class="container col">
         <a
-                th:if="${pengiriman.statusId == 1 || pengiriman.statusId == 2 || pengiriman.statusId == 3}"
                 th:href="@{/laporan/laporan-pengiriman/} + '?tanggalMulai='
                         + ${tanggalMulai} + '&tanggalAkhir=' + ${tanggalAkhir}"
                 class="btn but-arrow">
@@ -54,7 +53,6 @@
                                 <h4>Detail Pengiriman</h4>
                             </div>
                             <div class="col-4">
-<!--                                <span th:text="${pengiriman.status}"></span>-->
                                 <span th:if="${pengiriman.statusId == 1}"
                                       class="belumDikirim">Belum Dikirim</span>
                                 <span th:if="${pengiriman.statusId == 2}"
@@ -123,9 +121,6 @@
                                     </div>
                                     <br><br>
                                 </th:block>
-
-                                <!--  kalo tanggal dikirim ngga ada, ga ditampilin  -->
-                                <!--  buat th:block lain juga sama  -->
                                 <th:block th:each="tanggalDikirim : ${pengiriman.tanggalDikirim}">
                                     <div th:if="${tanggalDikirim}">
                                         <div class="row">
@@ -204,18 +199,6 @@
                                 </tbody>
                             </table>
                             <br><br><br>
-                        </div>
-                        <div class="row justify-content-end">
-                            <div th:if="${isPengiriman}">
-<!--                                <div >-->
-                                    <a th:if="${showUbahStatus}" th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah-stat"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Ubah Status</a>
-<!--                                </div>-->
-<!--                                <div th:if="${showUbahPengiriman}">-->
-                                    <a th:if="${showUbahPengiriman}" th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')"> Ubah </a>
-<!--                                </div>-->
-                            </div>
                         </div>
                     </div>
                 </div>

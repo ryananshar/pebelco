@@ -89,15 +89,20 @@ public class LaporanPengirimanController {
                                           @PathVariable(value = "tanggalMulai", required = false) String tanggalMulai,
                                           @PathVariable(value = "tanggalAkhir", required = false) String tanggalAkhir,
                                           Model model) {
-        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
-        if (pengiriman.getStatusId() == 3) {
-            model.addAttribute("pengiriman", pengiriman);
-            model.addAttribute("isPengiriman", true);
-            model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
-        } else {
+        try {
+            Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+            if (pengiriman.getStatusId() == 3) {
+                model.addAttribute("pengiriman", pengiriman);
+                model.addAttribute("isPengiriman", true);
+                model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
+            } else {
+                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+                model.addAttribute("pengiriman", pengiriman);
+            }
+        } catch (NullPointerException e) {
             model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
-            model.addAttribute("pengiriman", pengiriman);
         }
+        
         model.addAttribute("tanggalMulai", tanggalMulai);
         model.addAttribute("tanggalAkhir", tanggalAkhir);
         return "laporan/detailLaporanPengiriman";
