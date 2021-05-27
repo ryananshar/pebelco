@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PengirimanService {
     List<Pengiriman> findAll();
+    List<Pengiriman> findAllLaporan();
     Pengiriman findPengirimanByKode(String kodePengiriman);
     List<Barang> findAllBarangByKodePengiriman(String kodePengiriman);
     void updateMetodePengiriman(String kodePengiriman, Long idMetodePengiriman);
@@ -16,4 +17,5 @@ public interface PengirimanService {
     boolean showUbahStatusButton(int status);
     boolean showUbahPengirimanButton(int status);
     void setIsShownFalse(String kodePengiriman);
+    List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate);
 }

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Pengiriman</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container-fluid col">
+        <a
+                th:href="@{/laporan}"
+                class="btn but-arrow">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Laporan Pengiriman</h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 20px;">
+            <form th:action="@{/laporan/laporan-pengiriman/}" method="GET">
+                <div class="row">
+                    <div class="col-sm" style="max-width: 350px;"> 
+                        <div class="form-group" style="width: 300px;">
+                            <label>Tanggal Mulai</label>
+                            <input  type="date" class="form-control"
+                                    th:value="${tanggalMulai}"
+                                    name="tanggalMulai" required>
+                        </div>
+                    </div>
+                    <div class="col-sm" style="max-width: 350px;">
+                        <div class="form-group" style="width: 300px;">
+                            <label>Tanggal Akhir</label>
+                            <input  type="date" class="form-control"
+                                    th:value="${tanggalAkhir}"
+                                    name="tanggalAkhir" required>
+                        </div>
+                    </div>    
+                    <div class="col-sm">
+                        <br>
+                        <button class="btn but-success" type="submit" value="Submit">
+                            <i class="fa fa-search" aria-hidden="true" 
+                                style="font-size: 18px; margin-right: 15px;">
+                            </i>Cari</button>
+                    </div>
+                </div>                      
+            </form>
+        </div>
+        <br>
+        <div th:if="${mapStatus} == 'green'">
+            <div class="list-header" style="margin-left: 20px;">
+                <h4>Total Metode Pengiriman</h4>
+            </div>
+            <div class="list-body" id="table-utama" style="margin-top: 30px;">
+                <table class="table daftar-table table-hover table-bordered" >
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Metode Pengiriman</th>
+                        <th>Jumlah</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>H. Hasan</td>
+                        <td th:text="${jumlahHasan}"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Berkat Kawan</td>
+                        <td th:text="${jumlahBK}"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Aran</td>
+                        <td th:text="${jumlahAran}"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Global</td>
+                        <td th:text="${jumlahGlobal}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>            
+            <br><br>
+            <div class="list-header" style="margin-left: 20px;">
+                <h4>Daftar Laporan Pengiriman</h4>
+            </div>
+            <div class="list-body" id="table-utama" style="margin-top: 30px;">
+                <table class="table daftar-table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Pengiriman</th>
+                            <th>Nama Toko</th>
+                            <th>Tanggal Dikirim</th>
+                            <th>Tanggal Diterima</th>
+                            <th>Metode Pengiriman</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pengiriman, iterationStatus : ${pengirimans}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${pengiriman.kodePengiriman}">Kode</td>
+                            <td th:text="${pengiriman.namaToko}">Nama Toko</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDikirim, 'dd/MM/yyyy')}">Tanggal Dikirim</td>
+                            <td th:text="${#dates.format(pengiriman.tanggalDiterima, 'dd/MM/yyyy')}">Tanggal Diterima</td>
+                            <td th:text="${pengiriman.metodePengiriman}">Metode Pengiriman</td>
+                            <td>
+                                <div class="inline-buts">
+                                    <a th:href="@{'/laporan/laporan-pengiriman/' + ${tanggalMulai} + '/'
+                                            + ${tanggalAkhir} + '/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>         
+
+            <div class="list-body" th:if="${mapStatus} == 'red'">
+                <div class="central-body">
+                    <img th:src="@{/img/laporanNotFound.png}"
+                            style="display: block; 
+                                margin-left: auto; 
+                                margin-right: auto;
+                                margin-top: 120px;">
+                    <br>
+                    <h3 th:text="${errorMsg}"></h3>
+                </div>
+            </div>
+        </div>
+
+</div>
+</div>
+</body>
+
+</html>
