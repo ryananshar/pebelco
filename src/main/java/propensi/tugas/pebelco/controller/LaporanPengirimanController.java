@@ -32,9 +32,9 @@ public class LaporanPengirimanController {
 
     @RequestMapping(value = "/laporan/laporan-pengiriman/")
     public String daftarLaporanPengiriman(
-        @RequestParam(value = "tanggalMulai", required = false) String tanggalMulai,
-        @RequestParam(value = "tanggalAkhir", required = false) String tanggalAkhir,
-        Model model) {
+            @RequestParam(value = "tanggalMulai", required = false) String tanggalMulai,
+            @RequestParam(value = "tanggalAkhir", required = false) String tanggalAkhir,
+            Model model) {
 
         if (tanggalMulai != null && tanggalAkhir != null) {
             try {
@@ -89,8 +89,8 @@ public class LaporanPengirimanController {
                                           @PathVariable(value = "tanggalMulai", required = false) String tanggalMulai,
                                           @PathVariable(value = "tanggalAkhir", required = false) String tanggalAkhir,
                                           Model model) {
-        Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
-        if (pengiriman.getKodePengiriman() != null) {
+        try {
+            Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
             if (pengiriman.getStatusId() == 3) {
                 model.addAttribute("pengiriman", pengiriman);
                 model.addAttribute("isPengiriman", true);
@@ -99,7 +99,10 @@ public class LaporanPengirimanController {
                 model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
+        } catch (NullPointerException e) {
+            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
         }
+
         model.addAttribute("tanggalMulai", tanggalMulai);
         model.addAttribute("tanggalAkhir", tanggalAkhir);
         return "laporan/detailLaporanPengiriman";
