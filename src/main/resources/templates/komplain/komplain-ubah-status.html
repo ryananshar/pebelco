@@ -20,7 +20,9 @@
         <div th:if="${pop} == 'red'" class="col-5 pop-up">
             <img th:src="@{/img/red-check.svg}">
             <p th:text="${msg}"></p>
-            <p th:text="${subMsg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
             <a th:href="@{/komplain/} + ${kodeKomplain}" class="btn">
                 OK
             </a>

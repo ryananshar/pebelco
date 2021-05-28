@@ -124,9 +124,16 @@ public class LaporanStafSalesController {
             Date finalDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAkhir);
             List<KunjunganModel> listKunjungan = kunjunganDb.findByStafSalesAndTanggalKunjunganBetween(stafSales, startDate, finalDate);
             List<PesananPenjualanModel> listPesanan = pesananPenjualanDb.findByUserAndTanggalPesananBetween(stafSales, startDate, finalDate);
-            model.addAttribute("listKunjungan", listKunjungan);
-            model.addAttribute("listPesanan", listPesanan);
-            model.addAttribute("stafSales", stafSales);
+            if (listKunjungan.isEmpty() && listPesanan.isEmpty()) {
+                model.addAttribute("message", "Data Laporan Staf Sales Tidak Ditemukan");
+                model.addAttribute("tanggalMulai", tanggalAwal);
+                model.addAttribute("tanggalAkhir", tanggalAkhir);
+                return "laporan/detail-laporan-staf";
+            } else {
+                model.addAttribute("listKunjungan", listKunjungan);
+                model.addAttribute("listPesanan", listPesanan);
+                model.addAttribute("stafSales", stafSales); 
+            }
         }
         else {
             model.addAttribute("message", "Data Laporan Staf Sales Tidak Ditemukan");

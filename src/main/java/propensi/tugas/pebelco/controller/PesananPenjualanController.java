@@ -458,8 +458,8 @@ public class PesananPenjualanController {
                 if(totaljumlah<0){
                     isJumlahValid=false;
                     model.addAttribute("pop", "red");
-                    model.addAttribute("msg", "Pesanan Penjualan Gagal Diubah");
-                    model.addAttribute("subMsg", "Jumlah Stok Barang tidak valid");
+                    model.addAttribute("msg", "Status Pesanan Penjualan Gagal Diubah");
+                    model.addAttribute("subMsg", "Jumlah stok barang tidak cukup");
                     model.addAttribute("pesanan", pesanan);
                     model.addAttribute("kodePesanan", kodePesanan);
                     break;
