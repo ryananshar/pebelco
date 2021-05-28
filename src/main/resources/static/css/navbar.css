@@ -97,12 +97,12 @@ body {
 }
 
 .unclicked {
-    background-color: #4bb6eb81;
+    background-color: #4bb6eb46;
     transition: all .2s;
 }
 
 .unclicked:hover {
-    background-color: #4bb6eb46;
+    background-color: #4bb6eb81;
 }
 
 .clicked {
@@ -117,7 +117,7 @@ body {
 }
 
 .clicked:hover {
-    background-color: #a7a7a796;
+    background-color: #d4d4d4c4;
 }
 
 /* Sidebar */

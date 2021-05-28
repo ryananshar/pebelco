@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.Null;
+
 @Controller
 public class LaporanPengirimanController {
 
@@ -32,9 +34,9 @@ public class LaporanPengirimanController {
 
     @RequestMapping(value = "/laporan/laporan-pengiriman/")
     public String daftarLaporanPengiriman(
-        @RequestParam(value = "tanggalMulai", required = false) String tanggalMulai,
-        @RequestParam(value = "tanggalAkhir", required = false) String tanggalAkhir,
-        Model model) {
+            @RequestParam(value = "tanggalMulai", required = false) String tanggalMulai,
+            @RequestParam(value = "tanggalAkhir", required = false) String tanggalAkhir,
+            Model model) {
 
         if (tanggalMulai != null && tanggalAkhir != null) {
             try {
@@ -47,16 +49,16 @@ public class LaporanPengirimanController {
                 int jumlahAran = 0;
                 int jumlahGlobal = 0;
 
-                for (Pengiriman a: allPengiriman) {
+                for (Pengiriman a : allPengiriman) {
                     if (a.getStatusId() == 3) {
                         pengirimans.add(a);
-                        if (a.getMetodePengiriman().equals("H. Hasan")){
+                        if (a.getMetodePengiriman().equals("H. Hasan")) {
                             jumlahHasan++;
-                        } else if (a.getMetodePengiriman().equals("Berkat Kawan")){
+                        } else if (a.getMetodePengiriman().equals("Berkat Kawan")) {
                             jumlahBK++;
-                        } else if (a.getMetodePengiriman().equals("Aran")){
+                        } else if (a.getMetodePengiriman().equals("Aran")) {
                             jumlahAran++;
-                        }else if (a.getMetodePengiriman().equals("Global")){
+                        } else if (a.getMetodePengiriman().equals("Global")) {
                             jumlahGlobal++;
                         }
                     }
@@ -68,43 +70,54 @@ public class LaporanPengirimanController {
 
                 model.addAttribute("tanggalMulai", tanggalMulai);
                 model.addAttribute("tanggalAkhir", tanggalAkhir);
-                if (pengirimans.isEmpty()){
+                if (pengirimans.isEmpty()) {
                     model.addAttribute("mapStatus", "red");
                     model.addAttribute("errorMsg", "Laporan Pengiriman Tidak Ditemukan");
-                }
-                else{
+                } else {
 
                     model.addAttribute("mapStatus", "green");
                     model.addAttribute("msg", "ada pengiriman");
                     model.addAttribute("pengirimans", pengirimans);
                 }
-            }catch (ParseException e) {
+            } catch (ParseException e) {
 
             }
-        } return "laporan/laporanPengiriman";
+        } else {
+            model.addAttribute("mainPage", "belum search");
+        }
+        return "laporan/laporanPengiriman";
     }
 
     @RequestMapping("/laporan/laporan-pengiriman/{tanggalMulai}/{tanggalAkhir}/{kodePengiriman}")
     public String detailLaporanPengiriman(@PathVariable String kodePengiriman,
                                           @PathVariable(value = "tanggalMulai", required = false) String tanggalMulai,
                                           @PathVariable(value = "tanggalAkhir", required = false) String tanggalAkhir,
-                                          Model model) {
+                                          Model model) throws ParseException {
+
         try {
             Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalMulai);
+            Date finalDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAkhir);
             if (pengiriman.getStatusId() == 3) {
-                model.addAttribute("pengiriman", pengiriman);
-                model.addAttribute("isPengiriman", true);
-                model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
+                if (startDate.compareTo(pengiriman.getTanggalDiterima()) <= 0 && pengiriman.getTanggalDiterima().compareTo(finalDate) <= 0) {
+                    model.addAttribute("pengiriman", pengiriman);
+                    model.addAttribute("isPengiriman", true);
+                    model.addAttribute("barangList", pengirimanService.findAllBarangByKodePengiriman(kodePengiriman));
+                } else {
+                    model.addAttribute("message", "Data Laporan Pengiriman Tidak Ditemukan");
+                    model.addAttribute("pengiriman", pengiriman);
+                }
             } else {
-                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+                model.addAttribute("message", "Data Laporan Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
         } catch (NullPointerException e) {
-            model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
+            model.addAttribute("message", "Data Laporan Pengiriman Tidak Ditemukan");
         }
-        
+
         model.addAttribute("tanggalMulai", tanggalMulai);
         model.addAttribute("tanggalAkhir", tanggalAkhir);
+
         return "laporan/detailLaporanPengiriman";
     }
 

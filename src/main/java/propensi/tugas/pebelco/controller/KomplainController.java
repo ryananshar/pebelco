@@ -365,7 +365,7 @@ public class KomplainController {
                 jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
                 if (jumlahBarangDiKomplain > tempStokProduk){
                     model.addAttribute("pop", "red");
-                    model.addAttribute("msg", "Status Gagal Diubah");
+                    model.addAttribute("msg", "Status Komplain Gagal Diubah");
                     model.addAttribute("subMsg", "Jumlah stok barang tidak cukup");
                     model.addAttribute("komplain", komplain);
                     model.addAttribute("kodeKomplain", kodeKomplain);

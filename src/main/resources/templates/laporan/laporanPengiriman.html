@@ -32,9 +32,13 @@
             </div>
         </div>
         <div style="margin-left: 20px;">
+            <div th:if="${mainPage} != null">
+                <h5 style="color: gray; font-weight: 500;">Isi periode tanggal terlebih dahulu</h5>
+                <br>
+            </div>
             <form th:action="@{/laporan/laporan-pengiriman/}" method="GET">
                 <div class="row">
-                    <div class="col-sm" style="max-width: 350px;"> 
+                    <div class="col-sm" style="max-width: 350px;">
                         <div class="form-group" style="width: 300px;">
                             <label>Tanggal Mulai</label>
                             <input  type="date" class="form-control"
