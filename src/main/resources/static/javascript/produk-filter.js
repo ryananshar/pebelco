@@ -8,6 +8,7 @@ var tagKursi = document.getElementById("tag-2");
 var tagLemari = document.getElementById("tag-3");
 var tagLaci = document.getElementById("tag-4");
 var tagRak = document.getElementById("tag-5");
+var keywordVal = document.getElementById("keywordInput");
 var baseUrl = "/filter/"
 var url="";
 
@@ -36,11 +37,7 @@ function filterSubmit(){
         }
     }
     if (listTag.length > 0){
-        // if (tipe === ""){
-        //     url = url + "?tag=";
-        // } else if (tipe !== ""){
-        //     url = url + "&tag=";
-        // }
+
         url = url + "&tag=";
         var i;
         for (i=0; i < listTag.length; i++){
@@ -48,17 +45,32 @@ function filterSubmit(){
         }
         url = url.slice(0, url.length-1);
     }
-    console.log("url akhir = " + url);
+    // if (keywordVal !== null && keywordVal.value === ""){
+    //     url = url + "&keyword=" + keywordVal.value;
+    // }
     if (url === ""){
         document.getElementById("submitButtonFilter").setAttribute("href", "/produk");
         document.getElementById("submitButtonFilter").submit();
     } else if(tipe === ""){
-        document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + "?tipe=" + url);
+        if (keywordVal !== null){
+            document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + "?tipe=" + url + "&keyword=" + keywordVal.value);
+        } else{
+            document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + "?tipe=" + url);
+        }
         document.getElementById("submitButtonFilter").submit();
     } else if(listTag.length === 0){
-        document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url + "&tag=");
+        if (keywordVal !== null){
+            document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url + "&tag=" + "&keyword=" + keywordVal.value);
+        }else{
+            document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url + "&tag=");
+        }
         document.getElementById("submitButtonFilter").submit();
     }
-    document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url);
+
+    if(keywordVal !== null){
+        document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url + "&keyword=" + keywordVal.value);
+    }else{
+        document.getElementById("submitButtonFilter").setAttribute("href", baseUrl + url);
+    }
     document.getElementById("submitButtonFilter").submit();
 }

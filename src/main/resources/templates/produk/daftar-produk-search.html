@@ -40,6 +40,7 @@
             <h3 th:text="${filterTitle}" style="margin-left: 30px; color: #033C59;"></h3>
             <br>
             <div class="form-group" style="margin-left: 30px; width: 85%; color: #033C59;">
+                <input type="hidden" th:value="${keyword}" id="keywordInput">
                 <label>Tipe Produk</label>
                 <select class="form-control" name="status" onchange="selectOnChange(this)"required>
                     <option selected value="">-- Pilih Tipe Produk --</option>
