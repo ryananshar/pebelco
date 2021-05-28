@@ -107,6 +107,8 @@ public class LaporanStafSalesController {
             } catch (ParseException e) {
 
             }
+        } else {
+            model.addAttribute("mainPage", "belum search");
         }
         return "laporan/daftar-laporan-staf";
     }
