@@ -69,10 +69,15 @@ public class UserController {
                 model.addAttribute("msg", "Password berhasil diubah");
             }else{
                 model.addAttribute("pop", "red");
-                model.addAttribute("subMsg", "Password konfirmasi tidak sama dengan password baru");
+                model.addAttribute("subMsg", "Konfirmasi password baru tidak valid");
                 model.addAttribute("user", user);
                 model.addAttribute("msg", "Password gagal diubah");
             }
+        } else {
+            model.addAttribute("pop", "red");
+            model.addAttribute("subMsg", "Password lama tidak valid");
+            model.addAttribute("user", user);
+            model.addAttribute("msg", "Password gagal diubah");
         }
 
         return "user/profile";
