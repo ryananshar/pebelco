@@ -54,7 +54,6 @@ public class KunjunganServiceImpl implements KunjunganService {
             targetKunjungan.setTanggalKunjungan(kunjungan.getTanggalKunjungan());
             targetKunjungan.setWaktuMulai(kunjungan.getWaktuMulai());
             targetKunjungan.setWaktuSelesai(kunjungan.getWaktuSelesai());
-//            targetKunjungan.setCatatanKunjungan(kunjungan.getCatatanKunjungan());
 
             if (kunjungan.getCatatanKunjungan().equals("")) {
                 targetKunjungan.setCatatanKunjungan(null);
@@ -71,7 +70,6 @@ public class KunjunganServiceImpl implements KunjunganService {
 
     @Override
     public void deleteKunjungan(KunjunganModel kunjungan) {
-//        kunjunganDb.delete(kunjungan);
         kunjungan.setIsShown(false);
     }
 
