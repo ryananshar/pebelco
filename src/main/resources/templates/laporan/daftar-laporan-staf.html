@@ -18,6 +18,11 @@
         <!-- </div> -->
     </div>
     <div class="container-fluid col">
+        <a
+                th:href="@{/laporan}"
+                class="btn but-arrow">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
         <div class="row justify-content-center">
             <div class="col" id="table-utama">
                 <div class="list-header">
@@ -26,7 +31,11 @@
                 </div>
             </div>
         </div>
-        <div style="margin-left: 40px;">
+        <div style="margin-left: 20px;">
+            <div th:if="${mainPage} != null">
+                <h5 style="color: gray; font-weight: 500;">Isi periode tanggal terlebih dahulu</h5>
+                <br>
+            </div>            
             <form th:action="@{/laporan/staf-sales/}" method="GET">
                 <div class="row">
                     <div class="col-sm" style="max-width: 350px;"> 
@@ -73,7 +82,8 @@
                     <td th:text="${map.key}"></td>
                     <td th:text="${map.value[0]}"></td>
                     <td th:text="${map.value[1]}"></td>
-                    <td th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
+                    <td th:if="${map.value[2]} == 0" th:text="'-'" style="text-align: right;"></td>
+                    <td th:unless="${map.value[2]} == 0" th:text="'Rp '+ ${#numbers.formatInteger(map.value[2], 3,'POINT')}" style="text-align: right;"></td>
                     <td>
                         <div class="inline-buts">
                             <a th:href="@{/laporan/staf-sales/} + ${tanggalMulai} + '/'

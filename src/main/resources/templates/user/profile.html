@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-md-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/profile}" class="btn">
+                OK
+            </a>
+        </div>
+    </div>
+</div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="row d-flex">
+        <div class="col-md-auto">
+            <!-- <div class="position-fixed"> -->
+            <nav th:replace="fragments/fragment :: sidebar"></nav>
+            <!-- </div> -->
+        </div>
+        <div class="container-fluid col">
+            <a
+                    th:href="@{/}"
+                    class="btn but-arrow"
+            ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            <div class="row justify-content-center">
+                <div class="card" id="pesananPenjualan" style="min-width: 900px;">
+                    <div class="card-header">
+                        <div class="col-sm">
+                            <h2>Profile</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-12">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div>Nama</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-7">
+                                    <div th:text="${user.getNamaPanjang()}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div>Role</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-7">
+                                    <div th:text="${user.getRole().getNamaRole()}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div>Email</div>
+                                </div>
+                                <div class="col-1">
+                                    <div th:text="':'"></div>
+                                </div>
+                                <div class="col-7">
+                                    <div th:text="${user.getEmail()}"></div>
+                                </div>
+                            </div>
+                            <br><br>
+                            <h4>Ubah Password</h4>
+                            <br>
+                            <form th:action="@{/profile/update-pass}" method="POST">
+                                <input type="hidden" name="email" th:value="${user.getEmail()}">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div>Password Lama</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="password" name="oldPass" class="form-control"
+                                               style="height: 30px; width: 50%;">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div>Password Baru</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="password" name="newPass" class="form-control"
+                                               style="height: 30px; width: 50%;">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div>Konfirmasi Password Baru</div>
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="password" name="newPassConfirm" class="form-control"
+                                               style="height: 30px; width: 50%;">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <button type="submit" class="btn but-success">Ubah Password</button>
+                                </div>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

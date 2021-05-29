@@ -16,16 +16,6 @@ public class KunjunganServiceImpl implements KunjunganService {
     KunjunganDb kunjunganDb;
 
     @Override
-    public List<KunjunganModel> getKunjunganList() {
-        return kunjunganDb.findAll();
-    }
-
-    @Override
-    public List<KunjunganModel> getKunjunganListByStafSales(UserModel stafSales) {
-        return kunjunganDb.findByStafSales(stafSales);
-    }
-
-    @Override
     public List<KunjunganModel> getKunjunganListByIsShown(Boolean isShown) {
         return kunjunganDb.findByIsShown(isShown);
     }
@@ -33,11 +23,6 @@ public class KunjunganServiceImpl implements KunjunganService {
     @Override
     public List<KunjunganModel> getKunjunganListByStafSalesByIsShown(UserModel stafSales, Boolean isShown) {
         return kunjunganDb.findByStafSalesAndIsShown(stafSales, isShown);
-    }
-
-    @Override
-    public KunjunganModel getKunjunganById(Long idKunjungan) {
-        return kunjunganDb.findById(idKunjungan).get();
     }
 
     @Override
@@ -69,7 +54,6 @@ public class KunjunganServiceImpl implements KunjunganService {
             targetKunjungan.setTanggalKunjungan(kunjungan.getTanggalKunjungan());
             targetKunjungan.setWaktuMulai(kunjungan.getWaktuMulai());
             targetKunjungan.setWaktuSelesai(kunjungan.getWaktuSelesai());
-//            targetKunjungan.setCatatanKunjungan(kunjungan.getCatatanKunjungan());
 
             if (kunjungan.getCatatanKunjungan().equals("")) {
                 targetKunjungan.setCatatanKunjungan(null);
@@ -86,7 +70,6 @@ public class KunjunganServiceImpl implements KunjunganService {
 
     @Override
     public void deleteKunjungan(KunjunganModel kunjungan) {
-//        kunjunganDb.delete(kunjungan);
         kunjungan.setIsShown(false);
     }
 
