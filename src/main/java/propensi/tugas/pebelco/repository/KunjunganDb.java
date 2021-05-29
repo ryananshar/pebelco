@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface KunjunganDb extends JpaRepository<KunjunganModel,Long> {
-    List<KunjunganModel> findAll();
-    List<KunjunganModel> findByStafSales(UserModel stafSales);
     KunjunganModel findByKodeKunjungan(String kodeKunjungan);
     List<KunjunganModel> findByIsShown(Boolean isShown);
     List<KunjunganModel> findByStafSalesAndIsShown(UserModel stafSales, Boolean isShown);
