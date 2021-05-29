@@ -28,6 +28,10 @@ public class KomplainController {
     @Autowired
     TransaksiKomplainService transaksiKomplainService;
 
+    @Qualifier("produkServiceImpl")
+    @Autowired
+    ProdukService produkService;
+
     @Qualifier("pesananPenjualanServiceImpl")
     @Autowired
     PesananPenjualanService pesananPenjualanService;
@@ -352,6 +356,31 @@ public class KomplainController {
         Integer status = Integer.parseInt(statKomplain);
 
         if (status == 1){
+            int tempStokProduk;
+            int jumlahBarangDiKomplain;
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                if (jumlahBarangDiKomplain > tempStokProduk){
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Status Komplain Gagal Diubah");
+                    model.addAttribute("subMsg", "Jumlah stok barang tidak cukup");
+                    model.addAttribute("komplain", komplain);
+                    model.addAttribute("kodeKomplain", kodeKomplain);
+                    return "komplain/komplain-ubah-status";
+                }
+            }
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                produk.setStok(tempStokProduk-jumlahBarangDiKomplain);
+
+            }
+
             Date date = new Date();
 
             komplain.setTanggalPersetujuan(date);
@@ -381,12 +410,14 @@ public class KomplainController {
         } else if (status == 2){
             komplainService.changeStatusDitolak(komplain);
 
-            Boolean isNotif = true;
-            String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
-            String url ="/komplain/" + komplain.getKodeKomplain();
-            Long idPengirim = user.getIdUser();
-            Long idStafSales = komplain.getUser().getIdUser();
-            notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            if (komplain.getUser().getRole().getIdRole() == 1) {
+                Boolean isNotif = true;
+                String descKomplain = "Komplain dengan id " + komplain.getKodeKomplain() + " ditolak";
+                String url ="/komplain/" + komplain.getKodeKomplain();
+                Long idPengirim = user.getIdUser();
+                Long idStafSales = komplain.getUser().getIdUser();
+                notifikasiService.addNotifikasi(new NotifikasiModel(isNotif, descKomplain, url, idPengirim, idStafSales, null));
+            }
 
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Status Komplain Berhasil Diubah");

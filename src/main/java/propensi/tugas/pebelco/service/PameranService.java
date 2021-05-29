@@ -20,4 +20,3 @@ public interface PameranService {
     // Method untuk menghapus Pameran
     void deletePameran(PameranModel pameran);
 }
-

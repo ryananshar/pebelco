@@ -97,12 +97,12 @@ body {
 }
 
 .unclicked {
-    background-color: #5050501c;
+    background-color: #4bb6eb46;
     transition: all .2s;
 }
 
 .unclicked:hover {
-    background-color: #50505049;
+    background-color: #4bb6eb81;
 }
 
 .clicked {
@@ -110,8 +110,14 @@ body {
     transition: all .2s;
 }
 
+.clicked h5 {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2;
+}
+
 .clicked:hover {
-    background-color: #a7a7a796;
+    background-color: #d4d4d4c4;
 }
 
 /* Sidebar */

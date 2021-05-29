@@ -120,6 +120,7 @@
     <div class="col-md-auto">
         <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
+
     <div class="container-fluid col">
         <div class="row justify-content-center">
             <div class="col" id="table-utama">
@@ -139,7 +140,7 @@
                         <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
                             <form th:action="@{/search}" method="GET">
                                 <div class="row">
-                                    <input placeholder="Masukkan keyword disini" type="search" name="keyword" size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
+                                    <input placeholder="Masukkan keyword disini" type="search" name="keyword" th:value="${keyword}" size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
                                     <div class="col-1">
                                         <input type="submit" value="Search" class="btn but-success"/>
                                     </div>
@@ -151,80 +152,89 @@
                             </a>
                         </div>
                     </div>
-                    <table class="table daftar-table table-hover table-bordered">
-                        <tr class="bg-dark text-center">
-                            <th>No</th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    <div th:if="${sortField} != 'namaProduk'">
-                                        <i class="fa fa-sort"></i>
-                                        Nama Produk
+                    <div th:if="${produk.size() == 0}">
+                        <br>
+                        <br>
+                        <h3 th:text="${pesanFilter}"></h3>
+                    </div>
+                    <div th:if="${produk.size() > 0}">
+                        <table class="table daftar-table table-hover table-bordered">
+                            <tr class="bg-dark text-center">
+                                <th>No</th>
+                                <th>
+                                    <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        <div th:if="${sortField} != 'namaProduk'">
+                                            <i class="fa fa-sort"></i>
+                                            Nama Produk
+                                        </div>
+                                        <div th:if="${sortField} == 'namaProduk'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                            Nama Produk
+                                        </div>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        <div th:if="${sortField} != 'stok'">
+                                            <i class="fa fa-sort"></i>
+                                            Stok
+                                        </div>
+                                        <div th:if="${sortField} == 'stok'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                            Stok
+                                        </div>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        <div th:if="${sortField} != 'harga'">
+                                            <i class="fa fa-sort"></i>
+                                            Harga
+                                        </div>
+                                        <div th:if="${sortField} == 'harga'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                            Harga
+                                        </div>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                        <div th:if="${sortField} != 'tanggalDibuat'">
+                                            <i class="fa fa-sort"></i>
+                                            Tanggal Dibuat
+                                        </div>
+                                        <div th:if="${sortField} == 'tanggalDibuat'">
+                                            <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                            <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                            Tanggal Dibuat
+                                        </div>
+                                    </a>
+                                </th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="produk, iterationStatus: ${produk}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${produk.namaProduk}"></td>
+                                <td th:text="${produk.stok}"></td>
+                                <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                                <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                        <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
                                     </div>
-                                    <div th:if="${sortField} == 'namaProduk'">
-                                        <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
-                                        <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
-                                        Nama Produk
-                                    </div>
-                                </a>
-                            </th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    <div th:if="${sortField} != 'stok'">
-                                        <i class="fa fa-sort"></i>
-                                        Stok
-                                    </div>
-                                    <div th:if="${sortField} == 'stok'">
-                                        <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
-                                        <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
-                                        Stok
-                                    </div>
-                                </a>
-                            </th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    <div th:if="${sortField} != 'harga'">
-                                        <i class="fa fa-sort"></i>
-                                        Harga
-                                    </div>
-                                    <div th:if="${sortField} == 'harga'">
-                                        <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
-                                        <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
-                                        Harga
-                                    </div>
-                                </a>
-                            </th>
-                            <th>
-                                <a th:href="@{'/produk-sorted/?sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
-                                    <div th:if="${sortField} != 'tanggalDibuat'">
-                                        <i class="fa fa-sort"></i>
-                                        Tanggal Dibuat
-                                    </div>
-                                    <div th:if="${sortField} == 'tanggalDibuat'">
-                                        <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
-                                        <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
-                                        Tanggal Dibuat
-                                    </div>
-                                </a>
-                            </th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="produk, iterationStatus: ${produk}">
-                            <td th:text="${iterationStatus.count}"></td>
-                            <td th:text="${produk.namaProduk}"></td>
-                            <td th:text="${produk.stok}"></td>
-                            <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
-                            <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
-                            <td>
-                                <div class="inline-buts">
-                                    <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
-                                    <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>

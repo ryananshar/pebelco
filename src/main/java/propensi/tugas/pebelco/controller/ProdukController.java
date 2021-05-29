@@ -3,39 +3,31 @@ package propensi.tugas.pebelco.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.*;
-import propensi.tugas.pebelco.repository.ProdukDb;
-import propensi.tugas.pebelco.repository.RoleDb;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 import propensi.tugas.pebelco.service.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
 public class ProdukController {
     @Autowired
-    private RoleDb roleDb;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private ProdukService produkService;
-
-    @Autowired
-    private ProdukDb produkDb;
 
     @Autowired
     private TagService tagService;
@@ -48,8 +40,219 @@ public class ProdukController {
 
     @GetMapping(value = "/produk")
     public String daftarproduk(Model model) {
+
         model.addAttribute("produk", produkService.findAll());
+        model.addAttribute("reverseSortDir", "asc");
         return "produk/daftar-produk";
+    }
+
+    @GetMapping(value = "/produk-sorted")
+    public String daftarProdukSort(
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+
+        Page<ProdukModel> page = produkService.findPaginated(sortField, sortDir);
+        List<ProdukModel> produk = page.getContent();
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("produk", produk);
+        return "produk/daftar-produk";
+    }
+
+    @GetMapping(value = "/filter-produk")
+    public String daftarProdukFilter(Model model) {
+
+
+        model.addAttribute("filterTitle", "Filter Produk");
+        model.addAttribute("produk", produkService.findAll());
+        model.addAttribute("reverseSortDir", "asc");
+        model.addAttribute("pesanKey", "Tidak terdapat produk");
+        return "produk/daftar-produk";
+    }
+
+    @GetMapping(value = "/search")
+    public String daftarProdukBySearchbar(@Param("keyword") String keyword, Model model) {
+
+
+        model.addAttribute("produk", produkService.findBySearch(keyword));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pesanKey", "Tidak terdapat produk dengan keyword " + keyword);
+        model.addAttribute("reverseSortDir", "asc");
+        return "produk/daftar-produk-search";
+    }
+
+    @GetMapping(value = "/search-sorted")
+    public String daftarProdukBySearchBarSort(
+            @RequestParam("keyword") String keyword,
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+
+        List<ProdukModel> produkSearched = produkService.findBySearch(keyword);
+        Page<ProdukModel> page = produkService.findPaginated(sortField, sortDir);
+        List<ProdukModel> produkSorted = page.getContent();
+        List<ProdukModel> produk = new ArrayList<>();
+
+        for (int i = 0; i < produkSorted.size(); i++){
+            if (produkSearched.contains(produkSorted.get(i))){
+                produk.add(produkSorted.get(i));
+            }
+        }
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("produk", produk);
+        return "produk/daftar-produk-search";
+    }
+
+    @GetMapping(value = "/search-filter")
+    public String daftarProdukBySearchbarFilter(
+            @RequestParam("keyword") String keyword,
+            Model model)
+    {
+        model.addAttribute("produk", produkService.findBySearch(keyword));
+        model.addAttribute("filterTitle", "Filter Produk");
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pesanKey", "Tidak terdapat produk dengan keyword " + keyword);
+        model.addAttribute("reverseSortDir", "asc");
+        return "produk/daftar-produk-search";
+    }
+
+    @GetMapping(value = "/filter")
+    public String daftarProdukFiltered(
+            @RequestParam("tipe") String tipe,
+            @RequestParam("tag") String tags,
+            Model model
+            ){
+        List<TagProdukModel> listTagProduk = new ArrayList<>();
+        List<ProdukModel> produkFiltered = new ArrayList<>();
+
+        if(tags.equals("")){
+
+            model.addAttribute("produk", produkService.getProdukByTipe(Integer.parseInt(tipe)));
+        }else if (tipe.equals("")){
+            String[] listTags = tags.split(" ");
+            for (String i : listTags){
+                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+            }
+            List<ProdukModel> produk = produkService.findAll();
+            for (ProdukModel j : produk){
+                if (j.getListTagProduk().containsAll(listTagProduk)){
+                    produkFiltered.add(j);
+                }
+            }
+            model.addAttribute("produk", produkFiltered);
+
+        }else if (!tipe.equals("") && !tags.equals("")){
+            List<ProdukModel> produk = produkService.getProdukByTipe(Integer.parseInt(tipe));
+            String[] listTags = tags.split(" ");
+            for (String i : listTags){
+                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+            }
+            for (ProdukModel j : produk){
+                if (j.getListTagProduk().containsAll(listTagProduk)){
+                    produkFiltered.add(j);
+                }
+            }
+
+            model.addAttribute("produk", produkFiltered);
+        }
+        model.addAttribute("pesanFilter", "Produk tidak ditemukan");
+        model.addAttribute("reverseSortDir", "asc");
+        model.addAttribute("tipe", tipe);
+        model.addAttribute("tags", tags);
+        return "produk/daftar-produk-filter";
+
+    }
+
+    @GetMapping(value = "/filter-sorted")
+    public String daftarProdukByFilteredSort(
+            @RequestParam("tipe") String tipe,
+            @RequestParam("tag") String tags,
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+        Page<ProdukModel> page = produkService.findPaginated(sortField, sortDir);
+        List<ProdukModel> produkSorted = page.getContent();
+
+        List<TagProdukModel> listTagProduk = new ArrayList<>();
+        List<ProdukModel> produkFiltered = new ArrayList<>();
+
+        if(tags.equals("")){
+            List<ProdukModel> produkTemp = produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+            for (int i = 0; i < produkSorted.size(); i++){
+                if (produkTemp.contains(produkSorted.get(i))){
+                    produkFiltered.add(produkSorted.get(i));
+                }
+            }
+            model.addAttribute("tags", tags);
+            model.addAttribute("produk", produkFiltered);
+        }else if (tipe.equals("")){
+            List<ProdukModel> produkTemp = new ArrayList<>();
+
+            String[] listTags = tags.split(" ");
+            for (String i : listTags){
+                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+            }
+            List<ProdukModel> produkAll = produkService.findAll();
+            for (ProdukModel j : produkAll){
+                if (j.getListTagProduk().containsAll(listTagProduk)){
+                    produkTemp.add(j);
+                }
+            }
+
+            for (int i = 0; i < produkSorted.size(); i++){
+                if (produkTemp.contains(produkSorted.get(i))){
+                    produkFiltered.add(produkSorted.get(i));
+                }
+            }
+
+            String tagsNew = "";
+            for (int i = 0; i < listTags.length; i++){
+                tagsNew += listTags[i] + "+";
+            }
+            model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+            model.addAttribute("produk", produkFiltered);
+
+        }else if (!tipe.equals("") && !tags.equals("")){
+            List<ProdukModel> produkTemp = new ArrayList<>();
+
+            List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
+            String[] listTags = tags.split(" ");
+            for (String i : listTags){
+                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+            }
+            for (ProdukModel j : produkTipe){
+                if (j.getListTagProduk().containsAll(listTagProduk)){
+                    produkTemp.add(j);
+                }
+            }
+
+            for (int i = 0; i < produkSorted.size(); i++){
+                if (produkTemp.contains(produkSorted.get(i))){
+                    produkFiltered.add(produkSorted.get(i));
+                }
+            }
+
+            String tagsNew = "";
+            for (int i = 0; i < listTags.length; i++){
+                tagsNew += listTags[i] + "+";
+            }
+            model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+            model.addAttribute("produk", produkFiltered);
+        }
+        model.addAttribute("tipe", tipe);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        return "produk/daftar-produk-filter";
+
     }
 
     @GetMapping(value = "/produk/{id}")
@@ -65,7 +268,7 @@ public class ProdukController {
 
     @GetMapping(value = "/produk/hapus/{id}")
     public String hapusproduk(@PathVariable Long id, Model model) {
-        List<TagProdukModel> list=new ArrayList<TagProdukModel>();
+        // List<TagProdukModel> list=new ArrayList<TagProdukModel>();
         ProdukModel produk=produkService.getProdukById(id);
         tagService.deleteTagProduk(produk);
         produkService.deleteProduk(produk);

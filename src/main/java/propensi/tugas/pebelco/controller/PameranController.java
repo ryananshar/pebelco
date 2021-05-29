@@ -1,19 +1,32 @@
 package propensi.tugas.pebelco.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import propensi.tugas.pebelco.model.PameranModel;
-import propensi.tugas.pebelco.service.PameranService;
 
+import propensi.tugas.pebelco.model.NotifikasiModel;
+import propensi.tugas.pebelco.model.PameranModel;
+import propensi.tugas.pebelco.model.UserModel;
+import propensi.tugas.pebelco.service.NotifikasiService;
+import propensi.tugas.pebelco.service.PameranService;
+import propensi.tugas.pebelco.service.UserService;
+
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 public class PameranController {
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private NotifikasiService notifikasiService;
+    
     @Autowired
     private PameranService pameranService;
 
@@ -162,4 +175,16 @@ public class PameranController {
         return "pameran/daftar-pameran";
     }
 
+    @ModelAttribute
+    public void userInformation(Principal principal, Model model) {
+        try {
+            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            model.addAttribute("jumlahNotif", listNotifUser.size());
+            model.addAttribute("listNotif", listNotifUser);
+        } catch (Exception e) {
+            model.addAttribute("jumlahNotif", null);
+            model.addAttribute("listNotif", null);
+        }
+    }
 }

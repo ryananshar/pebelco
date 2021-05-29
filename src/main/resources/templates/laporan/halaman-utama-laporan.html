@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <!-- <div class="position-fixed"> -->
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+        <!-- </div> -->
+    </div>
+    <div class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Laporan</h2>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="center">
+            <div class="col">
+                <div class="row justify-content-center list-fitur">
+                    <div class="col-md-3 fix">
+                        <p>Laporan Staf Sales</p>
+                        <img th:src="@{/img/laporan-staf.png}">
+                        <a th:href="@{/laporan/staf-sales/}" class="btn">
+                            Lihat Laporan
+                        </a>
+                    </div>
+                    <div class="col-md-3 fix">
+                        <p>Laporan Pengiriman</p>
+                        <img th:src="@{/img/laporan-pengiriman.png}">
+                        <a th:href="@{/laporan/laporan-pengiriman/}" class="btn">
+                            Lihat Laporan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

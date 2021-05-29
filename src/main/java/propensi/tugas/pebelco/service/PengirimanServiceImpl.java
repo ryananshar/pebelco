@@ -6,7 +6,6 @@ import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.MetodePengirimanModel;
 import propensi.tugas.pebelco.model.PengirimanModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
-import propensi.tugas.pebelco.repository.KomplainDb;
 import propensi.tugas.pebelco.repository.MetodePengirimanDb;
 import propensi.tugas.pebelco.repository.PengirimanDb;
 import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
@@ -16,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class PengirimanServiceImpl implements PengirimanService {
 
@@ -31,6 +33,12 @@ public class PengirimanServiceImpl implements PengirimanService {
     @Override
     public List<Pengiriman> findAll() {
         List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrue();
+        return getPengirimanFromModel(pengirimanList);
+    }
+
+    @Override
+    public List<Pengiriman> findAllLaporan() {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAll();
         return getPengirimanFromModel(pengirimanList);
     }
 
@@ -119,4 +127,11 @@ public class PengirimanServiceImpl implements PengirimanService {
             return false;
         }
     }
+
+    
+	@Override
+	public List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate) {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetween(startDate, finalDate);
+		return getPengirimanFromModel(pengirimanList);
+	}
 }

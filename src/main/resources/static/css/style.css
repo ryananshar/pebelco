@@ -410,6 +410,26 @@ body {
     color: #033C59;
 }
 
+.card-body h4{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 54px;
+    letter-spacing: 1px;
+    color: #033C59;
+}
+
+.card-header h2{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 37px;
+    line-height: 54px;
+    letter-spacing: 1px;
+    color: #033C59;
+}
+
 .card-body {
     margin: 0 40px 40px 40px;
     font-family: Poppins;
@@ -586,6 +606,10 @@ td, th {
     margin: 50px 20px 50px 20px;
 }
 
+.list-header {
+    background: white;
+}
+
 .list-header h2{
     font-family: Poppins;
     font-style: normal;
@@ -603,6 +627,7 @@ td, th {
 
 .list-body {
     margin-top: 50px;
+    background: white;
 }
 
 .list-body h3{
@@ -619,4 +644,54 @@ td, th {
 
 .list-body table{
     margin-top:10px;
+}
+
+.tagContainerOuter{
+    margin:0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*min-height: 100vh;*/
+}
+.tagContainerInner{
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.containerTag{
+    margin: 10px;
+}
+.labelTag{
+    cursor: pointer;
+}
+.checkboxTag{
+    display:none;
+}
+.spanTag{
+    position: relative;
+    display: inline-block;
+    background: white;
+    color: #033C59;
+    border-width: thin;
+    border-style: solid;
+    border-color: #033C59;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 15px;
+    transition: 0.2s;
+    user-select: none;
+    overflow: hidden;
+}
+.spanTag:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+}
+.checkboxTag:checked ~ span{
+    background: #033C59;
+    color: white;
 }
