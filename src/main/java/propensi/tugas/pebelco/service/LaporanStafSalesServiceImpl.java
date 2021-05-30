@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.LaporanStafSalesDb;
@@ -52,6 +53,11 @@ public class LaporanStafSalesServiceImpl implements LaporanStafSalesService{
 	public List<LaporanStafSalesModel> getLaporanStafSalesByDate(Date startDate, Date finalDate) {
 		return laporanStafSalesDb.findByTanggalDibuatBetween(startDate, finalDate);
 	}
+
+    @Override
+    public LaporanStafSalesModel getLaporanKunjungan(KunjunganModel kunjungan) {
+        return laporanStafSalesDb.findByKunjungan(kunjungan).get();
+    }
     
     
 }

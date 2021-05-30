@@ -347,7 +347,7 @@ public class PesananPenjualanController {
     ) {
         List<ProdukModel> listProduk = produkDb.findAll();
         Integer diskon = pesananPenjualan.getDiskon();
-        String email = principal.getName();
+        // String email = principal.getName();
         PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
         Long idUser=pesanan.getUser().getIdUser();
         UserModel user=userService.getUserbyIdUser(idUser);
@@ -441,7 +441,7 @@ public class PesananPenjualanController {
     ){
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesanan);
-        List<TransaksiPesananModel> defaultbarang=pesanan.getBarangPesanan();
+        // List<TransaksiPesananModel> defaultbarang=pesanan.getBarangPesanan();
         Boolean isJumlahValid=true;
 
         if (pesanan.getIsShown() == false || pesanan.getStatusPesanan() != 0){

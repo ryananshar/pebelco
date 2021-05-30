@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
@@ -28,8 +27,6 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public List<PesananPenjualanModel> getPesananList(Boolean bolean) {
         return pesananPenjualanDb.findByIsShown(bolean);
-        // to do
-        // pesanan list pagination
     }
 
     @Override
@@ -44,7 +41,6 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception {
-        // pesananPenjualanDb.deleteById(pesananPenjualan.getIdPesananPenjualan());
         pesananPenjualan.setIsShown(false);
         pesananPenjualanDb.save(pesananPenjualan);        
     }
