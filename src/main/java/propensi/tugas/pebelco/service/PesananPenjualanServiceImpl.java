@@ -40,7 +40,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     }
 
     @Override
-    public void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception {
+    public void deletePesanan(PesananPenjualanModel pesananPenjualan) {
         pesananPenjualan.setIsShown(false);
         pesananPenjualanDb.save(pesananPenjualan);        
     }

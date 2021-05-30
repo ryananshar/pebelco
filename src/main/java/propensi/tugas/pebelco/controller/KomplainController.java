@@ -293,7 +293,7 @@ public class KomplainController {
     ){
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && komplain.getStatusKomplain() == 0) {
             model.addAttribute("komplain", komplain);
             model.addAttribute("kodeKomplain", kodeKomplain);
         } else {
@@ -332,11 +332,8 @@ public class KomplainController {
         }else{
             model.addAttribute("message", "Status Komplain Tidak Dapat Diubah");
         }
-
-
-
+        
         return "komplain/komplain-ubah-status";
-
     }
 
     @GetMapping("/komplain/ubah-status/{statKomplain}/{kodeKomplain}")
