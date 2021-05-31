@@ -264,6 +264,7 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
+        System.out.println(komplain.getTanggalPersetujuan() + "---------------");
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             if (komplain.getUser() == user && komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
