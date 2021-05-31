@@ -212,7 +212,7 @@ public class PengirimanController {
             @RequestParam String namaPenerima, Model model) throws ParseException {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         pengirimanService.updateStatusPengiriman(kodePengiriman, 3);
-        Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-mm-dd").parse(tanggalDiterima);
+        Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalDiterima);
         pengirimanService.terimaPengiriman(kodePengiriman, tanggalDiterimaDate, namaPenerima);
 
         Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
