@@ -1,8 +1,6 @@
 package propensi.tugas.pebelco.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -17,10 +15,9 @@ public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
 
     List<ProdukModel> findAll();
 
-    List<ProdukModel> findByNamaProdukContainingIgnoreCase(String keyword);
+    List<ProdukModel> findByNamaProdukContainingIgnoreCaseOrderByNamaProdukAsc(String keyword);
 
-    List<ProdukModel> findByTipe(Integer tipe);
+    List<ProdukModel> findByTipeOrderByNamaProdukAsc(Integer tipe);
 
-
-
+    List<ProdukModel> findByOrderByNamaProdukAsc();
 }

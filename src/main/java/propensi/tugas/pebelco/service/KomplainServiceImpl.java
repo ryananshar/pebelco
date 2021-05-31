@@ -28,12 +28,12 @@ public class KomplainServiceImpl implements KomplainService{
 
     @Override
     public List<KomplainModel> getListKomplain(){
-        return komplainDb.findByIsShown(true);
+        return komplainDb.findByIsShownOrderByIdKomplainAsc(true);
     }
 
     @Override
     public List<KomplainModel> getListKomplainByUser(UserModel user){
-        return komplainDb.findByUserAndIsShown(user, true);
+        return komplainDb.findByUserAndIsShownOrderByIdKomplainAsc(user, true);
     }
 
     @Override

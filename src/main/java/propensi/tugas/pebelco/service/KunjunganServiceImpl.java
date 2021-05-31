@@ -7,6 +7,8 @@ import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.KunjunganDb;
 
 import javax.transaction.Transactional;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,12 +19,12 @@ public class KunjunganServiceImpl implements KunjunganService {
 
     @Override
     public List<KunjunganModel> getKunjunganListByIsShown(Boolean isShown) {
-        return kunjunganDb.findByIsShown(isShown);
+        return kunjunganDb.findByIsShownOrderByIdKunjunganAsc(isShown);
     }
 
     @Override
     public List<KunjunganModel> getKunjunganListByStafSalesByIsShown(UserModel stafSales, Boolean isShown) {
-        return kunjunganDb.findByStafSalesAndIsShown(stafSales, isShown);
+        return kunjunganDb.findByStafSalesAndIsShownOrderByIdKunjunganAsc(stafSales, isShown);
     }
 
     @Override
@@ -71,6 +73,12 @@ public class KunjunganServiceImpl implements KunjunganService {
     @Override
     public void deleteKunjungan(KunjunganModel kunjungan) {
         kunjungan.setIsShown(false);
+    }
+
+    @Override
+    public List<KunjunganModel> getKunjunganListByTanggalKunjunganBetween(UserModel stafSales, Date tanggalAwal,
+            Date tanggalAkhir) {
+        return kunjunganDb.findByStafSalesAndTanggalKunjunganBetweenOrderByIdKunjunganAsc(stafSales, tanggalAwal, tanggalAkhir);
     }
 
 }

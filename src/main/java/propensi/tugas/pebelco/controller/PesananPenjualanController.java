@@ -88,7 +88,7 @@ public class PesananPenjualanController {
             @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model,
             final BindingResult bindingResult) {
         TransaksiPesananModel barangGaib = new TransaksiPesananModel();
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         List<TransaksiPesananModel> barangExist = pesananPenjualan.getBarangPesanan();
 
         barangGaib.setPesananTransaksi(pesananPenjualan);
@@ -106,7 +106,7 @@ public class PesananPenjualanController {
         // final TransaksiPesananModel barangPesanan = transaksiPesananService.getByIdTransaksiPesanan(barangId);
         pesananPenjualan.getBarangPesanan().remove(barangId.intValue());
 
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk);
         return "pesanan/form-add-pesanan";
@@ -114,7 +114,7 @@ public class PesananPenjualanController {
 
     @GetMapping("/pesanan/tambah")
     public String addPesananFormPage(Model model) {
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         List<TransaksiPesananModel> barangTempList = new ArrayList<TransaksiPesananModel>();
         PesananPenjualanModel pesananPenjualan = new PesananPenjualanModel();
         TransaksiPesananModel barangGaib = new TransaksiPesananModel();
@@ -135,7 +135,7 @@ public class PesananPenjualanController {
             Principal principal, final BindingResult bindingResult,
             Model model
     ) {
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         Integer diskon = pesananPenjualan.getDiskon();
         if (diskon == null) {
             diskon = 0;
@@ -294,7 +294,7 @@ public class PesananPenjualanController {
                              @ModelAttribute PesananPenjualanModel pesananPenjualan, Model model,
                              final BindingResult bindingResult) {
         TransaksiPesananModel barangGaib = new TransaksiPesananModel();
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         List<TransaksiPesananModel> barangExist = pesananPenjualan.getBarangPesanan();
 
         barangGaib.setPesananTransaksi(pesananPenjualan);
@@ -312,7 +312,7 @@ public class PesananPenjualanController {
         // final TransaksiPesananModel barangPesanan = transaksiPesananService.getByIdTransaksiPesanan(barangId);
         pesananPenjualan.getBarangPesanan().remove(barangId.intValue());
 
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         model.addAttribute("pesananPenjualan", pesananPenjualan);
         model.addAttribute("listProduk", listProduk);
         return "pesanan/ubah-pesanan";
@@ -323,7 +323,7 @@ public class PesananPenjualanController {
     public String ubahPesanan(@PathVariable(value = "kodePesananPenjualan") String kodePesananPenjualan,
                               Model model){
         PesananPenjualanModel pesananPenjualan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-        List<ProdukModel> listProduk=produkDb.findAll();
+        List<ProdukModel> listProduk=produkDb.findByOrderByNamaProdukAsc();
 
         if (pesananPenjualan.getIsShown() && pesananPenjualan.getStatusPesanan() == 0) {
             model.addAttribute("listProduk", listProduk);
@@ -345,7 +345,7 @@ public class PesananPenjualanController {
             Principal principal, final BindingResult bindingResult,
             Model model
     ) {
-        List<ProdukModel> listProduk = produkDb.findAll();
+        List<ProdukModel> listProduk = produkDb.findByOrderByNamaProdukAsc();
         Integer diskon = pesananPenjualan.getDiskon();
         // String email = principal.getName();
         PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
@@ -566,7 +566,6 @@ public class PesananPenjualanController {
             Model model
     ) {
         PesananPenjualanModel pesanan = pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList(true);
 
         if (listPesanan.isEmpty()){
@@ -593,8 +592,6 @@ public class PesananPenjualanController {
     @GetMapping(value = "/pesanan/hapus/{kodePesananPenjualan}")
     public String hapusPesanan(@PathVariable(value = "kodePesananPenjualan") String kodePesananPenjualan, Model model,Principal principal) {
         PesananPenjualanModel pesanan=pesananPenjualanService.getPesananByKodePesanan(kodePesananPenjualan);
-        String email = principal.getName();
-        UserModel user = userService.getUserbyEmail(email);
         List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananList(true);
 
         if (listPesanan.isEmpty()){

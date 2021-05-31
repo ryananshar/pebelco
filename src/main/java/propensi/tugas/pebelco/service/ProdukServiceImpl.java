@@ -29,7 +29,7 @@ public class ProdukServiceImpl implements ProdukService{
 
     @Override
     public List<ProdukModel> findAll() {
-        return produkDb.findAll();
+        return produkDb.findByOrderByNamaProdukAsc();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ProdukServiceImpl implements ProdukService{
 
     @Override
     public List<ProdukModel> getProdukByTipe(Integer tipe){
-        return produkDb.findByTipe(tipe);
+        return produkDb.findByTipeOrderByNamaProdukAsc(tipe);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ProdukServiceImpl implements ProdukService{
 
     @Override
     public List<ProdukModel> findBySearch(String keyword){
-        return produkDb.findByNamaProdukContainingIgnoreCase(keyword);
+        return produkDb.findByNamaProdukContainingIgnoreCaseOrderByNamaProdukAsc(keyword);
     }
 
     @Override

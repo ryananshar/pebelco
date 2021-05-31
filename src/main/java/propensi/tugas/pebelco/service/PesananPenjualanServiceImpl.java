@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,7 +27,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public List<PesananPenjualanModel> getPesananList(Boolean bolean) {
-        return pesananPenjualanDb.findByIsShown(bolean);
+        return pesananPenjualanDb.findByIsShownOrderByIdPesananPenjualanAsc(bolean);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public List<PesananPenjualanModel> getPesananListByUser(UserModel user, Boolean bolean) {
-        return pesananPenjualanDb.findByUserAndIsShown(user, bolean);
+        return pesananPenjualanDb.findByUserAndIsShownOrderByIdPesananPenjualanAsc(user, bolean);
     }
 
     @Override
@@ -73,6 +74,11 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public void changeStatusDitolak(PesananPenjualanModel pesanan){
         pesanan.setStatusPesanan(2);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir) {
+        return pesananPenjualanDb.findByUserAndTanggalPesananBetweenOrderByIdPesananPenjualanAsc(stafSales, tanggalAwal, tanggalAkhir);
     }
     
 }
