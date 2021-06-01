@@ -3,23 +3,15 @@ package propensi.tugas.pebelco.service;
 import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.UserModel;
 
+import java.util.Date;
 import java.util.List;
 
 public interface KunjunganService {
-    // Method untuk mendapatkan daftar semua Kunjungan
-    List<KunjunganModel> getKunjunganList();
-
-    // Method untuk mendapatkan Kunjungan milik Staf Sales tertentu
-    List<KunjunganModel> getKunjunganListByStafSales(UserModel stafSales);
-
     // Method untuk mendapatkan daftar semua Kunjungan berdasarkan isShown
     List<KunjunganModel> getKunjunganListByIsShown(Boolean isShown);
 
     // Method untuk mendapatkan Kunjungan milik Staf Sales tertentu berdasarkan isShown
     List<KunjunganModel> getKunjunganListByStafSalesByIsShown(UserModel stafSales, Boolean isShown);
-
-    // Method untuk mengambil Kunjungan berdasarkan Id Kunjungan
-    KunjunganModel getKunjunganById(Long idKunjungan);
 
     //  Method untuk mendapatkan data berdasarkan Kode Kunjungan
     KunjunganModel getKunjunganByKodeKunjungan(String kodeKunjungan);
@@ -35,4 +27,6 @@ public interface KunjunganService {
 
     // Method untuk menghapus Kunjungan
     void deleteKunjungan(KunjunganModel kunjungan);
+
+    List<KunjunganModel> getKunjunganListByTanggalKunjunganBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
 }

@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface KomplainDb extends JpaRepository<KomplainModel, Long> {
     Optional<KomplainModel> findByIdKomplain(Long idKomplain);
     List<KomplainModel> findAll();
-    List<KomplainModel> findByIsShown(boolean isShown);
-    List<KomplainModel> findByUserAndIsShown(UserModel user, Boolean isShown);
+    List<KomplainModel> findByIsShownOrderByIdKomplainAsc(boolean isShown);
+    List<KomplainModel> findByUserAndIsShownOrderByIdKomplainAsc(UserModel user, Boolean isShown);
     KomplainModel findByKodeKomplain(String kodeKomplain);
-    List<KomplainModel> findAllByIsShownIsTrueAndStatusKomplainEquals(int statusKomplain);
+    List<KomplainModel> findAllByIsShownIsTrueAndStatusKomplainEqualsOrderByIdKomplainAsc(int statusKomplain);
 }

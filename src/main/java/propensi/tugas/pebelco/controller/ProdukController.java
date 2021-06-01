@@ -15,10 +15,6 @@ import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 import propensi.tugas.pebelco.service.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-
-
 @Controller
 public class ProdukController {
     @Autowired
@@ -309,6 +305,7 @@ public class ProdukController {
                     if (filtered.contains(produkSorted.get(i))){
                         produkAfterSorted.add(produkSorted.get(i));
                     }
+
                 }
 
                 String tagsNew = "";

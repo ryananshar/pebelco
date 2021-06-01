@@ -167,6 +167,9 @@ public class KunjunganController {
     ){
         if (kunjungan.getWaktuMulai().compareTo(kunjungan.getWaktuSelesai()) < 0) {
             KunjunganModel kunjunganUpdated = kunjunganService.updateKunjungan(kunjungan);
+            LaporanStafSalesModel laporanStafSales = laporanStafSalesService.getLaporanKunjungan(kunjunganUpdated);
+            laporanStafSales.setTanggalDibuat(kunjunganUpdated.getTanggalKunjungan());
+            laporanStafSalesService.updateLaporanStafSales(laporanStafSales);
             model.addAttribute("kunjungan", kunjunganUpdated);
             model.addAttribute("pop", "green");
             model.addAttribute("msg", "Jadwal Kunjungan Berhasil Diubah");

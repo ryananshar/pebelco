@@ -16,7 +16,7 @@ public class PameranServiceImpl implements PameranService {
 
     @Override
     public List<PameranModel> getPameranList() {
-        return pameranDb.findAll();
+        return pameranDb.findByOrderByIdPameranAsc();
     }
 
     @Override

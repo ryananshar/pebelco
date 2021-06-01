@@ -7,6 +7,8 @@ import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.KunjunganDb;
 
 import javax.transaction.Transactional;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,28 +18,13 @@ public class KunjunganServiceImpl implements KunjunganService {
     KunjunganDb kunjunganDb;
 
     @Override
-    public List<KunjunganModel> getKunjunganList() {
-        return kunjunganDb.findAll();
-    }
-
-    @Override
-    public List<KunjunganModel> getKunjunganListByStafSales(UserModel stafSales) {
-        return kunjunganDb.findByStafSales(stafSales);
-    }
-
-    @Override
     public List<KunjunganModel> getKunjunganListByIsShown(Boolean isShown) {
-        return kunjunganDb.findByIsShown(isShown);
+        return kunjunganDb.findByIsShownOrderByIdKunjunganAsc(isShown);
     }
 
     @Override
     public List<KunjunganModel> getKunjunganListByStafSalesByIsShown(UserModel stafSales, Boolean isShown) {
-        return kunjunganDb.findByStafSalesAndIsShown(stafSales, isShown);
-    }
-
-    @Override
-    public KunjunganModel getKunjunganById(Long idKunjungan) {
-        return kunjunganDb.findById(idKunjungan).get();
+        return kunjunganDb.findByStafSalesAndIsShownOrderByIdKunjunganAsc(stafSales, isShown);
     }
 
     @Override
@@ -69,7 +56,6 @@ public class KunjunganServiceImpl implements KunjunganService {
             targetKunjungan.setTanggalKunjungan(kunjungan.getTanggalKunjungan());
             targetKunjungan.setWaktuMulai(kunjungan.getWaktuMulai());
             targetKunjungan.setWaktuSelesai(kunjungan.getWaktuSelesai());
-//            targetKunjungan.setCatatanKunjungan(kunjungan.getCatatanKunjungan());
 
             if (kunjungan.getCatatanKunjungan().equals("")) {
                 targetKunjungan.setCatatanKunjungan(null);
@@ -86,8 +72,13 @@ public class KunjunganServiceImpl implements KunjunganService {
 
     @Override
     public void deleteKunjungan(KunjunganModel kunjungan) {
-//        kunjunganDb.delete(kunjungan);
         kunjungan.setIsShown(false);
+    }
+
+    @Override
+    public List<KunjunganModel> getKunjunganListByTanggalKunjunganBetween(UserModel stafSales, Date tanggalAwal,
+            Date tanggalAkhir) {
+        return kunjunganDb.findByStafSalesAndTanggalKunjunganBetweenOrderByIdKunjunganAsc(stafSales, tanggalAwal, tanggalAkhir);
     }
 
 }
