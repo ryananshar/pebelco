@@ -123,7 +123,7 @@ public class LaporanPengirimanController {
     public void userInformation(Principal principal, Model model) {
         try {
             UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+                List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
             model.addAttribute("jumlahNotif", listNotifUser.size());
             model.addAttribute("listNotif", listNotifUser);
         } catch (Exception e) {
