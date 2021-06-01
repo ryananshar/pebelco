@@ -266,7 +266,7 @@ public class PengirimanController {
                 model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus pengiriman ini?");
             }
             else {
-                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
 
@@ -301,7 +301,7 @@ public class PengirimanController {
                 model.addAttribute("msg2", "Pengiriman Berhasil Dihapus");
             }
             else {
-                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
 
