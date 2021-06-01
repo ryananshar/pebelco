@@ -448,17 +448,23 @@ public class KomplainController {
             List<Integer> listJumlah = new ArrayList<>();
             List<Integer> listId = new ArrayList<>();
             List<Integer> listMaxJumlah = new ArrayList<>();
+            List<String> listCheckerPesananKomplain = new ArrayList<>();
 
             for (int i =0; i < komplain.getBarangKomplain().size(); i++){
                 Long temp =  komplain.getBarangKomplain().get(i).getIdTransaksiKomplain();
                 listId.add(temp.intValue());
+                listCheckerPesananKomplain.add(komplain.getBarangKomplain().get(i).getNamaBarang());
             }
+
 
             List<TransaksiPesananModel> transaksiPesanan = komplain.getPesananKomplain().getBarangPesanan();
 
             for (int i=0; i < transaksiPesanan.size(); i++){
-                listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
+                if (listCheckerPesananKomplain.contains(transaksiPesanan.get(i).getNamaBarang())){
+                    listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
+                }
             }
+            System.out.println(listMaxJumlah.size());
 
 
             model.addAttribute("listBarang", listBarang);
