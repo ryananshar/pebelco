@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.Date;
 import java.util.List;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
@@ -33,4 +34,6 @@ public interface PesananPenjualanService {
     void changeStatusDisetujui(PesananPenjualanModel pesanan);
 
     void changeStatusDitolak(PesananPenjualanModel pesanan);
+
+    List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
 }

@@ -32,6 +32,10 @@
             </div>
         </div>
         <div style="margin-left: 20px;">
+            <div th:if="${mainPage} != null">
+                <h5 style="color: gray; font-weight: 500;">Isi periode tanggal terlebih dahulu</h5>
+                <br>
+            </div>
             <form th:action="@{/laporan/laporan-pengiriman/}" method="GET">
 <!--                <h5>Isi periode tanggal terlebih dahulu</h5>-->
 <!--                <br>-->

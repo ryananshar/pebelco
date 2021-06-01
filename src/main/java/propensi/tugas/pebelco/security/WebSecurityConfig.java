@@ -80,8 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/pameran").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
                 .antMatchers("/pameran/**").hasAnyAuthority("Sales Counter", "Staf Sales","Admin Komplain", "Staf Pengiriman","Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
 
+                // Laporan
                 .antMatchers("/laporan/**").hasAnyAuthority("Manager Pemasaran", "Factory Manager", "Vice Factory Manager","Admin")
-                
 
                 .anyRequest().authenticated()
                 .and()

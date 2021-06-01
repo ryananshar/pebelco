@@ -10,6 +10,7 @@
     <script>
         $(function(){
             var requiredCheckboxes = $(':checkbox[required]');
+            requiredCheckboxes.removeAttr('required');
             requiredCheckboxes.change(function(){
                 if(requiredCheckboxes.is(':checked')) {
                     requiredCheckboxes.removeAttr('required');

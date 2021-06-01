@@ -1,9 +1,8 @@
 package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.TagProdukDb;
 import propensi.tugas.pebelco.service.*;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-
 
 @Controller
 public class ProdukController {
@@ -76,7 +71,6 @@ public class ProdukController {
     @GetMapping(value = "/search")
     public String daftarProdukBySearchbar(@Param("keyword") String keyword, Model model) {
 
-
         model.addAttribute("produk", produkService.findBySearch(keyword));
         model.addAttribute("keyword", keyword);
         model.addAttribute("pesanKey", "Tidak terdapat produk dengan keyword " + keyword);
@@ -127,40 +121,135 @@ public class ProdukController {
     public String daftarProdukFiltered(
             @RequestParam("tipe") String tipe,
             @RequestParam("tag") String tags,
+            @RequestParam("keyword") Optional<String> keyword,
             Model model
             ){
+
         List<TagProdukModel> listTagProduk = new ArrayList<>();
         List<ProdukModel> produkFiltered = new ArrayList<>();
 
-        if(tags.equals("")){
+        if (keyword.isPresent()){
+            Set<ProdukModel> filtered = new HashSet<>();
+            List<ProdukModel> filteredSorted = new ArrayList<>();
+            List<ProdukModel> produkSearch = produkService.findBySearch(keyword.get());
+            List<ProdukModel> produkTags = new ArrayList<>();
+            Page<ProdukModel> page = produkService.findPaginated("namaProduk", "asc");
+            List<ProdukModel> produkSorted = page.getContent();
 
-            model.addAttribute("produk", produkService.getProdukByTipe(Integer.parseInt(tipe)));
-        }else if (tipe.equals("")){
-            String[] listTags = tags.split(" ");
-            for (String i : listTags){
-                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
-            }
-            List<ProdukModel> produk = produkService.findAll();
-            for (ProdukModel j : produk){
-                if (j.getListTagProduk().containsAll(listTagProduk)){
-                    produkFiltered.add(j);
+            if(tags.equals("")){
+                List<ProdukModel> produkTipe =  produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+                produkFiltered.addAll(produkTipe);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTipe.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
                 }
-            }
-            model.addAttribute("produk", produkFiltered);
 
-        }else if (!tipe.equals("") && !tags.equals("")){
-            List<ProdukModel> produk = produkService.getProdukByTipe(Integer.parseInt(tipe));
-            String[] listTags = tags.split(" ");
-            for (String i : listTags){
-                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
-            }
-            for (ProdukModel j : produk){
-                if (j.getListTagProduk().containsAll(listTagProduk)){
-                    produkFiltered.add(j);
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
                 }
+
+                model.addAttribute("produk", filteredSorted);
+            }else if (tipe.equals("")){
+
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                List<ProdukModel> produk = produkService.findAll();
+                for (ProdukModel j : produk){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTags.add(j);
+                    }
+                }
+
+                produkFiltered.addAll(produkTags);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTags.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
+                }
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
+
+
+                model.addAttribute("produk", filteredSorted);
+
+            }else if (!tipe.equals("") && !tags.equals("")){
+                List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                for (ProdukModel j : produkTipe){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTags.add(j);
+                    }
+                }
+
+                produkFiltered.addAll(produkTags);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTags.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
+                }
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
+
+                model.addAttribute("produk", filteredSorted);
             }
 
-            model.addAttribute("produk", produkFiltered);
+            model.addAttribute("keyword", keyword.get());
+
+        } else{
+            if(tags.equals("")){
+
+                model.addAttribute("produk", produkService.getProdukByTipe(Integer.parseInt(tipe)));
+            }else if (tipe.equals("")){
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                List<ProdukModel> produk = produkService.findAll();
+                for (ProdukModel j : produk){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkFiltered.add(j);
+                    }
+                }
+                model.addAttribute("produk", produkFiltered);
+
+            }else if (!tipe.equals("") && !tags.equals("")){
+                List<ProdukModel> produk = produkService.getProdukByTipe(Integer.parseInt(tipe));
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                for (ProdukModel j : produk){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkFiltered.add(j);
+                    }
+                }
+
+                model.addAttribute("produk", produkFiltered);
+            }
         }
         model.addAttribute("pesanFilter", "Produk tidak ditemukan");
         model.addAttribute("reverseSortDir", "asc");
@@ -176,77 +265,183 @@ public class ProdukController {
             @RequestParam("tag") String tags,
             @RequestParam("sortField") String sortField,
             @RequestParam("sortDir") String sortDir,
+            @RequestParam("keyword") Optional<String> keyword,
             Model model) {
         Page<ProdukModel> page = produkService.findPaginated(sortField, sortDir);
         List<ProdukModel> produkSorted = page.getContent();
 
         List<TagProdukModel> listTagProduk = new ArrayList<>();
+        List<ProdukModel> produkAfterSorted = new ArrayList<>();
         List<ProdukModel> produkFiltered = new ArrayList<>();
 
-        if(tags.equals("")){
-            List<ProdukModel> produkTemp = produkService.getProdukByTipe(Integer.parseInt(tipe));
+        if (keyword.isPresent()){
+            Set<ProdukModel> filtered = new HashSet<>();
+            List<ProdukModel> produkSearch = produkService.findBySearch(keyword.get());
+            List<ProdukModel> produkTags = new ArrayList<>();
 
-            for (int i = 0; i < produkSorted.size(); i++){
-                if (produkTemp.contains(produkSorted.get(i))){
-                    produkFiltered.add(produkSorted.get(i));
+            if(tags.equals("")){
+                List<ProdukModel> produkTemp = produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+                produkFiltered.addAll(produkTemp);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTemp.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
                 }
-            }
-            model.addAttribute("tags", tags);
-            model.addAttribute("produk", produkFiltered);
-        }else if (tipe.equals("")){
-            List<ProdukModel> produkTemp = new ArrayList<>();
 
-            String[] listTags = tags.split(" ");
-            for (String i : listTags){
-                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
-            }
-            List<ProdukModel> produkAll = produkService.findAll();
-            for (ProdukModel j : produkAll){
-                if (j.getListTagProduk().containsAll(listTagProduk)){
-                    produkTemp.add(j);
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        produkAfterSorted.add(produkSorted.get(i));
+                    }
                 }
-            }
 
-            for (int i = 0; i < produkSorted.size(); i++){
-                if (produkTemp.contains(produkSorted.get(i))){
-                    produkFiltered.add(produkSorted.get(i));
+                model.addAttribute("tags", tags);
+                model.addAttribute("produk", produkAfterSorted);
+                model.addAttribute("keyword", keyword.get());
+            }else if (tipe.equals("")){
+                System.out.println("masukSortNoTipekey");
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
                 }
-            }
-
-            String tagsNew = "";
-            for (int i = 0; i < listTags.length; i++){
-                tagsNew += listTags[i] + "+";
-            }
-            model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
-            model.addAttribute("produk", produkFiltered);
-
-        }else if (!tipe.equals("") && !tags.equals("")){
-            List<ProdukModel> produkTemp = new ArrayList<>();
-
-            List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
-            String[] listTags = tags.split(" ");
-            for (String i : listTags){
-                listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
-            }
-            for (ProdukModel j : produkTipe){
-                if (j.getListTagProduk().containsAll(listTagProduk)){
-                    produkTemp.add(j);
+                List<ProdukModel> produk = produkService.findAll();
+                for (ProdukModel j : produk){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTags.add(j);
+                    }
                 }
-            }
 
-            for (int i = 0; i < produkSorted.size(); i++){
-                if (produkTemp.contains(produkSorted.get(i))){
-                    produkFiltered.add(produkSorted.get(i));
+                produkFiltered.addAll(produkTags);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTags.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
                 }
-            }
 
-            String tagsNew = "";
-            for (int i = 0; i < listTags.length; i++){
-                tagsNew += listTags[i] + "+";
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        produkAfterSorted.add(produkSorted.get(i));
+                    }
+
+                }
+
+                String tagsNew = "";
+                for (int i = 0; i < listTags.length; i++){
+                    tagsNew += listTags[i] + "+";
+                }
+                model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+                model.addAttribute("produk", produkAfterSorted);
+                model.addAttribute("keyword", keyword.get());
+
+            }else if (!tipe.equals("") && !tags.equals("")){
+                List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                for (ProdukModel j : produkTipe){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTags.add(j);
+                    }
+                }
+
+                produkFiltered.addAll(produkTags);
+                produkFiltered.addAll(produkSearch);
+
+                for (int i = 0; i < produkFiltered.size(); i++){
+                    if (produkTags.contains(produkFiltered.get(i)) && produkSearch.contains(produkFiltered.get(i))) {
+                        filtered.add(produkFiltered.get(i));
+                    }
+                }
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        produkAfterSorted.add(produkSorted.get(i));
+                    }
+                }
+
+                String tagsNew = "";
+                for (int i = 0; i < listTags.length; i++){
+                    tagsNew += listTags[i] + "+";
+                }
+                model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+                model.addAttribute("produk", produkAfterSorted);
+                model.addAttribute("keyword", keyword.get());
             }
-            model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
-            model.addAttribute("produk", produkFiltered);
+        }else{
+            if(tags.equals("")){
+                List<ProdukModel> produkTemp = produkService.getProdukByTipe(Integer.parseInt(tipe));
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (produkTemp.contains(produkSorted.get(i))){
+                        produkFiltered.add(produkSorted.get(i));
+                    }
+                }
+                model.addAttribute("tags", tags);
+                model.addAttribute("produk", produkFiltered);
+            }else if (tipe.equals("")){
+                System.out.println("masukSortNoTipeNokey");
+                List<ProdukModel> produkTemp = new ArrayList<>();
+
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                List<ProdukModel> produkAll = produkService.findAll();
+                for (ProdukModel j : produkAll){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTemp.add(j);
+                    }
+                }
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (produkTemp.contains(produkSorted.get(i))){
+                        produkFiltered.add(produkSorted.get(i));
+                    }
+                }
+
+                String tagsNew = "";
+                for (int i = 0; i < listTags.length; i++){
+                    tagsNew += listTags[i] + "+";
+                }
+                model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+                model.addAttribute("produk", produkFiltered);
+
+            }else if (!tipe.equals("") && !tags.equals("")){
+                List<ProdukModel> produkTemp = new ArrayList<>();
+
+                List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
+                String[] listTags = tags.split(" ");
+                for (String i : listTags){
+                    listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
+                }
+                for (ProdukModel j : produkTipe){
+                    if (j.getListTagProduk().containsAll(listTagProduk)){
+                        produkTemp.add(j);
+                    }
+                }
+
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (produkTemp.contains(produkSorted.get(i))){
+                        produkFiltered.add(produkSorted.get(i));
+                    }
+                }
+
+                String tagsNew = "";
+                for (int i = 0; i < listTags.length; i++){
+                    tagsNew += listTags[i] + "+";
+                }
+                model.addAttribute("tags", tagsNew.substring(0,tagsNew.length()-1));
+                model.addAttribute("produk", produkFiltered);
+            }
         }
+
+
         model.addAttribute("tipe", tipe);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);

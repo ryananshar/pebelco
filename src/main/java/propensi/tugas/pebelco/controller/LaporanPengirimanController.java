@@ -82,6 +82,11 @@ public class LaporanPengirimanController {
             } catch (ParseException e) {
 
             }
+<<<<<<< HEAD
+=======
+        } else {
+            model.addAttribute("mainPage", "belum search");
+>>>>>>> be739995705c57ad7cb4d06dbaf4deb557a1a68b
         }
         return "laporan/laporanPengiriman";
     }
