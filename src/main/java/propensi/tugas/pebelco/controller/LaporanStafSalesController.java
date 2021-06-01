@@ -23,22 +23,22 @@ import propensi.tugas.pebelco.model.LaporanStafSalesModel;
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.UserModel;
-import propensi.tugas.pebelco.repository.KunjunganDb;
-import propensi.tugas.pebelco.repository.PesananPenjualanDb;
+import propensi.tugas.pebelco.service.KunjunganService;
 import propensi.tugas.pebelco.service.LaporanStafSalesService;
 import propensi.tugas.pebelco.service.NotifikasiService;
+import propensi.tugas.pebelco.service.PesananPenjualanService;
 import propensi.tugas.pebelco.service.UserService;
 
 @Controller
 public class LaporanStafSalesController {
     @Autowired
     private UserService userService;
-    
-    @Autowired
-    private KunjunganDb kunjunganDb;
 
     @Autowired
-    private PesananPenjualanDb pesananPenjualanDb;
+    private KunjunganService kunjunganService;
+
+    @Autowired
+    private PesananPenjualanService pesananPenjualanService;
 
     @Autowired
     private LaporanStafSalesService laporanStafSalesService;
@@ -107,6 +107,8 @@ public class LaporanStafSalesController {
             } catch (ParseException e) {
 
             }
+        } else {
+            model.addAttribute("mainPage", "belum search");
         }
         return "laporan/daftar-laporan-staf";
     }
@@ -122,11 +124,18 @@ public class LaporanStafSalesController {
         if (stafSales.getRole().getNamaRole().equals("Staf Sales")) {
             Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAwal);
             Date finalDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAkhir);
-            List<KunjunganModel> listKunjungan = kunjunganDb.findByStafSalesAndTanggalKunjunganBetween(stafSales, startDate, finalDate);
-            List<PesananPenjualanModel> listPesanan = pesananPenjualanDb.findByUserAndTanggalPesananBetween(stafSales, startDate, finalDate);
-            model.addAttribute("listKunjungan", listKunjungan);
-            model.addAttribute("listPesanan", listPesanan);
-            model.addAttribute("stafSales", stafSales);
+            List<KunjunganModel> listKunjungan = kunjunganService.getKunjunganListByTanggalKunjunganBetween(stafSales, startDate, finalDate);
+            List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUserAndTanggalBetween(stafSales, startDate, finalDate);
+            if (listKunjungan.isEmpty() && listPesanan.isEmpty()) {
+                model.addAttribute("message", "Data Laporan Staf Sales Tidak Ditemukan");
+                model.addAttribute("tanggalMulai", tanggalAwal);
+                model.addAttribute("tanggalAkhir", tanggalAkhir);
+                return "laporan/detail-laporan-staf";
+            } else {
+                model.addAttribute("listKunjungan", listKunjungan);
+                model.addAttribute("listPesanan", listPesanan);
+                model.addAttribute("stafSales", stafSales); 
+            }
         }
         else {
             model.addAttribute("message", "Data Laporan Staf Sales Tidak Ditemukan");

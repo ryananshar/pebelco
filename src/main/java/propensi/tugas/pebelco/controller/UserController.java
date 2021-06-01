@@ -5,13 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.NotifikasiModel;
 import propensi.tugas.pebelco.model.UserModel;
@@ -39,15 +36,58 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "user/login";
+    public String login(Model model) {
+        model.addAttribute("listRole", roleService.findAll());
+        model.addAttribute("user", new UserModel());
+        return "user/login-v2";
+    }
+
+    @GetMapping(value = "/profile")
+    public String profileUser(Model model){
+
+        UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        model.addAttribute("user", user);
+        return "user/profile";
+
+    }
+
+    @RequestMapping(value = "/profile/update-pass", method = RequestMethod.POST)
+    private String updatePassword(@RequestParam String email,
+                                  String oldPass,
+                                  String newPass,
+                                  String newPassConfirm,
+                                  Model model){
+        UserModel user = userService.getUserbyEmail(email);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(encoder.matches(oldPass, user.getPassword())){
+            if(newPass.equals(newPassConfirm)){
+                userService.changePassword(user, newPass);
+                model.addAttribute("pop", "green");
+                model.addAttribute("subMsg", "");
+                model.addAttribute("user", user);
+                model.addAttribute("msg", "Password Berhasil Diubah");
+            }else{
+                model.addAttribute("pop", "red");
+                model.addAttribute("subMsg", "Konfirmasi password baru tidak valid");
+                model.addAttribute("user", user);
+                model.addAttribute("msg", "Password Gagal Diubah");
+            }
+        } else {
+            model.addAttribute("pop", "red");
+            model.addAttribute("subMsg", "Password lama tidak valid");
+            model.addAttribute("user", user);
+            model.addAttribute("msg", "Password Gagal Diubah");
+        }
+
+        return "user/profile";
     }
 
     @GetMapping(value = "/user/register")
     public String addUser(Model model) {
         model.addAttribute("listRole", roleService.findAll());
         model.addAttribute("user", new UserModel());
-        return "user/register";
+        return "user/login-v2";
     }
 
     @PostMapping("/user/register")
@@ -59,16 +99,16 @@ public class UserController {
                 // user.setListLaporanStafSales(new ArrayList<LaporanStafSalesModel>());
                 return "redirect:/login";
             } else {
-                model.addAttribute("msg", "Email Invalid");
+                model.addAttribute("msg", "Email Sudah Terdaftar di Database");
                 model.addAttribute("listRole", roleService.findAll());
                 model.addAttribute("user", new UserModel());
-                return "user/register";
+                return "user/login-v2";
             }    
         } catch (Exception e) {
             model.addAttribute("listRole", roleService.findAll());
-            model.addAttribute("msg", "Email Invalid on Database");
+            model.addAttribute("msg", "Email Sudah Terdaftar di Database");
             model.addAttribute("user", new UserModel());
-            return "user/register"; 
+            return "user/login-v2";
         }
         
     }

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class PerluDikirimServiceImpl implements PerluDikirimService {
     @Autowired
@@ -38,8 +41,8 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
     @Override
     public List<PerluDikirim> findAll() {
         return createPerluDikirimList(
-                komplainDb.findAllByIsShownIsTrueAndStatusKomplainEquals(1),
-                pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEquals(1)
+                komplainDb.findAllByIsShownIsTrueAndStatusKomplainEqualsOrderByIdKomplainAsc(1),
+                pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsOrderByIdPesananPenjualanAsc(1)
         );
     }
 
@@ -104,15 +107,15 @@ public class PerluDikirimServiceImpl implements PerluDikirimService {
             List<PesananPenjualanModel> pesananList) {
         List<PerluDikirim> perluDikirimList = new ArrayList<>();
 
-        for (KomplainModel komplain: komplainList) {
-            perluDikirimList.add(
-                    utils.getPerluDikirimFromKomplain(komplain)
-            );
-        }
-
         for (PesananPenjualanModel pesanan: pesananList) {
             perluDikirimList.add(
                     utils.getPerluDikirimFromPesanan(pesanan)
+            );
+        }
+
+        for (KomplainModel komplain: komplainList) {
+            perluDikirimList.add(
+                    utils.getPerluDikirimFromKomplain(komplain)
             );
         }
 

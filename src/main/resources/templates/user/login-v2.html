@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body class="bg-purple" id="not-found">
+    <!-- <object th:replace="fragments/fragment :: navbar"></object> -->
+    <div class="custom-navbar">
+        <div class="brand-logo">
+            <a class="navbar-brand font-weight-bold" th:href="@{/}">PEBELCO</a>
+        </div>
+    </div>
+    <div class="container" id="container" th:classappend="${msg != null ? 'right-panel-active':''}">
+        <div class="form-container sign-up-container">
+            <form th:action="@{/user/register}" th:object="${user}" method="POST">
+                <h1>Daftar Akun</h1>
+                <div th:if="${msg} != null">
+                    <span class="text-warning" th:text="${msg}" style="font-size: 13px;"></span>
+                </div>
+                <input type="text" placeholder="Nama Panjang" name="namaPanjang" required/>
+                <input type="email" placeholder="Email" name="email" required/>
+                <input type="password" placeholder="Password" name="password" required/>
+                <select name="idRole" th:field="*{role}" class="input-select" required>
+                    <option value="">-- Pilih Role --</option>
+                    <option th:each="role, iterationStatus: ${listRole}" 
+                            th:value="${role.idRole}" 
+                            th:text="${role.namaRole}"></option>
+                </select>
+                <br>
+                <button class="but-login"  type="submit">Daftar</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form th:action="@{/login}" method="POST">
+                <h1>Login</h1>
+                <div th:if="${param.error}">
+                    <span class="text-warning" style="font-size: 13px;">Username atau Password Tidak Valid</span>
+                </div>
+                <input type="email" placeholder="Email" name="email"/>
+                <input type="password" placeholder="Password" name="password"/>
+                <br>
+                <button class="but-login"  type="submit">Login</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>PEBELCO</h1>
+                    <hr style="border: 1px solid white; width: 70px;">
+                    <p>Silahkan masuk ke dalam akun dengan melakukan login</p>
+                    <button class="ghost" id="signIn">Login</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>PEBELCO</h1>
+                    <hr style="border: 1px solid white; width: 70px;">
+                    <p>Belum punya akun? Silahkan daftarkan akun terlebih dahulu</p>
+                    <button class="ghost" id="signUp">Daftar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
+</html>

@@ -10,6 +10,7 @@
     <script>
         $(function(){
             var requiredCheckboxes = $(':checkbox[required]');
+            requiredCheckboxes.removeAttr('required');
             requiredCheckboxes.change(function(){
                 if(requiredCheckboxes.is(':checked')) {
                     requiredCheckboxes.removeAttr('required');
@@ -116,7 +117,7 @@
                                 <tr>
                                     <th class="form-group">
                                         Tanggal Dibuat
-                                        <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" required>
+                                        <input type="date" class="form-control" name="tanggalDibuat" th:field="*{tanggalDibuat}" th:value="*{tanggalDibuat}" required>
                                     </th>
                                 </tr>
 

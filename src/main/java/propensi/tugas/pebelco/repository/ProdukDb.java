@@ -15,6 +15,9 @@ public interface ProdukDb extends JpaRepository<ProdukModel, Long> {
 
     List<ProdukModel> findAll();
 
+    List<ProdukModel> findByNamaProdukContainingIgnoreCaseOrderByNamaProdukAsc(String keyword);
 
+    List<ProdukModel> findByTipeOrderByNamaProdukAsc(Integer tipe);
 
+    List<ProdukModel> findByOrderByNamaProdukAsc();
 }

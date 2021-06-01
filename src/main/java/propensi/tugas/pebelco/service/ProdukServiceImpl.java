@@ -5,6 +5,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.ProdukModel;
@@ -25,7 +29,20 @@ public class ProdukServiceImpl implements ProdukService{
 
     @Override
     public List<ProdukModel> findAll() {
-        return produkDb.findAll();
+        return produkDb.findByOrderByNamaProdukAsc();
+    }
+
+    @Override
+    public Page<ProdukModel> findPaginated(String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(0,produkDb.findAll().size(),sort);
+        return produkDb.findAll(pageable);
+    }
+
+    @Override
+    public List<ProdukModel> getProdukByTipe(Integer tipe){
+        return produkDb.findByTipeOrderByNamaProdukAsc(tipe);
     }
 
     @Override
@@ -51,6 +68,11 @@ public class ProdukServiceImpl implements ProdukService{
     @Override
     public void addProduk(ProdukModel produk){
         produkDb.save(produk);
+    }
+
+    @Override
+    public List<ProdukModel> findBySearch(String keyword){
+        return produkDb.findByNamaProdukContainingIgnoreCaseOrderByNamaProdukAsc(keyword);
     }
 
     @Override

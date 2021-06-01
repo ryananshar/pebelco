@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Produk</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:if="${pop} != null" class="overlay" id="center">
+    <div class="row justify-content-center">
+        <div th:if="${pop} == 'green'" class="col-5 pop-up">
+            <img th:src="@{/img/green-check.svg}">
+            <p th:text="${msg}"></p>
+            <a th:href="@{/produk}" class="btn">
+                OK
+            </a>
+        </div>
+        <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
+            <p th:text="${msg2}"></p>
+            <span class="sub-msg" th:text="${subMsg}"></span>
+            <div class="row justify-content-center">
+                <a th:href="@{/produk}" class="btn but-outline">
+                    Tidak
+                </a>
+                <a th:href="@{/produk/hapus/}+${id}" class="btn but-success" style="margin-left: 10px;">
+                    Ya
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:if="${filterTitle} != null" class="overlay" style="align-items: center">
+    <div class="row justify-content-center" >
+        <div class="col-5 pop-up">
+            <br>
+            <h3 th:text="${filterTitle}" style="margin-left: 30px; color: #033C59;"></h3>
+            <br>
+            <div class="form-group" style="margin-left: 30px; width: 85%; color: #033C59;">
+                <input type="hidden" th:value="${keyword}" id="keywordInput">
+                <label>Tipe Produk</label>
+                <select class="form-control" name="status" onchange="selectOnChange(this)"required>
+                    <option selected value="">-- Pilih Tipe Produk --</option>
+                    <option value="1">Coffee Table</option>
+                    <option value="2">Display Rack</option>
+                    <option value="3">Kursi Cafe</option>
+                    <option value="4">Kursi Lipat</option>
+                    <option value="5">Kursi Makan</option>
+                    <option value="6">Kursi Stool</option>
+                    <option value="7">Laci Meja Tulis</option>
+                    <option value="8">Lemari Pakaian Besi</option>
+                    <option value="9">Meja Cafe</option>
+                    <option value="10">Meja Makan</option>
+                    <option value="11">Meja Lipat</option>
+                    <option value="12">Meja Tulis</option>
+                </select>
+            </div>
+            <br>
+            <div class="tagContainerOuter">
+                <div class="tagContainerInner">
+                    <div class="containerTag">
+                        <label class="labelTag">
+                            <input class="checkboxTag" type="checkbox" id="tag-1"
+                                   name="" value="1">
+                            <span class="spanTag">#Meja</span>
+                        </label>
+                    </div>
+                    <div class="containerTag">
+                        <label class="labelTag">
+                            <input class="checkboxTag" type="checkbox" id="tag-2"
+                                   name="" value="2">
+                            <span class="spanTag">#Kursi</span>
+                        </label>
+                    </div>
+                    <div class="containerTag">
+                        <label class="labelTag">
+                            <input class="checkboxTag" type="checkbox" id="tag-3"
+                                   name="" value="3">
+                            <span class="spanTag">#Lemari</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="tagContainerOuter">
+                <div class="tagContainerInner">
+                    <div class="containerTag">
+                        <label class="labelTag">
+                            <input class="checkboxTag" type="checkbox" id="tag-4"
+                                   name="" value="4">
+                            <span class="spanTag">#Laci</span>
+                        </label>
+                    </div>
+                    <div class="containerTag">
+                        <label class="labelTag">
+                            <input class="checkboxTag" type="checkbox" id="tag-5"
+                                   name="" value="5">
+                            <span class="spanTag">#Rak</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="tagContainerOuter">
+                <div class="row justify-content-center">
+                    <a class="btn but-outline" type="button"
+                       style=" background-color: white; color: #033C59; border: 1px solid #033C59;"
+                       th:href="@{/produk}">Batal</a>
+                    <a class="btn but-success" type="button" id="submitButtonFilter"
+                       onclick="filterSubmit()"
+                    >Filter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="row d-flex">
+    <div class="col-md-auto">
+        <nav th:replace="fragments/fragment :: sidebar"></nav>
+    </div>
+
+    <div class="container-fluid col">
+        <div class="row justify-content-center">
+            <div class="col" id="table-utama">
+                <div class="list-header">
+                    <h2>Daftar Produk</h2>
+                    <hr>
+                </div>
+                <div class="list-body">
+                    <div sec:authorize="hasAnyAuthority('Factory Manager', 'Admin')">
+                        <a
+                                th:href="@{/produk/tambah}"
+                                class="btn but-outline"
+                        >+ Tambah Produk </a>
+                        <br><br>
+                    </div>
+                    <div class="row justify-content-left">
+                        <div class="col" style="width: auto; margin-right: 5px; padding-left: 12px; display: inline-flex">
+                            <form th:action="@{/search}" method="GET">
+                                <div class="row">
+                                    <input placeholder="Masukkan keyword disini" type="search" name="keyword" th:value="${keyword}" size="50" class="col-9 form-control" style="margin:6px 0 0 23px"/>
+                                    <div class="col-1">
+                                        <input type="submit" value="Search" class="btn but-success"/>
+                                    </div>
+                                </div>
+                            </form>
+                            <div th:if="${keyword} != null">
+                                <a th:href="@{'/search-filter/?keyword=' + ${keyword}}" class="btn but-success" style="width: auto;">
+                                    <i class="fa fa-filter"></i>
+                                    Filter
+                                </a>
+                            </div>
+                            <div th:if="${keyword} == null">
+                                <a th:href="@{/filter-produk}" class="btn but-success" style="width: auto;">
+                                    <i class="fa fa-filter"></i>
+                                    Filter
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div th:if="${produk.size() == 0}">
+                        <br>
+                        <br>
+                        <h3 th:text="${pesanFilter}"></h3>
+                    </div>
+                    <div th:if="${produk.size() > 0}">
+                        <table class="table daftar-table table-hover table-bordered">
+                            <tr class="bg-dark text-center">
+                                <th>No</th>
+                                <th>
+                                    <div th:if="${keyword} != null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword}  +'&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'namaProduk'">
+                                                <i class="fa fa-sort"></i>
+                                                Nama Produk
+                                            </div>
+                                            <div th:if="${sortField} == 'namaProduk'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Nama Produk
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div th:if="${keyword} == null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'namaProduk'">
+                                                <i class="fa fa-sort"></i>
+                                                Nama Produk
+                                            </div>
+                                            <div th:if="${sortField} == 'namaProduk'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Nama Produk
+                                            </div>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div th:if="${keyword} != null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'stok'">
+                                                <i class="fa fa-sort"></i>
+                                                Stok
+                                            </div>
+                                            <div th:if="${sortField} == 'stok'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Stok
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                    <div th:if="${keyword} == null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'stok'">
+                                                <i class="fa fa-sort"></i>
+                                                Stok
+                                            </div>
+                                            <div th:if="${sortField} == 'stok'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Stok
+                                            </div>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div th:if="${keyword} != null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'harga'">
+                                                <i class="fa fa-sort"></i>
+                                                Harga
+                                            </div>
+                                            <div th:if="${sortField} == 'harga'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Harga
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div th:if="${keyword} == null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'harga'">
+                                                <i class="fa fa-sort"></i>
+                                                Harga
+                                            </div>
+                                            <div th:if="${sortField} == 'harga'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Harga
+                                            </div>
+                                        </a>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div th:if="${keyword} != null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'tanggalDibuat'">
+                                                <i class="fa fa-sort"></i>
+                                                Tanggal Dibuat
+                                            </div>
+                                            <div th:if="${sortField} == 'tanggalDibuat'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Tanggal Dibuat
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                    <div th:if="${keyword} == null">
+                                        <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
+                                            <div th:if="${sortField} != 'tanggalDibuat'">
+                                                <i class="fa fa-sort"></i>
+                                                Tanggal Dibuat
+                                            </div>
+                                            <div th:if="${sortField} == 'tanggalDibuat'">
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
+                                                Tanggal Dibuat
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="produk, iterationStatus: ${produk}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td th:text="${produk.namaProduk}"></td>
+                                <td th:text="${produk.stok}"></td>
+                                <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                                <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
+                                <td>
+                                    <div class="inline-buts">
+                                        <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
+                                        <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/javascript/produk-filter.js}"></script>
+</html>

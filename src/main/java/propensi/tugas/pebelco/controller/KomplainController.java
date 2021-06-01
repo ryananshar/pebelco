@@ -28,6 +28,10 @@ public class KomplainController {
     @Autowired
     TransaksiKomplainService transaksiKomplainService;
 
+    @Qualifier("produkServiceImpl")
+    @Autowired
+    ProdukService produkService;
+
     @Qualifier("pesananPenjualanServiceImpl")
     @Autowired
     PesananPenjualanService pesananPenjualanService;
@@ -260,6 +264,7 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
+        System.out.println(komplain.getTanggalPersetujuan() + "---------------");
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             if (komplain.getUser() == user && komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
@@ -289,7 +294,7 @@ public class KomplainController {
     ){
 
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
-        if (komplain.getIsShown()) {
+        if (komplain.getIsShown() && komplain.getStatusKomplain() == 0) {
             model.addAttribute("komplain", komplain);
             model.addAttribute("kodeKomplain", kodeKomplain);
         } else {
@@ -328,11 +333,8 @@ public class KomplainController {
         }else{
             model.addAttribute("message", "Status Komplain Tidak Dapat Diubah");
         }
-
-
-
+        
         return "komplain/komplain-ubah-status";
-
     }
 
     @GetMapping("/komplain/ubah-status/{statKomplain}/{kodeKomplain}")
@@ -352,6 +354,31 @@ public class KomplainController {
         Integer status = Integer.parseInt(statKomplain);
 
         if (status == 1){
+            int tempStokProduk;
+            int jumlahBarangDiKomplain;
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                if (jumlahBarangDiKomplain > tempStokProduk){
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("msg", "Status Komplain Gagal Diubah");
+                    model.addAttribute("subMsg", "Jumlah stok barang tidak cukup");
+                    model.addAttribute("komplain", komplain);
+                    model.addAttribute("kodeKomplain", kodeKomplain);
+                    return "komplain/komplain-ubah-status";
+                }
+            }
+
+            for (int i = 0; i < komplain.getBarangKomplain().size(); i++){
+                ProdukModel produk = produkService.getProdukByNama(komplain.getBarangKomplain().get(i).getNamaBarang());
+                tempStokProduk = produk.getStok();
+                jumlahBarangDiKomplain = komplain.getBarangKomplain().get(i).getJumlah();
+                produk.setStok(tempStokProduk-jumlahBarangDiKomplain);
+
+            }
+
             Date date = new Date();
 
             komplain.setTanggalPersetujuan(date);

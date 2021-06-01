@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 public class PengirimanServiceImpl implements PengirimanService {
 
@@ -29,7 +32,13 @@ public class PengirimanServiceImpl implements PengirimanService {
 
     @Override
     public List<Pengiriman> findAll() {
-        List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrue();
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrueOrderByIdPengirimanAsc();
+        return getPengirimanFromModel(pengirimanList);
+    }
+
+    @Override
+    public List<Pengiriman> findAllLaporan() {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAll();
         return getPengirimanFromModel(pengirimanList);
     }
 
@@ -118,4 +127,11 @@ public class PengirimanServiceImpl implements PengirimanService {
             return false;
         }
     }
+
+    
+	@Override
+	public List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate) {
+        List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetweenOrderByIdPengirimanAsc(startDate, finalDate);
+		return getPengirimanFromModel(pengirimanList);
+	}
 }
