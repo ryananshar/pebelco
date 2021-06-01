@@ -2,6 +2,7 @@ package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -129,8 +130,11 @@ public class ProdukController {
 
         if (keyword.isPresent()){
             Set<ProdukModel> filtered = new HashSet<>();
+            List<ProdukModel> filteredSorted = new ArrayList<>();
             List<ProdukModel> produkSearch = produkService.findBySearch(keyword.get());
             List<ProdukModel> produkTags = new ArrayList<>();
+            Page<ProdukModel> page = produkService.findPaginated("namaProduk", "asc");
+            List<ProdukModel> produkSorted = page.getContent();
 
             if(tags.equals("")){
                 List<ProdukModel> produkTipe =  produkService.getProdukByTipe(Integer.parseInt(tipe));
@@ -144,8 +148,13 @@ public class ProdukController {
                     }
                 }
 
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
 
-                model.addAttribute("produk", filtered);
+                model.addAttribute("produk", filteredSorted);
             }else if (tipe.equals("")){
 
                 String[] listTags = tags.split(" ");
@@ -168,8 +177,14 @@ public class ProdukController {
                     }
                 }
 
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
 
-                model.addAttribute("produk", filtered);
+
+                model.addAttribute("produk", filteredSorted);
 
             }else if (!tipe.equals("") && !tags.equals("")){
                 List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
@@ -193,7 +208,13 @@ public class ProdukController {
                     }
                 }
 
-                model.addAttribute("produk", filtered);
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
+
+                model.addAttribute("produk", filteredSorted);
             }
 
             model.addAttribute("keyword", keyword.get());
