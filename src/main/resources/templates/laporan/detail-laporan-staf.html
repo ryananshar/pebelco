@@ -49,9 +49,9 @@
                 </div>
             </div>
             <div th:unless="${message} != null">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center"> 
                     <div class="col" id="table-utama">
-                        <div class="list-header">
+                        <div class="list-header" style="margin-left: 20px;">
                             <h2 th:text="${stafSales.namaPanjang}">Laporan Staf Sales</h2>
                             <hr>
                         </div>
@@ -60,10 +60,10 @@
                 <div class="list-header" style="margin-left: 20px;">
                     <h4>Daftar Jadwal Kunjungan</h4>
                 </div>
-                <div th:if="${listKunjungan.isEmpty()}" class="list-body" style="margin-top: 30px;">
+                <div th:if="${listKunjungan.isEmpty()}" class="list-body" style="margin-top: 30px; margin-left: 20px;">
                     <h3>Tidak Terdapat Jadwal Kunjungan</h3>
                 </div>
-                <div th:unless="${listKunjungan.isEmpty()}" class="list-body" id="table-utama" style="margin-top: 30px;">
+                <div th:unless="${listKunjungan.isEmpty()}" class="list-body" id="table-utama" style="margin-top: 30px; margin-left: 20px;">
                     <table class="table daftar-table table-hover table-bordered">
                         <thead>
                         <tr>
@@ -89,7 +89,7 @@
                     </table>
                 </div>
                 <br><br>
-                <div class="list-header" style="margin-left: 20px;">
+                <div class="list-header">
                     <h4>Daftar Pesanan Penjualan</h4>
                 </div>
 
@@ -97,7 +97,7 @@
                     <h3>Tidak Terdapat Pesanan Penjualan</h3>
                 </div>
 
-                <div th:unless="${listPesanan.isEmpty()}" class="list-body" id="table-utama" style="margin-top: 30px;">
+                <div th:unless="${listPesanan.isEmpty()}" class="list-body" id="table-utama" style="margin-top: 30px; margin-left: 20px;">
                     <table class="table daftar-table table-hover table-bordered">
                         <thead>
                         <tr>
