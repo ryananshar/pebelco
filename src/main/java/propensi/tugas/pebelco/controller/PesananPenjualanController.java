@@ -422,8 +422,8 @@ public class PesananPenjualanController {
         Integer status=pesananPenjualan.getStatusPesanan();
 
         if (pesananPenjualan.getIsShown() && pesananPenjualan.getStatusPesanan() == 0) {
-                model.addAttribute("pesanan", pesananPenjualan);
-                model.addAttribute("statPesanan",status);
+            model.addAttribute("pesanan", pesananPenjualan);
+            model.addAttribute("statPesanan",status);
         } else {
             model.addAttribute("message", "Data Pesanan Penjualan Tidak Ditemukan");
         }
