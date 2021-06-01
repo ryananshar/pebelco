@@ -472,12 +472,16 @@ public class PesananPenjualanController {
                     ProdukModel produk = produkService.getProdukByNama(pesanan.getBarangPesanan().get(l).getNamaBarang());
                     Integer jumlahproduk = produk.getStok();
                     Integer totaljumlah = jumlahproduk - jumlahpesanan;
-                    Date date = new Date();
-                    pesanan.setTanggalPersetujuan(date);
-                    pesananPenjualanService.changeStatusDisetujui(pesanan);
+//                    Date date = new Date();
+//                    pesanan.setTanggalPersetujuan(date);
+//                    pesananPenjualanService.changeStatusDisetujui(pesanan);
                     produk.setStok(totaljumlah);
                     produkService.updateStokProduk(produk);
                 }
+                Date date = new Date();
+                pesanan.setTanggalPersetujuan(date);
+                pesananPenjualanService.changeStatusDisetujui(pesanan);
+
                 Boolean isNotif = true;
                 Long idPengirim = user.getIdUser();
                 if (pesanan.getUser().getRole().getIdRole() == 1) {
