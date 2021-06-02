@@ -11,6 +11,11 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.col{
+    min-height: 1px;
+    min-width: 1px;
+}
+
 .error_message {
     color : red;
 }
