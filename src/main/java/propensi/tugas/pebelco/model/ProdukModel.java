@@ -21,7 +21,7 @@ public class ProdukModel implements Serializable{
 
     @NotNull
     @Size(max = 50)
-    @Column(name = "nama_produk", nullable = false)
+    @Column(name = "nama_produk", nullable = false, unique = true)
     private String namaProduk;
 
     @NotNull
