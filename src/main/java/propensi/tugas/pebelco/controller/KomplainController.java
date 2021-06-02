@@ -154,7 +154,7 @@ public class KomplainController {
         List<ProdukModel> listProdukTemp = produkService.findAll();
 
         List<Integer> listProdukRemoval = new ArrayList<>();
-        
+
         for (int i = 0; i < listProdukTemp.size(); i ++){
             listNamaProduk.add(listProdukTemp.get(i).getNamaProduk());
         }
@@ -183,11 +183,13 @@ public class KomplainController {
         }
 
         if (listProdukRemoval.size() > 0){
+            List<PesananPenjualanModel> listTempPesanan = new ArrayList<>();
+            listTempPesanan.addAll(pesananPenjualanList);
             for (int i = 0; i < listProdukRemoval.size(); i ++){
-                pesananPenjualanList.remove(pesananPenjualanList.get(listProdukRemoval.get(i)));
+                pesananPenjualanList.remove(listTempPesanan.get(listProdukRemoval.get(i)));
             }
         }
-
+        
         model.addAttribute("pesananList", pesananPenjualanList);
         model.addAttribute("transaksiList", listList);
         model.addAttribute("listBarang", listBarang);
