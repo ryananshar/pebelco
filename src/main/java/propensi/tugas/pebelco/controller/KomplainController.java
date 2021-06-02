@@ -139,19 +139,53 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (user.getRole().getNamaRole().equals("Staf Sales") ){
-            pesananPenjualanList = pesananPenjualanService.getPesananListByUser(user, true);
+            pesananPenjualanList = pesananPenjualanService.getPesananListForStafSales( user, 3);
         } else{
-            pesananPenjualanList = pesananPenjualanService.getPesananList(true);
+            pesananPenjualanList = pesananPenjualanService.getPesananListForAdminKomplain(3);
 
         }
+
         List<List<TransaksiPesananModel>> listList = new ArrayList<>();
         List<String> listDesc = new ArrayList<>();
         List<String> listBarang = new ArrayList<>();
         List<Integer> listJumlah = new ArrayList<>();
+        
+        List<String> listNamaProduk = new ArrayList<>();
+        List<ProdukModel> listProdukTemp = produkService.findAll();
+
+        List<Integer> listProdukRemoval = new ArrayList<>();
+        
+        for (int i = 0; i < listProdukTemp.size(); i ++){
+            listNamaProduk.add(listProdukTemp.get(i).getNamaProduk());
+        }
+        
 
         for (int i = 0; i < pesananPenjualanList.size(); i++) {
             transaksiPesananList = transaksiPesananService.getListByIdPesanan(pesananPenjualanList.get(i));
-            listList.add(transaksiPesananList);
+            if (transaksiPesananList.size() == 1){
+                if (listNamaProduk.contains(transaksiPesananList.get(0).getNamaBarang())){
+                    listList.add(transaksiPesananList);
+                } else{
+                    listProdukRemoval.add(i);
+                }
+            }else{
+                List<TransaksiPesananModel> listTemp = new ArrayList<>();
+                listTemp.addAll(transaksiPesananList);
+                for (int j = 0; j < listTemp.size(); j++){
+                    if (!listNamaProduk.contains(listTemp.get(j).getNamaBarang())){
+                        System.out.println("yang akan dihapus " + listTemp.get(j).getNamaBarang());
+                        transaksiPesananList.remove(listTemp.get(j));
+                    }
+                }
+                listList.add(transaksiPesananList);
+                
+            }
+        }
+
+        if (listProdukRemoval.size() > 0){
+            for (int i = 0; i < listProdukRemoval.size(); i ++){
+                pesananPenjualanList.remove(pesananPenjualanList.get(listProdukRemoval.get(i)));
+            }
         }
 
         model.addAttribute("pesananList", pesananPenjualanList);

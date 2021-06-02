@@ -36,4 +36,8 @@ public interface PesananPenjualanService {
     void changeStatusDitolak(PesananPenjualanModel pesanan);
 
     List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
+
+    List<PesananPenjualanModel> getPesananListForAdminKomplain(int status);
+
+    List<PesananPenjualanModel> getPesananListForStafSales(UserModel user, int status);
 }
