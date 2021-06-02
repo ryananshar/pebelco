@@ -71,9 +71,9 @@
                             <div class="form-group">
                                 <label>Catatan</label>
                                 <textarea th:field="*{requestChange}" class="form-control"
-                                    style="width: 100%;"
+                                    style="width: 100%;" maxlength="250"
                                     name="requestChange" rows="5" cols="6"
-                                    placeholder="Masukan catatan"  required></textarea>
+                                    placeholder="Masukan catatan" required></textarea>
                             </div>
                             <div class="row justify-content-end">                                
                                 <a class="btn but-outline" type="button" th:href="@{/pesanan/} + ${kodePesananPenjualan}">Batal</a>

@@ -25,9 +25,9 @@
                 <div th:if="${msg} != null">
                     <span class="text-warning" th:text="${msg}" style="font-size: 13px;"></span>
                 </div>
-                <input type="text" placeholder="Nama Panjang" name="namaPanjang" required/>
-                <input type="email" placeholder="Email" name="email" required/>
-                <input type="password" placeholder="Password" name="password" required/>
+                <input type="text" placeholder="Nama Panjang" name="namaPanjang" required maxlength="50"/>
+                <input type="email" placeholder="Email" name="email" required maxlength="50"/>
+                <input type="password" placeholder="Password" name="password" required maxlength="250"/>
                 <select name="idRole" th:field="*{role}" class="input-select" required>
                     <option value="">-- Pilih Role --</option>
                     <option th:each="role, iterationStatus: ${listRole}" 
@@ -44,8 +44,8 @@
                 <div th:if="${param.error}">
                     <span class="text-warning" style="font-size: 13px;">Username atau Password Tidak Valid</span>
                 </div>
-                <input type="email" placeholder="Email" name="email"/>
-                <input type="password" placeholder="Password" name="password"/>
+                <input type="email" placeholder="Email" name="email" maxlength="50"/>
+                <input type="password" placeholder="Password" name="password" maxlength="250"/>
                 <br>
                 <button class="but-login"  type="submit">Masuk</button>
             </form>

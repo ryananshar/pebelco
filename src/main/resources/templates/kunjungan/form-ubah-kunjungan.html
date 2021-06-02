@@ -78,13 +78,13 @@
                                     <div class="form-group">
                                         <label>Nama Toko</label>
                                         <input th:field="*{namaToko}" type="text" class="form-control"
-                                               name="namaToko" required>
+                                               name="namaToko" required maxlength="50">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Alamat Toko</label>
                                         <input th:field="*{alamatToko}" type="text" class="form-control"
-                                               name="alamatToko" required>
+                                               name="alamatToko" required maxlength="250">
                                     </div>
 
                                     <div class="form-group">
@@ -111,7 +111,7 @@
                                         <label>Catatan</label>
                                         <textarea th:field="*{catatanKunjungan}" class="form-control"
                                                   style="width: 100%; height: 382px"
-                                                  name="catatanKunjungan"
+                                                  name="catatanKunjungan" maxlength="250"
                                                   placeholder="Masukan catatan kunjungan"></textarea>
                                     </div>
 
