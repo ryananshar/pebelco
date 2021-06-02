@@ -19,6 +19,16 @@
                 OK
             </a>
         </div>
+        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/produk}" class="btn">
+                OK
+            </a>
+        </div>
         <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
             <p th:text="${msg2}"></p>
             <span class="sub-msg" th:text="${subMsg}"></span>

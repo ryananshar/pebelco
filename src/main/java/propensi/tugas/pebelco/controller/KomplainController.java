@@ -194,14 +194,12 @@ public class KomplainController {
         model.addAttribute("listDesc", listDesc);
         model.addAttribute("listJumlah", listJumlah);
         model.addAttribute("komplain", new KomplainModel());
-//        model.addAttribute("transaksiKomplain", new TransaksiKomplainModel());
         return "komplain/komplain-form-add";
     }
 
     @PostMapping("/komplain/tambah")
     public String addKomplainSubmit(
             @ModelAttribute KomplainModel komplain,
-//            Principal principal,
             String userEmail,
             Model model
     ) {

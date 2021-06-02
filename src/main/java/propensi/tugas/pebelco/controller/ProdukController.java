@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.TagProdukDb;
+import propensi.tugas.pebelco.repository.TransaksiKomplainDb;
+import propensi.tugas.pebelco.repository.TransaksiPesananDb;
 import propensi.tugas.pebelco.service.*;
 
 @Controller
@@ -32,6 +34,12 @@ public class ProdukController {
 
     @Autowired
     private NotifikasiService notifikasiService;
+
+    @Autowired
+    private TransaksiPesananDb transaksiPesananDb;
+
+    @Autowired
+    private TransaksiKomplainDb transaksiKomplainDb;
 
     @GetMapping(value = "/produk")
     public String daftarproduk(Model model) {
@@ -463,8 +471,38 @@ public class ProdukController {
 
     @GetMapping(value = "/produk/hapus/{id}")
     public String hapusproduk(@PathVariable Long id, Model model) {
-        // List<TagProdukModel> list=new ArrayList<TagProdukModel>();
-        ProdukModel produk=produkService.getProdukById(id);
+        ProdukModel produk = produkService.getProdukById(id);
+
+        // Cek Transaksi Pesanan
+        List<TransaksiPesananModel> listBarangPesanan = transaksiPesananDb.findByNamaBarang(produk.getNamaProduk());
+        for (TransaksiPesananModel barangPesanan : listBarangPesanan) {
+            if (barangPesanan.getPesananTransaksi().getIsShown()) {
+                Integer statusPesanan = barangPesanan.getPesananTransaksi().getStatusPesanan();
+                if (statusPesanan == 0 || statusPesanan == 1 || statusPesanan == 4) {
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("produk", produkService.findAll());
+                    model.addAttribute("msg", "Produk Gagal Dihapus");
+                    model.addAttribute("subMsg", "Pesanan dengan produk tersebut masih diproses");
+                    return "produk/daftar-produk";
+                }
+            }               
+        }
+        
+        // Cek Transaksi Komplain
+        List<TransaksiKomplainModel> listBarangKomplain = transaksiKomplainDb.findByNamaBarang(produk.getNamaProduk());
+        for (TransaksiKomplainModel barangKomplain : listBarangKomplain) {
+            if (barangKomplain.getKomplainTransaksi().getIsShown()) {
+                Integer statusKomplain = barangKomplain.getKomplainTransaksi().getStatusKomplain();
+                if (statusKomplain == 0 || statusKomplain == 1 || statusKomplain == 4) {
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("produk", produkService.findAll());
+                    model.addAttribute("msg", "Produk Gagal Dihapus");
+                    model.addAttribute("subMsg", "Komplain dengan produk tersebut masih diproses");
+                    return "produk/daftar-produk";
+                }
+            }               
+        }   
+
         tagService.deleteTagProduk(produk);
         produkService.deleteProduk(produk);
 
