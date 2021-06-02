@@ -214,9 +214,9 @@
                             <td th:text="${iterationStatus.count}"></td>
                             <td th:text="${produk.namaProduk}"></td>
                             <td th:text="${produk.stok}"></td>
-                            <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                            <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; " id="table-nowrap"></td>
                             <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
-                            <td>
+                            <td id="table-nowrap">
                                 <div class="inline-buts">
                                     <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
                                     <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>

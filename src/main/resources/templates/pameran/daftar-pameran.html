@@ -69,7 +69,7 @@
                                     <th>Tanggal</th>
                                     <th>Waktu</th>
                                     <th>Tipe Pameran</th>
-                                    <th>Aksi</th>
+                                    <th id="table-nowrap">Aksi</th>
                                 </tr>
                                 </thead>
 
@@ -81,7 +81,7 @@
                                     <td th:text="${pameran.waktuMulai}+' - '+${pameran.waktuSelesai}"></td>
                                     <td th:if="${pameran.tipePameran==1}" th:text="Lokal"></td>
                                     <td th:if="${pameran.tipePameran==2}" th:text="Nasional"></td>
-                                    <td>
+                                    <td id="table-nowrap">
                                         <div class="inline-buts">
                                             <a th:href="@{/pameran/}+${pameran.idPameran}" class="btn but-detail">Detail</a>
                                             <a th:href="@{/pameran/konfirmasi-hapus/}+${pameran.idPameran}"

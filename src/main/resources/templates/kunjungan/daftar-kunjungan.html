@@ -89,7 +89,7 @@
                                 <th>Nama Toko</th>
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
-                                <th>Aksi</th>
+                                <th id="table-nowrap">Aksi</th>
                             </tr>
                             </thead>
 
@@ -100,7 +100,7 @@
                                 <td th:text="${kunjungan.namaToko}"></td>
                                 <td th:text="${#dates.format(kunjungan.tanggalKunjungan, 'dd/MM/yyyy')}"></td>
                                 <td th:text="${kunjungan.waktuMulai}+' - '+${kunjungan.waktuSelesai}"></td>
-                                <td>
+                                <td id="table-nowrap">
                                     <div class="inline-buts">
                                         <a th:href="@{/kunjungan/}+${kunjungan.kodeKunjungan}" class="btn but-detail">Detail</a>
                                         <a th:href="@{/kunjungan/konfirmasi-hapus/}+${kunjungan.kodeKunjungan}" class="btn but-danger">Hapus</a>

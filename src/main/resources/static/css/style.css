@@ -28,6 +28,10 @@ body {
     text-align: center;
 }
 
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
 .flex-fixed-width-item {
     flex: 0 0 100px;
 }
@@ -594,6 +598,10 @@ table {
     border-collapse: collapse;
     table-layout: auto;
     width: 100%;
+}
+
+#table-nowrap {
+    white-space: nowrap;
 }
 
 .table td, .table th{
