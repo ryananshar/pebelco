@@ -173,11 +173,14 @@ public class KomplainController {
                 listTemp.addAll(transaksiPesananList);
                 for (int j = 0; j < listTemp.size(); j++){
                     if (!listNamaProduk.contains(listTemp.get(j).getNamaBarang())){
-                        System.out.println("yang akan dihapus " + listTemp.get(j).getNamaBarang());
                         transaksiPesananList.remove(listTemp.get(j));
                     }
                 }
-                listList.add(transaksiPesananList);
+                if (transaksiPesananList.size() == 0){
+                    listProdukRemoval.add(i);
+                }else{
+                    listList.add(transaksiPesananList);
+                }
                 
             }
         }
@@ -298,7 +301,6 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
-        System.out.println(komplain.getTanggalPersetujuan() + "---------------");
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             if (komplain.getUser() == user && komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
@@ -498,7 +500,6 @@ public class KomplainController {
                     listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
                 }
             }
-            System.out.println(listMaxJumlah.size());
 
 
             model.addAttribute("listBarang", listBarang);
@@ -523,8 +524,6 @@ public class KomplainController {
     ){
         List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
         TransaksiKomplainModel transaksiKomplain;
-
-        System.out.println(komplain.getTemp());
 
         KomplainModel komplainBarangDel = komplainService.getKomplainByKodeKomplain(komplain.getKodeKomplain());
 
@@ -557,26 +556,14 @@ public class KomplainController {
 
             for (int i = 0; i < komplainBarangDel.getBarangKomplain().size(); i++){
                 if (Arrays.stream(listTempBarang).anyMatch(komplainBarangDel.getBarangKomplain().get(i).getNamaBarang()::equals)){
-                    System.out.println("sesuai");
                 }else{
-                    System.out.println("gak sesuai" + komplainBarangDel.getBarangKomplain().get(i).getNamaBarang());
                     transaksiKomplainService.deleteTransaksiKomplain(komplainBarangDel.getBarangKomplain().get(i));
-
                 }
             }
-
-
-            System.out.println("===============================================");
 
             komplain.setBarangKomplain(transaksiKomplainList);
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
-
-            for(int i = 0; i < komplain.getBarangKomplain().size(); i++){
-                System.out.println(komplain.getBarangKomplain().get(i).getNamaBarang());
-                System.out.println(komplain.getBarangKomplain().get(i).getJumlah());
-                System.out.println(komplain.getBarangKomplain().get(i).getDeskripsiKomplain()  );
-            }
 
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "green");

@@ -311,7 +311,6 @@ public class ProdukController {
                 model.addAttribute("produk", produkAfterSorted);
                 model.addAttribute("keyword", keyword.get());
             }else if (tipe.equals("")){
-                System.out.println("masukSortNoTipekey");
                 String[] listTags = tags.split(" ");
                 for (String i : listTags){
                     listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
@@ -395,7 +394,6 @@ public class ProdukController {
                 model.addAttribute("tags", tags);
                 model.addAttribute("produk", produkFiltered);
             }else if (tipe.equals("")){
-                System.out.println("masukSortNoTipeNokey");
                 List<ProdukModel> produkTemp = new ArrayList<>();
 
                 String[] listTags = tags.split(" ");
@@ -604,7 +602,6 @@ public class ProdukController {
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         List<TagProdukModel> listTagProduk=produk.getListTagProduk();
         List<Long> daftarTag=new ArrayList<>();
-        // System.out.println(listTagProduk);
 
         if (listTagProduk.size() == 0) {
             TagProdukModel tagGaib = new TagProdukModel();
@@ -631,8 +628,6 @@ public class ProdukController {
         List<TagProdukModel> list1=new ArrayList<TagProdukModel>();
         List<ProdukModel> listproduk=new ArrayList<ProdukModel>();
         produkService.addProduk(produk);
-        // System.out.println(checkboxValue);
-        // System.out.println(checkboxValue.length);
 
         for(int i =0; i< checkboxValue.length;i++) {
             Long idTag = Long.valueOf(checkboxValue[i]);
@@ -641,11 +636,9 @@ public class ProdukController {
             listproduk.add(produk);
             produk.setListTagProduk(list1);
             tagService.updateTagProduk(listproduk,produk1);
-            // System.out.println(tag.getNamaTag());
         }
-        // System.out.println(produk.getListTagProduk());
+        
         ProdukModel produkUpdated = produkService.updateStokProduk(produk);
-        // System.out.println(produkUpdated.getListTagProduk());
         model.addAttribute("idProduk", produkUpdated.getIdProduk());
         model.addAttribute("produk", produk);
         model.addAttribute("pop", "green");
