@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -469,6 +471,7 @@ public class ProdukController {
         return "produk/detail-produk";
     }
 
+    @Transactional
     @GetMapping(value = "/produk/hapus/{id}")
     public String hapusproduk(@PathVariable Long id, Model model) {
         ProdukModel produk = produkService.getProdukById(id);
