@@ -11,9 +11,9 @@ import java.util.List;
 
 @Repository
 public interface PengirimanDb extends JpaRepository<PengirimanModel, Long> {
-    List<PengirimanModel> findAllByIsShownIsTrue();
+    List<PengirimanModel> findAllByIsShownIsTrueOrderByIdPengirimanAsc();
 
     PengirimanModel findByKodePengiriman(String kodePengiriman);
 
-    List<PengirimanModel>findByTanggalDiterimaBetween(Date startDate, Date finalDate);
+    List<PengirimanModel>findByTanggalDiterimaBetweenOrderByIdPengirimanAsc(Date startDate, Date finalDate);
 }

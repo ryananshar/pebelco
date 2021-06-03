@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface KunjunganDb extends JpaRepository<KunjunganModel,Long> {
     KunjunganModel findByKodeKunjungan(String kodeKunjungan);
-    List<KunjunganModel> findByIsShown(Boolean isShown);
-    List<KunjunganModel> findByStafSalesAndIsShown(UserModel stafSales, Boolean isShown);
-    List<KunjunganModel> findByStafSalesAndTanggalKunjunganBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
+    List<KunjunganModel> findByIsShownOrderByIdKunjunganAsc(Boolean isShown);
+    List<KunjunganModel> findByStafSalesAndIsShownOrderByIdKunjunganAsc(UserModel stafSales, Boolean isShown);
+    List<KunjunganModel> findByStafSalesAndTanggalKunjunganBetweenOrderByIdKunjunganAsc(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
 }

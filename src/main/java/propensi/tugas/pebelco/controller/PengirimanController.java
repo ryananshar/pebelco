@@ -212,7 +212,7 @@ public class PengirimanController {
             @RequestParam String namaPenerima, Model model) throws ParseException {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         pengirimanService.updateStatusPengiriman(kodePengiriman, 3);
-        Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-mm-dd").parse(tanggalDiterima);
+        Date tanggalDiterimaDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalDiterima);
         pengirimanService.terimaPengiriman(kodePengiriman, tanggalDiterimaDate, namaPenerima);
 
         Pengiriman pengiriman = pengirimanService.findPengirimanByKode(kodePengiriman);
@@ -266,7 +266,7 @@ public class PengirimanController {
                 model.addAttribute("subMsg", "Apakah anda yakin ingin menghapus pengiriman ini?");
             }
             else {
-                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
 
@@ -301,7 +301,7 @@ public class PengirimanController {
                 model.addAttribute("msg2", "Pengiriman Berhasil Dihapus");
             }
             else {
-                model.addAttribute("message", "Data Pengiriman Tidak Dapat Dihapus");
+                model.addAttribute("message", "Data Pengiriman Tidak Ditemukan");
                 model.addAttribute("pengiriman", pengiriman);
             }
 

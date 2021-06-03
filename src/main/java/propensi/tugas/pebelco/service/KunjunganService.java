@@ -3,6 +3,7 @@ package propensi.tugas.pebelco.service;
 import propensi.tugas.pebelco.model.KunjunganModel;
 import propensi.tugas.pebelco.model.UserModel;
 
+import java.util.Date;
 import java.util.List;
 
 public interface KunjunganService {
@@ -26,4 +27,6 @@ public interface KunjunganService {
 
     // Method untuk menghapus Kunjungan
     void deleteKunjungan(KunjunganModel kunjungan);
+
+    List<KunjunganModel> getKunjunganListByTanggalKunjunganBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
 }

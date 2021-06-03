@@ -36,7 +36,7 @@
 </div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
-    <div class="col-md-auto">
+    <div class="col col-sm-auto col-md-auto">
         <!-- <div class="position-fixed"> -->
         <nav th:replace="fragments/fragment :: sidebar"></nav>
         <!-- </div> -->
@@ -90,7 +90,7 @@
                                 <th>Kode Pengiriman</th>
                                 <th>Nama Toko</th>
                                 <th>Tanggal</th>
-                                <th>Status</th>
+                                <th id="table-nowrap">Status</th>
                                 <th>Aksi</th>
                             </tr>
                             </thead>
@@ -102,7 +102,7 @@
                                 <td th:text="${pengiriman.namaToko}">Nama Toko</td>
                                 <td th:text="${#dates.format(pengiriman.tanggalDibuat, 'dd/MM/yyyy')}">Tanggal</td>
                                 <div th:switch="${pengiriman.status}">
-                                    <td class="list-status text-center">
+                                    <td class="list-status text-center" id="table-nowrap">
                                     <span th:case="'Belum Dikirim'"
                                           class="belumDikirim">Belum Dikirim</span>
                                         <span th:case="'Dikirim'"
@@ -111,7 +111,7 @@
                                               class="diterima">Diterima</span>
                                     </td>
                                 </div>
-                                <td>
+                                <td id="table-nowrap">
                                     <div class="inline-buts">
                                         <a th:href="@{'/pengiriman/' + ${pengiriman.kodePengiriman}}" class="btn but-detail">Detail</a>
                                         <!--                                    <form th:action="@{/pengiriman/konfirmasi-hapus/}+${pengiriman.kodePengiriman}" method="GET">-->

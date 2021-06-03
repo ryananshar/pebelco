@@ -46,7 +46,7 @@
 </div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
-    <div class="col-md-auto">
+    <div class="col col-sm-auto col-md-auto">
         <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
 
@@ -63,7 +63,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Nama Produk</label>
-                                    <input th:field="*{namaProduk}" type="text" name="namaProduk"  class="form-control" placeholder="Masukan nama produk" required>
+                                    <input th:field="*{namaProduk}" type="text" name="namaProduk"  class="form-control" placeholder="Masukan nama produk" required maxlength="50">
                                 </div>
 
                                 <div class="form-group">
@@ -144,7 +144,7 @@
                                     <label>Spesifikasi</label>
                                     <textarea th:field="*{spesifikasi}" class="form-control"
                                               style="width: 100%; height: 380px"
-                                              name="spesifikasi"
+                                              name="spesifikasi" maxlength="250"
                                               required
                                               placeholder="Masukan spesifikasi"></textarea>
                                 </div>

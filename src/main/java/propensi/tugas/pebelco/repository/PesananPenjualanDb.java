@@ -11,17 +11,17 @@ import java.util.List;
 
 @Repository
 public interface PesananPenjualanDb extends JpaRepository<PesananPenjualanModel, Long> {
-    List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEquals(int statusPesanan);
+    List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEqualsOrderByIdPesananPenjualanAsc(int statusPesanan);
+
+    List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(int statusPesanan, UserModel user);
 
     PesananPenjualanModel findByIdPesananPenjualan(Long idPesananPenjualan);
 
     PesananPenjualanModel findByKodePesananPenjualan(String kodePesananPenjualan);
 
-    List<PesananPenjualanModel> findByIsShown(Boolean isShown);
+    List<PesananPenjualanModel> findByIsShownOrderByIdPesananPenjualanAsc(Boolean isShown);
 
-    List<PesananPenjualanModel> findByUser(UserModel user);
+    List<PesananPenjualanModel> findByUserAndIsShownOrderByIdPesananPenjualanAsc(UserModel user, Boolean isShown);
 
-    List<PesananPenjualanModel> findByUserAndIsShown(UserModel user, Boolean isShown);
-
-    List<PesananPenjualanModel> findByUserAndTanggalPesananBetween(UserModel user, Date tanggalAwal, Date tanggalAkhir);
+    List<PesananPenjualanModel> findByUserAndTanggalPesananBetweenOrderByIdPesananPenjualanAsc(UserModel user, Date tanggalAwal, Date tanggalAkhir);
 }

@@ -19,6 +19,16 @@
                 OK
             </a>
         </div>
+        <div th:if="${pop} == 'red'" class="col-md-5 pop-up">
+            <img th:src="@{/img/red-check.svg}">
+            <p th:text="${msg}"></p>
+            <div class="sub-msg">
+                <span th:text="${subMsg}"></span>
+            </div>
+            <a th:href="@{/produk}" class="btn">
+                OK
+            </a>
+        </div>
         <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
             <p th:text="${msg2}"></p>
             <span class="sub-msg" th:text="${subMsg}"></span>
@@ -118,7 +128,7 @@
 </div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
-    <div class="col-md-auto">
+    <div class="col col-sm-auto col-md-auto">
         <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
 
@@ -175,12 +185,12 @@
                                     <div th:if="${keyword} != null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword}  +'&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'namaProduk'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Nama Produk
                                             </div>
                                             <div th:if="${sortField} == 'namaProduk'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Nama Produk
                                             </div>
                                         </a>
@@ -188,12 +198,12 @@
                                     <div th:if="${keyword} == null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=namaProduk&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'namaProduk'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Nama Produk
                                             </div>
                                             <div th:if="${sortField} == 'namaProduk'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Nama Produk
                                             </div>
                                         </a>
@@ -203,12 +213,12 @@
                                     <div th:if="${keyword} != null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'stok'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Stok
                                             </div>
                                             <div th:if="${sortField} == 'stok'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Stok
                                             </div>
                                         </a>
@@ -217,12 +227,12 @@
                                     <div th:if="${keyword} == null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=stok&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'stok'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Stok
                                             </div>
                                             <div th:if="${sortField} == 'stok'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Stok
                                             </div>
                                         </a>
@@ -232,12 +242,12 @@
                                     <div th:if="${keyword} != null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'harga'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Harga
                                             </div>
                                             <div th:if="${sortField} == 'harga'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Harga
                                             </div>
                                         </a>
@@ -245,12 +255,12 @@
                                     <div th:if="${keyword} == null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=harga&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'harga'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Harga
                                             </div>
                                             <div th:if="${sortField} == 'harga'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Harga
                                             </div>
                                         </a>
@@ -260,12 +270,12 @@
                                     <div th:if="${keyword} != null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&keyword=' + ${keyword} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'tanggalDibuat'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Tanggal Dibuat
                                             </div>
                                             <div th:if="${sortField} == 'tanggalDibuat'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Tanggal Dibuat
                                             </div>
                                         </a>
@@ -274,12 +284,12 @@
                                     <div th:if="${keyword} == null">
                                         <a th:href="@{'/filter-sorted/?tipe=' + ${tipe} + '&tag=' + ${tags} + '&sortField=tanggalDibuat&sortDir=' + ${reverseSortDir}}" style="color:white;">
                                             <div th:if="${sortField} != 'tanggalDibuat'">
-                                                <i class="fas fa-sort"></i>
+                                                <i class="fa fa-sort"></i>
                                                 Tanggal Dibuat
                                             </div>
                                             <div th:if="${sortField} == 'tanggalDibuat'">
-                                                <i th:if="${reverseSortDir} == 'asc'" class="fas fa-caret-down"></i>
-                                                <i th:if="${reverseSortDir} == 'desc'" class="fas fa-caret-up"></i>
+                                                <i th:if="${reverseSortDir} == 'asc'" class="fa fa-caret-down"></i>
+                                                <i th:if="${reverseSortDir} == 'desc'" class="fa fa-caret-up"></i>
                                                 Tanggal Dibuat
                                             </div>
                                         </a>
@@ -294,9 +304,9 @@
                                 <td th:text="${iterationStatus.count}"></td>
                                 <td th:text="${produk.namaProduk}"></td>
                                 <td th:text="${produk.stok}"></td>
-                                <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right; "></td>
+                                <td th:text="'Rp '+ ${#numbers.formatInteger(produk.harga,3,'POINT')}" style="text-align: right;" id="table-nowrap"></td>
                                 <td th:text="${#dates.format(produk.tanggalDibuat, 'dd/MM/yyyy')}"></td>
-                                <td>
+                                <td id="table-nowrap">
                                     <div class="inline-buts">
                                         <a th:href="@{/produk/}+${produk.idProduk}" class="text-center btn but-detail" >Detail</a>
                                         <a th:href="@{/produk/konfirmasi-hapus/}+${produk.idProduk}" class="text-center btn but-danger" sec:authorize="hasAnyAuthority('Factory Manager','Admin')">Hapus</a>
