@@ -32,7 +32,7 @@
 </div>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
-    <div class="col-md-auto">
+    <div class="col col-sm-auto col-md-auto">
         <nav th:replace="fragments/fragment :: sidebar"></nav>
     </div>
 
@@ -100,8 +100,8 @@
                                 <tr>
                                     <th class="form-group" >
                                         Tanggal Dibuat
-                                        <input type="hidden" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" />
-                                        <input type="date" class="form-control" name="tanggal_dibuat" th:field="*{tanggal_dibuat}" th:value="*{tanggal_dibuat}" disabled>
+                                        <input type="hidden" name="tanggalDibuat" th:field="*{tanggalDibuat}" th:value="*{tanggalDibuat}" />
+                                        <input type="date" class="form-control" name="tanggalDibuat" th:field="*{tanggalDibuat}" th:value="*{tanggalDibuat}" disabled>
                                     </th>
                                 </tr>
 

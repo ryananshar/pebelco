@@ -13,7 +13,7 @@
 <body>
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="row d-flex">
-    <div class="col-md-auto">
+    <div class="col col-sm-auto col-md-auto">
         <!-- <div class="position-fixed"> -->
         <nav th:replace="fragments/fragment :: sidebar"></nav>
         <!-- </div> -->
@@ -73,7 +73,7 @@
                             <br><br>
                             <div class="row">
                                 <div class="col-3">
-                                    <div>Tanggal</div>
+                                    <div>Tanggal Dibuat</div>
                                 </div>
                                 <div class="col-1">
                                     <div th:text="':'"></div>
@@ -83,6 +83,20 @@
                                 </div>
                             </div>
                             <br><br>
+                            <div th:if="${komplain.tanggalPersetujuan} != null">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div>Tanggal Disetujui</div>                                     
+                                    </div>
+                                    <div class="col-1">
+                                        <div th:text="':'"></div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div th:text="${#dates.format(komplain.tanggalPersetujuan, 'dd/MM/yyyy')}"></div>
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
                             <div class="row" th:unless="${user} == 'Staf Sales'">
                                 <div class="col-3">
                                     <div>Nama Staf</div>

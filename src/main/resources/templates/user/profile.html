@@ -33,7 +33,7 @@
 </div>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">
-        <div class="col-md-auto">
+        <div class="col col-sm-auto col-md-auto">
             <!-- <div class="position-fixed"> -->
             <nav th:replace="fragments/fragment :: sidebar"></nav>
             <!-- </div> -->
@@ -48,7 +48,7 @@
                 <div class="card" id="pesananPenjualan" style="min-width: 900px;">
                     <div class="card-header">
                         <div class="col-sm">
-                            <h2>Profile</h2>
+                            <h2>Profil Pengguna</h2>
                         </div>
                     </div>
                     <div class="card-body">
@@ -102,7 +102,7 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-7">
-                                        <input type="password" name="oldPass" class="form-control"
+                                        <input type="password" name="oldPass" class="form-control" maxlength="250"
                                                style="height: 30px; width: 50%;">
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-7">
-                                        <input type="password" name="newPass" class="form-control"
+                                        <input type="password" name="newPass" class="form-control" maxlength="250"
                                                style="height: 30px; width: 50%;">
                                     </div>
                                 </div>
@@ -128,13 +128,13 @@
                                         <div th:text="':'"></div>
                                     </div>
                                     <div class="col-7">
-                                        <input type="password" name="newPassConfirm" class="form-control"
+                                        <input type="password" name="newPassConfirm" class="form-control" maxlength="250"
                                                style="height: 30px; width: 50%;">
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <button type="submit" class="btn but-success">Ubah Password</button>
+                                    <button type="submit" class="btn but-outline">Ubah Password</button>
                                 </div>
 
                             </form>

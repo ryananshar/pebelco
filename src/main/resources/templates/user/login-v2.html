@@ -25,9 +25,9 @@
                 <div th:if="${msg} != null">
                     <span class="text-warning" th:text="${msg}" style="font-size: 13px;"></span>
                 </div>
-                <input type="text" placeholder="Nama Panjang" name="namaPanjang" required/>
-                <input type="email" placeholder="Email" name="email" required/>
-                <input type="password" placeholder="Password" name="password" required/>
+                <input type="text" placeholder="Nama Panjang" name="namaPanjang" required maxlength="50"/>
+                <input type="email" placeholder="Email" name="email" required maxlength="50"/>
+                <input type="password" placeholder="Password" name="password" required maxlength="250"/>
                 <select name="idRole" th:field="*{role}" class="input-select" required>
                     <option value="">-- Pilih Role --</option>
                     <option th:each="role, iterationStatus: ${listRole}" 
@@ -40,14 +40,14 @@
         </div>
         <div class="form-container sign-in-container">
             <form th:action="@{/login}" method="POST">
-                <h1>Login</h1>
+                <h1>Masuk</h1>
                 <div th:if="${param.error}">
                     <span class="text-warning" style="font-size: 13px;">Username atau Password Tidak Valid</span>
                 </div>
-                <input type="email" placeholder="Email" name="email"/>
-                <input type="password" placeholder="Password" name="password"/>
+                <input type="email" placeholder="Email" name="email" maxlength="50"/>
+                <input type="password" placeholder="Password" name="password" maxlength="250"/>
                 <br>
-                <button class="but-login"  type="submit">Login</button>
+                <button class="but-login"  type="submit">Masuk</button>
             </form>
         </div>
         <div class="overlay-container">
@@ -55,8 +55,8 @@
                 <div class="overlay-panel overlay-left">
                     <h1>PEBELCO</h1>
                     <hr style="border: 1px solid white; width: 70px;">
-                    <p>Silahkan masuk ke dalam akun dengan melakukan login</p>
-                    <button class="ghost" id="signIn">Login</button>
+                    <p>Silahkan masuk ke dalam akun untuk mengakses sistem</p>
+                    <button class="ghost" id="signIn">Masuk</button>
                 </div>
                 <div class="overlay-panel overlay-right">
                     <h1>PEBELCO</h1>

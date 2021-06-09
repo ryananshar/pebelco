@@ -32,7 +32,7 @@ public class PengirimanServiceImpl implements PengirimanService {
 
     @Override
     public List<Pengiriman> findAll() {
-        List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrue();
+        List<PengirimanModel> pengirimanList = pengirimanDb.findAllByIsShownIsTrueOrderByIdPengirimanAsc();
         return getPengirimanFromModel(pengirimanList);
     }
 
@@ -131,7 +131,7 @@ public class PengirimanServiceImpl implements PengirimanService {
     
 	@Override
 	public List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate) {
-        List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetween(startDate, finalDate);
+        List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetweenOrderByIdPengirimanAsc(startDate, finalDate);
 		return getPengirimanFromModel(pengirimanList);
 	}
 }

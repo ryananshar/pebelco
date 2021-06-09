@@ -2,6 +2,9 @@ package propensi.tugas.pebelco.controller;
 
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,11 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.model.*;
 import propensi.tugas.pebelco.repository.TagProdukDb;
+import propensi.tugas.pebelco.repository.TransaksiKomplainDb;
+import propensi.tugas.pebelco.repository.TransaksiPesananDb;
 import propensi.tugas.pebelco.service.*;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-
 
 @Controller
 public class ProdukController {
@@ -35,6 +36,12 @@ public class ProdukController {
 
     @Autowired
     private NotifikasiService notifikasiService;
+
+    @Autowired
+    private TransaksiPesananDb transaksiPesananDb;
+
+    @Autowired
+    private TransaksiKomplainDb transaksiKomplainDb;
 
     @GetMapping(value = "/produk")
     public String daftarproduk(Model model) {
@@ -133,8 +140,11 @@ public class ProdukController {
 
         if (keyword.isPresent()){
             Set<ProdukModel> filtered = new HashSet<>();
+            List<ProdukModel> filteredSorted = new ArrayList<>();
             List<ProdukModel> produkSearch = produkService.findBySearch(keyword.get());
             List<ProdukModel> produkTags = new ArrayList<>();
+            Page<ProdukModel> page = produkService.findPaginated("namaProduk", "asc");
+            List<ProdukModel> produkSorted = page.getContent();
 
             if(tags.equals("")){
                 List<ProdukModel> produkTipe =  produkService.getProdukByTipe(Integer.parseInt(tipe));
@@ -148,8 +158,13 @@ public class ProdukController {
                     }
                 }
 
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
 
-                model.addAttribute("produk", filtered);
+                model.addAttribute("produk", filteredSorted);
             }else if (tipe.equals("")){
 
                 String[] listTags = tags.split(" ");
@@ -172,8 +187,14 @@ public class ProdukController {
                     }
                 }
 
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
 
-                model.addAttribute("produk", filtered);
+
+                model.addAttribute("produk", filteredSorted);
 
             }else if (!tipe.equals("") && !tags.equals("")){
                 List<ProdukModel> produkTipe = produkService.getProdukByTipe(Integer.parseInt(tipe));
@@ -197,7 +218,13 @@ public class ProdukController {
                     }
                 }
 
-                model.addAttribute("produk", filtered);
+                for (int i = 0; i < produkSorted.size(); i++){
+                    if (filtered.contains(produkSorted.get(i))){
+                        filteredSorted.add(produkSorted.get(i));
+                    }
+                }
+
+                model.addAttribute("produk", filteredSorted);
             }
 
             model.addAttribute("keyword", keyword.get());
@@ -284,7 +311,6 @@ public class ProdukController {
                 model.addAttribute("produk", produkAfterSorted);
                 model.addAttribute("keyword", keyword.get());
             }else if (tipe.equals("")){
-                System.out.println("masukSortNoTipekey");
                 String[] listTags = tags.split(" ");
                 for (String i : listTags){
                     listTagProduk.add(tagService.getTagbyId(Long.parseLong(i)));
@@ -309,6 +335,7 @@ public class ProdukController {
                     if (filtered.contains(produkSorted.get(i))){
                         produkAfterSorted.add(produkSorted.get(i));
                     }
+
                 }
 
                 String tagsNew = "";
@@ -367,7 +394,6 @@ public class ProdukController {
                 model.addAttribute("tags", tags);
                 model.addAttribute("produk", produkFiltered);
             }else if (tipe.equals("")){
-                System.out.println("masukSortNoTipeNokey");
                 List<ProdukModel> produkTemp = new ArrayList<>();
 
                 String[] listTags = tags.split(" ");
@@ -443,10 +469,41 @@ public class ProdukController {
         return "produk/detail-produk";
     }
 
+    @Transactional
     @GetMapping(value = "/produk/hapus/{id}")
     public String hapusproduk(@PathVariable Long id, Model model) {
-        // List<TagProdukModel> list=new ArrayList<TagProdukModel>();
-        ProdukModel produk=produkService.getProdukById(id);
+        ProdukModel produk = produkService.getProdukById(id);
+
+        // Cek Transaksi Pesanan
+        List<TransaksiPesananModel> listBarangPesanan = transaksiPesananDb.findByNamaBarang(produk.getNamaProduk());
+        for (TransaksiPesananModel barangPesanan : listBarangPesanan) {
+            if (barangPesanan.getPesananTransaksi().getIsShown()) {
+                Integer statusPesanan = barangPesanan.getPesananTransaksi().getStatusPesanan();
+                if (statusPesanan == 0 || statusPesanan == 1 || statusPesanan == 4) {
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("produk", produkService.findAll());
+                    model.addAttribute("msg", "Produk Gagal Dihapus");
+                    model.addAttribute("subMsg", "Pesanan dengan produk tersebut masih diproses");
+                    return "produk/daftar-produk";
+                }
+            }               
+        }
+        
+        // Cek Transaksi Komplain
+        List<TransaksiKomplainModel> listBarangKomplain = transaksiKomplainDb.findByNamaBarang(produk.getNamaProduk());
+        for (TransaksiKomplainModel barangKomplain : listBarangKomplain) {
+            if (barangKomplain.getKomplainTransaksi().getIsShown()) {
+                Integer statusKomplain = barangKomplain.getKomplainTransaksi().getStatusKomplain();
+                if (statusKomplain == 0 || statusKomplain == 1 || statusKomplain == 4) {
+                    model.addAttribute("pop", "red");
+                    model.addAttribute("produk", produkService.findAll());
+                    model.addAttribute("msg", "Produk Gagal Dihapus");
+                    model.addAttribute("subMsg", "Komplain dengan produk tersebut masih diproses");
+                    return "produk/daftar-produk";
+                }
+            }               
+        }   
+
         tagService.deleteTagProduk(produk);
         produkService.deleteProduk(produk);
 
@@ -545,7 +602,6 @@ public class ProdukController {
         List<TagProdukModel> listTag = tagProdukDb.findAll();
         List<TagProdukModel> listTagProduk=produk.getListTagProduk();
         List<Long> daftarTag=new ArrayList<>();
-        // System.out.println(listTagProduk);
 
         if (listTagProduk.size() == 0) {
             TagProdukModel tagGaib = new TagProdukModel();
@@ -572,8 +628,6 @@ public class ProdukController {
         List<TagProdukModel> list1=new ArrayList<TagProdukModel>();
         List<ProdukModel> listproduk=new ArrayList<ProdukModel>();
         produkService.addProduk(produk);
-        // System.out.println(checkboxValue);
-        // System.out.println(checkboxValue.length);
 
         for(int i =0; i< checkboxValue.length;i++) {
             Long idTag = Long.valueOf(checkboxValue[i]);
@@ -582,11 +636,9 @@ public class ProdukController {
             listproduk.add(produk);
             produk.setListTagProduk(list1);
             tagService.updateTagProduk(listproduk,produk1);
-            // System.out.println(tag.getNamaTag());
         }
-        // System.out.println(produk.getListTagProduk());
+        
         ProdukModel produkUpdated = produkService.updateStokProduk(produk);
-        // System.out.println(produkUpdated.getListTagProduk());
         model.addAttribute("idProduk", produkUpdated.getIdProduk());
         model.addAttribute("produk", produk);
         model.addAttribute("pop", "green");

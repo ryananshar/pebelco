@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
@@ -27,9 +27,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public List<PesananPenjualanModel> getPesananList(Boolean bolean) {
-        return pesananPenjualanDb.findByIsShown(bolean);
-        // to do
-        // pesanan list pagination
+        return pesananPenjualanDb.findByIsShownOrderByIdPesananPenjualanAsc(bolean);
     }
 
     @Override
@@ -43,8 +41,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     }
 
     @Override
-    public void deletePesanan(PesananPenjualanModel pesananPenjualan) throws Exception {
-        // pesananPenjualanDb.deleteById(pesananPenjualan.getIdPesananPenjualan());
+    public void deletePesanan(PesananPenjualanModel pesananPenjualan) {
         pesananPenjualan.setIsShown(false);
         pesananPenjualanDb.save(pesananPenjualan);        
     }
@@ -66,7 +63,7 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
 
     @Override
     public List<PesananPenjualanModel> getPesananListByUser(UserModel user, Boolean bolean) {
-        return pesananPenjualanDb.findByUserAndIsShown(user, bolean);
+        return pesananPenjualanDb.findByUserAndIsShownOrderByIdPesananPenjualanAsc(user, bolean);
     }
 
     @Override
@@ -77,6 +74,21 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public void changeStatusDitolak(PesananPenjualanModel pesanan){
         pesanan.setStatusPesanan(2);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir) {
+        return pesananPenjualanDb.findByUserAndTanggalPesananBetweenOrderByIdPesananPenjualanAsc(stafSales, tanggalAwal, tanggalAkhir);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListForAdminKomplain(int status){
+        return pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsOrderByIdPesananPenjualanAsc(status);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListForStafSales(UserModel user, int status){
+        return pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(status, user);
     }
     
 }

@@ -26,30 +26,34 @@ body {
 
 .profile > span {
     display: block;
+    font-size: 15px;
 }
 
 .profile .namaUser {
+    padding-top: 10px;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     color: #033C59;
 }
 
 /* Notifications */
 .notif {
-    padding-right: 40px;
-    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
     position: relative;
 }
 
-.notif span {
+.notif-counter {
     color: #fff;
-    position: absolute;
-    width: 20px;
-    height: 20px;
+    /* position: absolute; */
+    margin-left: 20px;
+    padding-top: 0px;
+    padding: 0 10px 0 10px;
+    min-height: 10px;
     top: -3px;
     right: 28px;
     background-color: #DA4F4F;
-    border-radius: 50%;
+    border-radius: 30px;
     text-align: center;
     font-size: 15px;
     font-weight: 600;
@@ -133,17 +137,17 @@ body {
     background: #033C59;
     height: 100%;
     min-height: 80rem;
-    min-width: 10rem;
-    width: 14rem;
+    min-width: 9rem;
+    width: 13rem;
 }
 
 #sidebar-wrapper .list-group {
     background: #033C59;
-    min-width: 10rem;
+    min-width: 9rem;
 }
 
 #sidebar-wrapper .list-group .list-group-item{
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     background: #033C59;
     padding: 20px 0px 20px 30px;
@@ -160,6 +164,6 @@ body {
 }
 
 .fa-lg {
-    font-size: 20px;
+    font-size: 17px;
     margin-right: 15px;
 }
