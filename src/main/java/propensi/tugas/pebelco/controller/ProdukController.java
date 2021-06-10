@@ -133,7 +133,7 @@ public class ProdukController {
             @RequestParam("tag") String tags,
             @RequestParam("keyword") Optional<String> keyword,
             Model model
-            ){
+    ){
 
         List<TagProdukModel> listTagProduk = new ArrayList<>();
         List<ProdukModel> produkFiltered = new ArrayList<>();
@@ -486,9 +486,9 @@ public class ProdukController {
                     model.addAttribute("subMsg", "Pesanan dengan produk tersebut masih diproses");
                     return "produk/daftar-produk";
                 }
-            }               
+            }
         }
-        
+
         // Cek Transaksi Komplain
         List<TransaksiKomplainModel> listBarangKomplain = transaksiKomplainDb.findByNamaBarang(produk.getNamaProduk());
         for (TransaksiKomplainModel barangKomplain : listBarangKomplain) {
@@ -501,8 +501,8 @@ public class ProdukController {
                     model.addAttribute("subMsg", "Komplain dengan produk tersebut masih diproses");
                     return "produk/daftar-produk";
                 }
-            }               
-        }   
+            }
+        }
 
         tagService.deleteTagProduk(produk);
         produkService.deleteProduk(produk);
@@ -637,7 +637,7 @@ public class ProdukController {
             produk.setListTagProduk(list1);
             tagService.updateTagProduk(listproduk,produk1);
         }
-        
+
         ProdukModel produkUpdated = produkService.updateStokProduk(produk);
         model.addAttribute("idProduk", produkUpdated.getIdProduk());
         model.addAttribute("produk", produk);
