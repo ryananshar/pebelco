@@ -165,7 +165,6 @@ public class KomplainController {
                 if (listNamaProduk.contains(transaksiPesananList.get(0).getNamaBarang())){
                     listList.add(transaksiPesananList);
                 } else{
-                    System.out.println("index yang kosong = " + i);
                     listProdukRemoval.add(i);
                 }
             }else{
@@ -177,7 +176,6 @@ public class KomplainController {
                     }
                 }
                 if (transaksiPesananList.size() == 0){
-                    System.out.println("index yang kosong = " + i);
                     listProdukRemoval.add(i);
                 }else{
                     listList.add(transaksiPesananList);
@@ -186,7 +184,6 @@ public class KomplainController {
             }
         }
 
-        System.out.println(listProdukRemoval.size());
         if (listProdukRemoval.size() > 0){
             List<PesananPenjualanModel> listTempPesanan = new ArrayList<>();
             listTempPesanan.addAll(pesananPenjualanList);
@@ -194,21 +191,19 @@ public class KomplainController {
                 pesananPenjualanList.remove(listTempPesanan.get(listProdukRemoval.get(i)));
             }
         }
-
+        
         model.addAttribute("pesananList", pesananPenjualanList);
         model.addAttribute("transaksiList", listList);
         model.addAttribute("listBarang", listBarang);
         model.addAttribute("listDesc", listDesc);
         model.addAttribute("listJumlah", listJumlah);
         model.addAttribute("komplain", new KomplainModel());
-//        model.addAttribute("transaksiKomplain", new TransaksiKomplainModel());
         return "komplain/komplain-form-add";
     }
 
     @PostMapping("/komplain/tambah")
     public String addKomplainSubmit(
             @ModelAttribute KomplainModel komplain,
-//            Principal principal,
             String userEmail,
             Model model
     ) {
@@ -305,7 +300,6 @@ public class KomplainController {
         UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         KomplainModel komplain = komplainService.getKomplainByKodeKomplain(kodeKomplain);
         List<TransaksiKomplainModel> listBarangTransaksi = komplain.getBarangKomplain();
-        System.out.println(komplain.getTanggalPersetujuan() + "---------------");
         if (user.getRole().getNamaRole().equals("Staf Sales")) {
             if (komplain.getUser() == user && komplain.getIsShown()) {
                 model.addAttribute("komplain", komplain);
@@ -505,7 +499,6 @@ public class KomplainController {
                     listMaxJumlah.add(transaksiPesanan.get(i).getJumlah());
                 }
             }
-            System.out.println(listMaxJumlah.size());
 
 
             model.addAttribute("listBarang", listBarang);
@@ -530,8 +523,6 @@ public class KomplainController {
     ){
         List<TransaksiKomplainModel> transaksiKomplainList = new ArrayList<>();
         TransaksiKomplainModel transaksiKomplain;
-
-        System.out.println(komplain.getTemp());
 
         KomplainModel komplainBarangDel = komplainService.getKomplainByKodeKomplain(komplain.getKodeKomplain());
 
@@ -564,26 +555,14 @@ public class KomplainController {
 
             for (int i = 0; i < komplainBarangDel.getBarangKomplain().size(); i++){
                 if (Arrays.stream(listTempBarang).anyMatch(komplainBarangDel.getBarangKomplain().get(i).getNamaBarang()::equals)){
-                    System.out.println("sesuai");
                 }else{
-                    System.out.println("gak sesuai" + komplainBarangDel.getBarangKomplain().get(i).getNamaBarang());
                     transaksiKomplainService.deleteTransaksiKomplain(komplainBarangDel.getBarangKomplain().get(i));
-
                 }
             }
-
-
-            System.out.println("===============================================");
 
             komplain.setBarangKomplain(transaksiKomplainList);
             komplain.setTemp(null);
             komplainService.updateKomplain(komplain);
-
-            for(int i = 0; i < komplain.getBarangKomplain().size(); i++){
-                System.out.println(komplain.getBarangKomplain().get(i).getNamaBarang());
-                System.out.println(komplain.getBarangKomplain().get(i).getJumlah());
-                System.out.println(komplain.getBarangKomplain().get(i).getDeskripsiKomplain()  );
-            }
 
             model.addAttribute("komplain", komplain);
             model.addAttribute("pop", "green");

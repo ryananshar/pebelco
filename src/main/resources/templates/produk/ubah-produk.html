@@ -66,13 +66,13 @@
                                     <input type="hidden" name="id" th:field="*{idProduk}" th:value="*{idProduk}" />
                                     <th class="form-group">
                                         Nama Produk
-                                        <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" class="form-control" required>
+                                        <input type="text" name="namaProduk" th:field="*{namaProduk}" th:value="*{namaProduk}" class="form-control" required maxlength="50">
                                     </th>
                                     <th class="form-group" rowspan="5" colspan="2">
                                         Spesifikasi
                                         <textarea th:field="*{spesifikasi}"
                                                   th:value="*{spesifikasi}"
-                                                  class="form-control"
+                                                  class="form-control" maxlength="250"
                                                   style="width: 100%; height: 392px"
                                                   required
                                                   name="spesifikasi"></textarea>

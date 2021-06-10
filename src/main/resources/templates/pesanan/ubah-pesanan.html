@@ -69,16 +69,16 @@
                             <input type="hidden" name="user" th:field="*{user}" th:value="*{user}"/>
                             <div class="form-group">
                                 <label>Nama Toko</label>
-                                <input type="text" name="namaToko" th:field="*{namaToko}" th:value="*{namaToko}" class="form-control" required>
+                                <input type="text" name="namaToko" th:field="*{namaToko}" th:value="*{namaToko}" class="form-control" required maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label>Alamat Toko</label>
-                                <input type="text" name="alamatToko" th:field="*{alamatToko}" th:value="*{alamatToko}" class="form-control" required>
+                                <input type="text" name="alamatToko" th:field="*{alamatToko}" th:value="*{alamatToko}" class="form-control" required maxlength="250">
                             </div>
                             <div class="form-group">
                                 <label>Diskon</label>
                                 <div class="row">
-                                    <input type="number" name="diskon" th:field="*{diskon}" th:value="*{diskon}" class="form-control" required min="0" max="100" style="width: 160px; margin: 0 15px;">
+                                    <input type="number" name="diskon" th:field="*{diskon}" th:value="*{diskon}" class="form-control" min="0" max="100" style="width: 160px; margin: 0 15px;">
                                     <label style="margin-top: 7px; top: 50%;">%</label>
                                 </div>
                             </div>

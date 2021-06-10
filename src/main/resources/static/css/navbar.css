@@ -30,6 +30,7 @@ body {
 }
 
 .profile .namaUser {
+    padding-top: 10px;
     font-weight: bold;
     font-size: 18px;
     color: #033C59;
@@ -37,20 +38,22 @@ body {
 
 /* Notifications */
 .notif {
-    padding-right: 40px;
-    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
     position: relative;
 }
 
-.notif span {
+.notif-counter {
     color: #fff;
-    position: absolute;
-    width: 20px;
-    height: 20px;
+    /* position: absolute; */
+    margin-left: 20px;
+    padding-top: 0px;
+    padding: 0 10px 0 10px;
+    min-height: 10px;
     top: -3px;
     right: 28px;
     background-color: #DA4F4F;
-    border-radius: 50%;
+    border-radius: 30px;
     text-align: center;
     font-size: 15px;
     font-weight: 600;

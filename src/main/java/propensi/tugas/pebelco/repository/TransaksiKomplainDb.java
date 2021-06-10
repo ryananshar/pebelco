@@ -11,6 +11,10 @@ import java.util.List;
 @Repository
 public interface TransaksiKomplainDb extends JpaRepository<TransaksiKomplainModel, Long> {
     List<TransaksiKomplainModel> findAllByKomplainTransaksi(KomplainModel komplainModel);
+
     TransaksiKomplainModel findByIdTransaksiKomplain(Long idTransaksiKomplain);
+
     List<TransaksiKomplainModel> findAll();
+    
+    List<TransaksiKomplainModel> findByNamaBarang(String namaBarang);
 }

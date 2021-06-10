@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label>Nama Pameran</label>
                                         <input th:field="*{namaPameran}" type="text" class="form-control"
-                                               name="namaPameran"
+                                               name="namaPameran" maxlength="50"
                                                placeholder="Masukan nama pameran" required>
                                     </div>
 
@@ -97,7 +97,7 @@
                                         <label>Alamat Pameran</label>
                                         <textarea th:field="*{alamatPameran}" class="form-control"
                                                   style="width: 100%; height: 123px"
-                                                  name="alamatPameran"
+                                                  name="alamatPameran" maxlength="250"
                                                   placeholder="Masukan alamat pameran" required></textarea>
                                     </div>
 
@@ -105,7 +105,7 @@
                                         <label>Catatan</label>
                                         <textarea th:field="*{catatanPameran}" class="form-control"
                                                   style="width: 100%; height: 124px"
-                                                  name="catatanPameran"
+                                                  name="catatanPameran" maxlength="250"
                                                   placeholder="Masukan catatan pameran"></textarea>
                                     </div>
 
