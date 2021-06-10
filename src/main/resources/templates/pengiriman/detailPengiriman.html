@@ -7,7 +7,7 @@
     <title>Detail Pengiriman</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 
 <body>
@@ -23,28 +23,28 @@
                 th:if="${pengiriman.statusId == 1 || pengiriman.statusId == 2 || pengiriman.statusId == 3}"
                 th:href="@{/daftarpengiriman/}"
                 class="btn but-arrow">
-        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
         </a>
         <div class="row justify-content-center">
-        <div th:if="${message} != null">
-            <div class="card">
-                <div class="card-header" id>
-                    Error
-                </div>
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="col-12">
-                            <div th:text="${message}"></div>
-                        </div>
+            <div th:if="${message} != null">
+                <div class="card">
+                    <div class="card-header" id>
+                        Error
                     </div>
-                    <br>
-                    <a th:href="@{/daftarpengiriman}" class="btn btn-success">
-                        Kembali
-                    </a>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-12">
+                                <div th:text="${message}"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <a th:href="@{/daftarpengiriman}" class="btn btn-success">
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div th:unless="${message} != null">
+            <div th:unless="${message} != null">
                 <div class="card" id="pengiriman" style="min-width: 900px;">
                     <div class="card-header">
                         <div class="row">
@@ -52,7 +52,7 @@
                                 <h4>Detail Pengiriman</h4>
                             </div>
                             <div class="col-4">
-<!--                                <span th:text="${pengiriman.status}"></span>-->
+                                <!--                                <span th:text="${pengiriman.status}"></span>-->
                                 <span th:if="${pengiriman.statusId == 1}"
                                       class="belumDikirim">Belum Dikirim</span>
                                 <span th:if="${pengiriman.statusId == 2}"
@@ -205,14 +205,17 @@
                         </div>
                         <div class="row justify-content-end">
                             <div th:if="${isPengiriman}">
-<!--                                <div >-->
-                                    <a th:if="${showUbahStatus}" th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah-stat"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Ubah Status</a>
-<!--                                </div>-->
-<!--                                <div th:if="${showUbahPengiriman}">-->
-                                    <a th:if="${showUbahPengiriman}" th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
-                                    sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')"> Ubah </a>
-<!--                                </div>-->
+                                <!--                                <div >-->
+                                <a th:if="${showUbahStatus}"
+                                   th:href="@{'/pengiriman/ubah-status/' + ${pengiriman.kodePengiriman}}"
+                                   class="btn but-ubah-stat"
+                                   sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')">Ubah Status</a>
+                                <!--                                </div>-->
+                                <!--                                <div th:if="${showUbahPengiriman}">-->
+                                <a th:if="${showUbahPengiriman}"
+                                   th:href="@{'/pengiriman/ubah/' + ${pengiriman.kodePengiriman}}" class="btn but-ubah"
+                                   sec:authorize="hasAnyAuthority('Staf Pengiriman', 'Admin')"> Ubah </a>
+                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>

@@ -18,8 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Null;
-
 @Controller
 public class LaporanPengirimanController {
 
@@ -82,11 +80,8 @@ public class LaporanPengirimanController {
             } catch (ParseException e) {
 
             }
-<<<<<<< HEAD
-=======
         } else {
             model.addAttribute("mainPage", "belum search");
->>>>>>> be739995705c57ad7cb4d06dbaf4deb557a1a68b
         }
         return "laporan/laporanPengiriman";
     }
@@ -128,7 +123,7 @@ public class LaporanPengirimanController {
     public void userInformation(Principal principal, Model model) {
         try {
             UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-                List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
+            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
             model.addAttribute("jumlahNotif", listNotifUser.size());
             model.addAttribute("listNotif", listNotifUser);
         } catch (Exception e) {
