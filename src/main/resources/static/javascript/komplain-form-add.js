@@ -9,7 +9,7 @@ var counterRow=document.getElementById("counter");
 var counter = 0;
 var listCounter = [];
 var reqTemplate=document.getElementById("reqTemplate");
-var checker = [];
+var checker = []; 
 var listId = [];
 
 function selectOnChange(selectObject) {

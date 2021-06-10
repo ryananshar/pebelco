@@ -436,7 +436,12 @@ body {
 .card-header h2{
     font-family: Poppins;
     font-style: normal;
-    font-weight: 600;
+    font-margin: 0 40px 40px 40px;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    color: #005479;weight: 600;
     font-size: 37px;
     line-height: 54px;
     letter-spacing: 1px;
@@ -444,12 +449,7 @@ body {
 }
 
 .card-body {
-    margin: 0 40px 40px 40px;
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 24px;
-    color: #005479;
+
 }
 
 .card-body .kode{

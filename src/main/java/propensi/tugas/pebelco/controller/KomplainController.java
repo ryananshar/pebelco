@@ -159,13 +159,13 @@ public class KomplainController {
             listNamaProduk.add(listProdukTemp.get(i).getNamaProduk());
         }
         
-
         for (int i = 0; i < pesananPenjualanList.size(); i++) {
             transaksiPesananList = transaksiPesananService.getListByIdPesanan(pesananPenjualanList.get(i));
             if (transaksiPesananList.size() == 1){
                 if (listNamaProduk.contains(transaksiPesananList.get(0).getNamaBarang())){
                     listList.add(transaksiPesananList);
                 } else{
+                    System.out.println("index yang kosong = " + i);
                     listProdukRemoval.add(i);
                 }
             }else{
@@ -173,18 +173,25 @@ public class KomplainController {
                 listTemp.addAll(transaksiPesananList);
                 for (int j = 0; j < listTemp.size(); j++){
                     if (!listNamaProduk.contains(listTemp.get(j).getNamaBarang())){
-                        System.out.println("yang akan dihapus " + listTemp.get(j).getNamaBarang());
                         transaksiPesananList.remove(listTemp.get(j));
                     }
                 }
-                listList.add(transaksiPesananList);
+                if (transaksiPesananList.size() == 0){
+                    System.out.println("index yang kosong = " + i);
+                    listProdukRemoval.add(i);
+                }else{
+                    listList.add(transaksiPesananList);
+                }
                 
             }
         }
 
+        System.out.println(listProdukRemoval.size());
         if (listProdukRemoval.size() > 0){
+            List<PesananPenjualanModel> listTempPesanan = new ArrayList<>();
+            listTempPesanan.addAll(pesananPenjualanList);
             for (int i = 0; i < listProdukRemoval.size(); i ++){
-                pesananPenjualanList.remove(pesananPenjualanList.get(listProdukRemoval.get(i)));
+                pesananPenjualanList.remove(listTempPesanan.get(listProdukRemoval.get(i)));
             }
         }
 
