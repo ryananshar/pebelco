@@ -13,6 +13,8 @@ import java.util.List;
 public interface PesananPenjualanDb extends JpaRepository<PesananPenjualanModel, Long> {
     List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEqualsOrderByIdPesananPenjualanAsc(int statusPesanan);
 
+    List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(int statusPesanan, UserModel user);
+
     PesananPenjualanModel findByIdPesananPenjualan(Long idPesananPenjualan);
 
     PesananPenjualanModel findByKodePesananPenjualan(String kodePesananPenjualan);

@@ -81,7 +81,7 @@ function addBaris(pesananIndex){
         addCounterBaris(transaksiList[pesananIndex][i]["idTransaksiPesanan"]);
         divNamaBarang.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" id="namaBarang-'+jumlahBaris+'" readonly="readonly" required="required" value="'+transaksiList[pesananIndex][i]["namaBarang"]+'"/>';
         divJumlah.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="number" id="jumlah-'+jumlahBaris+'" min="1" required="required" value="'+transaksiList[pesananIndex][i]["jumlah"]+'"/>';
-        divDeskripsi.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" required="required" id="description-'+jumlahBaris+'"/>';
+        divDeskripsi.innerHTML+='<input style="margin-bottom: 24px" class="form-control" type="text" required="required" maxlength="250" id="description-'+jumlahBaris+'"/>';
         divBtn.innerHTML+='<div style="margin-bottom: 11px" ></div><button id="btn-barang-'+jumlahBaris+'" type="button" onclick="hapusBaris(this)" class="btn but-danger"> <i class="fa fa-trash"></i></button>';
     }
     checker = transaksiList[pesananIndex];

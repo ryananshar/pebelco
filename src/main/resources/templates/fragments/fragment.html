@@ -44,11 +44,13 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
             <!-- Notifications -->
-            <div class="d-inline dropdown notif ml-auto">
+            <div sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Admin Komplain', 'Staf Pengiriman', 'Admin')"class="dropdown notif ml-auto">
+                <div>
+                    <span class="notif-counter" th:text ="${jumlahNotif}"></span>
+                </div>
                 <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                    <!-- <span>99</span> -->
-                    <span th:text ="${jumlahNotif}"></span>
                     <img th:src="@{/img/notif.svg}">
+                    
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notifications">
                     <div class="list-group">
@@ -88,8 +90,8 @@
                 aria-haspopup="true" aria-expanded="false">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/profile}">Profile</a>
-                    <a class="dropdown-item" th:href="@{/logout}" >Logout</a>
+                    <a class="dropdown-item" th:href="@{/profile}">Profil</a>
+                    <a class="dropdown-item" th:href="@{/logout}" >Keluar</a>
                 </div>
             </div>
             </li>
@@ -132,11 +134,12 @@
         <a th:href="@{/produk}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produk')? 'active':''}" class="list-group-item list-group-item-action">
             <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>Produk
         </a>
-        <a th:href="@{/pameran}"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pameran')? 'active':''}"
+        <a th:href="@{/pameran}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/pameran')? 'active':''}"
            class="list-group-item list-group-item-action">
            <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
-        <a th:href="@{/laporan}" class="list-group-item list-group-item-action"
+        <a th:href="@{/laporan}" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/laporan')? 'active':''}"
+           class="list-group-item list-group-item-action"
            sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
            <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>Laporan
         </a>
@@ -165,7 +168,7 @@
         <a th:href="@{/pameran}"  class="list-group-item list-group-item-action">
            <i class="fa fa-university fa-lg" aria-hidden="true"></i>Pameran
         </a>
-        <a th:href="@{/#}" class="list-group-item list-group-item-action"
+        <a th:href="@{/laporan}" class="list-group-item list-group-item-action"
            sec:authorize="hasAnyAuthority('Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager', 'Admin')">
            <i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>Laporan
         </a>
