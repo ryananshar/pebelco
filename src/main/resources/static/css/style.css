@@ -11,6 +11,11 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.col{
+    min-height: 1px;
+    min-width: 1px;
+}
+
 .error_message {
     color : red;
 }
@@ -28,6 +33,10 @@ body {
     text-align: center;
 }
 
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
 .flex-fixed-width-item {
     flex: 0 0 100px;
 }
@@ -42,6 +51,10 @@ body {
 
 .flex-item-80 {
     flex: 1 0 80%;
+}
+
+.d-flex {
+    margin-right: 0;
 }
 
 /* Overlay */
@@ -197,7 +210,7 @@ body {
 .jumbotron {
     margin-top: 15px;
     height: auto;
-    margin-bottom: 75px;
+    margin-bottom: 55px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
 
     background: 
@@ -211,10 +224,10 @@ body {
 }
 
 .jumbotron .title {
-    margin-top: 60px;
+    margin-top: 30px;
     font-style: normal;
     font-weight: bold;
-    font-size: 44px;
+    font-size: 35px;
     line-height: 46px;
     letter-spacing: 0.085em;
 
@@ -223,10 +236,10 @@ body {
 
 .jumbotron .subtitle {
     margin-top: 10px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     font-style: normal;
     font-weight: normal;
-    font-size: 19px;
+    font-size: 15px;
     line-height: 22px;
     letter-spacing: 0.1em;
 
@@ -267,7 +280,7 @@ body {
     margin-bottom: 30px;
     font-style: normal;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 13px;
     line-height: 27px;
 
     text-align: center;
@@ -287,9 +300,9 @@ body {
     align-items: center;
     margin: 50px;
 
-    max-width: 300px;
+    max-width: 260px;
     min-height: height auto;
-    min-width: 300px;
+    min-width: 260px;
     height: auto;
 
     background: #FFFFFF;
@@ -587,7 +600,17 @@ body {
 }
 
 table {
+    border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
+}
+
+#table-nowrap {
     white-space: nowrap;
+}
+
+.table td, .table th{
+    vertical-align: middle;
 }
 
 td, th {
@@ -603,18 +626,19 @@ td, th {
 
 /* Daftar List Utama */
 #table-utama {
-    margin: 50px 20px 50px 20px;
+    margin: 57px 20px 50px 0px;
 }
 
 .list-header {
-    background: white;
+    background: white;    
+    margin-left: 20px;
 }
 
 .list-header h2{
     font-family: Poppins;
     font-style: normal;
     font-weight: 600;
-    font-size: 36px;
+    font-size: 30px;
     line-height: 54px;
 
     letter-spacing: 2px;
@@ -627,7 +651,8 @@ td, th {
 
 .list-body {
     margin-top: 50px;
-    background: white;
+    background: white;    
+    margin-left: 20px;
 }
 
 .list-body h3{

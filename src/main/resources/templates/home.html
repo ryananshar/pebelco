@@ -12,7 +12,7 @@
 <body>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="row d-flex">        
-        <div class="col-md-auto">
+        <div class="col col-sm-auto col-md-auto">
             <!-- <div class="position-fixed"> -->
                 <nav th:replace="fragments/fragment :: sidebar"></nav>
             <!-- </div> -->
@@ -30,7 +30,6 @@
             <div class="row justify-content-center" id="center">
                 <div class="col">
                     <h2 class="fitur"> Daftar Fitur</h2>
-                    <br>
                     <div class="row justify-content-center list-fitur">
                         <div sec:authorize="hasAnyAuthority('Staf Sales', 'Admin')" class="col-md-3 fix">
                             <p>Kunjungan</p>

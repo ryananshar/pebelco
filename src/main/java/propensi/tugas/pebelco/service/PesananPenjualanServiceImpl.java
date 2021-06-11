@@ -80,5 +80,15 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     public List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir) {
         return pesananPenjualanDb.findByUserAndTanggalPesananBetweenOrderByIdPesananPenjualanAsc(stafSales, tanggalAwal, tanggalAkhir);
     }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListForAdminKomplain(int status){
+        return pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsOrderByIdPesananPenjualanAsc(status);
+    }
+
+    @Override
+    public List<PesananPenjualanModel> getPesananListForStafSales(UserModel user, int status){
+        return pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(status, user);
+    }
     
 }
