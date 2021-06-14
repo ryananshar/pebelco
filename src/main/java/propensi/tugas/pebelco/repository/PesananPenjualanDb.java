@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.UserModel;
 
 import java.util.Date;
@@ -16,6 +17,10 @@ public interface PesananPenjualanDb extends JpaRepository<PesananPenjualanModel,
     List<PesananPenjualanModel> findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(int statusPesanan, UserModel user);
 
     PesananPenjualanModel findByIdPesananPenjualan(Long idPesananPenjualan);
+
+    List<PesananPenjualanModel> findAll();
+
+    List<PesananPenjualanModel> findAllByStatusPesanan(Integer status);
 
     PesananPenjualanModel findByKodePesananPenjualan(String kodePesananPenjualan);
 

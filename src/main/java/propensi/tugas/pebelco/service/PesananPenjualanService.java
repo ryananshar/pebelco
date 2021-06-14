@@ -3,7 +3,9 @@ package propensi.tugas.pebelco.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
 
@@ -34,6 +36,8 @@ public interface PesananPenjualanService {
     void changeStatusDisetujui(PesananPenjualanModel pesanan);
 
     void changeStatusDitolak(PesananPenjualanModel pesanan);
+
+    Page<PesananPenjualanModel> findPaginated(String sortField, String sortDir);
 
     List<PesananPenjualanModel> getPesananListByUserAndTanggalBetween(UserModel stafSales, Date tanggalAwal, Date tanggalAkhir);
 

@@ -6,9 +6,14 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import propensi.tugas.pebelco.model.PesananPenjualanModel;
+import propensi.tugas.pebelco.model.ProdukModel;
 import propensi.tugas.pebelco.model.TransaksiPesananModel;
 import propensi.tugas.pebelco.model.UserModel;
 import propensi.tugas.pebelco.repository.PesananPenjualanDb;
@@ -18,6 +23,7 @@ import propensi.tugas.pebelco.repository.PesananPenjualanDb;
 public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Autowired
     private PesananPenjualanDb pesananPenjualanDb;
+
 
     @Override
     public void addPesanan(PesananPenjualanModel pesananPenjualan) {
@@ -89,6 +95,14 @@ public class PesananPenjualanServiceImpl implements PesananPenjualanService{
     @Override
     public List<PesananPenjualanModel> getPesananListForStafSales(UserModel user, int status){
         return pesananPenjualanDb.findAllByIsShownIsTrueAndStatusPesananEqualsAndUserEqualsOrderByIdPesananPenjualanAsc(status, user);
+    }
+
+    @Override
+    public Page<PesananPenjualanModel> findPaginated(String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(0,pesananPenjualanDb.findAll().size(),sort);
+        return pesananPenjualanDb.findAll(pageable);
     }
     
 }

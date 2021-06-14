@@ -8,15 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import propensi.tugas.pebelco.repository.ProdukDb;
 import propensi.tugas.pebelco.model.LaporanStafSalesModel;
@@ -591,6 +588,37 @@ public class PesananPenjualanController {
         }
 
         return "pesanan/list-pesanan";
+    }
+
+    @GetMapping(value = "/pesanan-sorted")
+    public String daftarPesananSort(
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+
+        Page<PesananPenjualanModel> page = pesananPenjualanService.findPaginated(sortField, sortDir);
+        List<PesananPenjualanModel> pesanan = page.getContent();
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("pesanan", pesanan);
+        return "pesanan/list-pesanan";
+    }
+
+    @GetMapping(value = "/filter-pesanan")
+    public String daftarPesananFilter(Principal principal,Model model) {
+
+        String email = principal.getName();
+        UserModel user = userService.getUserbyEmail(email);
+        List<PesananPenjualanModel> listPesanan = pesananPenjualanService.getPesananListByUser(user, true);
+
+
+        model.addAttribute("filterTitle", "Filter Pesanan");
+        model.addAttribute("reverseSortDir", "asc");
+        model.addAttribute("listPesanan",listPesanan);
+        model.addAttribute("pesanKey", "Tidak terdapat pesanan");
+        return "pesanan/list-pesanan-filter";
     }
 
     @GetMapping(value = "/pesanan/hapus/{kodePesananPenjualan}")

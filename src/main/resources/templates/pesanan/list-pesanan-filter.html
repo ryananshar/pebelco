@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -7,29 +7,37 @@
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
-<div th:if="${pop} != null" class="overlay" id="center">
-    <div class="row justify-content-center">
-    <div th:if="${pop} == 'konfirmasi hapus'" class="col-md-5" id="konfirmasi-hapus">
-        <p th:text="${msg2}"></p>
-        <span class="sub-msg" th:text="${subMsg}"></span>
-        <div class="row justify-content-center">
-            <a th:href="@{/pesanan}" class="btn but-outline">
-                Tidak
-            </a>
-            <a th:href="@{/pesanan/hapus/}+${kodePesananPenjualan}" class="btn but-success" style="margin-left: 10px;">
-                Ya
-            </a>
-        </div>
-    </div>
-        <div th:if="${pop} == 'green'" class="col-5 pop-up">
-            <img th:src="@{/img/green-check.svg}">
-            <p th:text="${msg2}"></p>
-            <a th:href="@{/pesanan}" class="btn">
-                OK
-            </a>
+
+<div th:if="${filterTitle} != null" class="overlay" style="align-items: center">
+    <div class="row justify-content-center" >
+        <div class="col-5 pop-up">
+            <br>
+            <h3 th:text="${filterTitle}" style="margin-left: 30px; color: #033C59;"></h3>
+            <br>
+            <div class="form-group" style="margin-left: 30px; width: 85%; color: #033C59;">
+                <input type="hidden" th:value="${keyword}" id="keywordInput">
+                <label>Tipe Pesanan</label>
+                <select class="form-control" name="status" th:field="*{status}" th:value="*{status}" onchange="selectOnChange(this)"required>
+                    <option selected value="">-- Pilih Status Pesanan --</option>
+                    <option value="0">Menunggu Persetujuan</option>
+                    <option value="1">Disetujui</option>
+                    <option value="2">Ditolak</option>
+                </select>
+            </div>
+            <br>
+            <div class="tagContainerOuter">
+                <div class="row justify-content-center">
+                    <a class="btn but-outline" type="button"
+                       style=" background-color: white; color: #033C59; border: 1px solid #033C59;"
+                       th:href="@{/pesanan}">Batal</a>
+                    <a class="btn but-success" type="button" id="submitButtonFilter"
+                       th:href="@{/pesanan/status/}+{status}">
+                    >Filter</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -43,12 +51,12 @@
     </div>
     <div class="container-fluid col">
         <div class="row justify-content-center">
-            <div th:if="${message} != null">           
+            <div th:if="${message} != null">
                 <div class="card">
                     <div class="card-header" id>
                         Error
                     </div>
-                    <div class="card-body">                
+                    <div class="card-body">
                         <div class="form-row">
                             <div class="col-12">
                                 <div th:text="${message}"></div>
@@ -121,27 +129,27 @@
                                     <div th:switch="${pesanan.statusPesanan}">
                                         <td class="list-status text-center" id="table-nowrap">
                                             <span th:case="0"
-                                                class="pending">Menunggu Persetujuan</span>
+                                                  class="pending">Menunggu Persetujuan</span>
                                             <span th:case="1"
-                                                class="disetujui">Disetujui</span>
+                                                  class="disetujui">Disetujui</span>
                                             <span th:case="2"
-                                                class="ditolak">Ditolak</span>
+                                                  class="ditolak">Ditolak</span>
                                             <span th:case="3"
-                                                class="disetujui">Disetujui</span>
+                                                  class="disetujui">Disetujui</span>
                                             <span th:case="4"
-                                                class="disetujui">Disetujui</span>
+                                                  class="disetujui">Disetujui</span>
                                         </td>
                                     </div>
                                     <td th:text="'Rp '+ ${#numbers.formatInteger(pesanan.totalHarga,3,'POINT')}" style="text-align: right;" id="table-nowrap"></td>
                                     <td sec:authorize="hasAnyAuthority('Staf Sales', 'Sales Counter', 'Manager Pemasaran', 'Factory Manager', 'Vice Factory Manager','Admin')" id="table-nowrap">
                                         <div class="inline-buts">
                                             <a th:href="@{/pesanan/} + ${pesanan.kodePesananPenjualan}"
-                                            class="btn but-detail"
+                                               class="btn but-detail"
                                             >Detail</a>
                                             <a th:href="@{/pesanan/konfirmasi-hapus/}+${pesanan.kodePesananPenjualan}"
-                                            th:classappend="${(pesanan.statusPesanan == 1 || pesanan.statusPesanan == 4) ? 'disabled':''}"
-                                            class="btn but-danger"
-                                            sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Hapus</a>
+                                               th:classappend="${(pesanan.statusPesanan == 1 || pesanan.statusPesanan == 4) ? 'disabled':''}"
+                                               class="btn but-danger"
+                                               sec:authorize="hasAnyAuthority('Sales Counter', 'Admin')">Hapus</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -166,11 +174,9 @@
 
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
-
 </body>
-
 </html>
