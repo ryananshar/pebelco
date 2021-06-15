@@ -1,5 +1,6 @@
 package propensi.tugas.pebelco.service;
 
+import propensi.tugas.pebelco.model.PengirimanModel;
 import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
 import propensi.tugas.pebelco.utils.PerluDikirim.Barang;
 
@@ -18,4 +19,5 @@ public interface PengirimanService {
     boolean showUbahPengirimanButton(int status);
     void setIsShownFalse(String kodePengiriman);
     List<Pengiriman> getPengirimanByDate(Date startDate, Date finalDate);
+    Page<PengirimanModel> findPaginated(int pageNo, int pageSize, String sortField, String sortDir);
 }

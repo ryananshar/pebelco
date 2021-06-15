@@ -1,6 +1,7 @@
 package propensi.tugas.pebelco.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,10 @@ import propensi.tugas.pebelco.service.PengirimanService;
 import propensi.tugas.pebelco.service.UserService;
 import propensi.tugas.pebelco.utils.Pengiriman.Pengiriman;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 public class LaporanPengirimanController {
@@ -119,16 +118,72 @@ public class LaporanPengirimanController {
         return "laporan/detailLaporanPengiriman";
     }
 
-    @ModelAttribute
-    public void userInformation(Principal principal, Model model) {
-        try {
-            UserModel user = userService.getUserbyEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-            List<NotifikasiModel> listNotifUser = notifikasiService.getNotifListByUserAndRole(user.getIdUser(), user.getRole().getIdRole(), true);
-            model.addAttribute("jumlahNotif", listNotifUser.size());
-            model.addAttribute("listNotif", listNotifUser);
-        } catch (Exception e) {
-            model.addAttribute("jumlahNotif", null);
-            model.addAttribute("listNotif", null);
-        }
-    }
+
+
+//    @GetMapping(value = "/laporan/laporan-pengiriman/{tanggalMulai}/{tanggalAkhir}/filter")
+//    public String daftarLaporanFilter(Model model) {
+//
+//        model.addAttribute("filterTitle", "Filter Pengiriman");
+//        model.addAttribute("pengiriman", pengirimanService.findAll());
+//        model.addAttribute("reverseSortDir", "asc");
+//        model.addAttribute("pesanKey", "Tidak terdapat pengiriman");
+//        return "produk/daftar-produk";
+//    }
+//
+//    @GetMapping(value = "/filter")
+//    public String daftarLaporanFiltered(
+//            @RequestParam("keyword") Optional<String> keyword,
+//            Model model
+//    ){
+//        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalMulai);
+//        Date finalDate = new SimpleDateFormat("yyyy-MM-dd").parse(tanggalAkhir);
+//        List<Pengiriman> allPengiriman = pengirimanService.getPengirimanByDate(startDate, finalDate);
+//        List<Pengiriman> pengirimans = new ArrayList<Pengiriman>();
+//
+//        if (keyword.isPresent()){
+//            Set<PengirimanModel> filtered = new HashSet<>();
+//
+//            if(metode.equals("")){
+//                List<PengirimanModel> metode =  pengirimanService.getPengirimanByMetode();
+//
+//                for (int i = 0; i < pengirimanFiltered.size(); i++){
+//                    if (metode.contains(pengirimanFiltered.get())) {
+//                        filtered.add(pengirimanFiltered.get());
+//                    }
+//                }
+//
+//
+//        } else{
+//            if(metode.equals("")){
+//
+//                model.addAttribute("pengiriman", pengirimanService.getPengirimanByMetode());
+//
+//                for (ProdukModel i : metode){
+//                    if (j.getMetodePengiriman().containsAll(metode)){
+//                        pengirimanFiltered.add(j);
+//                    }
+//                }
+//                model.addAttribute("produk", pengirimanFiltered);
+//
+//            }else if (!metode.equals("")){
+//                List<PengirimanModel> pengiriman = pengirimanService.getPengirimanByMetode();
+//                for (PengirimanModel j : pengiriman){
+//                    if (j.getListTagProduk().containsAll(listTagProduk)){
+//                        produkFiltered.add(j);
+//                    }
+//                }
+//
+//                model.addAttribute("produk", produkFiltered);
+//            }
+//        }
+//        model.addAttribute("pesanFilter", "Produk tidak ditemukan");
+//        model.addAttribute("reverseSortDir", "asc");
+//        model.addAttribute("tipe", tipe);
+//        model.addAttribute("tags", tags);
+//        return "laporan/daftar-produk-filter";
+//
+//    }
+
+
+
 }

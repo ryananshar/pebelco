@@ -1,6 +1,11 @@
 package propensi.tugas.pebelco.service;
 
+import io.netty.handler.codec.socks.SocksRequestType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import propensi.tugas.pebelco.model.KomplainModel;
 import propensi.tugas.pebelco.model.MetodePengirimanModel;
@@ -134,4 +139,12 @@ public class PengirimanServiceImpl implements PengirimanService {
         List<PengirimanModel> pengirimanList = pengirimanDb.findByTanggalDiterimaBetweenOrderByIdPengirimanAsc(startDate, finalDate);
 		return getPengirimanFromModel(pengirimanList);
 	}
+
+	@Override
+    public Page<PengirimanModel> findPaginated(int pageNo, int pageSize, String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
+        return pengirimanDb.findAll(pageable)
+    }
 }
